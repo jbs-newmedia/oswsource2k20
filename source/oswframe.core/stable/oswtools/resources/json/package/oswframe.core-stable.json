@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "osWFrame:Core",
+    "author": "Juergen Schwind",
+    "copyright": "JBS New Media GmbH",
+    "link": "http:\/\/oswframe.com",
+    "license": "GNU General Public License 3",
+    "package": "oswframe.core",
+    "version": "",
+    "release": "stable",
+    "group": "core",
+    "unique": false,
+    "serverlist": "oswframe2k20"
+  },
+  "required": [
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.debug",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.errorhandler",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.errorlogger",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.filesystem",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.html",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.language",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.math",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.messagestack",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.messagewriter",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.misc",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.navigation",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.network",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.session",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.sessionmessagestack",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.settings",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.shutdownhandler",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.stringfunctions",
+      "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.template",
+      "release": "stable"
+    }
+  ]
+}

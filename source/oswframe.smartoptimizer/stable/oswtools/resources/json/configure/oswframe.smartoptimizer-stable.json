@@ -1,0 +1,23 @@
+{
+	"configure": {
+		"middle": {
+			"smartoptimizer_allowed_dirs": [
+				"frame",
+				"modules"
+			],
+			"smartoptimizer_stripoutput": true,
+			"smartoptimizer_combine_files": true,
+			"smartoptimizer_gzipcompression": true,
+			"smartoptimizer_gzipcompression_level": 9,
+			"smartoptimizer_cacheprefix": "so_",
+			"smartoptimizer_servercachecheck": true,
+			"smartoptimizer_clientcache": true
+		}
+	},
+	"htaccess": {
+		"topmiddle": [
+			"RewriteRule ^static\\/([a-zA-Z0-9-_]+)\\/(([0-9a-f]{32,32})\\.(js|css))$ ?module=$1&file_name=$2&%{QUERY_STRING}",
+			"RewriteRule ^static\\/([a-zA-Z0-9-_]+)\\/(([0-9a-zA-Z-_\\/\\.].+)\\.(js|css))$ ?module=$1&file_name=$2&option=single&%{QUERY_STRING}"
+		]
+	}
+}

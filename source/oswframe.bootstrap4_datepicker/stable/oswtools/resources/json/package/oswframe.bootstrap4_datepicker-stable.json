@@ -1,0 +1,22 @@
+{
+  "info": {
+    "name": "osWFrame:Bootstrap4|DatePicker",
+    "author": "Juergen Schwind",
+    "copyright": "JBS New Media GmbH",
+    "link": "http:\/\/oswframe.com",
+    "license": "GNU General Public License 3",
+    "package": "oswframe.bootstrap4_datepicker",
+    "version": "",
+    "release": "stable",
+    "group": "core",
+    "unique": false,
+    "serverlist": "oswframe2k20"
+  },
+  "required": [
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.bootstrap4",
+      "release": "stable"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "configure": {
+    "middle": {
+      "imagelib_allowed_dirs": [
+        "data",
+        "frame",
+        "modules"
+      ],
+      "imagelib_allowed_dirs_custom": [],
+      "imagelib_quality": 90,
+      "imagelib_maxwidth": 3200,
+      "imagelib_maxhight": 3200
+    }
+  }
+}

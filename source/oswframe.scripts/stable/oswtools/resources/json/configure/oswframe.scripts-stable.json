@@ -1,0 +1,8 @@
+{
+  "configure": {
+    "middle": {
+      "scripts_lock_path": ".scripts/",
+      "scripts_lock_timeout": 3600
+    }
+  }
+}

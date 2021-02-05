@@ -1,0 +1,15 @@
+{
+  "info": {
+    "name": "osWFrame:Standalone",
+    "author": "Juergen Schwind",
+    "copyright": "Juergen Schwind",
+    "link": "http:\/\/oswframe.com",
+    "license": "GNU General Public License 3",
+    "package": "oswproject.standalone",
+    "version": "",
+    "release": "stable",
+    "group": "example",
+    "unique": false,
+    "serverlist": "oswframe2k20"
+  }
+}

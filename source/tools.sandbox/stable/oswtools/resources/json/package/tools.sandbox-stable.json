@@ -1,0 +1,16 @@
+{
+  "info": {
+    "name": "Sandbox",
+    "author": "Juergen Schwind",
+    "copyright": "Juergen Schwind",
+    "link": "http:\/\/oswframe.com",
+    "license": "GNU General Public License 3",
+    "package": "tools.sandbox",
+    "version": "",
+    "release": "stable",
+    "group": "tool",
+    "unique": false,
+    "serverlist": "oswframe2k20"
+  },
+  "required": []
+}

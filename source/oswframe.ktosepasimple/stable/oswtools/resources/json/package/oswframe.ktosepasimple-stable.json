@@ -1,0 +1,20 @@
+{
+  "info": {
+    "name": "osWFrame:KtoSepaSimple",
+    "author": "Juergen Schwind",
+    "author_external": "Matthias Hanft",
+    "copyright": "JBS New Media GmbH",
+    "copyright_external": "Matthias Hanft",
+    "link": "http:\/\/oswframe.com",
+    "link_external": "http:\/\/hanft.de",
+    "license": "GNU General Public License 3",
+    "license_external": "https:\/\/www.kontopruef.de\/ktosepasimple.php#soft",
+    "package": "oswframe.ktosepasimple",
+    "version": "",
+    "release": "stable",
+    "group": "core",
+    "unique": false,
+    "serverlist": "oswframe2k20"
+  },
+  "required": []
+}

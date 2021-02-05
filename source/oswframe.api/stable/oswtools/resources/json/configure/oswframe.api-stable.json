@@ -1,0 +1,15 @@
+{
+  "configure": {
+    "middle": {
+      "api_lock_path": ".api/",
+      "api_lock_timeout": 3600
+    }
+  },
+  "htaccess": {
+    "topmiddle": [
+      "RewriteRule ^api/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/$ ?module=api&api=$1&section=$2&function=$3&%{QUERY_STRING} [L]"
+    ]
+  }
+}
+
+

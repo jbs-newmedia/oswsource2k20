@@ -1,0 +1,12 @@
+{
+	"configure": 
+	{
+		"middle": 
+		{
+			"template_stripoutput": true,
+			"template_gzipcompression": true,
+			"template_gzipcompression_level": 9,
+			"template_versionnumber": "cachetime"
+		}
+	}
+}

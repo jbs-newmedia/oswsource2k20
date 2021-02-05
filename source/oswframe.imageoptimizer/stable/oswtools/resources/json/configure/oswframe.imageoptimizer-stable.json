@@ -1,0 +1,21 @@
+{
+  "configure": {
+    "middle": {
+      "imageoptimizer_allowed_dirs": [
+        "data",
+        "frame",
+        "modules"
+      ],
+      "imageoptimizer_allowed_dirs_custom": [],
+      "imageoptimizer_servercachecheck": true,
+      "imageoptimizer_clientcache": true,
+      "imageoptimizer_allowed_dirs_cache": true,
+      "imageoptimizer_protect_files": true
+    }
+  },
+  "htaccess": {
+    "topmiddle": [
+      "RewriteRule ^static\/([a-zA-Z0-9-_]+)\/(([0-9a-zA-Z-_\/].+)\\.(jpg|gif|png|bmp))$ ?module=$1&file_name=$2&%{QUERY_STRING}"
+    ]
+  }
+}

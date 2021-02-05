@@ -1,0 +1,20 @@
+{
+	"configure": {
+		"middle": {
+			"settings_system": "unix",
+			"settings_port": 80,
+			"settings_ssl_port": 443,
+			"settings_ssl": true,
+			"settings_modules_runs": 5,
+			"settings_slowruntime": 0.5,
+			"settings_ramlimit": 8388608,
+			"settings_errorlogger": "_errorlogger",
+			"settings_imageoptimizer": "_imageoptimizer",
+			"settings_scriptoptimizer": "_scriptoptimizer",
+			"settings_styleoptimizer": "_styleoptimizer",
+			"settings_chmod_file": "0644",
+			"settings_chmod_dir": "0755",
+			"settings_protection_salt": "KLg2%§$jkhAKJdhas3254jkhh@sdafkj"
+		}
+	}
+}

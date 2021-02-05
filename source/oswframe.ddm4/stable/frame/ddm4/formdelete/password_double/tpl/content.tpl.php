@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * This file is part of the osWFrame package
+ *
+ * @author Juergen Schwind
+ * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
+ * @package osWFrame
+ * @link https://oswframe.com
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ */
+
+?>
+
+<div class="form-group ddm_element_<?php echo $this->getDeleteElementValue($element, 'id') ?>">
+
+	<?php /* label */ ?>
+	<label for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
+
+	<?php /* read only */ ?>
+	<div class="form-control readonly"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementOption($element, 'text_hidden')) ?></div>
+
+	<?php /* error */ ?>
+	<?php if ($this->getTemplate()->Form()->getErrorMessage($element)): ?>
+		<div class="text-danger small"><?php echo $this->getTemplate()->Form()->getErrorMessage($element) ?></div>
+	<?php endif ?>
+
+	<?php /* notice */ ?>
+	<?php if ($this->getDeleteElementOption($element, 'notice')!=''): ?>
+		<div class="text-info"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementOption($element, 'notice')) ?></div>
+	<?php endif ?>
+
+	<?php /* buttons */ ?>
+	<?php if ($this->getDeleteElementOption($element, 'buttons')!=''): ?>
+		<div>
+			<?php echo implode(' ', $this->getDeleteElementOption($element, 'buttons')) ?>
+		</div>
+	<?php endif ?>
+
+</div>
+
+<div class="form-group ddm_element_<?php echo $this->getDeleteElementValue($element.'_double', 'id_double') ?>">
+
+	<?php /* label */ ?>
+	<label for="<?php echo $element.'_double' ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementOption($element, 'title_double')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
+
+	<?php /* read only */ ?>
+	<div class="form-control readonly"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementOption($element, 'text_hidden')) ?></div>
+
+	<?php /* error */ ?>
+	<?php if ($this->getTemplate()->Form()->getErrorMessage($element.'_double')): ?>
+		<div class="text-danger small"><?php echo $this->getTemplate()->Form()->getErrorMessage($element.'_double') ?></div>
+	<?php endif ?>
+
+	<?php /* notice */ ?>
+	<?php if ($this->getDeleteElementOption($element.'_double', 'notice')!=''): ?>
+		<div class="text-info"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementOption($element.'_double', 'notice')) ?></div>
+	<?php endif ?>
+
+	<?php /* buttons */ ?>
+	<?php if ($this->getDeleteElementOption($element.'_double', 'buttons')!=''): ?>
+		<div>
+			<?php echo implode(' ', $this->getDeleteElementOption($element.'_double', 'buttons')) ?>
+		</div>
+	<?php endif ?>
+
+</div>

@@ -1,0 +1,22 @@
+{
+  "info": {
+    "name": "osWFrame:API",
+    "author": "Juergen Schwind",
+    "copyright": "Juergen Schwind",
+    "link": "http:\/\/oswframe.com",
+    "license": "GNU General Public License 3",
+    "package": "oswframe.api",
+    "version": "",
+    "release": "stable",
+    "group": "core",
+    "unique": false,
+    "serverlist": "oswframe2k20"
+  },
+  "required": [
+    {
+      "serverlist": "oswframe",
+      "package": "oswframe.core",
+      "release": "stable"
+    }
+  ]
+}

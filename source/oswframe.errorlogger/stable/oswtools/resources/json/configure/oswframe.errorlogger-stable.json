@@ -1,0 +1,24 @@
+{
+  "htaccess": {
+    "bottom": [
+      "ErrorDocument 400 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=400",
+      "ErrorDocument 401 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=401",
+      "ErrorDocument 402 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=402",
+      "ErrorDocument 403 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=403",
+      "ErrorDocument 404 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=404",
+      "ErrorDocument 405 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=405",
+      "ErrorDocument 406 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=406",
+      "ErrorDocument 407 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=407",
+      "ErrorDocument 408 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=408",
+      "ErrorDocument 409 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=409",
+      "ErrorDocument 410 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=410",
+      "ErrorDocument 411 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=411",
+      "ErrorDocument 412 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=412",
+      "ErrorDocument 413 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=413",
+      "ErrorDocument 414 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=414",
+      "ErrorDocument 415 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=415",
+      "ErrorDocument 416 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=416",
+      "ErrorDocument 417 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=417"
+    ]
+  }
+}

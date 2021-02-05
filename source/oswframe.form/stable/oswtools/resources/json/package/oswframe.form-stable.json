@@ -1,0 +1,16 @@
+{
+  "info": {
+    "name": "osWFrame:Form",
+    "author": "Juergen Schwind",
+    "copyright": "JBS New Media GmbH",
+    "link": "http:\/\/oswframe.com",
+    "license": "GNU General Public License 3",
+    "package": "oswframe.form",
+    "version": "",
+    "release": "stable",
+    "group": "core",
+    "unique": false,
+    "serverlist": "oswframe2k20"
+  },
+  "required": []
+}
