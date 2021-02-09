@@ -9,7 +9,11 @@
  * @link https://oswframe.com
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
  */
-if (PHP_VERSION_ID<70400) {
+
+/**
+ * PHP Version prüfen.
+ */
+if ((!defined(PHP_VERSION_ID))||(PHP_VERSION_ID<70400)) {
 	die('This version of osWFrame requires PHP 7.4 or higher.<br/>You are currently running PHP '.phpversion().'.');
 }
 
