@@ -1,18 +1,1 @@
-{
-	"configure": {
-		"middle": {
-			"frame_engine_loaded": false,
-			"frame_output_loaded": false,
-			"project_protection_user": "",
-			"project_protection_password": "",
-			"frame_default_engine": "default",
-			"frame_default_output": "default"
-		}
-	},
-	"htaccess": {
-		"middle": [
-			"RewriteRule ^([a-zA-Z0-9-_]+)\/([a-zA-Z0-9-]+)?_([0-9]+)$ ?module=$1&element_id=$3&%{QUERY_STRING} [L]",
-			"RewriteRule ^([a-zA-Z0-9-_]+)$ ?module=$1&%{QUERY_STRING} [L]"
-		]
-	}
-}
+[]
