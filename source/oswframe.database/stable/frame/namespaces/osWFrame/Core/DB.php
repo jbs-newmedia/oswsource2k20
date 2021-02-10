@@ -87,7 +87,7 @@ class DB {
 	 * @return bool
 	 */
 	public static function addConnectionMYSQL(string $host, string $user, string $password, string $dbname, string $charset='utf8', string $alias='default'):bool {
-		return self::addConnection('mysql:host='.$host.';dbname='.$dbname.';charset='.$charset, $user, $password);
+		return self::addConnection('mysql:host='.$host.';dbname='.$dbname.';charset='.$charset, $user, $password, $alias);
 	}
 
 	/**
