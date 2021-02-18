@@ -10,23 +10,12 @@
  *
  */
 
-
 ######################################################################################################################################################
 # Config
 ######################################################################################################################################################
 error_reporting(0);
 
-$server_data=array(
-		'server_name'=>'$SERVER_NAME$',
-		'server_version'=>'6.01',
-		'server_url'=>'$SERVER_URL$',
-		'server_file'=>'$SERVER_FILE$',
-		'server_list_name'=>'$SERVER_LIST_NAME$',
-		'server_list'=>'$SERVER_LIST$',
-		'server_secure'=>'$SERVER_SECURE$',
-		'server_token'=>'$SERVER_TOKEN$',
-		'server_status'=>1,
-);
+$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.02', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
 
 ######################################################################################################################################################
 # Funktionen
@@ -37,21 +26,23 @@ function logUpdateServer($server, $package, $release, $version, $version_request
 }
 
 function _mc_encrypt($var_1, $var_2) {
-	if ($l < 16) {
-		$var_2 = str_repeat($var_2, ceil(16/$l));
+	if ($l<16) {
+		$var_2=str_repeat($var_2, ceil(16/$l));
 	}
-	if ($m = strlen($var_1)%8) {
-		$var_1 .= str_repeat("\x00",  8 - $m);
+	if ($m=strlen($var_1)%8) {
+		$var_1.=str_repeat("\x00", 8-$m);
 	}
-	return openssl_encrypt($var_1, 'BF-ECB', $var_2, OPENSSL_RAW_DATA | OPENSSL_NO_PADDING);
+
+	return openssl_encrypt($var_1, 'BF-ECB', $var_2, OPENSSL_RAW_DATA|OPENSSL_NO_PADDING);
 }
 
 function _mc_decrypt($var_1, $var_2) {
-	$l = strlen($var_2);
-	if ($l < 16) {
-		$var_2 = str_repeat($var_2, ceil(16/$l));
+	$l=strlen($var_2);
+	if ($l<16) {
+		$var_2=str_repeat($var_2, ceil(16/$l));
 	}
-	return openssl_decrypt($var_1, 'BF-ECB', $var_2, OPENSSL_RAW_DATA | OPENSSL_NO_PADDING);
+
+	return openssl_decrypt($var_1, 'BF-ECB', $var_2, OPENSSL_RAW_DATA|OPENSSL_NO_PADDING);
 }
 
 function _mkDir($dir, $chmod=0775) {
@@ -81,6 +72,7 @@ function _mkDir($dir, $chmod=0775) {
 		chmod($path, $chmod);
 	}
 	clearstatcache();
+
 	return true;
 }
 
@@ -99,7 +91,6 @@ function _delDir($dir) {
 	closedir($entry);
 	rmdir($dir);
 }
-
 
 ######################################################################################################################################################
 # Server
