@@ -146,13 +146,13 @@ switch ($action) {
 		}
 		die();
 		break;
-		# Gibt das Package der Serverlist zurueck
+	# Gibt das Package der Serverlist zurueck
 	case 'get_serverlist' :
 		$_GET['package']=$server_data['server_list'];
 		$_GET['release']='stable';
 		$_GET['version']='0.0';
 		$action='get_content';
-		# Gibt die Version, den Inhalt und die Checksumme eines Packages zurueck
+	# Gibt die Version, den Inhalt und die Checksumme eines Packages zurueck
 	case 'get_version' :
 	case 'get_content' :
 	case 'get_checksum' :
@@ -225,7 +225,7 @@ switch ($action) {
 			die('');
 		}
 		break;
-		# Gibt die Checksumme von Package.Release zurueck
+	# Gibt die Checksumme von Package.Release zurueck
 	case 'server_check' :
 		if (!isset($_GET['package'])) {
 			die('');
@@ -242,7 +242,7 @@ switch ($action) {
 		}
 		die('');
 		break;
-		# Aktualisiert das Package.Release
+	# Aktualisiert das Package.Release
 	case 'server_update' :
 		$error=false;
 		if (!isset($_POST['token'])) {
@@ -299,8 +299,8 @@ switch ($action) {
 			$fp=fopen($_dir.'package.content', 'w+');
 			$file='';
 			for ($part=1; $part<=$send_package['packer_parts']; $part++) {
-				$enc_old = file_get_contents($_dir.'package.content.part.'.$part);
-				$enc = substr(base64_decode(substr($enc_old, 4, -4)), 4, -4);
+				$enc_old=file_get_contents($_dir.'package.content.part.'.$part);
+				$enc=substr(base64_decode(substr($enc_old, 4, -4)), 4, -4);
 				fwrite($fp, $enc);
 			}
 			fclose($fp);
@@ -310,11 +310,11 @@ switch ($action) {
 		}
 		die('ok');
 		break;
-		# Gibt die Checksumme vom Server zurueck
+	# Gibt die Checksumme vom Server zurueck
 	case 'server_checksum' :
 		$server_checksum='';
 		if (isset($_GET['packages'])) {
-			$_packages=array();
+			$_packages=[];
 			$_dir=$abs_path.'data/';
 			if ($handle_package=opendir($_dir)) {
 				while (false!==($package=readdir($handle_package))) {
@@ -322,7 +322,7 @@ switch ($action) {
 						if ($handle_release=opendir($_dir.$package)) {
 							while (false!==($release=readdir($handle_release))) {
 								if (((is_dir($_dir.$package.'/'.$release))==true)&&($release!='.')&&($release!='..')) {
-									$_packages[$package.'-'.$release]=array('package'=>$package,'release'=>$release);
+									$_packages[$package.'-'.$release]=['package'=>$package, 'release'=>$release];
 								}
 							}
 							closedir($handle_release);
@@ -356,7 +356,7 @@ switch ($action) {
 		}
 		die(sha1($server_checksum));
 		break;
-		# Aktualisiert das Package.Release (Lizenzen)
+	# Aktualisiert das Package.Release (Lizenzen)
 	case 'server_update_license' :
 		$error=false;
 		if (!isset($_POST['token'])) {
@@ -373,92 +373,27 @@ switch ($action) {
 		}
 
 		$send_package=unserialize($send_package);
+		if (isset($send_package['license_data'])) {
+			foreach ($send_package['license_data'] as $package=>$license) {
+				$package=explode('-', $package);
+				$_dir=$abs_path.'data/'.$package[0].'/'.$package[1].'/';
 
-		$_dir=$abs_path.'data/'.$send_package['packer_package'].'/'.$send_package['packer_release'].'/';
+				$file_packer_license=$_dir.'package.license';
+				_mkDir($_dir);
 
-		$file_packer_license=$_dir.'package.license';
-		_mkDir($_dir);
-
-		file_put_contents($file_packer_license, $send_package['packer_license']);
-		chmod($file_packer_checksum, 0664);
-		die('ok');
-		break;
-		# Aktualisiert das Package.Release (Lizenzen)
-	case 'server_clear_license' :
-		$error=false;
-		if (!isset($_POST['token'])) {
-			$token='';
-		} else {
-			$token=$_POST['token'];
-		}
-
-		$send_package=serialize(unserialize(base64_decode(substr(_mc_decrypt(base64_decode(substr(trim(file_get_contents($_FILES['data']['tmp_name'])), 4, -4)), $server_data['server_secure']), 4, -4))));
-		$_token=sha1($send_package.'#'.$server_data['server_token']);
-
-		if ($token!=$_token) {
-			die('error (token)');
-		}
-
-		$send_package=unserialize($send_package);
-
-		foreach ($send_package as $package) {
-			$file_packer_license=$abs_path.'data/'.$package['packer_package'].'/'.$package['packer_release'].'/package.license';
-			if (file_exists($file_packer_license)) {
-				unlink($file_packer_license);
+				if ($license!=[]) {
+					file_put_contents($file_packer_license, implode("\n", $license));
+					chmod($file_packer_checksum, 0664);
+				} else {
+					unlink($file_packer_license);
+				}
 			}
 		}
 		die('ok');
 		break;
-		# Gibt die Checksumme (Lizenzen) vom Server zurueck
-		/*
-		 case 'server_checksum_license' :
-		 $server_checksum='';
-		 if (isset($_GET['packages'])) {
-		 $_packages=array();
-		 $_dir=$abs_path.'data/';
-		 if ($handle_package=opendir($_dir)) {
-		 while (false!==($package=readdir($handle_package))) {
-		 if (((is_dir($_dir.$package))==true)&&($package!='.')&&($package!='..')) {
-		 if ($handle_release=opendir($_dir.$package)) {
-		 while (false!==($release=readdir($handle_release))) {
-		 if (((is_dir($_dir.$package.'/'.$release))==true)&&($release!='.')&&($release!='..')) {
-		 $_packages[$package.'-'.$release]=array('package'=>$package,'release'=>$release);
-		 }
-		 }
-		 closedir($handle_release);
-		 }
-		 }
-		 }
-		 closedir($handle_package);
-		 }
-
-		 $_server_packages=($_GET['packages']);
-		 $_server_packages=explode(',', $_server_packages);
-
-		 foreach ($_server_packages as $_server_package) {
-		 if (isset($_packages[$_server_package])) {
-		 unset($_packages[$_server_package]);
-		 }
-		 $_server_package=explode('-', $_server_package);
-		 $_dir=$abs_path.'data/'.$_server_package[0].'/'.$_server_package[1].'/package.license';
-		 if (file_exists($_dir)) {
-		 $server_checksum.=file_get_contents($_dir);
-		 }
-		 }
-		 } else {
-		 die('___404___');
-		 }
-
-		 foreach ($_packages as $package) {
-		 $_dir=$abs_path.'data/'.$package['package'].'/'.$package['release'].'/';
-		 _delDir($_dir);
-		 }
-		 die(sha1($server_checksum));
-		 break;
-		 */
-		# Gibt eine Liste mit allen Packages des Server als JSON zurueck
+	# Aktualisiert das Package.Release (Lizenzen)
 	case 'server_packages' :
-		$_packages=array();
+		$_packages=[];
 		$_dir=$abs_path.'data/';
 
 		if ($handle_package=opendir($_dir)) {
@@ -470,7 +405,6 @@ switch ($action) {
 								$_file_checksum=$_dir.$package.'/'.$release.'/package.checksum';
 								$_file_version=$_dir.$package.'/'.$release.'/package.version';
 								$_file_info=$_dir.$package.'/'.$release.'/package.info';
-
 
 								$file=$_dir.$package.'/'.$release.'/package.license';
 								if (file_exists($file)) {
@@ -488,7 +422,7 @@ switch ($action) {
 								}
 
 								if ($valid===true) {
-									$_packages[$package.'-'.$release]=array('package'=>$package,'release'=>$release,'checksum'=>file_get_contents($_file_checksum),'version'=>file_get_contents($_file_version))+json_decode(file_get_contents($_file_info), true);
+									$_packages[$package.'-'.$release]=['package'=>$package, 'release'=>$release, 'checksum'=>file_get_contents($_file_checksum), 'version'=>file_get_contents($_file_version)]+json_decode(file_get_contents($_file_info), true);
 									unset($_packages[$package.'-'.$release]['info']['package']);
 									unset($_packages[$package.'-'.$release]['info']['version']);
 									unset($_packages[$package.'-'.$release]['info']['release']);
@@ -504,11 +438,11 @@ switch ($action) {
 		ksort($_packages);
 		die(json_encode($_packages));
 		break;
-		# Gibt die Version vom Server zurueck
+	# Gibt die Version vom Server zurueck
 	case 'server_version' :
 		die($server_data['server_version']);
 		break;
-		# Aktualisiert den Server
+	# Aktualisiert den Server
 	case 'server_upgrade' :
 		$error=false;
 		if (!isset($_POST['token'])) {
@@ -520,7 +454,7 @@ switch ($action) {
 		copy($abs_path.'index.php', $abs_path.'index-backup.php');
 		file_put_contents($abs_path.'index.php', $send_package);
 		break;
-		# Funktionen zur Ueberpruefung des Servers
+	# Funktionen zur Ueberpruefung des Servers
 	case 'hello' :
 	case 'goodbye' :
 		die($server_data['server_name']);
