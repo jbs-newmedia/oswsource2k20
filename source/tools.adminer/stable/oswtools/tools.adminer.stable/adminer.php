@@ -50,7 +50,7 @@ function adminer_object() {
 	return new AdminerPlugin($plugins);
 }
 
-include abs_path.'resources/php/adminer/adminer-4.7.9.php';
+include abs_path.'resources/php/adminer/adminer-4.8.0.php';
 die();
 
 ?>
