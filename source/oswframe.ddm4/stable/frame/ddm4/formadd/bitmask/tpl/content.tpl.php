@@ -35,7 +35,7 @@
 			<?php endif ?>
 
 			<div class="custom-checkbox">
-				<?php if (isset($bitmask[$key])&&($bitmask[$key]=='1')): ?><?php echo '#1# '.\osWFrame\Core\HTML::outputString($value) ?><?php else: ?><?php echo '#0# '.\osWFrame\Core\HTML::outputString($value) ?><?php endif ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_'.$key, (isset($bitmask[$key])?1:0)) ?>
+				<?php if (isset($bitmask[$key])&&($bitmask[$key]=='1')): ?><?php echo $this->getGroupMessage('log_char_true').' '.\osWFrame\Core\HTML::outputString($value) ?><?php else: ?><?php echo $this->getGroupMessage('log_char_false').' '.\osWFrame\Core\HTML::outputString($value) ?><?php endif ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_'.$key, (isset($bitmask[$key])?1:0)) ?>
 			</div>
 
 			<?php if ($this->getEditElementOption($element, 'orientation')=='horizontal'): ?>

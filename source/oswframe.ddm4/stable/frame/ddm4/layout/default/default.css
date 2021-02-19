@@ -110,3 +110,8 @@
 .modal.modal-fullscreen.force-fullscreen .modal-footer {
     bottom: 0;
 }
+
+.form-control-rborder {
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}

@@ -23,8 +23,8 @@
 
 		<?php foreach ($this->getEditElementOption($element, 'data') as $key=>$value): ?><?php if ($this->getEditElementOption($element, 'orientation')=='horizontal'): ?><div class="form-check-inline"><?php endif ?>
 			<div class="custom-checkbox">
-				<?php if (isset($bitmask[$key])&&($bitmask[$key]=='1')): ?><?php echo '#1# '.\osWFrame\Core\HTML::outputString($value) ?>1
-				<?php else: ?><?php echo '#0# '.\osWFrame\Core\HTML::outputString($value) ?>0
+				<?php if (isset($bitmask[$key])&&($bitmask[$key]=='1')): ?><?php echo $this->getGroupMessage('log_char_true').' '.\osWFrame\Core\HTML::outputString($value) ?>1
+				<?php else: ?><?php echo $this->getGroupMessage('log_char_false').' '.\osWFrame\Core\HTML::outputString($value) ?>0
 				<?php endif ?>
 				<?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_'.$key, (isset($bitmask[$key])?1:0)) ?>
 			</div>

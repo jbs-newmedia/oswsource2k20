@@ -21,7 +21,7 @@
 
 		<?php /* read only */ ?><?php $multicheckbox=[] ?><?php if (strlen($this->getAddElementStorage($element))>0): ?><?php $multicheckbox=explode($this->getAddElementOption($element, 'separator'), $this->getAddElementStorage($element)) ?><?php endif ?><?php if ($this->getAddElementOption($element, 'orientation')=='horizontal'): ?><div><?php endif ?><?php foreach ($this->getAddElementOption($element, 'data') as $key=>$value): ?><?php if ($this->getAddElementOption($element, 'orientation')=='horizontal'): ?><div class="form-check-inline"><?php endif ?>
 			<div class="custom-checkbox">
-				<?php if (in_array($key, $multicheckbox)): ?><?php echo '#1# '.\osWFrame\Core\HTML::outputString($value) ?><?php else: ?><?php echo '#0# '.\osWFrame\Core\HTML::outputString($value) ?><?php endif ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_'.$key, (isset($bitmask[$key])?1:0)) ?>
+				<?php if (in_array($key, $multicheckbox)): ?><?php echo $this->getGroupMessage('log_char_true').' '.\osWFrame\Core\HTML::outputString($value) ?><?php else: ?><?php echo $this->getGroupMessage('log_char_false').' '.\osWFrame\Core\HTML::outputString($value) ?><?php endif ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_'.$key, (isset($bitmask[$key])?1:0)) ?>
 			</div>
 			<?php if ($this->getAddElementOption($element, 'orientation')=='horizontal'): ?></div><?php endif ?><?php endforeach ?><?php if ($this->getAddElementOption($element, 'orientation')=='horizontal'): ?></div><?php endif ?>
 

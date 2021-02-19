@@ -42,11 +42,11 @@
 			<div class="custom-checkbox">
 				<?php if (isset($bitmask[$key])&&($bitmask[$key]=='1')): ?>
 
-					<?php echo '#1# '.\osWFrame\Core\HTML::outputString($value) ?>1
+					<?php echo $this->getGroupMessage('log_char_true').' '.\osWFrame\Core\HTML::outputString($value) ?>1
 
 				<?php else: ?>
 
-					<?php echo '#0# '.\osWFrame\Core\HTML::outputString($value) ?>0
+					<?php echo $this->getGroupMessage('log_char_false').' '.\osWFrame\Core\HTML::outputString($value) ?>0
 
 				<?php endif ?>
 
