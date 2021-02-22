@@ -17,7 +17,7 @@
 $data=osW_Tool_Server::getInstance()->getLicenseInfo(serverlist);
 $sl=osW_Tool::getInstance()->getInstance()->_catch('sl', 'oswframe', 'pg');
 if (!isset($data[$sl])) {
-	$sl='oswframe';
+	$sl='oswframe2k20';
 }
 
 $count=count($data);
