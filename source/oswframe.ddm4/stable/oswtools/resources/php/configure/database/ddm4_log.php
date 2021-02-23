@@ -86,15 +86,22 @@ CREATE TABLE :table: (
 /*
  * update table
  */
-/*
 if (($av_tbl<=1)&&($ab_tbl<1)) {
 	$av_tbl=1;
 	$ab_tbl=1;
 	$__datatable_do=true;
 
-	... code ...
+	$QwriteData=osW_Tool_Database::getInstance()->query('
+ALTER TABLE :table: 
+ADD log_module varchar(64) NOT NULL DEFAULT \'\' AFTER log_key;
+');
+	$QwriteData->bindTable(':table:', $__datatable_table);
+	$QwriteData->execute();
+	if ($QwriteData->query_handler===false) {
+		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
+		$db_error[]=$QwriteData->error;
+	}
 }
-*/
 
 if ($__datatable_do===true) {
 	$QwriteData=osW_Tool_Database::getInstance()->query('ALTER TABLE :table: COMMENT = :version:;');
