@@ -27,7 +27,7 @@
 
 	<?php else: ?>
 
-		<?php /* input */ ?><?php if ($this->getSearchElementOption($element, 'blank_value')===true): ?><?php echo $this->getTemplate()->Form()->drawSelectField($element, ['%'=>$values['options']['text_all']]+[''=>' ']+$this->getSearchElementOption($element, 'data'), $this->getSearchElementStorage($element), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="btn btn-outline-default"']) ?><?php else: ?><?php echo $this->getTemplate()->Form()->drawSelectField($element, ['%'=>$values['options']['text_all']]+$this->getSearchElementOption($element, 'data'), $this->getSearchElementStorage($element), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="btn btn-outline-default"']) ?><?php endif ?>
+		<?php /* input */ ?><?php if ($this->getSearchElementOption($element, 'blank_value')===true): ?><?php echo $this->getTemplate()->Form()->drawSelectField($element, ['%'=>$values['options']['text_all']]+[''=>' ']+$this->getSearchElementOption($element, 'data'), $this->getSearchElementStorage($element), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select"']) ?><?php else: ?><?php echo $this->getTemplate()->Form()->drawSelectField($element, ['%'=>$values['options']['text_all']]+$this->getSearchElementOption($element, 'data'), $this->getSearchElementStorage($element), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select"']) ?><?php endif ?>
 
 	<?php endif ?>
 

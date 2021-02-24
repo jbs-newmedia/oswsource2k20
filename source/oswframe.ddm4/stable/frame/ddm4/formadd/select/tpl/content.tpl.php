@@ -45,17 +45,17 @@
 
 			<?php if ($this->getAddElementValidation($element, 'module')=='integer'): ?>
 
-				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [0=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="btn btn-outline-default"']) ?>
+				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [0=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select"']) ?>
 
 			<?php else: ?>
 
-				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [''=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="btn btn-outline-default"']) ?>
+				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [''=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select"']) ?>
 
 			<?php endif ?>
 
 		<?php else: ?>
 
-			<?php echo $this->getTemplate()->Form()->drawSelectField($element, $this->getAddElementOption($element, 'data'), $this->getAddElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="btn btn-outline-default"']) ?>
+			<?php echo $this->getTemplate()->Form()->drawSelectField($element, $this->getAddElementOption($element, 'data'), $this->getAddElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select"']) ?>
 
 		<?php endif ?>
 

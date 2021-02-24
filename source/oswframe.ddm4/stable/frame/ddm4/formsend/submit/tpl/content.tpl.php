@@ -18,6 +18,6 @@
 
 	<?php echo $this->getTemplate()->Form()->drawSubmit('btn_ddm_submit', $this->getGroupMessage('form_send'), ['input_class'=>'btn btn-primary']) ?>
 	&nbsp;
-	<?php echo $this->getTemplate()->Form()->drawReset('btn_ddm_reset', $this->getGroupMessage('form_reset'), ['input_class'=>'btn btn-default']) ?>
+	<?php echo $this->getTemplate()->Form()->drawReset('btn_ddm_reset', $this->getGroupMessage('form_reset'), ['input_class'=>'btn btn-secondary']) ?>
 
 </div>
