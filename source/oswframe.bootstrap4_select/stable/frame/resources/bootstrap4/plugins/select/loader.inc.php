@@ -20,7 +20,7 @@ if (!isset($options['language'])) {
 	$options['language']=Language::getCurrentLanguage();
 }
 
-$version='1.13.14';
+$version='1.13.18';
 $dir=strtolower($this->getClassName().DIRECTORY_SEPARATOR.$plugin_name);
 $name=$plugin_name.DIRECTORY_SEPARATOR.$version.'.resource';
 if (Resource::existsResource($this->getClassName(), $name)!==true) {
@@ -32,12 +32,12 @@ $path=Resource::getRelDir().$dir.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATO
 
 if ($options['min']===true) {
 	$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'bootstrap-select.min.js'];
-	$cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'bootstrap-select.min.css', $path.'css'.DIRECTORY_SEPARATOR.'bootstrap-select-fix.css'];
+	$cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'bootstrap-select.min.css'];
 	$filename=$path.'js'.DIRECTORY_SEPARATOR.'i18n'.DIRECTORY_SEPARATOR.'defaults-'.$options['language'].'.min.js';
 }
 else {
 	$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'bootstrap-select.js'];
-	$cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'bootstrap-select.css', $path.'css'.DIRECTORY_SEPARATOR.'bootstrap-select-fix.css'];
+	$cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'bootstrap-select.css'];
 	$filename=$path.'js'.DIRECTORY_SEPARATOR.'i18n'.DIRECTORY_SEPARATOR.'defaults-'.$options['language'].'.js';
 }
 
