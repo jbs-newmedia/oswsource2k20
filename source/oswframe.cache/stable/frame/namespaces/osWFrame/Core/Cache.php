@@ -49,11 +49,11 @@ class Cache {
 	 *
 	 * @param string $module
 	 * @param string $file
-	 * @param string $extention
+	 * @param string $extension
 	 * @return string
 	 */
-	public static function getFileName(string $module, string $file, string $extention='.cache'):string {
-		return Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').'files'.DIRECTORY_SEPARATOR.strtolower($module).DIRECTORY_SEPARATOR.strtolower($file.$extention);
+	public static function getFileName(string $module, string $file, string $extension='.cache'):string {
+		return Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').'files'.DIRECTORY_SEPARATOR.strtolower($module).DIRECTORY_SEPARATOR.strtolower($file.$extension);
 	}
 
 	/**
@@ -72,13 +72,13 @@ class Cache {
 	 * @param string $module
 	 * @param string $file
 	 * @param string $data
-	 * @param string $extention
+	 * @param string $extension
 	 * @return bool
 	 */
-	public static function writeCache(string $module, string $file, string $data, string $extention='.cache'):bool {
+	public static function writeCache(string $module, string $file, string $data, string $extension='.cache'):bool {
 		$dirname=self::getDirName($module);
 		Filesystem::makeDir($dirname);
-		$filename=self::getFileName($module, $file, $extention);
+		$filename=self::getFileName($module, $file, $extension);
 		if (file_put_contents($filename, $data)!==false) {
 			Filesystem::changeFilemode($filename);
 
@@ -107,11 +107,11 @@ class Cache {
 	 * @param string $module
 	 * @param string $file
 	 * @param int $expire
-	 * @param string $extention
+	 * @param string $extension
 	 * @return bool|null
 	 */
-	public static function readCacheAsBool(string $module, string $file, int $expire=0, string $extention='.cache'):?bool {
-		$result=self::readCache($module, $file, $expire, $extention);
+	public static function readCacheAsBool(string $module, string $file, int $expire=0, string $extension='.cache'):?bool {
+		$result=self::readCache($module, $file, $expire, $extension);
 		if ($result!==null) {
 			return boolval($result);
 		} else {
@@ -126,11 +126,11 @@ class Cache {
 	 * @param string $module
 	 * @param string $file
 	 * @param int $expire
-	 * @param string $extention
+	 * @param string $extension
 	 * @return string|null
 	 */
-	public static function readCacheAsString(string $module, string $file, int $expire=0, string $extention='.cache'):?string {
-		$result=self::readCache($module, $file, $expire, $extention);
+	public static function readCacheAsString(string $module, string $file, int $expire=0, string $extension='.cache'):?string {
+		$result=self::readCache($module, $file, $expire, $extension);
 		if ($result!==null) {
 			return strval($result);
 		} else {
@@ -145,11 +145,11 @@ class Cache {
 	 * @param string $module
 	 * @param string $file
 	 * @param int $expire
-	 * @param string $extention
+	 * @param string $extension
 	 * @return int|null
 	 */
-	public static function readCacheAsInt(string $module, string $file, int $expire=0, string $extention='.cache'):?int {
-		$result=self::readCache($module, $file, $expire, $extention);
+	public static function readCacheAsInt(string $module, string $file, int $expire=0, string $extension='.cache'):?int {
+		$result=self::readCache($module, $file, $expire, $extension);
 		if ($result!==null) {
 			return intval($result);
 		} else {
@@ -164,11 +164,11 @@ class Cache {
 	 * @param string $module
 	 * @param string $file
 	 * @param int $expire
-	 * @param string $extention
+	 * @param string $extension
 	 * @return float|null
 	 */
-	public static function readCacheAsFloat(string $module, string $file, int $expire=0, string $extention='.cache'):?float {
-		$result=self::readCache($module, $file, $expire, $extention);
+	public static function readCacheAsFloat(string $module, string $file, int $expire=0, string $extension='.cache'):?float {
+		$result=self::readCache($module, $file, $expire, $extension);
 		if ($result!==null) {
 			return floatval($result);
 		} else {
@@ -183,11 +183,11 @@ class Cache {
 	 * @param string $module
 	 * @param string $file
 	 * @param int $expire
-	 * @param string $extention
+	 * @param string $extension
 	 * @return array|null
 	 */
-	public static function readCacheAsArray(string $module, string $file, int $expire=0, string $extention='.cache'):?array {
-		$result=self::readCache($module, $file, $expire, $extention);
+	public static function readCacheAsArray(string $module, string $file, int $expire=0, string $extension='.cache'):?array {
+		$result=self::readCache($module, $file, $expire, $extension);
 		if ($result!==null) {
 			return unserialize($result);
 		} else {
@@ -204,11 +204,11 @@ class Cache {
 	 * @param string $module
 	 * @param string $file
 	 * @param int $expire
-	 * @param string $extention
+	 * @param string $extension
 	 * @return string|null
 	 */
-	private static function readCache(string $module, string $file, int $expire=0, string $extention='.cache'):?string {
-		$filename=self::getFileName($module, $file, $extention);
+	private static function readCache(string $module, string $file, int $expire=0, string $extension='.cache'):?string {
+		$filename=self::getFileName($module, $file, $extension);
 		if (file_exists($filename)) {
 			if (($expire==0)||(filemtime($filename)>=(time()-$expire))) {
 				return file_get_contents($filename);
@@ -223,11 +223,11 @@ class Cache {
 	 *
 	 * @param string $module
 	 * @param string $file
-	 * @param string $extention
+	 * @param string $extension
 	 * @return bool
 	 */
-	public static function deleteCache(string $module, string $file, string $extention='.cache'):bool {
-		$filename=self::getFileName($module, $file, $extention);
+	public static function deleteCache(string $module, string $file, string $extension='.cache'):bool {
+		$filename=self::getFileName($module, $file, $extension);
 		if (file_exists($filename)) {
 			if (Filesystem::unlink($filename)===true) {
 				return true;
@@ -244,11 +244,11 @@ class Cache {
 	 *
 	 * @param string $module
 	 * @param string $file
-	 * @param string $extention
+	 * @param string $extension
 	 * @return bool
 	 */
-	public static function existsCache(string $module, string $file, string $extention='.cache'):bool {
-		$filename=self::getFileName($module, $file, $extention);
+	public static function existsCache(string $module, string $file, string $extension='.cache'):bool {
+		$filename=self::getFileName($module, $file, $extension);
 		if (file_exists($filename)) {
 			return true;
 		}
@@ -261,12 +261,12 @@ class Cache {
 	 *
 	 * @param string $module
 	 * @param string $file
-	 * @param string $extention
+	 * @param string $extension
 	 * @return int|null
 	 */
-	public static function getCacheModTime(string $module, string $file, string $extention='.cache'):?int {
-		$filename=self::getFileName($module, $file, $extention);
-		if (self::existsCache($module, $file, $extention)===true) {
+	public static function getCacheModTime(string $module, string $file, string $extension='.cache'):?int {
+		$filename=self::getFileName($module, $file, $extension);
+		if (self::existsCache($module, $file, $extension)===true) {
 			return Filesystem::getFileModTime($filename);
 		}
 
@@ -278,12 +278,12 @@ class Cache {
 	 *
 	 * @param string $module
 	 * @param string $file
-	 * @param string $extention
+	 * @param string $extension
 	 * @return int|null
 	 */
-	public function size(string $module, string $file, string $extention='.cache'):?int {
-		$filename=self::getFileName($module, $file, $extention);
-		if (self::existsCache($module, $file, $extention)===true) {
+	public function size(string $module, string $file, string $extension='.cache'):?int {
+		$filename=self::getFileName($module, $file, $extension);
+		if (self::existsCache($module, $file, $extension)===true) {
 			return filesize($filename);
 		}
 
@@ -296,16 +296,16 @@ class Cache {
 	 *
 	 * @param string $module
 	 * @param int $expire
-	 * @param string $extention
+	 * @param string $extension
 	 * @return bool
 	 */
-	public static function clearCache(string $module, int $expire, $extention='.cache'):bool {
+	public static function clearCache(string $module, int $expire, $extension='.cache'):bool {
 		$dir=self::getDirName($module);
 		$oldertime=time()-$expire;
 		$dir_a=scandir($dir);
 		foreach ($dir_a as $filename) {
 			if (($filename!='.')&&($filename!='..')) {
-				$name=str_replace($extention, '', $filename);
+				$name=str_replace($extension, '', $filename);
 				if (($filename!=$name)&&(Filesystem::getFileModTime($dir.$filename)<$oldertime)) {
 					Filesystem::unlink($dir.$filename);
 				}

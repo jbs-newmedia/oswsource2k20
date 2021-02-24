@@ -1,6 +1,6 @@
 <?php
 /**
- * Fill login form automaticaly
+ * Fill login form automatically
  *
  * Install to Adminer on http://www.adminer.org/plugins/
  * @author Pavel Kutáč, http://www.kutac.cz/

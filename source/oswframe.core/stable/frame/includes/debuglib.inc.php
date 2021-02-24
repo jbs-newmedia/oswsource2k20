@@ -109,7 +109,7 @@ else:
 						<tr><th>debug_level:</th>			   <td>(0-99)</td>	 <td>Only do something if the debug level value is <= the global debug level ($GLOBALS[\'DEBUGLIB_LVL\'] default 99) <span class="new">new</span></td></tr>
 						<tr><th></th>						   <td></td>		   <td>You can also set it to an array with the levels you want to display e.g. $GLOBALS[\'DEBUGLIB_LVL\'] = array(3,5)</td></tr>
 						<tr><th>avoid@:</th>					<td>(0|1)</td>	  <td>If a key starts with the character "@", assume it is a recursive reference and don\'t follow it.</td></tr>
-						<tr><th>mail:</th>					  <td>(string)</td>   <td>Mail the ouput as HTML mail to the supplied email address. <span class="new">new</span></td></tr>
+						<tr><th>mail:</th>					  <td>(string)</td>   <td>Mail the output as HTML mail to the supplied email address. <span class="new">new</span></td></tr>
 						<tr><th>mail_encoding:</th>			 <td>(string)</td>   <td>encoding for the HTML mail. (defaults to "utf-8")</td></tr>
 
 					</table>
@@ -154,7 +154,7 @@ else:
 					</table>
 					<br />
 
-					You can disable the output of all the functions in a production environment by setting <strong>$GLOBALS[\'USE_DEBUGLIB\']</strong> to <strong>FALSE</strong> (e.g. trough auto_prepend in your php.ini).<br />
+					You can disable the output of all the functions in a production environment by setting <strong>$GLOBALS[\'USE_DEBUGLIB\']</strong> to <strong>FALSE</strong> (e.g. through auto_prepend in your php.ini).<br />
 					<br />
 					And if you have to do some online debugging you can enable it again somewhere in your script by setting it to <strong>TRUE</strong>.<br />
 				</div>
@@ -320,7 +320,7 @@ else:
 			return gettype($value);
 		}
 
-		// ouput the css block only if the first time one of the output functions get called
+		// output the css block only if the first time one of the output functions get called
 		public static function html_prefix() {
 			if (self::$first_call) {
 				self::$first_call=false;

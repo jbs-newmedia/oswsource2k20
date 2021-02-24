@@ -69,12 +69,12 @@ class SessionMessageStack {
 	 *
 	 * @param string $class
 	 * @param string $type
-	 * @param array $paramter
+	 * @param array $parameter
 	 * @return bool
 	 */
-	public static function addMessage(string $class, string $type, array $paramter):bool {
+	public static function addMessage(string $class, string $type, array $parameter):bool {
 		$messageToStack=self::loadSessionMessageStack();
-		$messageToStack[$class][$type][]=$paramter;
+		$messageToStack[$class][$type][]=$parameter;
 
 		return self::saveSessionMessageStack($messageToStack);
 	}

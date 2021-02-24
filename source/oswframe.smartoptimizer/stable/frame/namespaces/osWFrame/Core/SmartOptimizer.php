@@ -573,7 +573,7 @@ class SmartOptimizer {
 					$res.=$current_char;
 			} else
 				$res.=$current_char;
-			// if the next charachter be a slash, detects if it is a divide operator or start of a regex
+			// if the next character be a slash, detects if it is a divide operator or start of a regex
 			if (preg_match('/[({[=+\-*\/%&|!><?:~^,;]/', $current_char))
 				$maybe_regex=true; elseif (!preg_match('/[\n ]/', $current_char))
 				$maybe_regex=false;
