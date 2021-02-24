@@ -162,7 +162,7 @@ else:
 					</table>
 					<br />
 
-					You can disable the output of all the functions in a production environment by setting <strong>$GLOBALS[\'USE_DEBUGLIB\']</strong> to <strong>FALSE</strong> (e.g. trough auto_prepend in your php.ini).<br />
+					You can disable the output of all the functions in a production environment by setting <strong>$GLOBALS[\'USE_DEBUGLIB\']</strong> to <strong>FALSE</strong> (e.g. through auto_prepend in your php.ini).<br />
 					<br />
 					And if you have to do some online debugging you can enable it again somewhere in your script by setting it to <strong>TRUE</strong>.<br />
 				</div>
@@ -338,7 +338,7 @@ else:
 		}
 
 
-		// ouput the css block only if the first time one of the output functions get called
+		// output the css block only if the first time one of the output functions get called
 		public static function html_prefix() {
 			if(self::$first_call) {
 				self::$first_call = FALSE;

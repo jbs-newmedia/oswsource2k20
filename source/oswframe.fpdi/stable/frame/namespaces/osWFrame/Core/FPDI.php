@@ -52,7 +52,7 @@ class FPDI extends \setasign\Fpdi\Tcpdf\Fpdi {
 	}
 
 	function Footer() {
-		// emtpy method body
+		// empty method body
 	}
 
 }

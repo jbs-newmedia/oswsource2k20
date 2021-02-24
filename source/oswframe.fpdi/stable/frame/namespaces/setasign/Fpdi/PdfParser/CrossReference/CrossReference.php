@@ -62,7 +62,7 @@ class CrossReference
         $offset = $this->findStartXref();
         $reader = null;
         /** @noinspection TypeUnsafeComparisonInspection */
-        while ($offset != false) { // By doing an unsafe comparsion we ignore faulty references to byte offset 0
+        while ($offset != false) { // By doing an unsafe comparison we ignore faulty references to byte offset 0
             try {
                 $reader = $this->readXref($offset + $this->fileHeaderOffset);
             } catch (CrossReferenceException $e) {
