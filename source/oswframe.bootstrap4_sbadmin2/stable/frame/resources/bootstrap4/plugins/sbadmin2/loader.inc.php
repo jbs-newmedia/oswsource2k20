@@ -19,7 +19,7 @@ if (!isset($options['theme'])) {
 $options['theme']=strtolower($options['theme']);
 
 
-$version='4.0.2';
+$version='4.1.3';
 $dir=strtolower($this->getClassName().DIRECTORY_SEPARATOR.$plugin_name);
 $name=$plugin_name.DIRECTORY_SEPARATOR.$version.'.resource';
 if (Resource::existsResource($this->getClassName(), $name)!==true) {
