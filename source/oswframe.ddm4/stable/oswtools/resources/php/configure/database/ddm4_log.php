@@ -86,6 +86,7 @@ CREATE TABLE :table: (
 /*
  * update table
  */
+/*
 if (($av_tbl<=1)&&($ab_tbl<1)) {
 	$av_tbl=1;
 	$ab_tbl=1;
@@ -102,6 +103,7 @@ ADD log_module varchar(64) NOT NULL DEFAULT \'\' AFTER log_key;
 		$db_error[]=$QwriteData->error;
 	}
 }
+*/
 
 if ($__datatable_do===true) {
 	$QwriteData=osW_Tool_Database::getInstance()->query('ALTER TABLE :table: COMMENT = :version:;');
