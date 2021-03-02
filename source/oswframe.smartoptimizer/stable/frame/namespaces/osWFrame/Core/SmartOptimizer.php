@@ -183,28 +183,42 @@ class SmartOptimizer {
 			if ((defined('SID')===true)&&(strlen(SID)>0)) {
 				$session_parameter.='?'.SID;
 			}
+			$generateContent=true;
 			if ($generateContent===true) {
 				$content=[];
 				foreach ($files as $file) {
 					$__DIR__='../../';
 					$cfile=Settings::getStringVar('settings_abspath').$file;
 					if (file_exists($cfile)) {
-						$content[]=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+						switch ($filetype) {
+							case 'css':
+								if (substr($cfile, -8)=='.min.css') {
+									$content[]=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+								} else {
+									if (Settings::getBoolVar('smartoptimizer_stripoutput')==true) {
+										$content[]=self::stripCSS(self::getOuputContent(file_get_contents($cfile), $__DIR__));
+									} else {
+										$content[]=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+									}
+								}
+								break;
+							case 'js':
+								if (substr($cfile, -7)=='.min.js') {
+									$content[]=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+								} else {
+									if (Settings::getBoolVar('smartoptimizer_stripoutput')==true) {
+										$content[]=self::stripJS(self::getOuputContent(file_get_contents($cfile), $__DIR__));
+									} else {
+										$content[]=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+									}
+								}
+								break;
+						}
 					} else {
 						MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'File not found ('.$file.')']);
 					}
 				}
-				$content=implode("\n", $content);
-				if (Settings::getBoolVar('smartoptimizer_stripoutput')==true) {
-					switch ($filetype) {
-						case 'css':
-							$content=self::stripCSS($content);
-							break;
-						case 'js':
-							$content=self::stripJS($content);
-							break;
-					}
-				}
+				$content=implode("\n\n", $content);
 				if (Settings::getBoolVar('smartoptimizer_gzipcompression')===true) {
 					$content=gzencode($content, Settings::getIntVar('smartoptimizer_gzipcompression_level'));
 				}
@@ -310,11 +324,13 @@ class SmartOptimizer {
 			if ((defined('SID')===true)&&(strlen(SID)>0)) {
 				$session_parameter.='?'.SID;
 			}
+			$generateContent=true;
 			if ($generateContent===true) {
 				$content=[];
 				$__DIR__='../../';
 				$cfile=Settings::getStringVar('settings_abspath').$file;
 				if (file_exists($cfile)) {
+					print_a($cfile);
 					$content=self::getOuputContent(file_get_contents($cfile), $__DIR__);
 				} else {
 					MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
