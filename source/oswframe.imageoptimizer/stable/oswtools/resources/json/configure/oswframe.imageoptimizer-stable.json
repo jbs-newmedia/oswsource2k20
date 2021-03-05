@@ -1,6 +1,7 @@
 {
   "configure": {
     "middle": {
+      "imageoptimizer_module": "_imageoptimizer",
       "imageoptimizer_allowed_dirs": [
         "data",
         "frame",

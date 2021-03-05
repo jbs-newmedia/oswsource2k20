@@ -1,4 +1,9 @@
 {
+  "configure": {
+    "middle": {
+      "errorlogger_module": "_errorlogger"
+    }
+  },
   "htaccess": {
     "bottom": [
       "ErrorDocument 400 ###$vars['project_url_path']?module=###$vars['settings_errorlogger']&error_status=400",

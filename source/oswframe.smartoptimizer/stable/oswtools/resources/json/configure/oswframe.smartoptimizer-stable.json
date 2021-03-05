@@ -1,6 +1,8 @@
 {
 	"configure": {
 		"middle": {
+			"scriptoptimizer_module": "_scriptoptimizer",
+			"styleoptimizer_module": "_styleoptimizer",
 			"smartoptimizer_allowed_dirs": [
 				"frame",
 				"modules"

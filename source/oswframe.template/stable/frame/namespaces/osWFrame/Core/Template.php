@@ -476,11 +476,11 @@ class Template {
 			$file=md5($str).'.js';
 			SmartOptimizer::writeCacheFile($file, $str);
 			if (Settings::getStringVar('template_versionnumber')=='') {
-				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('settings_scriptoptimizer').'/'.$file]);
+				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file]);
 			} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('settings_scriptoptimizer').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)]);
+				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)]);
 			} else {
-				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('settings_scriptoptimizer').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')]);
+				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')]);
 			}
 		} else {
 			if ($this->getTemplateFiles($pos, 'js')!=[]) {
@@ -492,11 +492,11 @@ class Template {
 					}
 					if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('settings_scriptoptimizer').'/'.$file]);
+							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file]);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('settings_scriptoptimizer').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
 						} else {
-							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('settings_scriptoptimizer').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
 						}
 					} else {
 						if (Settings::getStringVar('template_versionnumber')=='') {
@@ -524,11 +524,11 @@ class Template {
 			$file=md5($str).'.css';
 			SmartOptimizer::writeCacheFile($file, $str);
 			if (Settings::getStringVar('template_versionnumber')=='') {
-				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('settings_styleoptimizer').'/'.$file]);
+				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file]);
 			} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('settings_styleoptimizer').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)]);
+				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)]);
 			} else {
-				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('settings_styleoptimizer').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')]);
+				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')]);
 			}
 		} else {
 			if ($this->getTemplateFiles($pos, 'css')!=[]) {
@@ -540,11 +540,11 @@ class Template {
 					}
 					if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('settings_styleoptimizer').'/'.$file]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file]);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('settings_styleoptimizer').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
 						} else {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('settings_styleoptimizer').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
 						}
 					} else {
 						if (Settings::getStringVar('template_versionnumber')=='') {
@@ -703,7 +703,7 @@ class Template {
 		$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
 
 		$out='';
-		$out.='<img '.$options['parameter'].' src="static/'.Settings::getStringVar('settings_imageoptimizer').'/'.$options['path'].$new_filename;
+		$out.='<img '.$options['parameter'].' src="static/'.Settings::getStringVar('imageoptimizer_module').'/'.$options['path'].$new_filename;
 		/* ToDo: height/width ermitteln und angeben */
 		$out.='" alt="'.HTML::outputString($options['alt']).'" title="'.HTML::outputString($options['title']).'" />';
 

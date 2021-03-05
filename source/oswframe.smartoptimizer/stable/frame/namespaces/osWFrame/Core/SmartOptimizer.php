@@ -425,9 +425,9 @@ class SmartOptimizer {
 		$contentin=str_ireplace('__STYLEOPTIMIZER_PATH__', '__DIR__/static/__STYLEOPTIMIZER__', $contentin);
 		$contentin=str_ireplace('__DIR__/', $dir, $contentin);
 		$contentin=str_ireplace('__DEFAULT_MODULE__', Settings::getStringVar('project_default_module'), $contentin);
-		$contentin=str_ireplace('__IMAGEOPTIMIZER__', Settings::getStringVar('settings_imageoptimizer'), $contentin);
-		$contentin=str_ireplace('__SCRIPTOPTIMIZER__', Settings::getStringVar('settings_scriptoptimizer'), $contentin);
-		$contentin=str_ireplace('__STYLEOPTIMIZER__', Settings::getStringVar('settings_styleoptimizer'), $contentin);
+		$contentin=str_ireplace('__IMAGEOPTIMIZER__', Settings::getStringVar('imageoptimizer_module'), $contentin);
+		$contentin=str_ireplace('__SCRIPTOPTIMIZER__', Settings::getStringVar('scriptoptimizer_module'), $contentin);
+		$contentin=str_ireplace('__STYLEOPTIMIZER__', Settings::getStringVar('styleoptimizer_module'), $contentin);
 
 		return $contentin;
 	}
