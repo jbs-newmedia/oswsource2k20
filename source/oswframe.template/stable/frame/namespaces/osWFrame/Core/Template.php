@@ -671,7 +671,7 @@ class Template {
 		}
 
 		$rel_file=$options['path'].$filename;
-		$abs_file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$rel_file;
+		$abs_file=Settings::getStringVar('settings_abspath').$rel_file;
 		if (!file_exists($abs_file)) {
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'File not found ('.$rel_file.')']);
 
@@ -696,7 +696,7 @@ class Template {
 			$options['parameter']='';
 		}
 
-		if (\osWFrame\Core\Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+		if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 			$osW_ImageOptimizer->setPS($rel_file);
 		}
 
