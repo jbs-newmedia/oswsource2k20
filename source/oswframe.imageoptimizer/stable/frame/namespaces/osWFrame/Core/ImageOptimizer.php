@@ -290,11 +290,14 @@ class ImageOptimizer {
 
 		if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 			if (!isset($options['ps'])) {
-				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'Checksum not matched ('.$rel_file.')']);
+				$msg='Checksum not matched ('.$rel_file.')';
+				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
+				Settings::dieScript($msg);
 			}
 			if ($this->validatePS($rel_file, $options, $options['ps'])!==true) {
-				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'Checksum not matched ('.$rel_file.')']);
-				Settings::dieScript();
+				$msg='Checksum not matched ('.$rel_file.')';
+				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
+				Settings::dieScript($msg);
 			}
 		}
 
@@ -314,8 +317,9 @@ class ImageOptimizer {
 				$image_type='png';
 				break;
 			default :
-				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'Unsupported file type ('.$image_type.')']);
-				Settings::dieScript();
+				$msg='Unsupported file type ('.$image_type.')';
+				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
+				Settings::dieScript($msg);
 				break;
 		}
 
