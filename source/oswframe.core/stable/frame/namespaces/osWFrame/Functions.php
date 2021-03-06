@@ -62,19 +62,19 @@ function osW_setVar(string $name, $value):bool {
 function osW_getVar(string $name) {
 	switch (\osWFrame\Core\Settings::getVarType($name)) {
 		case 'bool':
-			osWFrame\Core\Settings::getBoolVar($name);
+			return \osWFrame\Core\Settings::getBoolVar($name);
 			break;
 		case 'string':
-			osWFrame\Core\Settings::getStringVar($name);
+			return \osWFrame\Core\Settings::getStringVar($name);
 			break;
 		case 'int':
-			osWFrame\Core\Settings::getIntVar($name);
+			return \osWFrame\Core\Settings::getIntVar($name);
 			break;
 		case 'float':
-			osWFrame\Core\Settings::getFloatVar($name);
+			return \osWFrame\Core\Settings::getFloatVar($name);
 			break;
 		case 'array':
-			osWFrame\Core\Settings::getArrayVar($name);
+			return \osWFrame\Core\Settings::getArrayVar($name);
 			break;
 		default:
 			return null;
@@ -100,7 +100,7 @@ function osW_vOut(string $name) {
  * @return mixed
  */
 function osW_catchVar(string $key, string $default='', string $order='gpc', ?int $index=null) {
-	return osWFrame\Core\Settings::catchValue($key, $default, $order, $index);
+	return \osWFrame\Core\Settings::catchValue($key, $default, $order, $index);
 }
 
 /**
@@ -109,7 +109,7 @@ function osW_catchVar(string $key, string $default='', string $order='gpc', ?int
  * @return string
  */
 function osW_dieScript(string $content):string {
-	return osWFrame\Core\Settings::dieScript($content);
+	return \osWFrame\Core\Settings::dieScript($content);
 }
 
 ?>
