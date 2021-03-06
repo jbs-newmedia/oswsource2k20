@@ -330,7 +330,6 @@ class SmartOptimizer {
 				$__DIR__='../../';
 				$cfile=Settings::getStringVar('settings_abspath').$file;
 				if (file_exists($cfile)) {
-					print_a($cfile);
 					$content=self::getOuputContent(file_get_contents($cfile), $__DIR__);
 				} else {
 					MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
