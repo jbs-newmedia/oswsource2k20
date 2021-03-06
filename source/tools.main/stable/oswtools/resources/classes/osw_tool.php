@@ -401,6 +401,14 @@ class osW_Tool extends osW_Tool_Object {
 		$this->data['configure'][$key]=$value;
 	}
 
+	public function osW_getVar($key) {
+		if (isset($this->data['configure'][$key])) {
+			return $this->data['configure'][$key];
+		}
+
+		return '';
+	}
+
 	public function createHtAccessFile() {
 		$configure_files=[root_path.'frame/configure.php', root_path.'modules/configure.project.php', root_path.'modules/configure.project-dev.php'];
 
@@ -410,6 +418,7 @@ class osW_Tool extends osW_Tool_Object {
 				$content=file_get_contents($configure_file);
 				$content=str_replace('settings_abspath', 'abs_path', $content);
 				$content=str_replace('osW_setVar(', '$this->osW_setVar(', $content);
+				$content=str_replace('osW_getVar(', '$this->osW_getVar(', $content);
 				eval(substr($content, 5));
 			}
 		}
@@ -517,6 +526,7 @@ class osW_Tool extends osW_Tool_Object {
 				$content=file_get_contents($configure_file);
 				$content=str_replace('settings_abspath', 'abs_path', $content);
 				$content=str_replace('osW_setVar(', '$this->osW_setVar(', $content);
+				$content=str_replace('osW_getVar(', '$this->osW_getVar(', $content);
 				eval(substr($content, 5));
 			}
 		}
@@ -603,6 +613,7 @@ class osW_Tool extends osW_Tool_Object {
 					$content=file_get_contents($configure_file);
 					$content=str_replace('settings_abspath', 'abs_path', $content);
 					$content=str_replace('osW_setVar(', '$this->osW_setVar(', $content);
+					$content=str_replace('osW_getVar(', '$this->osW_getVar(', $content);
 					eval(substr($content, 5));
 				}
 			}
