@@ -15,7 +15,7 @@
 ######################################################################################################################################################
 error_reporting(0);
 
-$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.02', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
+$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.03', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
 
 ######################################################################################################################################################
 # Funktionen
@@ -96,10 +96,14 @@ function _delDir($dir) {
 # Server
 ######################################################################################################################################################
 
-if (!isset($_GET['action'])) {
+if ((!isset($_POST['action']))&&(!isset($_GET['action']))) {
 	$action='hello';
 } else {
-	$action=$_GET['action'];
+	if (isset($_POST['action'])) {
+		$action=$_POST['action'];
+	} elseif (isset($_GET['action'])) {
+		$action=$_GET['action'];
+	}
 }
 
 if (!isset($_GET['server_name'])) {
@@ -218,14 +222,14 @@ switch ($action) {
 		break;
 	# Gibt die Checksumme von Package.Release zurueck
 	case 'server_check' :
-		if (!isset($_GET['package'])) {
+		if (!isset($_POST['package'])) {
 			die('');
 		}
-		$package=$_GET['package'];
-		if (!isset($_GET['release'])) {
+		$package=$_POST['package'];
+		if (!isset($_POST['release'])) {
 			die('');
 		}
-		$release=$_GET['release'];
+		$release=$_POST['release'];
 
 		$file=$abs_path.'data/'.$package.'/'.$release.'/package.checksum';
 		if (file_exists($file)) {
@@ -304,7 +308,7 @@ switch ($action) {
 	# Gibt die Checksumme vom Server zurueck
 	case 'server_checksum' :
 		$server_checksum='';
-		if (isset($_GET['packages'])) {
+		if (isset($_POST['packages'])) {
 			$_packages=[];
 			$_dir=$abs_path.'data/';
 			if ($handle_package=opendir($_dir)) {
@@ -323,7 +327,7 @@ switch ($action) {
 				closedir($handle_package);
 			}
 
-			$_server_packages=($_GET['packages']);
+			$_server_packages=($_POST['packages']);
 			$_server_packages=explode(',', $_server_packages);
 
 			foreach ($_server_packages as $_server_package) {
