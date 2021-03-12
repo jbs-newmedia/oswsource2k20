@@ -1,6 +1,4 @@
-(function($) {
-  "use strict"; // Start of use strict
-
+$(function () {
   // Toggle the side navigation
   $("#sidebarToggle, #sidebarToggleTopLeft, #sidebarToggleTopRight").on('click', function(e) {
     $("body").toggleClass("sidebar-toggled");
@@ -41,4 +39,4 @@
     e.preventDefault();
   });
 
-})(jQuery); // End of use strict
+});
