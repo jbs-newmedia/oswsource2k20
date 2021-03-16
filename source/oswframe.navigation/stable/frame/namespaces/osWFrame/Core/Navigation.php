@@ -24,7 +24,7 @@ class Navigation {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -43,7 +43,7 @@ class Navigation {
 	 * @return string
 	 */
 	public static function getModuleByName(string $name):string {
-		return $name;
+		return Language::getNameModule($name);
 	}
 
 	/**
@@ -110,11 +110,7 @@ class Navigation {
 		if ($go_default===true) {
 			if ($module!=Settings::getStringVar('project_default_module')) {
 				if ($rewrite_module===true) {
-					// TODO:
-					// $seo_base_uri.=osW_Language::getInstance()->mod2nav($module);
-					// echo 'TODO: '.__CLASS__.'.'.__FUNCTION__.'<br/>';
-					// Fix
-					$base_uri=$module;
+					$base_uri=Language::getModuleName($module);
 				} else {
 					$base_uri=$module;
 				}
@@ -156,18 +152,33 @@ class Navigation {
 	}
 
 	/**
+	 * @return string
+	 */
+	public static function getCurrentUrl():string {
+		return Network::getCurrentUrl();
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getCanonicalUrl():string {
+		$query_string='';
+		if (isset($_SERVER['QUERY_STRING'])) {
+			$query_string=$_SERVER['QUERY_STRING'];
+		}
+
+		return self::buildUrl('current', $query_string, true);
+	}
+
+	/**
 	 *
 	 * @return bool
 	 */
 	public static function checkUrl():bool {
 		$url=Network::getCurrentUrl();
-		$query_string='';
-		if (isset($_SERVER['QUERY_STRING'])) {
-			$query_string=$_SERVER['QUERY_STRING'];
-		}
-		$canonical_url=self::buildUrl('current', $query_string, true);
-		if ($url!==$canonical_url) {
-			Network::directHeader($canonical_url, 301);
+
+		if (self::getCurrentUrl()!==self::getCanonicalUrl()) {
+			Network::directHeader(self::getCanonicalUrl(), 301);
 		}
 
 		return true;

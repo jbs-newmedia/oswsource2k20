@@ -134,6 +134,12 @@ class Template {
 		return $c;
 	}
 
+	/**
+	 * @param string $name
+	 * @param $value
+	 * @param bool $ref
+	 * @return bool
+	 */
 	public function setVar(string $name, &$value, $ref=true) {
 		if ($ref===true) {
 			return $this->setVarAsRef($name, $value);
@@ -142,18 +148,32 @@ class Template {
 		return $this->setVarAsCopy($name, $value);
 	}
 
+	/**
+	 * @param string $name
+	 * @param $value
+	 * @return bool
+	 */
 	public function setVarAsRef(string $name, &$value) {
 		$this->vars[$name]=&$value;
 
 		return true;
 	}
 
-	public function setVarAsCopy(string $name, $value) {
+	/**
+	 * @param string $name
+	 * @param $value
+	 * @return bool
+	 */
+	public function setVarAsCopy(string $name, $value):bool {
 		$this->vars[$name]=$value;
 
 		return true;
 	}
 
+	/**
+	 * @param string $name
+	 * @return mixed|null
+	 */
 	public function getVar(string $name) {
 		if ((strlen($name)>0)&&(isset($this->vars[$name]))) {
 			return $this->vars[$name];
@@ -162,13 +182,22 @@ class Template {
 		return null;
 	}
 
-	public function setConf(string $name, $value) {
+	/**
+	 * @param string $name
+	 * @param $value
+	 * @return bool
+	 */
+	public function setConf(string $name, $value):bool {
 		$this->conf[$name]=$value;
 
 		return true;
 	}
 
-	public function getConf(string $name) {
+	/**
+	 * @param string $name
+	 * @return string|null
+	 */
+	public function getConf(string $name):?string {
 		if ((strlen($name)>0)&&(isset($this->conf[$name]))) {
 			return $this->conf[$name];
 		}
@@ -176,7 +205,11 @@ class Template {
 		return null;
 	}
 
-	private function getModuleByShort($module='project') {
+	/**
+	 * @param string $module
+	 * @return string
+	 */
+	private function getModuleByShort($module='project'):string {
 		if ($module=='project') {
 			return Settings::getStringVar('project_default_module');
 		} elseif ($module=='default') {
@@ -188,13 +221,26 @@ class Template {
 		}
 	}
 
-	public function setVarFromFile(string $name, string $file='content', string $module='project', string $dir='modules') {
+	/**
+	 * @param string $name
+	 * @param string $file
+	 * @param string $module
+	 * @param string $dir
+	 * @return bool
+	 */
+	public function setVarFromFile(string $name, string $file='content', string $module='project', string $dir='modules'):bool {
 		$module=$this->getModuleByShort($module);
 
 		return $this->setVarAsCopy($name, $this->fetchFileIfExists($file, $module, $dir));
 	}
 
-	public function isfetchFile($file='content', $module='project', $dir='modules') {
+	/**
+	 * @param string $file
+	 * @param string $module
+	 * @param string $dir
+	 * @return bool
+	 */
+	public function isfetchFile($file='content', $module='project', $dir='modules'):bool {
 		$module=$this->getModuleByShort($module);
 		if (file_exists(Settings::getStringVar('settings_abspath').$dir.'/'.$module.'/tpl/'.$file.'.tpl.php')===true) {
 			return true;
@@ -203,7 +249,13 @@ class Template {
 		return false;
 	}
 
-	public function fetchFileIfExists($file='content', $module='project', $dir='modules') {
+	/**
+	 * @param string $file
+	 * @param string $module
+	 * @param string $dir
+	 * @return string
+	 */
+	public function fetchFileIfExists($file='content', $module='project', $dir='modules'):string {
 		$module=$this->getModuleByShort($module);
 		if ($this->isfetchFile($file, $module, $dir)===true) {
 			return $this->fetchFile($file, $module, $dir);
@@ -212,7 +264,13 @@ class Template {
 		return '';
 	}
 
-	public function fetchFile($file='content', $module='project', $dir='modules') {
+	/**
+	 * @param string $file
+	 * @param string $module
+	 * @param string $dir
+	 * @return string
+	 */
+	public function fetchFile($file='content', $module='project', $dir='modules'):string {
 		$module=$this->getModuleByShort($module);
 
 		return $this->fetch(Settings::getStringVar('settings_abspath').$dir.'/'.$module.'/tpl/'.$file.'.tpl.php');
@@ -515,10 +573,10 @@ class Template {
 	}
 
 	/**
-	 *
+	 * @param string $pos
 	 * @return bool
 	 */
-	private function getCSSFiles(string $pos) {
+	private function getCSSFiles(string $pos):bool {
 		if (Settings::getBoolVar('smartoptimizer_combine_files')===true) {
 			$str=implode(',', $this->getTemplateFiles($pos, 'css'));
 			$file=md5($str).'.css';
@@ -563,7 +621,7 @@ class Template {
 	}
 
 	/**
-	 *
+	 * @param string $pos
 	 * @return bool
 	 */
 	private function getJSCodes(string $pos):bool {
@@ -585,7 +643,7 @@ class Template {
 	}
 
 	/**
-	 *
+	 * @param string $pos
 	 * @return bool
 	 */
 	private function getCSSCodes(string $pos):bool {
@@ -607,7 +665,6 @@ class Template {
 	}
 
 	/**
-	 *
 	 * @param string $alias
 	 * @param string $namespace
 	 * @return bool
