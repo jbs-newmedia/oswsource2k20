@@ -31,11 +31,11 @@ $(function () {
   });
 
   // Smooth scrolling using jQuery easing
-  $(document).on('click', 'a.scroll-to-top', function(e) {
-    var $anchor = $(this);
-    $('html, body').stop().animate({
-      scrollTop: ($($anchor.attr('href')).offset().top)
-    }, 1000, 'easeInOutExpo');
+  $(document).on('click', 'a.scroll-to-top', function (e) {
+    var $target = $(this.hash);
+    $target = $target.length ? $target : $('html');
+    var targetOffset = $target.offset().top;
+    $('html,body').stop().animate({scrollTop: targetOffset}, {duration: 1000, easing: 'easeInOutQuad'});
     e.preventDefault();
   });
 

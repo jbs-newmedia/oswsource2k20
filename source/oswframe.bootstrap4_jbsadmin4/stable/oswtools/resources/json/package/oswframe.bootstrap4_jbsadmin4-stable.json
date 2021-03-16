@@ -17,6 +17,11 @@
       "serverlist": "oswframe2k20",
       "package": "oswframe.bootstrap4",
       "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.jquery3_easing",
+      "release": "stable"
     }
   ]
 }
