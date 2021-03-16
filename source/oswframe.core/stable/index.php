@@ -98,7 +98,7 @@ if (\osWFrame\Core\Settings::loadConfigure('modules', 'project')!==true) {
 /**
  * Default-Module setzen.
  */
-\osWFrame\Core\Settings::setStringVar('frame_default_module', \osWFrame\Core\Navigation::getModuleByName(\osWFrame\Core\Settings::catchValue('module', \osWFrame\Core\Settings::getStringVar('project_default_module'), 'g')));
+\osWFrame\Core\Settings::setStringVar('frame_default_module', \osWFrame\Core\Settings::catchValue('module', \osWFrame\Core\Settings::getStringVar('project_default_module'), 'g'));
 
 /**
  * Action definieren.
