@@ -34,8 +34,7 @@ if ($options['min']===true) {
 	$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'bootstrap-datepicker.min.js'];
 	$cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'bootstrap-datepicker3.css'];
 	$filename=$path.'locales'.DIRECTORY_SEPARATOR.'bootstrap-datepicker.'.$options['language'].'.min.js';
-}
-else {
+} else {
 	$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'bootstrap-datepicker.js'];
 	$cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'bootstrap-datepicker3.css'];
 	$filename=$path.'locales'.DIRECTORY_SEPARATOR.'bootstrap-datepicker.'.$options['language'].'.min.js';
