@@ -73,6 +73,9 @@ class osW_Tool_Server extends osW_Tool_Object {
 		$this->readServerList($serverlist);
 		$name='server_'.$serverlist;
 		$name_list='serverlist';
+		if ((!isset($this->data[$name_list]))||(!isset($this->data[$name_list][$serverlist]))||(!isset($this->data[$name_list][$serverlist]['data']))) {
+			return false;
+		}
 		foreach ($this->data[$name_list][$serverlist]['data'] as $server_id=>$server_data) {
 			$_content=$this->getUrlData($server_data['server_url']);
 			if ((strlen($_content)>=26)&&(strlen($_content)<=128)) {
