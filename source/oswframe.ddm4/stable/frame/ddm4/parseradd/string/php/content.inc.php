@@ -16,7 +16,7 @@ $fields['element_title']=$this->getAddElementValue($element, 'title');
 $this->setFilterElementStorage($element, $fields);
 $this->setFilterErrorElementStorage($element, false);
 
-if (($this->getFilterErrorElementStorage($element)!==true)&&($this->getAddElementValidation($element, 'length_min')!='')) {
+if (($this->getFilterErrorElementStorage($element)!==true)&&(($this->getAddElementValidation($element, 'length_min')!='')&&($this->getAddElementValidation($element, 'length_min')>0))) {
 	if ($this->getDoAddElementStorage($element)=='') {
 		$fields['length_min']=$this->getAddElementValidation($element, 'length_min');
 		$fields['length_max']=$this->getAddElementValidation($element, 'length_max');
