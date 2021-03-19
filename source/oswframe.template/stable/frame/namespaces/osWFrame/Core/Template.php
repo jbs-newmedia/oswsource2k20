@@ -195,9 +195,9 @@ class Template {
 
 	/**
 	 * @param string $name
-	 * @return string|null
+	 * @return mixed|null
 	 */
-	public function getConf(string $name):?string {
+	public function getConf(string $name) {
 		if ((strlen($name)>0)&&(isset($this->conf[$name]))) {
 			return $this->conf[$name];
 		}
