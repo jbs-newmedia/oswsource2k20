@@ -12,5 +12,11 @@
     "unique": false,
     "serverlist": "oswframe2k20"
   },
-  "required": []
+  "required": [
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.imagelib",
+      "release": "stable"
+    }
+  ]
 }
