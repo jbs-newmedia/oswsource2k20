@@ -29,7 +29,7 @@ class Session {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -101,7 +101,7 @@ class Session {
 	/**
 	 * @return string
 	 */
-	public function getId():string {
+	public static function getId():string {
 		return session_id();
 	}
 
