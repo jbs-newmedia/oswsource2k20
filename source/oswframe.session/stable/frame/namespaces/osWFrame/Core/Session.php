@@ -196,6 +196,7 @@ class Session {
 				}
 			}
 		}
+		return false;
 	}
 
 	/**
