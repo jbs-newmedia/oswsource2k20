@@ -175,8 +175,6 @@ class Navigation {
 	 * @return bool
 	 */
 	public static function checkUrl():bool {
-		$url=Network::getCurrentUrl();
-
 		if (self::getCurrentUrl()!==self::getCanonicalUrl()) {
 			Network::directHeader(self::getCanonicalUrl(), 301);
 		}
