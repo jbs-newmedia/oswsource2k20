@@ -207,7 +207,7 @@ class Session {
 	public static function deleteSessions():bool {
 		if ($handle=opendir(Settings::getStringVar('settings_abspath').Settings::getStringVar('session_path'))) {
 			while (false!==($file=readdir($handle))) {
-				if (($file!='.')&&($file!='..')) {
+				if (($file!='.')&&($file!='..')&&($file!='.htaccess')) {
 					self::deleteSession(Settings::getStringVar('session_path').$file);
 				}
 			}
