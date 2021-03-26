@@ -1,91 +1,34 @@
-html {
-	overflow-y:scroll;
-}
-
 body {
-	padding-top: 70px;
-	margin-bottom: 60px;
+    overflow-y: scroll;
 }
 
-nav {
-	z-index:1001;
+.scroll-to-top {
+    z-index: 1100;
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    text-align: center;
+    color: #fff;
+    background: rgba(81, 81, 81, 0.5);
+    line-height: 46px;
 }
 
-footer p {
-	margin-top:14px;
+.scroll-to-top:focus, .scroll-to-top:hover {
+    color: white;
 }
 
-.navbar-brand {
-	padding-left:52px;
+.scroll-to-top:hover {
+    background: #777;
 }
 
-.navbar-brand i {
-	position:absolute;
-	display:block;
-	height:32px;
-	width:32px;
-	margin-top:-6px;
-	margin-left:-36px;
-	background:url('../img/oswtools.svg');
+.scroll-to-top i {
+    font-weight: 800;
 }
 
-.d-block {
-	display:block;
-}
-
-.d-inline {
-	display:inline;
-}
-
-.d-inline-block {
-	display:inline-block;
-}
-
-.panel-license .panel-body {
-	max-height:300px;
-	overflow-y:scroll;
-}
-
-.used-software a {
-	overflow:hidden;
-}
-
-.used-software img {
-	height:100px;
-	padding:20px;
-	overflow:hidden;
-}
-
-.navbar-brand a {
-	color:#777777;
-}
-
-.navbar-brand a:hover {
-	text-decoration:none;
-}
-
-.buttonosw {
-	border:1px solid #cccccc;
-	padding:3px;
-	border-radius: 3px;
-	color:#777777;
-}
-
-.buttonosw.disabled,
-.buttonosw[disabled] {
-	cursor: not-allowed;
-	filter: alpha(opacity=65);
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	opacity: .65;
-	color:#cccccc;
-}
-
-.back-to-top {
-	cursor: pointer;
-	position: fixed;
-	bottom: 20px;
-	right: 20px;
-	display:none;
-	z-index:2010;
+.card-license .card-body {
+    max-height:300px;
+    overflow-y:scroll;
 }
