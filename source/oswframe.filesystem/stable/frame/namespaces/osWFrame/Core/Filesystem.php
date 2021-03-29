@@ -24,7 +24,7 @@ class Filesystem {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -212,10 +212,11 @@ class Filesystem {
 	 * @param string $dir
 	 * @param bool $recursive
 	 * @param int $deep
+	 * @param bool $only_deep_result
 	 * @return array|null
 	 */
-	public static function scanDirToArray(string $dir, bool $recursive=false, int $deep=0):?array {
-		return self::scanDirToArrayCore($dir, $recursive, $deep, 'fd');
+	public static function scanDirToArray(string $dir, bool $recursive=false, int $deep=0, bool $only_deep_result=false):?array {
+		return self::scanDirToArrayCore($dir, $recursive, $deep, 'fd', 0, [], $only_deep_result);
 	}
 
 	/**
@@ -224,10 +225,11 @@ class Filesystem {
 	 * @param string $dir
 	 * @param bool $recursive
 	 * @param int $deep
+	 * @param bool $only_deep_result
 	 * @return array|null
 	 */
-	public static function scanDirsToArray(string $dir, bool $recursive=false, int $deep=0):?array {
-		return self::scanDirToArrayCore($dir, $recursive, $deep, 'd');
+	public static function scanDirsToArray(string $dir, bool $recursive=false, int $deep=0, bool $only_deep_result=false):?array {
+		return self::scanDirToArrayCore($dir, $recursive, $deep, 'd', 0, [], $only_deep_result);
 	}
 
 	/**
@@ -236,10 +238,11 @@ class Filesystem {
 	 * @param string $dir
 	 * @param bool $recursive
 	 * @param int $deep
+	 * @param bool $only_deep_result
 	 * @return array|null
 	 */
-	public static function scanFilesToArray(string $dir, bool $recursive=false, int $deep=0):?array {
-		return self::scanDirToArrayCore($dir, $recursive, $deep, 'f');
+	public static function scanFilesToArray(string $dir, bool $recursive=false, int $deep=0, bool $only_deep_result=false):?array {
+		return self::scanDirToArrayCore($dir, $recursive, $deep, 'f', 0, [], $only_deep_result);
 	}
 
 	/**
@@ -269,7 +272,7 @@ class Filesystem {
 	 * @param array $result
 	 * @return array|null
 	 */
-	private static function scanDirToArrayCore(string $dir, bool $recursive=false, int $deep=0, string $mode='fd', int $current_level=0, $result=[]):?array {
+	private static function scanDirToArrayCore(string $dir, bool $recursive=false, int $deep=0, string $mode='fd', int $current_level=0, $result=[], bool $only_deep_result=false):?array {
 		$dir=self::getDirName($dir);
 		if (self::isDir($dir)!==true) {
 			return null;
@@ -281,14 +284,18 @@ class Filesystem {
 					if (self::isDir($dir.$f)) {
 						$current_level++;
 						if (mb_strpos($mode, 'd')!==false) {
-							$result[]=$dir.$f.DIRECTORY_SEPARATOR;
+							if (($only_deep_result==false)||(($only_deep_result===true)&&($current_level==$deep))) {
+								$result[]=$dir.$f.DIRECTORY_SEPARATOR;
+							}
 						}
-						if (($recursive===true)&&(($deep==0)||($deep<$current_level))) {
+						if (($recursive===true)&&(($deep==0)||($deep>$current_level))) {
 							$result=self::scanDirToArrayCore($dir.$f.DIRECTORY_SEPARATOR, $recursive, $deep, $mode, $current_level, $result);
 						}
 					} else {
 						if (mb_strpos($mode, 'f')!==false) {
-							$result[]=$dir.$f;
+							if (($only_deep_result==false)||(($only_deep_result===true)&&($current_level==$deep))) {
+								$result[]=$dir.$f.DIRECTORY_SEPARATOR;
+							}
 						}
 					}
 				}
@@ -348,6 +355,35 @@ class Filesystem {
 	 */
 	public static function getFileModTime(string $file, bool $check_configs=false):int {
 		return self::getFilesModTime([$file], $check_configs);
+	}
+
+	/**
+	 * Löscht eine Datei. Alias für unlink().
+	 *
+	 * @param string $file
+	 * @return bool
+	 */
+	public static function delFile(string $file) {
+		return self::unlink($file);
+	}
+
+	/**
+	 * Löscht ein Verzeichnis.
+	 *
+	 * @param string $dir
+	 * @return bool
+	 */
+	public static function delDir(string $dir) {
+		$files=array_diff(self::scanDir($dir), ['.', '..']);
+		foreach ($files as $file) {
+			if (is_dir($dir.'/'.$file)) {
+				self::delDir($dir.'/'.$file);
+			} else {
+				self::delFile($dir.'/'.$file);
+			}
+		}
+
+		return rmdir($dir);
 	}
 
 }
