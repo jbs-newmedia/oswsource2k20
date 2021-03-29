@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -278,11 +278,11 @@ class Filesystem {
 			return null;
 		}
 		$list=self::scanDir($dir);
+		$current_level++;
 		if (!empty($list)) {
 			foreach ($list as $f) {
 				if (($f!='..')&&($f!='.')) {
 					if (self::isDir($dir.$f)) {
-						$current_level++;
 						if (mb_strpos($mode, 'd')!==false) {
 							if (($only_deep_result==false)||(($only_deep_result===true)&&($current_level==$deep))) {
 								$result[]=$dir.$f.DIRECTORY_SEPARATOR;
