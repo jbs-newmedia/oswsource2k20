@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -376,13 +376,12 @@ class Filesystem {
 	public static function delDir(string $dir) {
 		$files=array_diff(self::scanDir($dir), ['.', '..']);
 		foreach ($files as $file) {
-			if (is_dir($dir.'/'.$file)) {
-				self::delDir($dir.'/'.$file);
+			if (self::isDir($dir.$file)) {
+				self::delDir($dir.$file.DIRECTORY_SEPARATOR);
 			} else {
-				self::delFile($dir.'/'.$file);
+				self::delFile($dir.$file);
 			}
 		}
-
 		return rmdir($dir);
 	}
 
