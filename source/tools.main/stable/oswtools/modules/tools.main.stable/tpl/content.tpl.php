@@ -30,7 +30,7 @@
 
 <?php else: ?>
 
-	<table id="oswtools_main" class="table table-striped table-bordered datatables">
+	<table id="oswtools_main" class="table table-striped table-bordered">
 		<thead>
 		<tr>
 			<th>Tool</th>
@@ -40,15 +40,19 @@
 		</thead>
 		<tbody>
 
-		<?php if ($main_tools!=[]): ?>
+		<?php if ($Tool->getTools()!=[]): ?>
 
-			<?php foreach ($main_tools as $serverlist=>$tools): ?>
+			<?php foreach ($Tool->getTools() as $serverlist=>$tools): ?>
 
 				<?php foreach ($tools as $package_name=>$package_data): ?>
 
 					<tr>
 						<td>
-							<a href="<?php echo $this->buildhrefLink($package_data['package'].'.'.$package_data['release']) ?>"><?php if (isset($package_data['info']['name'])): ?><?php echo $package_data['info']['name']; ?><?php else: ?><?php echo $package_name; ?><?php endif ?></a>
+							<?php if (is_array($package_data)): ?>
+								<a href="<?php echo $this->buildhrefLink($package_data['package'].'.'.$package_data['release']) ?>"><?php echo $package_data['info']['name']; ?></a>
+							<?php else: ?>
+								<a href="<?php echo $this->buildhrefLink($package_name) ?>"><?php echo $package_name; ?></a>
+							<?php endif ?>
 						</td>
 						<td><?php if ($serverlist!='custom'): ?><?php echo $package_data['release'] ?><?php else: ?>custom<?php endif ?></td>
 						<td>-----</td>

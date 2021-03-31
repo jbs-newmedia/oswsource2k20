@@ -59,7 +59,20 @@
 <main role="main" class="container-fluid " style="padding-top:6rem; padding-bottom:6rem;">
 
 	<div class="container<?php if($Tool->getFluidContent()===true):?>-fluid<?php endif?> card shadow"<?php if($Tool->getVH()===true):?> style="height: calc(100vh - 12rem)!important"<?php endif?>>
-		<div class="card-body"><?php echo $content ?></div>
+		<div class="card-body">
+			<?php if (\osWFrame\Core\MessageStack::getMessages('result')!=[]):?>
+				<?php foreach (\osWFrame\Core\MessageStack::getMessages('result') as $type=>$messages):?>
+					<div class="alert alert-<?php echo $type?>" role="alert">
+					<?php foreach ($messages as $message):?>
+						<?php echo $message['msg']?><br/>
+					<?php endforeach?>
+					</div>
+					<hr/>
+				<?php endforeach?>
+			<?php endif?>
+
+			<?php echo $content ?>
+		</div>
 	</div>
 
 </main>

@@ -131,6 +131,17 @@ class Server {
 	}
 
 	/**
+	 * @return array
+	 */
+	public static function getServerList() {
+		if (self::$serverlist==[]) {
+			self::readServerList();
+		}
+
+		return self::$serverlist;
+	}
+
+	/**
 	 * @param $file
 	 * @return string
 	 */

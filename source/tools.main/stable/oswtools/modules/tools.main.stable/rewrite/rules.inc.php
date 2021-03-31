@@ -10,8 +10,14 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
  */
 
+if (isset($user_parameters)) {
+	$acceptable_user_parameters=array_merge(['action', \osWFrame\Core\Settings::getStringVar('session_name')], $user_parameters);
+} else {
+	$acceptable_user_parameters=['action', \osWFrame\Core\Settings::getStringVar('session_name')];
+}
+
 $acceptable_spider_parameters=[];
-$acceptable_user_parameters=['action', \osWFrame\Core\Settings::getStringVar('session_name')];
+
 $go_default=false;
 
 if ($rewrite_module===true) {

@@ -44,6 +44,14 @@ $osW_Template->addTemplateJSFiles('head', $jsfiles);
 $osW_Template->addTemplateCSSFiles('head', $cssfiles);
 
 /**
+ * Bootstrap4 - Select
+ */
+$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'bootstrap-select.min.js'];
+$cssfiles=['resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap-select.min.css'];
+$osW_Template->addTemplateJSFiles('head', $jsfiles);
+$osW_Template->addTemplateCSSFiles('head', $cssfiles);
+
+/**
  * Bootstrap4 - bootbox
  */
 $jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'bootbox.all.min.js'];

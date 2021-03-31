@@ -10,11 +10,13 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
  */
 
-$Tool=new \osWFrame\Tools\Tool('oswframe2k20', 'tools.main', 'stable');
+$Tool=new \osWFrame\Tools\Tool\Main('oswframe2k20', 'tools.main', 'stable');
 if ($Tool->hasUpdate()===true) {
-	//Todo Update
+	$osW_Template->addJSCodeHead($Tool->getUpdateConfirm($osW_Template->buildhrefLink('current', 'action=update')));
 }
-#print_a($Tool);
+if (\osWFrame\Core\Settings::getAction()=='update') {
+	$Tool->installUpdate();
+}
 
 $Tool->addNavigationElement('start', ['action'=>'start', 'title'=>'Start', 'icon'=>'fa fa-home fa-fw']);
 $Tool->addNavigationElement('more', ['title'=>'More', 'icon'=>'fas fa-cog fa-fw']);
@@ -33,7 +35,6 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 	if (!in_array($part, ['new', 'manage'])) {
 		$part='manage';
 	}
-
 
 	if (\osWFrame\Tools\Helper::getDoAction()=='domanage') {
 		$config = array();
@@ -106,8 +107,8 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 	die();
 	$osW_Template->setVar('part', $part);
 } else {
-	$main_tools=\osWFrame\Tools\Manager::getTools();
-	$osW_Template->setVar('main_tools', $main_tools);
+	$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tools.main.js'];
+	$osW_Template->addTemplateJSFiles('head', $jsfiles);
 }
 
 $osW_Template->setVar('Tool', $Tool);

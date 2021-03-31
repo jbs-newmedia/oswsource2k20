@@ -101,7 +101,7 @@ class Session {
 	/**
 	 * @return string
 	 */
-	public function getId():string {
+	public static function getId():string {
 		return session_id();
 	}
 

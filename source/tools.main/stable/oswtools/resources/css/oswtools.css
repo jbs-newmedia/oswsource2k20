@@ -2,6 +2,10 @@ body {
     overflow-y: scroll;
 }
 
+.bootstrap-select .dropdown-toggle::after {
+    display: none;
+}
+
 .scroll-to-top {
     z-index: 1100;
     position: fixed;
@@ -31,4 +35,11 @@ body {
 .card-license .card-body {
     max-height:300px;
     overflow-y:scroll;
+}
+
+.btn-xs {
+    padding: .25rem .4rem;
+    font-size: .875rem;
+    line-height: .5;
+    border-radius: .2rem;
 }

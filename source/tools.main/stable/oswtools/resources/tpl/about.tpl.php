@@ -37,7 +37,7 @@
 		</div>
 	</div>
 
-<?php if ($Tool->getStringValue('version')!=$Tool->getStringValue('version_update')): ?>
+<?php if (\osWFrame\Tools\Helper::checkVersion($Tool->getStringValue('version'), $Tool->getStringValue('version_update'))): ?>
 	<div class="row mt-3">
 		<div class="col-12">
 			Version <?php echo $Tool->getStringValue('version_update') ?> available, <a href="<?php echo $this->buildhrefLink('current', 'action=update')?>"><strong>click here to update</strong></a>
