@@ -225,6 +225,7 @@ class CoreTool {
 		$this->details['package']='';
 		$this->details['release']='';
 		$this->details['version']='';
+		$this->details['version_update']='';
 		if (file_exists($file)) {
 			$info=json_decode(file_get_contents($file), true);
 			foreach ($info['info'] as $key=>$value) {
@@ -305,19 +306,22 @@ class CoreTool {
 		if ($update==null) {
 			$update=[];
 		}
-		if (!isset($update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()])) {
-			$update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()]=time();
-			Frame\Session::setArrayVar('update', $update);
-			$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$this->getPackage().'-'.$this->getRelease().'.json';
-			if (file_exists($file)) {
-				$info=json_decode(file_get_contents($file), true);
-				$server_data=Tools\Server::getConnectedServer($this->getServerlist());
-				if ((isset($server_data['connected']))&&($server_data['connected']===true)) {
-					$package_version=Tools\Server::getUrlData($server_data['server_url'].'?action=get_version&package='.$this->getPackage().'&release='.$this->getRelease().'&version='.$info['info']['version']);
-					$this->details['version_update']=$package_version;
-					if (Tools\Helper::checkVersion($this->getStringValue('version'), $package_version)) {
+		$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$this->getPackage().'-'.$this->getRelease().'.json';
+		if (file_exists($file)) {
+			$info=json_decode(file_get_contents($file), true);
+			$server_data=Tools\Server::getConnectedServer($this->getServerlist());
+			if ((isset($server_data['connected']))&&($server_data['connected']===true)) {
+				$package_version=Tools\Server::getUrlData($server_data['server_url'].'?action=get_version&package='.$this->getPackage().'&release='.$this->getRelease().'&version='.$info['info']['version']);
+				$this->details['version_update']=$package_version;
+				if (Tools\Helper::checkVersion($this->getStringValue('version'), $package_version)) {
+					if (!isset($update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()])) {
+						$update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()]=time();
+						Frame\Session::setArrayVar('update', $update);
+
 						return true;
 					}
+
+					return false;
 				}
 			}
 		}
