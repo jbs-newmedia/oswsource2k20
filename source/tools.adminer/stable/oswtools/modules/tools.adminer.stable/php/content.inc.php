@@ -30,11 +30,13 @@ if (\osWFrame\Core\Settings::getAction()=='adminer') {
 	\osWFrame\Core\Settings::dieScript();
 }
 
-$Tool=new \osWFrame\Tools\Tool('oswframe2k20', 'tools.adminer', 'stable');
+$Tool=new \osWFrame\Tools\Tool\Adminer('oswframe2k20', 'tools.adminer', 'stable');
 if ($Tool->hasUpdate()===true) {
-	//Todo Update
+	$osW_Template->addJSCodeHead($Tool->getUpdateConfirm($osW_Template->buildhrefLink('current', 'action=update')));
 }
-#print_a($Tool);
+if (\osWFrame\Core\Settings::getAction()=='update') {
+	$Tool->installUpdate($osW_Template->buildhrefLink('current', 'action=start'));
+}
 
 $Tool->setFluidNavigation(true);
 $Tool->addUsedSoftware('Adminer', 'https://www.adminer.org/', 'Database management in a single PHP file');

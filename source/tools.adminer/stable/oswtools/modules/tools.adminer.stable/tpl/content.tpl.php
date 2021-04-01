@@ -20,14 +20,6 @@
 
 	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'changelog.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['protecttools'])): ?>
-
-
-<?php if (in_array($part, ['manage'])): ?>
-
-<?php endif ?>
-
-
 <?php else: ?>
 
 	<iframe src="<?php echo $this->buildhrefLink('current', 'action=adminer')?>" class="iframe" name="info" seamless="" width="100%" height="100%" frameBorder="0"></iframe>
