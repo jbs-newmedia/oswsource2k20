@@ -25,7 +25,7 @@ $(function () {
 	} );
 });
 
-function osWTools_confirmUpdate(message, url) {
+function osWTools_confirmUpdate(message, url_yes, url_no) {
 	bootbox.confirm({
 		message: message,
 		buttons: {
@@ -38,7 +38,9 @@ function osWTools_confirmUpdate(message, url) {
 		},
 		callback: function (result) {
 			if (result===true) {
-				window.location=url;
+				window.location=url_yes;
+			} else {
+				window.location=url_no;
 			}
 		}
 	});
