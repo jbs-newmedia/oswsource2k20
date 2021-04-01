@@ -47,6 +47,11 @@ class Manager {
 	/**
 	 * @var array
 	 */
+	private array $installed_packages=[];
+
+	/**
+	 * @var array
+	 */
 	private array $keys=[];
 
 	/**
@@ -111,8 +116,10 @@ class Manager {
 					$this->packagelist[$current_serverlist][$key]['version_installed']='0.0';
 				}
 
-				if (!isset($package['info']['group'])||(!in_array($package['info']['group'], $this->getKeys()))||($package['package']=='tools.main')) {
-					unset($this->packagelist[$current_serverlist][$key]);
+				if ($this->getKeys()!==[]) {
+					if (!isset($package['info']['group'])||(!in_array($package['info']['group'], $this->getKeys()))||($package['package']=='tools.main')) {
+						unset($this->packagelist[$current_serverlist][$key]);
+					}
 				}
 			}
 			foreach ($this->packagelist[$current_serverlist] as $key=>$package) {
@@ -169,11 +176,71 @@ class Manager {
 	 * @return bool
 	 */
 	public function installPackage(string $serverlist, string $package, string $release):bool {
-		#print_a($serverlist);
-		#print_a($package);
-		#print_a($release);
+		if ($this->packagelist==[]) {
+			$this->getServerPackageList();
+			$this->checkPackageList();
+		}
+		$package_data=$this->getPackageDetails($serverlist, $package, $release);
+		if ($package_data!==null) {
+			if ((($package_data['options']['install']===true)||($package_data['options']['update']===true))&&($package_data['options']['blocked']!==true)&&(!isset($this->installed_packages[$serverlist.'.'.$package.'-'.$release]))) {
+				if ($this->installPackageForce($serverlist, $package, $release)!==true) {
+					$return=false;
+				}
+				$this->createConfigureFile();
+				$this->createHtAccessFile();
+			} else {
+				$return=false;
+			}
+			$this->installed_packages[$serverlist.'.'.$package.'-'.$release]=['package'=>$package, 'release'=>$release, 'serverlist'=>$serverlist];
+		} else {
+			$return=false;
+		}
 
 		return true;
+	}
+
+	/**
+	 * @param string $serverlist
+	 * @param string $package
+	 * @param string $release
+	 * @return bool
+	 */
+	private function installPackageForce(string $serverlist, string $package, string $release):bool {
+		$return=true;
+		$server_data=Server::getConnectedServer($serverlist);
+		if ((isset($server_data['connected']))&&($server_data['connected']===true)) {
+			$package_checksum=Server::getUrlData($server_data['server_url'].'?action=get_checksum&package='.$package.'&release='.$release.'&version=0');
+			$package_data=Server::getUrlData($server_data['server_url'].'?action=get_content&package='.$package.'&release='.$release.'&version=0');
+			if ($package_checksum==sha1($package_data)) {
+				$cache_name=md5($serverlist.'#'.$package.'#'.$release).'.zip';
+				$file=Frame\Settings::getStringVar('settings_abspath').'.caches'.DIRECTORY_SEPARATOR.$cache_name;
+				$dir=Frame\Settings::getStringVar('settings_framepath');
+				file_put_contents($file, $package_data);
+
+				$Zip=new Frame\Zip($file);
+				$Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'));
+				Frame\Filesystem::delFile($file);
+
+				$json_file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$package.'-'.$release.'.json';
+				if (file_exists($json_file)) {
+					$json_data=json_decode(file_get_contents($json_file), true);
+					if (isset($json_data['required'])) {
+						foreach ($json_data['required'] as $package=>$package_data) {
+							$status=$this->installPackage($package_data['serverlist'], $package_data['package'], $package_data['release']);
+							if ($status===false) {
+								$return=false;
+							}
+						}
+					}
+				}
+			} else {
+				$return=false;
+			}
+		} else {
+			$return=false;
+		}
+
+		return $return;
 	}
 
 	/**
