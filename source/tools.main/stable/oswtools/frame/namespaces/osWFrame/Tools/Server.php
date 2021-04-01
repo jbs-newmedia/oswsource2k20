@@ -73,6 +73,9 @@ class Server {
 	public static function getConnectedServer(string $current_serverlist):array {
 		if (!isset(self::$serverlist[$current_serverlist])) {
 			self::readServerList();
+		}
+
+		if (!isset(self::$serverlist_connected[$current_serverlist])) {
 			self::connectServer($current_serverlist);
 		}
 

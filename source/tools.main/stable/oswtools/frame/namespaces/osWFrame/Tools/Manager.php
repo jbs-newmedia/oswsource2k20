@@ -13,6 +13,7 @@
 namespace osWFrame\Tools;
 
 use osWFrame\Core as Frame;
+use osWFrame\Tools as Tools;
 
 class Manager {
 
@@ -186,16 +187,15 @@ class Manager {
 				if ($this->installPackageForce($serverlist, $package, $release)!==true) {
 					$return=false;
 				}
+				$this->installed_packages[$serverlist.'.'.$package.'-'.$release]=['package'=>$package, 'release'=>$release, 'serverlist'=>$serverlist];
 				$this->createConfigureFile();
 				$this->createHtAccessFile();
 			} else {
 				$return=false;
 			}
-			$this->installed_packages[$serverlist.'.'.$package.'-'.$release]=['package'=>$package, 'release'=>$release, 'serverlist'=>$serverlist];
 		} else {
 			$return=false;
 		}
-
 		return true;
 	}
 
@@ -217,7 +217,7 @@ class Manager {
 				file_put_contents($file, $package_data);
 
 				$Zip=new Frame\Zip($file);
-				$Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'));
+				$Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'), Tools\Configure::getFrameConfig('settings_chmod_dir'), Tools\Configure::getFrameConfig('settings_chmod_file'));
 				Frame\Filesystem::delFile($file);
 
 				$json_file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$package.'-'.$release.'.json';
