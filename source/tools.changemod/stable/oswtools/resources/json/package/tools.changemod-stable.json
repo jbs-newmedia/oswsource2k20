@@ -5,7 +5,7 @@
     "copyright": "Juergen Schwind",
     "link": "http:\/\/oswframe.com",
     "license": "GNU General Public License 3",
-    "package": "tools.chmod",
+    "package": "tools.changemod",
     "version": "",
     "release": "stable",
     "group": "tool",
