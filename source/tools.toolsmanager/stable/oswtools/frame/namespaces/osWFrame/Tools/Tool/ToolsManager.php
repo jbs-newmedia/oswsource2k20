@@ -56,11 +56,6 @@ class ToolsManager extends CoreTool {
 	private array $server_list=[];
 
 	/**
-	 * @var array
-	 */
-	private array $htusers=[];
-
-	/**
 	 * @var string
 	 */
 	private string $sl='';
@@ -241,6 +236,18 @@ class ToolsManager extends CoreTool {
 		$this->Manager->checkPackageList();
 
 		return $status;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getCheckList():array {
+		$check_list=[];
+		foreach ($this->Manager->getInstalledPackages() as $package) {
+			$check_list[md5($package['serverlist'].'#'.$package['package'].'#'.$package['release'])]=$this->Manager->getPackageDetails($package['serverlist'], $package['package'], $package['release']);
+		}
+
+		return $check_list;
 	}
 
 }

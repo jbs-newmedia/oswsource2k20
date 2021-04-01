@@ -285,6 +285,13 @@ class Manager {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getInstalledPackages():array {
+		return $this->installed_packages;
+	}
+
+	/**
 	 * @return object
 	 */
 	public function createConfigureFile():object {
