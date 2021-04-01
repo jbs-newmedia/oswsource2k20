@@ -302,8 +302,12 @@ class CoreTool {
 	 */
 	public function hasUpdate():bool {
 		$update=Frame\Session::getArrayVar('update');
+		if ($update==null) {
+			$update=[];
+		}
 		if (!isset($update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()])) {
 			$update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()]=time();
+			Frame\Session::setArrayVar('update', $update);
 			$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$this->getPackage().'-'.$this->getRelease().'.json';
 			if (file_exists($file)) {
 				$info=json_decode(file_get_contents($file), true);
