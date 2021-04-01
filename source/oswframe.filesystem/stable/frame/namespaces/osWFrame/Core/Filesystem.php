@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -74,6 +74,18 @@ class Filesystem {
 		self::clearStatcache();
 
 		return is_dir($dirname);
+	}
+
+	/**
+	 * @param string $dirname
+	 * @return bool
+	 */
+	public static function isEmptyDir(string $dirname):bool {
+		if (count(self::scanDir($dirname))==2) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -382,6 +394,7 @@ class Filesystem {
 				self::delFile($dir.$file);
 			}
 		}
+
 		return rmdir($dir);
 	}
 
