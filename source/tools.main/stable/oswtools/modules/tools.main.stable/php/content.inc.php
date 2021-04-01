@@ -15,7 +15,7 @@ if ($Tool->hasUpdate()===true) {
 	$osW_Template->addJSCodeHead($Tool->getUpdateConfirm($osW_Template->buildhrefLink('current', 'action=update')));
 }
 if (\osWFrame\Core\Settings::getAction()=='update') {
-	$Tool->installUpdate();
+	$Tool->installUpdate($osW_Template->buildhrefLink('current', 'action=start'));
 }
 
 $Tool->addNavigationElement('start', ['action'=>'start', 'title'=>'Start', 'icon'=>'fa fa-home fa-fw']);

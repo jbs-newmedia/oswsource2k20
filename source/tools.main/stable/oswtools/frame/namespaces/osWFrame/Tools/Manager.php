@@ -214,7 +214,6 @@ class Manager {
 			if ($package_checksum==sha1($package_data)) {
 				$cache_name=md5($serverlist.'#'.$package.'#'.$release).'.zip';
 				$file=Frame\Settings::getStringVar('settings_abspath').'.caches'.DIRECTORY_SEPARATOR.$cache_name;
-				$dir=Frame\Settings::getStringVar('settings_framepath');
 				file_put_contents($file, $package_data);
 
 				$Zip=new Frame\Zip($file);

@@ -212,7 +212,7 @@ class Server {
 		self::readServerList();
 		foreach (array_keys(self::$serverlist) as $current_serverlist) {
 			$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'packagelist'.DIRECTORY_SEPARATOR.$current_serverlist.'.json';
-			if ((filemtime($file))<(time()-(self::$cachetime))) {
+			if (((filemtime($file))<(time()-(self::$cachetime)))||(filesize($file)<32)) {
 				$server_data=self::getConnectedServer($current_serverlist);
 				if ($server_data!=[]) {
 					$json=self::getUrlData($server_data['server_url'].'?action=server_packages');

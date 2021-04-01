@@ -301,15 +301,19 @@ class CoreTool {
 	 * @return bool
 	 */
 	public function hasUpdate():bool {
-		$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$this->getPackage().'-'.$this->getRelease().'.json';
-		if (file_exists($file)) {
-			$info=json_decode(file_get_contents($file), true);
-			$server_data=Tools\Server::getConnectedServer($this->getServerlist());
-			if ((isset($server_data['connected']))&&($server_data['connected']===true)) {
-				$package_version=Tools\Server::getUrlData($server_data['server_url'].'?action=get_version&package='.$this->getPackage().'&release='.$this->getRelease().'&version='.$info['info']['version']);
-				$this->details['version_update']=$package_version;
-				if (Tools\Helper::checkVersion($this->getStringValue('version'), $package_version)) {
-					return true;
+		$update=Frame\Session::getArrayVar('update');
+		if (!isset($update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()])) {
+			$update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()]=time();
+			$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$this->getPackage().'-'.$this->getRelease().'.json';
+			if (file_exists($file)) {
+				$info=json_decode(file_get_contents($file), true);
+				$server_data=Tools\Server::getConnectedServer($this->getServerlist());
+				if ((isset($server_data['connected']))&&($server_data['connected']===true)) {
+					$package_version=Tools\Server::getUrlData($server_data['server_url'].'?action=get_version&package='.$this->getPackage().'&release='.$this->getRelease().'&version='.$info['info']['version']);
+					$this->details['version_update']=$package_version;
+					if (Tools\Helper::checkVersion($this->getStringValue('version'), $package_version)) {
+						return true;
+					}
 				}
 			}
 		}
@@ -326,14 +330,13 @@ class CoreTool {
 	}
 
 	/**
-	 *
+	 * @param string $link
+	 * @return void
 	 */
-	public function installUpdate():bool {
+	public function installUpdate(string $link):void {
 		$Manager=new Tools\Manager();
 		$Manager->installPackage($this->getServerlist(), $this->getPackage(), $this->getRelease());
-		$this->initTool();
-
-		return true;
+		Frame\Network::directHeader($link);
 	}
 
 	/**
