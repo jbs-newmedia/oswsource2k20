@@ -141,7 +141,7 @@ class Manager {
 				}
 			}
 
-			uasort($this->packagelist[$current_serverlist], ['this', 'comparePackageList']);
+			uasort($this->packagelist[$current_serverlist], [$this, 'comparePackageList']);
 		}
 
 		return $this;
@@ -248,20 +248,19 @@ class Manager {
 	 * @param string $release
 	 * @return bool
 	 */
-	public function removePackage(string $manager_serverlist, string $package, string $release):bool {
+	public function removePackage(string $serverlist, string $package, string $release):bool {
 		$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'filelist'.DIRECTORY_SEPARATOR.$package.'-'.$release.'.json';
 		if (Frame\Filesystem::existsFile($file)) {
 			$filelist=json_decode(file_get_contents($file), true);
 			krsort($filelist);
 			if (count($filelist)>0) {
 				foreach ($filelist as $entry=>$foo) {
+					$entry=substr($entry, 1);
 					if (Frame\Filesystem::isFile(Frame\Settings::getStringVar('settings_framepath').$entry)) {
-						print_a(Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry));
-						#	Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry);
+						Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry);
 					}
-					if (Frame\Filesystem::isDir(Frame\Settings::getStringVar('settings_framepath').$entry)) {
-						print_a(Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry));
-						#	Frame\Filesystem::delDir(Frame\Settings::getStringVar('settings_framepath').$entry);
+					if ((Frame\Filesystem::isDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR))&&(Frame\Filesystem::isEmptyDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR))) {
+						Frame\Filesystem::delDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR);
 					}
 				}
 			}
@@ -271,13 +270,12 @@ class Manager {
 
 			if (count($filelist)>0) {
 				foreach ($filelist as $entry=>$foo) {
+					$entry=substr($entry, 1);
 					if (Frame\Filesystem::isFile(Frame\Settings::getStringVar('settings_framepath').$entry)) {
-						print_a(Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry));
-						#	Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry);
+						Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry);
 					}
-					if (Frame\Filesystem::isDir(Frame\Settings::getStringVar('settings_framepath').$entry)) {
-						print_a(Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry));
-						#	Frame\Filesystem::delDir(Frame\Settings::getStringVar('settings_framepath').$entry);
+					if ((Frame\Filesystem::isDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR))&&(Frame\Filesystem::isEmptyDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR))) {
+						Frame\Filesystem::delDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR);
 					}
 				}
 			}

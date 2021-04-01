@@ -224,7 +224,10 @@ class ToolsManager extends CoreTool {
 	 * @return bool
 	 */
 	public function installPackage(string $serverlist, string $package, string $release):bool {
-		return $this->Manager->installPackage($serverlist, $package, $release);
+		$status=$this->Manager->installPackage($serverlist, $package, $release);
+		$this->Manager->checkPackageList();
+
+		return $status;
 	}
 
 	/**
