@@ -299,13 +299,25 @@ class CoreTool {
 	}
 
 	/**
-	 * @return bool
+	 * @param string $link
 	 */
-	public function hasUpdate():bool {
+	public function blockUpdate(string $link):void {
 		$update=Frame\Session::getArrayVar('update');
 		if ($update==null) {
 			$update=[];
 		}
+		if (!isset($update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()])) {
+			$update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()]=time();
+			Frame\Session::setArrayVar('update', $update);
+		}
+
+		Frame\Network::directHeader($link);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasUpdate():bool {
 		$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$this->getPackage().'-'.$this->getRelease().'.json';
 		if (file_exists($file)) {
 			$info=json_decode(file_get_contents($file), true);
@@ -314,14 +326,10 @@ class CoreTool {
 				$package_version=Tools\Server::getUrlData($server_data['server_url'].'?action=get_version&package='.$this->getPackage().'&release='.$this->getRelease().'&version='.$info['info']['version']);
 				$this->details['version_update']=$package_version;
 				if (Tools\Helper::checkVersion($this->getStringValue('version'), $package_version)) {
-					if (!isset($update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()])) {
-						$update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()]=time();
-						Frame\Session::setArrayVar('update', $update);
-
+					$update=Frame\Session::getArrayVar('update');
+					if (($update==null)||(!isset($update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()]))) {
 						return true;
 					}
-
-					return false;
 				}
 			}
 		}
@@ -331,10 +339,11 @@ class CoreTool {
 
 	/**
 	 * @param string $update_link
+	 * @param string $update_no
 	 * @return string
 	 */
-	public function getUpdateConfirm(string $update_link):string {
-		return '$(function() { osWTools_confirmUpdate(\'Update <strong>'.$this->getStringValue('name').'</strong> to version <strong>'.$this->getStringValue('version_update').'</strong>\', \''.$update_link.'\');});';
+	public function getUpdateConfirm(string $update_link, string $update_no):string {
+		return '$(function() { osWTools_confirmUpdate(\'Update <strong>'.$this->getStringValue('name').'</strong> to version <strong>'.$this->getStringValue('version_update').'</strong>\', \''.$update_link.'\', \''.$update_no.'\');});';
 	}
 
 	/**

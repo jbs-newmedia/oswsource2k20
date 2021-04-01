@@ -11,11 +11,14 @@
  */
 
 $Tool=new \osWFrame\Tools\Tool\ToolsManager('oswframe2k20', 'tools.toolsmanager', 'stable');
-if ($Tool->hasUpdate()===true) {
-	$osW_Template->addJSCodeHead($Tool->getUpdateConfirm($osW_Template->buildhrefLink('current', 'action=update')));
+if (\osWFrame\Core\Settings::getAction()=='noupdate') {
+	$Tool->blockUpdate($osW_Template->buildhrefLink('current', 'action=start'));
 }
 if (\osWFrame\Core\Settings::getAction()=='update') {
 	$Tool->installUpdate($osW_Template->buildhrefLink('current', 'action=start'));
+}
+if ($Tool->hasUpdate()===true) {
+	$osW_Template->addJSCodeHead($Tool->getUpdateConfirm($osW_Template->buildhrefLink('current', 'action=update'), $osW_Template->buildhrefLink('current', 'action=noupdate')));
 }
 
 $Tool->addNavigationElement('start', ['action'=>'start', 'title'=>'Start', 'icon'=>'fa fa-home fa-fw']);
