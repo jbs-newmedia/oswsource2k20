@@ -1,11 +1,11 @@
 {
   "info": {
-    "name": "CodeListGenerator",
+    "name": "ProjectManager",
     "author": "Juergen Schwind",
     "copyright": "Juergen Schwind",
     "link": "https:\/\/oswframe.com",
     "license": "GNU General Public License 3",
-    "package": "tools.codes",
+    "package": "tools.projectmanager",
     "version": "",
     "release": "stable",
     "group": "tool",
