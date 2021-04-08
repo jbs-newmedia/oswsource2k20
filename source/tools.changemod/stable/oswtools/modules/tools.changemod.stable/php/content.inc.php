@@ -10,7 +10,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
  */
 
-$Tool=new \osWFrame\Tools\Tool\ChangeMod('oswframe2k20', 'tools.chmod', 'stable');
+$Tool=new \osWFrame\Tools\Tool\ChangeMod('oswframe2k20', 'tools.changemod', 'stable');
 if (\osWFrame\Core\Settings::getAction()=='noupdate') {
 	$Tool->blockUpdate($osW_Template->buildhrefLink('current', 'action=start'));
 }
