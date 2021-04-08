@@ -3,7 +3,7 @@
     "name": "Patcher:MySQLRealEscape",
     "author": "Juergen Schwind",
     "copyright": "Juergen Schwind",
-    "link": "http:\/\/oswframe.com",
+    "link": "https:\/\/oswframe.com",
     "license": "GNU General Public License 3",
     "package": "tools.patcher_mysqlrealescape",
     "version": "",
