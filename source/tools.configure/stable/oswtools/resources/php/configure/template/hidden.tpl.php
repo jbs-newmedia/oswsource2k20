@@ -1,1 +1,0 @@
-<input name="conf_<?php echo $config_element?>" type="hidden" value="<?php echo $config_data['default_value']?>"/>

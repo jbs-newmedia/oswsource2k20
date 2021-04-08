@@ -8,7 +8,7 @@
     "package": "oswproject.standalone",
     "version": "",
     "release": "stable",
-    "group": "example",
+    "group": "project",
     "unique": false,
     "serverlist": "oswframe2k20"
   }
