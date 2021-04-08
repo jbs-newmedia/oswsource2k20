@@ -61,7 +61,7 @@ function manager(i, link, manager_action, manager_serverlist, manager_package, m
 }
 
 function updateAll() {
-	oTable.$('.manager_options').find('.remove').not('.disabled').each(function() {
+	oTable.$('.manager_options').find('.update').not('.disabled').each(function() {
 		eval(decodeURI(this));
 	});
 }
