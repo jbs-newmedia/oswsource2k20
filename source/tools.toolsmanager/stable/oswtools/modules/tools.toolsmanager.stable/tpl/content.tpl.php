@@ -100,4 +100,6 @@
 		</tbody>
 	</table>
 
+	<a href="javascript:updateAll()" class="mt-3 btn btn-primary d-block">Update all tools</a>
+
 <?php endif ?>
