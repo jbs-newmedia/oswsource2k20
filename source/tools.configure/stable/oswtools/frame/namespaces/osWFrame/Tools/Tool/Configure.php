@@ -97,6 +97,7 @@ class Configure extends CoreTool {
 		$this->areas=['top', 'topmiddle', 'middle', 'middlebottom', 'bottom'];
 		$this->page=1;
 		$this->pages=1;
+		Frame\MessageWriter::addIgnore('configure');
 	}
 
 	/**
