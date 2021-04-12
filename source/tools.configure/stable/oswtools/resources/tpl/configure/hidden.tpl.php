@@ -1,0 +1,1 @@
+<?php echo $osW_Form->drawHiddenField('conf_'.$config_element, $config_data['default_value']) ?>
