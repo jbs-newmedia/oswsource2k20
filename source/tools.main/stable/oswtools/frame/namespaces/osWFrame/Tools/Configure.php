@@ -64,9 +64,15 @@ class Configure {
 					$content=file_get_contents($configure_file);
 					$content=str_replace('settings_abspath', 'settings_framepath', $content);
 					$content=str_replace('osW_setVar(', 'self::setFrameConfig(', $content);
-					$content=str_replace('osW_getVar(', 'self::getFrameConfig(', $content);
+					$content=str_replace('osW_getVar(', 'self::getFrameConfigValue(', $content);
 					eval(substr($content, 5));
 				}
+			}
+
+			if (isset(self::$configuration['project_path'])&&(self::$configuration['project_path']!='')) {
+				self::$configuration['project_url_path']='/'.self::$configuration['project_path'].'/';
+			} else {
+				self::$configuration['project_url_path']='/';
 			}
 		}
 
@@ -89,13 +95,21 @@ class Configure {
 	 * @param string $type
 	 * @return mixed
 	 */
-	public static function getFrameConfig(string $var, string $type='string') {
+	public static function getFrameConfigValue(string $var, string $type='string') {
 		self::loadFrameConfig();
 		if (isset(self::$configuration[$var])) {
 			return self::$configuration[$var];
 		}
 
 		return '';
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getFrameConfig():array {
+		self::loadFrameConfig();
+		return self::$configuration;
 	}
 
 }

@@ -57,7 +57,7 @@ class Server {
 	/**
 	 * @var int
 	 */
-	private static int $cachetime=300;
+	private static int $cachetime=3600;
 
 	/**
 	 * Server constructor.
@@ -209,13 +209,14 @@ class Server {
 	}
 
 	/**
+	 * @param bool $force
 	 * @return bool
 	 */
-	public static function updatePackageList() {
+	public static function updatePackageList(bool $force=false):bool {
 		self::readServerList();
 		foreach (array_keys(self::$serverlist) as $current_serverlist) {
 			$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'packagelist'.DIRECTORY_SEPARATOR.$current_serverlist.'.json';
-			if (((filemtime($file))<(time()-(self::$cachetime)))||(filesize($file)<32)) {
+			if (($force===true)||(((filemtime($file))<(time()-(self::$cachetime)))||(filesize($file)<32))) {
 				$server_data=self::getConnectedServer($current_serverlist);
 				if ($server_data!=[]) {
 					$json=self::getUrlData($server_data['server_url'].'?action=server_packages');
@@ -233,7 +234,7 @@ class Server {
 	/**
 	 * @return bool
 	 */
-	public static function readPackageList() {
+	public static function readPackageList():bool {
 		self::updatePackageList();
 		if (self::$packagelist==[]) {
 			foreach (array_keys(self::$serverlist) as $current_serverlist) {

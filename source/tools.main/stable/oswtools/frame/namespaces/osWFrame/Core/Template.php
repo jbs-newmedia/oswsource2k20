@@ -30,7 +30,7 @@ class Template {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -242,7 +242,15 @@ class Template {
 	 */
 	public function isfetchFile($file='content', $module='project', $dir='modules'):bool {
 		$module=$this->getModuleByShort($module);
-		if (file_exists(Settings::getStringVar('settings_abspath').$dir.'/'.$module.'/tpl/'.$file.'.tpl.php')===true) {
+		$filename=Settings::getStringVar('settings_abspath');
+		if ($dir!='') {
+			$filename.=$dir.DIRECTORY_SEPARATOR;
+		}
+		if ($module!='') {
+			$filename.=$module.DIRECTORY_SEPARATOR;
+		}
+		$filename.='tpl'.DIRECTORY_SEPARATOR.$file.'.tpl.php';
+		if (file_exists($filename)===true) {
 			return true;
 		}
 
@@ -272,8 +280,16 @@ class Template {
 	 */
 	public function fetchFile($file='content', $module='project', $dir='modules'):string {
 		$module=$this->getModuleByShort($module);
+		$filename=Settings::getStringVar('settings_abspath');
+		if ($dir!='') {
+			$filename.=$dir.DIRECTORY_SEPARATOR;
+		}
+		if ($module!='') {
+			$filename.=$module.DIRECTORY_SEPARATOR;
+		}
+		$filename.='tpl'.DIRECTORY_SEPARATOR.$file.'.tpl.php';
 
-		return $this->fetch(Settings::getStringVar('settings_abspath').$dir.'/'.$module.'/tpl/'.$file.'.tpl.php');
+		return $this->fetch($filename);
 	}
 
 	/**

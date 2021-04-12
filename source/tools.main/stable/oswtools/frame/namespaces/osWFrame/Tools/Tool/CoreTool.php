@@ -328,6 +328,7 @@ class CoreTool {
 				if (Tools\Helper::checkVersion($this->getStringValue('version'), $package_version)) {
 					$update=Frame\Session::getArrayVar('update');
 					if (($update==null)||(!isset($update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()]))) {
+						Tools\Server::updatePackageList(true);
 						return true;
 					}
 				}
