@@ -30,7 +30,7 @@
 	<?php echo $osW_Form->startForm('oswtools_chmod_form', 'current', '', ['input_addid'=>true]); ?>
 
 
-	<label for="chmod_directory">Directory:</label>
+	<label class="font-weight-bold" for="chmod_directory">Directory:</label>
 	<div class="input-group mb-3">
 		<div class="input-group-prepend">
 			<span class="input-group-text"><i class="fas fa-sitemap fa-fw"></i></span>
@@ -39,7 +39,7 @@
 		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('chmod_directory') ?></div>
 	</div>
 
-	<label for="chmod_files_select">Files (mode)::</label>
+	<label class="font-weight-bold" for="chmod_files_select">Files (mode):</label>
 	<div class="input-group mb-3">
 		<div class="input-group-prepend">
 			<span class="input-group-text"><i class="fas fa-file fa-fw"></i></span>
@@ -48,7 +48,7 @@
 		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('chmod_files_select') ?></div>
 	</div>
 
-	<label for="chmod_directory_select">Directories (mode):</label>
+	<label class="font-weight-bold" for="chmod_directory_select">Directories (mode):</label>
 	<div class="input-group mb-3">
 		<div class="input-group-prepend">
 			<span class="input-group-text"><i class="fas fa-folder fa-fw"></i></span>
