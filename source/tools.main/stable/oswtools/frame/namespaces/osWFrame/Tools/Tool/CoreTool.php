@@ -108,6 +108,7 @@ class CoreTool {
 		$this->setRelease($release);
 		$this->initTool();
 		$this->initUsedSoftware();
+		Frame\MessageWriter::addIgnore('result');
 	}
 
 	/**

@@ -12,7 +12,7 @@
 
 $Tool=new \osWFrame\Tools\Tool\InstallServerlist('oswframe2k20', 'tools.installserverlist', 'stable');
 if ($Tool->hasUpdate()===true) {
-	$osW_Template->addJSCodeHead($Tool->getUpdateConfirm($osW_Template->buildhrefLink('current', 'action=update')));
+	$osW_Template->addJSCodeHead($Tool->getUpdateConfirm($osW_Template->buildhrefLink('current', 'action=update'), $osW_Template->buildhrefLink('current', 'action=noupdate')));
 }
 if (\osWFrame\Core\Settings::getAction()=='update') {
 	$Tool->installUpdate($osW_Template->buildhrefLink('current', 'action=start'));

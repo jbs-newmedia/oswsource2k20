@@ -431,7 +431,7 @@ class Manager {
 									$line=str_replace('###$vars[\''.$key.'\']', $value, $line);
 								}
 							}
-							foreach ($this->data['configure'] as $key=>$value) {
+							foreach ($vars as $key=>$value) {
 								if (!is_array($value)) {
 									$line=str_replace('###$vars[\''.$key.'\']', $value, $line);
 								}
