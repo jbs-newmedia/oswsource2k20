@@ -56,16 +56,18 @@ class InstallServerlist extends CoreTool {
 	 * @return object
 	 */
 	public function installServerListPackage(string $url):object {
-		$file=Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').md5($url).'.zip';
-		$package_data=Tools\Server::getUrlData($url.'/index.php?action=get_serverlist');
-		file_put_contents($file, $package_data);
-		$Zip=new Frame\Zip($file);
-		if ($Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'), Tools\Configure::getFrameConfigValue('settings_chmod_dir'), Tools\Configure::getFrameConfigValue('settings_chmod_file'))===true) {
-			\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'Serverlist "'.htmlspecialchars($url).'" installed successfully.']);
-		} else {
-			\osWFrame\Core\MessageStack::addMessage('result', 'danger', ['msg'=>'Serverlist "'.htmlspecialchars($url).'" could not be installed.']);
+		if ($url!='') {
+			$file=Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').md5($url).'.zip';
+			$package_data=Tools\Server::getUrlData($url.'/index.php?action=get_serverlist');
+			file_put_contents($file, $package_data);
+			$Zip=new Frame\Zip($file);
+			if ($Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'), Tools\Configure::getFrameConfigValue('settings_chmod_dir'), Tools\Configure::getFrameConfigValue('settings_chmod_file'))===true) {
+				\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'Serverlist "'.htmlspecialchars($url).'" installed successfully.']);
+			} else {
+				\osWFrame\Core\MessageStack::addMessage('result', 'danger', ['msg'=>'Serverlist "'.htmlspecialchars($url).'" could not be installed.']);
+			}
+			Frame\Filesystem::delFile($file);
 		}
-		Frame\Filesystem::delFile($file);
 
 		return $this;
 	}
