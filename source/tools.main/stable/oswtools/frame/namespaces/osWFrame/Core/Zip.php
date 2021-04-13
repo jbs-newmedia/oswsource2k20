@@ -73,8 +73,10 @@ class Zip {
 		if ($this->Zip->open($this->getFile(), \ZipArchive::CREATE)===true) {
 			$this->packDirEngine($dir);
 			$this->Zip->close();
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -97,6 +99,7 @@ class Zip {
 			}
 		}
 		closedir($handle);
+
 		return true;
 	}
 
@@ -109,25 +112,27 @@ class Zip {
 	public function unpackDir(string $dir, int $chmod_dir=0755, int $chmod_file=0644):bool {
 		$this->Zip->open($this->getFile());
 		if ($this->Zip->numFiles>0) {
-			if (!is_dir($dir)) {
-				mkdir($dir);
+			if (Filesystem::isDir($dir)!==true) {
+				Filesystem::makeDir($dir, $chmod_dir);
 			}
-			@chmod($dir, $chmod_dir);
+			Filesystem::changeDirmode($dir, $chmod_dir);
 			for ($i=0; $i<$this->Zip->numFiles; $i++) {
 				$stat=$this->Zip->statIndex($i);
 				if (($stat['crc']==0)&&($stat['size']==0)) {
-					if (!is_dir($dir.$stat['name'])) {
-						mkdir($dir.$stat['name']);
+					if (Filesystem::isDir($dir.$stat['name'])!==true) {
+						Filesystem::makeDir($dir.$stat['name'], $chmod_dir);
 					}
-					@chmod($dir.$stat['name'], $chmod_dir);
+					Filesystem::changeDirmode($dir.$stat['name'], $chmod_dir);
 				} else {
 					$data=$this->Zip->getFromIndex($i);
 					file_put_contents($dir.$stat['name'], $data);
-					@chmod($dir.$stat['name'], $chmod_file);
+					Filesystem::changeFilemode($dir.$stat['name'], $chmod_file);
 				}
 			}
+
 			return true;
 		}
+
 		return false;
 	}
 

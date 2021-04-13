@@ -153,10 +153,25 @@ class Filesystem {
 	 */
 	public static function changeFilemode(string $filename, int $mod=0):bool {
 		if ($mod==0) {
-			$mod=Settings::getIntVar('settings_chmod_dir');
+			$mod=Settings::getIntVar('settings_chmod_file');
 		}
 
 		return chmod($filename, $mod);
+	}
+
+	/**
+	 * Ändert die Zugriffsrechte des Verzeichnisses.
+	 *
+	 * @param string $dirname
+	 * @param int $mod
+	 * @return bool
+	 */
+	public static function changeDirmode(string $dirname, int $mod=0):bool {
+		if ($mod==0) {
+			$mod=Settings::getIntVar('settings_chmod_dir');
+		}
+
+		return chmod($dirname, $mod);
 	}
 
 	/**
