@@ -84,7 +84,7 @@ class MessageWriter {
 			foreach (MessageStack::getMessages() as $key=>$types) {
 				if (!isset(self::$ignore[$key])||(self::$ignore[$key]!=[])) {
 					if (Filesystem::isDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('debug_path').$key.'/')!==true) {
-						Filesystem::makeDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('debug_path').$key.'/', Configure::getFrameConfigValue('settings_chmod_dir'));
+						Filesystem::makeDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('debug_path').$key.'/', Settings::getIntVar('settings_chmod_dir'));
 					}
 					foreach ($types as $type=>$messages) {
 						if ((isset(self::$ignore[$key])!==true)||(!in_array($type, self::$ignore[$key]))) {
