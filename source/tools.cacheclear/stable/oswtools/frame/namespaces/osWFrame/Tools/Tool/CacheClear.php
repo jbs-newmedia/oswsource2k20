@@ -67,9 +67,9 @@ class CacheClear extends CoreTool {
 			foreach ($dirs as $key=>$value) {
 				$this->dir_list[$key]=str_replace($dir, '', $value);
 			}
-
-			return $this;
 		}
+
+		return $this;
 	}
 
 	/**
