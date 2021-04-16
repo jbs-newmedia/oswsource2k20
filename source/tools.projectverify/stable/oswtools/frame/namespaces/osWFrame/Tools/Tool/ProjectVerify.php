@@ -82,6 +82,7 @@ class ProjectVerify extends CoreTool {
 	 * @return object
 	 */
 	private function setIgnoreDefaultList():object {
+		$this->settings['projectverify_dirs'][]='data'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'top'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'topmiddle'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'middle'.DIRECTORY_SEPARATOR;
