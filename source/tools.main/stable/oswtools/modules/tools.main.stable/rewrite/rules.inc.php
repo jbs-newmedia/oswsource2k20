@@ -11,9 +11,9 @@
  */
 
 if (isset($user_parameters)) {
-	$acceptable_user_parameters=array_merge(['action', \osWFrame\Core\Settings::getStringVar('session_name')], $user_parameters);
+	$acceptable_user_parameters=array_merge(['action', 'doaction', \osWFrame\Core\Settings::getStringVar('session_name')], $user_parameters);
 } else {
-	$acceptable_user_parameters=['action', \osWFrame\Core\Settings::getStringVar('session_name')];
+	$acceptable_user_parameters=['action', 'doaction', \osWFrame\Core\Settings::getStringVar('session_name')];
 }
 
 $acceptable_spider_parameters=[];

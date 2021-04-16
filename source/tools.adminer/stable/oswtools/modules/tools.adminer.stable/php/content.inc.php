@@ -17,8 +17,8 @@ if (\osWFrame\Core\Settings::getAction()=='adminer') {
 			include_once $filename;
 		}
 
-		if (\osWFrame\Tools\Configure::getFrameConfig('database_server')!='') {
-			$plugins=[new AdminerFrames(), new FillLoginForm('server', \osWFrame\Tools\Configure::getFrameConfig('database_server'), \osWFrame\Tools\Configure::getFrameConfig('database_username'), \osWFrame\Tools\Configure::getFrameConfig('database_password'), \osWFrame\Tools\Configure::getFrameConfig('database_db')), new AdminerTableHeaderScroll(),];
+		if (\osWFrame\Tools\Configure::getFrameConfigValue('database_server')!='') {
+			$plugins=[new AdminerFrames(), new FillLoginForm('server', \osWFrame\Tools\Configure::getFrameConfigValue('database_server'), \osWFrame\Tools\Configure::getFrameConfigValue('database_username'), \osWFrame\Tools\Configure::getFrameConfigValue('database_password'), \osWFrame\Tools\Configure::getFrameConfigValue('database_db')), new AdminerTableHeaderScroll(),];
 		} else {
 			$plugins=[new AdminerFrames(), new AdminerTableHeaderScroll(),];
 		}

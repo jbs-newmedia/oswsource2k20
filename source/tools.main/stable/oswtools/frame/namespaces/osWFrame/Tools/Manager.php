@@ -214,7 +214,7 @@ class Manager {
 			$package_data=Server::getUrlData($server_data['server_url'].'?action=get_content&package='.$package.'&release='.$release.'&version=0');
 			if ($package_checksum==sha1($package_data)) {
 				$cache_name=md5($serverlist.'#'.$package.'#'.$release).'.zip';
-				$file=Frame\Settings::getStringVar('settings_abspath').'.caches'.DIRECTORY_SEPARATOR.$cache_name;
+				$file=Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').DIRECTORY_SEPARATOR.$cache_name;
 				file_put_contents($file, $package_data);
 
 				$Zip=new Frame\Zip($file);

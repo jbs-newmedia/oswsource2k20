@@ -24,12 +24,12 @@ class Filesystem {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -321,7 +321,7 @@ class Filesystem {
 					} else {
 						if (mb_strpos($mode, 'f')!==false) {
 							if (($only_deep_result==false)||(($only_deep_result===true)&&($current_level==$deep))) {
-								$result[]=$dir.$f.DIRECTORY_SEPARATOR;
+								$result[]=$dir.$f;
 							}
 						}
 					}
