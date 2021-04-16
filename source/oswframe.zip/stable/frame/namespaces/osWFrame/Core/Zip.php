@@ -12,7 +12,7 @@
 
 namespace osWFrame\Core;
 
-class Zip {
+class Zip extends \ZipArchive {
 
 	use BaseStaticTrait;
 
@@ -24,7 +24,7 @@ class Zip {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -36,11 +36,6 @@ class Zip {
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
 	private const CLASS_EXTRA_VERSION='';
-
-	/**
-	 * @var object|ZipArchive|null
-	 */
-	private ?object $Zip=null;
 
 	/**
 	 * @var string
@@ -65,14 +60,22 @@ class Zip {
 	}
 
 	/**
+	 * @param int $flags
+	 * @return mixed
+	 */
+	public function openFile(int $flags=0) {
+		return $this->open($this->getFile(), $flags);
+	}
+
+	/**
 	 * @param string $dir
 	 * @param string $file
 	 * @return bool
 	 */
 	public function packDir(string $dir):bool {
-		if ($this->Zip->open($this->getFile(), \ZipArchive::CREATE)===true) {
+		if ($this->openFile(\ZipArchive::CREATE)===true) {
 			$this->packDirEngine($dir);
-			$this->Zip->close();
+			$this->close();
 
 			return true;
 		}
@@ -89,12 +92,12 @@ class Zip {
 		while ($fp=readdir($handle)) {
 			if (($fp!='.')&&($fp!='..')) {
 				$file=$dir.$fp;
-				if (Filesystem::isDir($file)===true) {
-					$this->Zip->addEmptyDir(str_replace($dir, '', $file));
+				if (is_dir($file)) {
+					$this->addEmptyDir(str_replace($dir, '', $file));
 					$this->packDirEngine($file.DIRECTORY_SEPARATOR);
 				}
-				if (Filesystem::isFile($file)===true) {
-					$this->Zip->addFile($file, str_replace($dir, '', $file));
+				if (is_file($file)) {
+					$this->addFile($file, str_replace($dir, '', $file));
 				}
 			}
 		}
@@ -110,21 +113,21 @@ class Zip {
 	 * @return bool
 	 */
 	public function unpackDir(string $dir, int $chmod_dir=0755, int $chmod_file=0644):bool {
-		$this->Zip->open($this->getFile());
-		if ($this->Zip->numFiles>0) {
+		$this->openFile();
+		if ($this->count()>0) {
 			if (Filesystem::isDir($dir)!==true) {
 				Filesystem::makeDir($dir, $chmod_dir);
 			}
 			Filesystem::changeDirmode($dir, $chmod_dir);
-			for ($i=0; $i<$this->Zip->numFiles; $i++) {
-				$stat=$this->Zip->statIndex($i);
+			for ($i=0; $i<$this->count(); $i++) {
+				$stat=$this->statIndex($i);
 				if (($stat['crc']==0)&&($stat['size']==0)) {
 					if (Filesystem::isDir($dir.$stat['name'])!==true) {
 						Filesystem::makeDir($dir.$stat['name'], $chmod_dir);
 					}
 					Filesystem::changeDirmode($dir.$stat['name'], $chmod_dir);
 				} else {
-					$data=$this->Zip->getFromIndex($i);
+					$data=$this->getFromIndex($i);
 					file_put_contents($dir.$stat['name'], $data);
 					Filesystem::changeFilemode($dir.$stat['name'], $chmod_file);
 				}
