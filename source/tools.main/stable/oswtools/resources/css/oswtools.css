@@ -43,3 +43,9 @@ body {
     line-height: .5;
     border-radius: .2rem;
 }
+
+.dropdown-flex-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
