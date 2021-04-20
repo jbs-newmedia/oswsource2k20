@@ -15,7 +15,7 @@ namespace osWFrame\Tools\Tool;
 use osWFrame\Core as Frame;
 use osWFrame\Tools as Tools;
 
-class ToolsManager extends CoreTool {
+class ToolManager extends CoreTool {
 
 	use Frame\BaseStaticTrait;
 

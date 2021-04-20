@@ -38,7 +38,7 @@
 		<script>var unsorted=4;</script>
 	<?php endif?>
 
-	<table id="oswtools_toolsmanager" class="table table-striped table-bordered">
+	<table id="oswtools_toolmanager" class="table table-striped table-bordered">
 		<thead>
 		<tr>
 			<th>Tool</th>

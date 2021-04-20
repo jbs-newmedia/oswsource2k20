@@ -1,5 +1,5 @@
 $(document).ready(function () {
-	oTable = $('#oswtools_toolsmanager').DataTable({
+	oTable = $('#oswtools_toolmanager').DataTable({
 		"iDisplayLength": 50,
 		"aoColumnDefs": [
 			{"aTargets": [unsorted], "bSortable": false},

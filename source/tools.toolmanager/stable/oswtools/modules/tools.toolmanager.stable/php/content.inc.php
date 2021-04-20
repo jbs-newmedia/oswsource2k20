@@ -10,7 +10,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
  */
 
-$Tool=new \osWFrame\Tools\Tool\ToolsManager('oswframe2k20', 'tools.toolsmanager', 'stable');
+$Tool=new \osWFrame\Tools\Tool\ToolManager('oswframe2k20', 'tools.toolmanager', 'stable');
 if (\osWFrame\Core\Settings::getAction()=='noupdate') {
 	$Tool->blockUpdate($osW_Template->buildhrefLink('current', 'action=start'));
 }
@@ -47,7 +47,7 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 		$Tool->removePackage($manager_serverlist, $manager_package, $manager_release);
 		\osWFrame\Core\Network::dieJSON([md5($manager_serverlist.'#'.$manager_package.'#'.$manager_release)=>$Tool->getPackageDetails($manager_serverlist, $manager_package, $manager_release)]);
 	}
-	$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tools.toolsmanager.js'];
+	$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tools.toolmanager.js'];
 	$osW_Template->addTemplateJSFiles('head', $jsfiles);
 
 	$Tool->getTools();
