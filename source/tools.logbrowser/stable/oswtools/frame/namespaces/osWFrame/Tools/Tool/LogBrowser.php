@@ -126,7 +126,7 @@ class LogBrowser extends CoreTool {
 	public function readLogFiles(string $dir):object {
 		$this->file_list=[];
 		if (Frame\Filesystem::isDir($dir)) {
-			$lastday=date('Ymd', time()-(60*60*24*intval(\osWFrame\Tools\Configure::getFrameConfigValue('debug_maxdays'))));
+			$lastday=date('Ymd', time()-(60*60*24*intval(\osWFrame\Tools\Configure::getFrameConfigInt('debug_maxdays'))));
 			$dirs=Frame\Filesystem::scanFilesToArray($dir, true, 1, true);
 			foreach ($dirs as $value) {
 				if (checkdate(substr(basename($value), 4, 2), substr(basename($value), 6, 2), substr(basename($value), 0, 4))===true) {

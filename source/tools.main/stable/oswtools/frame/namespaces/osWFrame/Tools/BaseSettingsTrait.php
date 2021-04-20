@@ -53,11 +53,11 @@ trait BaseSettingsTrait {
 		if ($this->settings!==null) {
 			$dir=Frame\Settings::getStringVar('settings_framepath').'oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR;
 			if (Frame\Filesystem::isDir($dir)!==true) {
-				Frame\Filesystem::makeDir($dir, Tools\Configure::getFrameConfigValue('settings_chmod_dir'));
+				Frame\Filesystem::makeDir($dir, Tools\Configure::getFrameConfigInt('settings_chmod_dir'));
 			}
 			$file=$dir.$this->getServerlist().'-'.$this->getPackage().'-'.$this->getRelease().'.json';
 			file_put_contents($file, json_encode($this->settings));
-			Frame\Filesystem::changeFilemode($file, Tools\Configure::getFrameConfigValue('settings_chmod_file'));
+			Frame\Filesystem::changeFilemode($file, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
 		}
 
 		return $this;

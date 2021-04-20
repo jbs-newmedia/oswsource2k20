@@ -64,7 +64,7 @@ class Configure {
 					$content=file_get_contents($configure_file);
 					$content=str_replace('settings_abspath', 'settings_framepath', $content);
 					$content=str_replace('osW_setVar(', 'self::setFrameConfig(', $content);
-					$content=str_replace('osW_getVar(', 'self::getFrameConfigValue(', $content);
+					$content=str_replace('osW_getVar(', 'self::getFrameConfigString(', $content);
 					eval(substr($content, 5));
 				}
 			}
@@ -92,16 +92,41 @@ class Configure {
 
 	/**
 	 * @param string $var
-	 * @param string $type
-	 * @return mixed
+	 * @return string
 	 */
-	public static function getFrameConfigValue(string $var, string $type='string') {
+	public static function getFrameConfigString(string $var):string {
+		self::loadFrameConfig();
+		if (isset(self::$configuration[$var])) {
+			return strval(self::$configuration[$var]);
+		}
+
+		return '';
+	}
+
+	/**
+	 * @param string $var
+	 * @return int
+	 */
+	public static function getFrameConfigInt(string $var):int {
 		self::loadFrameConfig();
 		if (isset(self::$configuration[$var])) {
 			return self::$configuration[$var];
 		}
 
-		return '';
+		return 0;
+	}
+
+	/**
+	 * @param string $var
+	 * @return bool
+	 */
+	public static function getFrameConfigBool(string $var):bool {
+		self::loadFrameConfig();
+		if (isset(self::$configuration[$var])) {
+			return self::$configuration[$var];
+		}
+
+		return false;
 	}
 
 	/**
@@ -109,6 +134,7 @@ class Configure {
 	 */
 	public static function getFrameConfig():array {
 		self::loadFrameConfig();
+
 		return self::$configuration;
 	}
 

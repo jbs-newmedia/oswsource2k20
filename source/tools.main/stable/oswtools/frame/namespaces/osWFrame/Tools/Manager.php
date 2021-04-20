@@ -218,7 +218,7 @@ class Manager {
 				file_put_contents($file, $package_data);
 
 				$Zip=new Frame\Zip($file);
-				$Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'), Tools\Configure::getFrameConfigValue('settings_chmod_dir'), Tools\Configure::getFrameConfigValue('settings_chmod_file'));
+				$Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'), Tools\Configure::getFrameConfigInt('settings_chmod_dir'), Tools\Configure::getFrameConfigInt('settings_chmod_file'));
 				Frame\Filesystem::delFile($file);
 
 				$json_file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$package.'-'.$release.'.json';
@@ -392,7 +392,7 @@ class Manager {
 			Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file "frame/configure.php" removed successfully.']);
 		}
 
-		Frame\Filesystem::changeFilemode($configure_file_php, Configure::getFrameConfigValue('settings_chmod_file'));
+		Frame\Filesystem::changeFilemode($configure_file_php, Configure::getFrameConfigInt('settings_chmod_file'));
 
 		return $this;
 	}
@@ -513,7 +513,7 @@ class Manager {
 
 			if ($protect_dirs['var']!=[]) {
 				foreach ($protect_dirs['var'] as $value) {
-					$protect_dirs['path'][]=Configure::getFrameConfigValue($value);
+					$protect_dirs['path'][]=Configure::getFrameConfigString($value);
 				}
 			}
 
@@ -529,20 +529,20 @@ class Manager {
 							$cdir.=$udir.DIRECTORY_SEPARATOR;
 							if (Frame\Filesystem::isDir($cdir)!==true) {
 								Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'directory "'.$_dir.'" created successfully.']);
-								Frame\Filesystem::makeDir($cdir, Configure::getFrameConfigValue('settings_chmod_dir'));
+								Frame\Filesystem::makeDir($cdir, Configure::getFrameConfigInt('settings_chmod_dir'));
 							}
 						}
 					} else {
 						$cdir=Frame\Settings::getStringVar('settings_framepath').$_dir.'/';
 						if (Frame\Filesystem::isDir($cdir)!==true) {
 							Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'directory "'.$_dir.'" created successfully.']);
-							Frame\Filesystem::makeDir($cdir, Configure::getFrameConfigValue('settings_chmod_dir'));
+							Frame\Filesystem::makeDir($cdir, Configure::getFrameConfigInt('settings_chmod_dir'));
 						}
 					}
 					$file=$cdir.'.htaccess';
 					if (Frame\Filesystem::existsFile($file)!==true) {
 						file_put_contents($file, "order deny,allow\ndeny from all");
-						Frame\Filesystem::changeFilemode($file, Configure::getFrameConfigValue('settings_chmod_file'));
+						Frame\Filesystem::changeFilemode($file, Configure::getFrameConfigInt('settings_chmod_file'));
 						Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'directory "'.$_dir.'" protected successfully.']);
 					}
 				}

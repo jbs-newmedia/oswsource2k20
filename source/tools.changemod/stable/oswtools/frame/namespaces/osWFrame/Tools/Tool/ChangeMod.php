@@ -103,7 +103,7 @@ class ChangeMod extends CoreTool {
 	 * @return string
 	 */
 	public function getFile():string {
-		$chmod_file=Tools\Configure::getFrameConfigValue('settings_chmod_file');
+		$chmod_file=Tools\Configure::getFrameConfigInt('settings_chmod_file');
 		switch ($chmod_file) {
 			case 436:
 				$chmod_file='0664';
@@ -140,7 +140,7 @@ class ChangeMod extends CoreTool {
 	 * @return string
 	 */
 	public function getDir():string {
-		$chmod_dir=Tools\Configure::getFrameConfigValue('settings_chmod_file');
+		$chmod_dir=Tools\Configure::getFrameConfigInt('settings_chmod_file');
 		switch ($chmod_dir) {
 			case 509:
 				$chmod_dir='0775';

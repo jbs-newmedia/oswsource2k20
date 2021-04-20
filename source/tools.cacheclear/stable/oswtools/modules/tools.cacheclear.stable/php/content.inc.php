@@ -36,7 +36,7 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 	$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tools.cacheclear.js'];
 	$osW_Template->addTemplateJSFiles('head', $jsfiles);
 
-	$Tool->readCacheList(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('cache_path'));
+	$Tool->readCacheList(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('cache_path'));
 
 	if (\osWFrame\Tools\Helper::getDoAction()=='doclear') {
 		$i=0;
@@ -45,7 +45,7 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 		if (isset($_POST['dir'])) {
 			foreach ($_POST['dir'] as $dir=>$status) {
 				if (($status==1)&&(in_array($dir, $cache_dirs))) {
-					\osWFrame\Core\Filesystem::delDir(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('cache_path').$dir);
+					\osWFrame\Core\Filesystem::delDir(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('cache_path').$dir);
 					$i++;
 				}
 			}
@@ -57,7 +57,7 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 		} else {
 			\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>$i.' directories were cleared.']);
 		}
-		$Tool->readCacheList(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('cache_path'));
+		$Tool->readCacheList(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('cache_path'));
 	}
 
 	$osW_Form=new \osWFrame\Core\Form();

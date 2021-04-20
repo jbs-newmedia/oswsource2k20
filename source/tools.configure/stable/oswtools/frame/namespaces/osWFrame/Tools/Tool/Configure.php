@@ -130,6 +130,18 @@ class Configure extends CoreTool {
 	}
 
 	/**
+	 * @param int $page
+	 * @return object
+	 */
+	public function setPage(int $page=1):object {
+		if ($page>0) {
+			$this->page=$page;
+		}
+
+		return $this;
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getPage():int {
@@ -283,6 +295,30 @@ class Configure extends CoreTool {
 	}
 
 	/**
+	 * @param string $key
+	 * @return string
+	 */
+	public function getJSONStringValue(string $key):string {
+		if (isset($this->values_json[$key])) {
+			return $this->values_json[$key];
+		}
+
+		return '';
+	}
+
+	/**
+	 * @param string $key
+	 * @return int
+	 */
+	public function getJSONIntValue(string $key):int {
+		if (isset($this->values_json[$key])) {
+			return intval($this->values_json[$key]);
+		}
+
+		return 0;
+	}
+
+	/**
 	 * @return object
 	 */
 	public function writeValuesToJSON():object {
@@ -302,11 +338,11 @@ class Configure extends CoreTool {
 			$page=$this->page-1;
 			$dir=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.$this->files[$page]['dir'].DIRECTORY_SEPARATOR;
 			if (Frame\Filesystem::isDir($dir)!==true) {
-				Frame\Filesystem::makeDir($dir, Tools\Configure::getFrameConfigValue('settings_chmod_dir'));
+				Frame\Filesystem::makeDir($dir, Tools\Configure::getFrameConfigInt('settings_chmod_dir'));
 			}
 			$file=$dir.$this->files[$page]['file'].'.json';
 			file_put_contents($file, json_encode($this->values_post));
-			Frame\Filesystem::changeFilemode($file, Tools\Configure::getFrameConfigValue('settings_chmod_file'));
+			Frame\Filesystem::changeFilemode($file, Tools\Configure::getFrameConfigInt('settings_chmod_file', 'int'));
 		}
 
 		return $this;
@@ -509,7 +545,7 @@ class Configure extends CoreTool {
 			Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file "modules/configure.project.php" created successfully.']);
 		}
 
-		Frame\Filesystem::changeFilemode($configure_file, Tools\Configure::getFrameConfigValue('settings_chmod_file'));
+		Frame\Filesystem::changeFilemode($configure_file, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
 
 		$osW_Manager=new Tools\Manager();
 		$osW_Manager->createConfigureFile();

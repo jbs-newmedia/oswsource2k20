@@ -24,7 +24,7 @@ class Database {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -68,6 +68,16 @@ class Database {
 	 * @var array
 	 */
 	public array $limitrows=[];
+
+	/**
+	 * @var bool
+	 */
+	public bool $error=false;
+
+	/**
+	 * @var string
+	 */
+	public string $error_message='';
 
 	/**
 	 * Database constructor.
@@ -261,9 +271,14 @@ class Database {
 
 		if ($result===false) {
 			$this->logError($this->PDOStatement->errorInfo(), $query);
+			$this->error=true;
+			$this->error_message=$this->PDOStatement->errorInfo()[2];
 
 			return null;
 		}
+
+		$this->error=false;
+		$this->error_message='';
 
 		return $result;
 	}
@@ -293,9 +308,14 @@ class Database {
 
 		if ($result===false) {
 			$this->logError($this->PDO->errorInfo(), $query);
+			$this->error=true;
+			$this->error_message=$this->PDO->errorInfo()[2];
 
 			return null;
 		}
+
+		$this->error=false;
+		$this->error_message='';
 
 		return $result;
 	}
@@ -417,6 +437,20 @@ class Database {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasError():bool {
+		return $this->error;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getErrorMessage():string {
+		return $this->error_message;
 	}
 
 	/**

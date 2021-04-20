@@ -36,7 +36,7 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 	$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tools.resourceclear.js'];
 	$osW_Template->addTemplateJSFiles('head', $jsfiles);
 
-	$Tool->readResourceList(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('resource_path'));
+	$Tool->readResourceList(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('resource_path'));
 
 	if (\osWFrame\Tools\Helper::getDoAction()=='doclear') {
 		$i=0;
@@ -45,8 +45,8 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 		if (isset($_POST['dir'])) {
 			foreach ($_POST['dir'] as $dir=>$status) {
 				if (($status==1)&&(in_array($dir, $resource_dirs))) {
-					\osWFrame\Core\Filesystem::delDir(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('resource_path').$dir);
-					\osWFrame\Core\Filesystem::delFile(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('resource_path').substr($dir, 0, -1).'.resource');
+					\osWFrame\Core\Filesystem::delDir(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('resource_path').$dir);
+					\osWFrame\Core\Filesystem::delFile(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('resource_path').substr($dir, 0, -1).'.resource');
 					$i++;
 				}
 			}
@@ -58,7 +58,7 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 		} else {
 			\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>$i.' directories were cleared.']);
 		}
-		$Tool->readResourceList(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('resource_path'));
+		$Tool->readResourceList(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('resource_path'));
 	}
 
 	$osW_Form=new \osWFrame\Core\Form();

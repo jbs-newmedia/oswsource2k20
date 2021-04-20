@@ -40,14 +40,14 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 	$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tools.logbrowser.js'];
 	$osW_Template->addTemplateJSFiles('head', $jsfiles);
 
-	$Tool->readLogDirs(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('debug_path'));
+	$Tool->readLogDirs(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('debug_path'));
 	$dir=\osWFrame\Core\Settings::catchStringGetValue('dir');
 	$file=\osWFrame\Core\Settings::catchStringGetValue('file');
 	$display=\osWFrame\Core\Settings::catchStringGetValue('display');
 	if ($Tool->isDir($dir)===true) {
-		$Tool->readLogFiles(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('debug_path').$dir);
+		$Tool->readLogFiles(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('debug_path').$dir);
 		if ($Tool->isFile($file)===true) {
-			$Tool->loadFile(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigValue('debug_path').$dir, $file, $display);
+			$Tool->loadFile(\osWFrame\Core\Settings::getStringVar('settings_framepath').\osWFrame\Tools\Configure::getFrameConfigString('debug_path').$dir, $file, $display);
 		} else {
 			$file='';
 		}

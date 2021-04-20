@@ -33,23 +33,25 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 } elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])) {
 	include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'changelog.inc.php';
 } else {
-	$Tool->loadPackages();
 	if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['install', 'update', 'remove'])) {
+		$Manager=new \osWFrame\Tools\Tool\ProjectManager('oswframe2k20', 'tools.projectmanager', 'stable');
+		$Manager->loadPackages(false);
 		$manager_serverlist=\osWFrame\Core\Settings::catchStringValue('manager_serverlist');
 		$manager_package=\osWFrame\Core\Settings::catchStringValue('manager_package');
 		$manager_release=\osWFrame\Core\Settings::catchStringValue('manager_release');
 	}
 	if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['install', 'update'])) {
-		$Tool->installPackage($manager_serverlist, $manager_package, $manager_release);
-		\osWFrame\Core\Network::dieJSON($Tool->getCheckList());
+		$Manager->installPackage($manager_serverlist, $manager_package, $manager_release);
+		\osWFrame\Core\Network::dieJSON($Manager->getCheckList());
 	}
 	if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['remove'])) {
-		$Tool->removePackage($manager_serverlist, $manager_package, $manager_release);
-		\osWFrame\Core\Network::dieJSON([md5($manager_serverlist.'#'.$manager_package.'#'.$manager_release)=>$Tool->getPackageDetails($manager_serverlist, $manager_package, $manager_release)]);
+		$Manager->removePackage($manager_serverlist, $manager_package, $manager_release);
+		\osWFrame\Core\Network::dieJSON([md5($manager_serverlist.'#'.$manager_package.'#'.$manager_release)=>$Manager->getPackageDetails($manager_serverlist, $manager_package, $manager_release)]);
 	}
 	$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tools.projectmanager.js'];
 	$osW_Template->addTemplateJSFiles('head', $jsfiles);
 
+	$Tool->loadPackages();
 	$Tool->getPackages();
 	$Tool->setSL(\osWFrame\Core\Settings::catchStringValue('sl'));
 }

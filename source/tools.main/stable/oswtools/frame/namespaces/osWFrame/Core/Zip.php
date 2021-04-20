@@ -113,6 +113,12 @@ class Zip extends \ZipArchive {
 	 * @return bool
 	 */
 	public function unpackDir(string $dir, int $chmod_dir=0755, int $chmod_file=0644):bool {
+		if ($chmod_dir==0) {
+			$chmod_dir=0755;
+		}
+		if ($chmod_file==0) {
+			$chmod_file=0644;
+		}
 		$this->openFile();
 		if ($this->count()>0) {
 			if (Filesystem::isDir($dir)!==true) {

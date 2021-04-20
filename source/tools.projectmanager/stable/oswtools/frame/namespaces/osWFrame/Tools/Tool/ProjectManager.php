@@ -110,10 +110,14 @@ class ProjectManager extends CoreTool {
 	/**
 	 * @return array
 	 */
-	public function loadPackages():object {
+	public function loadPackages($with_key=true):object {
 		if ($this->packages==[]) {
 			$packages=self::getLocalPackages();
-			$this->Manager->setKeys(['frame', 'example', 'project'])->getServerPackageList()->checkPackageList();
+			if ($with_key===true) {
+				$this->Manager->setKeys(['frame', 'example', 'project'])->getServerPackageList()->checkPackageList();
+			} else {
+				$this->Manager->getServerPackageList()->checkPackageList();
+			}
 			foreach ($this->Manager->getPackageList() as $current_serverlist=>$server_packages) {
 				$this->packages[$current_serverlist]=[];
 				foreach ($server_packages as $package_name=>$package_data) {

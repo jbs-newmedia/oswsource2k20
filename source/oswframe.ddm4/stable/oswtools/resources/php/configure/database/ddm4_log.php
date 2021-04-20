@@ -20,12 +20,13 @@ $__datatable_do=false;
 /*
  * check version of table
  */
-$QreadData=osW_Tool_Database::getInstance()->query('SHOW TABLE STATUS LIKE :table:');
-$QreadData->bindValue(':table:', $this->data['values_json']['database_prefix'].$__datatable_table);
+$QreadData=new \osWFrame\Core\Database();
+$QreadData->prepare('SHOW TABLE STATUS LIKE :table:');
+$QreadData->bindString(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
 $QreadData->execute();
-if ($QreadData->numberOfRows()==1) {
-	$QreadData->next();
-	$avb_tbl=$QreadData->result['Comment'];
+if ($QreadData->rowCount()==1) {
+	$QreadData_result=$QreadData->fetch();
+	$avb_tbl=$QreadData_result['Comment'];
 } else {
 	$avb_tbl='0.0';
 }
@@ -49,7 +50,8 @@ if (($av_tbl==0)&&($ab_tbl==0)) {
 	$ab_tbl=0;
 	$__datatable_create=true;
 
-	$QwriteData=osW_Tool_Database::getInstance()->query('
+	$QwriteData=new \osWFrame\Core\Database();
+	$QwriteData->prepare('
 CREATE TABLE :table: (
 	log_id int(11) unsigned NOT NULL AUTO_INCREMENT,
 	log_group varchar(64) NOT NULL DEFAULT \'\',
@@ -72,14 +74,16 @@ CREATE TABLE :table: (
 	KEY log_value_user_id_old (log_value_user_id_old),
 	KEY log_value_time_new (log_value_time_new),
 	KEY log_value_time_old (log_value_time_old)
-) ENGINE='.$this->data['values_json']['database_engine'].' DEFAULT CHARSET='.$this->data['values_json']['database_character'].' COMMENT=:version:;
+) ENGINE=:engine: DEFAULT CHARSET=:charset: COMMENT=:version:;
 ');
-	$QwriteData->bindTable(':table:', $__datatable_table);
-	$QwriteData->bindValue(':version:', $av_tbl.'.'.$ab_tbl);
+	$QwriteData->bindRaw(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
+	$QwriteData->bindString(':engine:', $this->getJSONStringValue('database_engine'));
+	$QwriteData->bindString(':charset:', $this->getJSONStringValue('database_character'));
+	$QwriteData->bindString(':version:', $av_tbl.'.'.$ab_tbl);
 	$QwriteData->execute();
-	if ($QwriteData->query_handler===false) {
+	if ($QwriteData->hasError()===true) {
 		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
-		$db_error[]=$QwriteData->error;
+		$db_error[]=$QwriteData->getErrorMessage();
 	}
 }
 
@@ -92,27 +96,19 @@ if (($av_tbl<=1)&&($ab_tbl<1)) {
 	$ab_tbl=1;
 	$__datatable_do=true;
 
-	$QwriteData=osW_Tool_Database::getInstance()->query('
-ALTER TABLE :table: 
-ADD log_module varchar(64) NOT NULL DEFAULT \'\' AFTER log_key;
-');
-	$QwriteData->bindTable(':table:', $__datatable_table);
-	$QwriteData->execute();
-	if ($QwriteData->query_handler===false) {
-		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
-		$db_error[]=$QwriteData->error;
-	}
+	... code ...
 }
 */
 
 if ($__datatable_do===true) {
-	$QwriteData=osW_Tool_Database::getInstance()->query('ALTER TABLE :table: COMMENT = :version:;');
-	$QwriteData->bindTable(':table:', $__datatable_table);
-	$QwriteData->bindValue(':version:', $av_tbl.'.'.$ab_tbl);
+	$QwriteData=new \osWFrame\Core\Database();
+	$QwriteData->prepare('ALTER TABLE :table: COMMENT = :version:;');
+	$QwriteData->bindString(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
+	$QwriteData->bindString(':version:', $av_tbl.'.'.$ab_tbl);
 	$QwriteData->execute();
-	if ($QwriteData->query_handler===false) {
+	if ($QwriteData->hasError()===true) {
 		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
-		$db_error[]=$QwriteData->error;
+		$db_error[]=$QwriteData->getErrorMessage();
 	}
 }
 

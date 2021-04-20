@@ -36,12 +36,14 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 	$osW_Form=new \osWFrame\Core\Form();
 	$Tool->setForm($osW_Form);
 	$Tool->initFiles();
+	$Tool->setPage(\osWFrame\Core\Settings::catchIntPostValue('page'));
 
 	if ((isset($_POST['next']))&&($_POST['next']=='Next step')) {
 		$_POST['next']='next';
 	}
 	if ((isset($_POST['prev']))&&($_POST['prev']=='Previous step')) {
 		$_POST['prev']='prev';
+		$Tool->decPage();
 	}
 
 	if ((isset($_POST['next']))&&($_POST['next']=='next')) {
