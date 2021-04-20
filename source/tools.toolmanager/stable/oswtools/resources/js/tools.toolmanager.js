@@ -7,7 +7,6 @@ $(document).ready(function () {
 	});
 });
 
-
 function manager(i, link, manager_action, manager_serverlist, manager_package, manager_release) {
 	if (oTable.$('#package_' + i).find('.manager_options .' + manager_action).hasClass('disabled') !== true) {
 		oTable.$('#package_' + i).find('.manager_options .' + manager_action).html('<i class="fas fa-spinner fa-spin fa-fw"></i>');
@@ -61,7 +60,7 @@ function manager(i, link, manager_action, manager_serverlist, manager_package, m
 }
 
 function updateAll() {
-	oTable.$('.manager_options').find('.update').not('.disabled').each(function() {
+	oTable.$('.manager_options').find('.update').not('.disabled').each(function () {
 		eval(decodeURI(this));
 	});
 }
