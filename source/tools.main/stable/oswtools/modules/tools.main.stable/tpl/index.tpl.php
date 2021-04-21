@@ -20,7 +20,7 @@
 
 <nav class="navbar navbar-expand-md navbar-light bg-white mb-4 fixed-top shadow border-bottom border-secondary" style="border-width:10px !important">
 	<div class="container<?php if ($Tool->getFluidNavigation()===true): ?>-fluid<?php endif ?>">
-		<a class="navbar-brand d-flex align-items-center" href="<?php echo $this->buildhrefLink('default', 'action=""') ?>">
+		<a class="navbar-brand d-flex align-items-center" href="<?php echo $this->buildhrefLink('default', 'action=start') ?>">
 			<div class="navbar-brand-icon">
 				<img src="resources/img/oswtools-logo.svg" style="height: 36px;"/>
 			</div>
