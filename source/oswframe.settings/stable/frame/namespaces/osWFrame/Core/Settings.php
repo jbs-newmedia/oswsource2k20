@@ -25,7 +25,7 @@ class Settings {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -608,9 +608,29 @@ class Settings {
 	}
 
 	/**
+	 * @return bool
 	 */
-	public static function checkSlowRunTime() {
-		// echo 'TODO: '.__CLASS__.'.'.__FUNCTION__.'<br/>';
+	public static function checkSlowRunTime():bool {
+		if (Debug::calcTimer('scriptload')>self::getFloatVar('settings_slowruntime')) {
+			MessageStack::addMessage(self::getNameAsString(), 'slowruntime', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'runtime'=>Debug::calcTimer('scriptload'), 'script'=>$_SERVER['REQUEST_URI']]);
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function checkHighMemoryUsage():bool {
+		if (memory_get_usage()>self::getFloatVar('settings_ramlimit')) {
+			MessageStack::addMessage(self::getNameAsString(), 'highmemoryusage', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'memoryusage'=>memory_get_usage(), 'script'=>$_SERVER['REQUEST_URI']]);
+
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

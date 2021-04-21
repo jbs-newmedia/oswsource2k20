@@ -206,6 +206,11 @@ if (file_exists($file)) {
 \osWFrame\Core\Settings::checkSlowRunTime();
 
 /**
+ * Speicherverbrauch loggen
+ */
+\osWFrame\Core\Settings::checkHighMemoryUsage();
+
+/**
  * Output ausführen bei Projekt sofern noch keine Output ausgeführt wurde.
  */
 if ((\osWFrame\Core\Settings::getBoolVar('frame_output_loaded')!==true)&&(\osWFrame\Core\Settings::getStringVar('project_default_output')!==null)) {

@@ -1,11 +1,9 @@
 {
 	"configure": {
 		"middle": {
-			"settings_system": "unix",
 			"settings_port": 80,
 			"settings_ssl_port": 443,
 			"settings_ssl": true,
-			"settings_modules_runs": 5,
 			"settings_slowruntime": 0.5,
 			"settings_ramlimit": 8388608,
 			"settings_chmod_file": "0644",
