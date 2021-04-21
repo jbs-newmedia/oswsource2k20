@@ -15,10 +15,8 @@
 <head>
 	<?php echo $this->getHead(); ?>
 </head>
-<body id="page-top">
+<body id="page-top" class="bg-light vh-100" style="background-attachment: fixed !important;">
 <?php echo $this->getBody(); ?>
-
-<body class="bg-light vh-100" style="background-attachment: fixed !important;">
 
 <nav class="navbar navbar-expand-md navbar-light bg-white mb-4 fixed-top shadow border-bottom border-secondary" style="border-width:10px !important">
 	<div class="container<?php if ($Tool->getFluidNavigation()===true): ?>-fluid<?php endif ?>">
