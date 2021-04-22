@@ -15,7 +15,7 @@
 ######################################################################################################################################################
 error_reporting(0);
 
-$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.03', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
+$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.04', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
 
 ######################################################################################################################################################
 # Funktionen
@@ -118,14 +118,14 @@ if (!isset($_SERVER['REMOTE_ADDR'])) {
 	$remote_addr=$_SERVER['REMOTE_ADDR'];
 }
 
-if (!isset($_GET['server_mac'])) {
-	$server_mac='';
+if (!isset($_GET['frame_key'])) {
+	$frame_key='';
 } else {
-	$server_mac=$_GET['server_mac'];
+	$frame_key=$_GET['frame_key'];
 }
 
-$license=sha1($server_data['server_list_name'].'#'.$server_name.'#'.$remote_addr.'#'.$server_mac);
-$licensedev=sha1($server_data['server_list_name'].'#'.$server_name.'#'.$server_mac);
+$license=sha1($server_data['server_list_name'].'#'.$server_name.'#'.$remote_addr.'#'.$frame_key);
+$licensedev=sha1($server_data['server_list_name'].'#'.$server_name.'#'.$frame_key);
 
 $abs_path=dirname(__FILE__).'/';
 

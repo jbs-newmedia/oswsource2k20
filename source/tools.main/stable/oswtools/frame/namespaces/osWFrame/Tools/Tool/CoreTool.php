@@ -106,6 +106,7 @@ class CoreTool {
 		$this->setServerlist($serverlist);
 		$this->setPackage($package);
 		$this->setRelease($release);
+		$this->checkFrameKey();
 		$this->initTool();
 		$this->initUsedSoftware();
 		Frame\MessageWriter::addIgnore('result');
@@ -484,6 +485,62 @@ class CoreTool {
 		}
 
 		return $this->hasProtection();
+	}
+
+	/**
+	 * @return object
+	 */
+	public function checkFrameKey():object {
+		$file_framekey=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame.key';
+		if ((Frame\Filesystem::existsFile($file_framekey)!==true)||(filesize($file_framekey)!==64)) {
+			$this->writeFrameKey($this->generateFrameKey());
+			\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'Frame-Key generated successfully. Check "osWTools:Main" ➜ "More" ➜ "Frame-Key"']);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return object
+	 */
+	public function createNewFrameKey():object {
+		$this->writeFrameKey($this->generateFrameKey());
+		\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'Frame-Key generated successfully. Check "osWTools:Main" ➜ "More" ➜ "Frame-Key"']);
+
+		return $this;
+	}
+
+	public function writeFrameKey(string $frame_key):object {
+		$file_framekey=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame.key';
+		file_put_contents($file_framekey, $frame_key);
+		Frame\Filesystem::changeFilemode($file_framekey, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function generateFrameKey():string {
+		$chars='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$chars_length=strlen($chars);
+		$frame_key='';
+		for ($i=0; $i<64; $i++) {
+			$frame_key.=$chars[rand(0, $chars_length-1)];
+		}
+
+		return $frame_key;
+	}
+
+	/**
+	 * @param string $frame_key
+	 * @return bool
+	 */
+	public function validateFrameKey(string $frame_key):bool {
+		if (preg_match('/^([0-9a-zA-Z]{64,64})$/Uis', $frame_key)) {
+			return true;
+		}
+		return false;
 	}
 
 }

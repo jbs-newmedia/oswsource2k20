@@ -26,7 +26,7 @@ class Server {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -55,9 +55,19 @@ class Server {
 	private static array $packagelist=[];
 
 	/**
+	 * @var array
+	 */
+	private static array $licenselist=[];
+
+	/**
 	 * @var int
 	 */
 	private static int $cachetime=3600;
+
+	/**
+	 * @var string
+	 */
+	private static string $frame_key='';
 
 	/**
 	 * Server constructor.
@@ -154,7 +164,7 @@ class Server {
 		} else {
 			$file.='&server_name='.urlencode(self::getServerName());
 		}
-		$file.='&server_mac='.urlencode(implode(';', self::getServerMac()));
+		$file.='&frame_key='.urlencode(self::getFrameKey());
 		if (function_exists('curl_init')) {
 			$res=curl_init();
 			curl_setopt($res, CURLOPT_URL, $file);
@@ -189,23 +199,20 @@ class Server {
 	}
 
 	/**
-	 * @return array
+	 * @param bool $force
+	 * @return string
 	 */
-	public static function getServerMac():array {
-		ob_start();
-		system('netstat -ei');
-		$mycom=ob_get_contents();
-		ob_clean();
-
-		preg_match_all('/HWaddr ([a-fA-F0-9]{2}[:|\-]?){6}/Uis', $mycom, $result);
-
-		$macs=[];
-		foreach ($result[0] as $var) {
-			$var=str_replace('HWaddr ', '', $var);
-			$macs[$var]=$var;
+	public static function getFrameKey(bool $force=false):string {
+		if ((self::$frame_key=='')||($force===true)) {
+			$file=Frame\Settings::getStringVar('settings_abspath').'frame.key';
+			if (Frame\Filesystem::existsFile($file)===true) {
+				self::$frame_key=trim(file_get_contents($file));
+			} else {
+				self::$frame_key='unset';
+			}
 		}
 
-		return $macs;
+		return self::$frame_key;
 	}
 
 	/**
@@ -263,6 +270,50 @@ class Server {
 
 		if (isset(self::$packagelist[$current_serverlist])) {
 			return self::$packagelist[$current_serverlist];
+		}
+
+		return [];
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function readLicenseList():bool {
+		if (self::$licenselist==[]) {
+			$serverlist=self::getServerList();
+			foreach ($serverlist as $current_serverlist=>$serverlist_details) {
+				self::$licenselist[$current_serverlist]=[];
+				$server_data=Server::getConnectedServer($current_serverlist);
+				if ((isset($server_data['connected']))&&($server_data['connected']===true)) {
+					$server_addr=Server::getUrlData($server_data['server_url'].'?action=license_server_addr');
+					$server_name=$_SERVER['SERVER_NAME'];
+					self::$licenselist[$current_serverlist]['server_list']=$serverlist_details['info']['name'];
+					self::$licenselist[$current_serverlist]['server_addr']=$server_addr;
+					self::$licenselist[$current_serverlist]['server_name']=$server_name;
+					self::$licenselist[$current_serverlist]['frame_key']=self::getFrameKey();
+					self::$licenselist[$current_serverlist]['licensekey']=sha1($current_serverlist.'#'.self::$licenselist[$current_serverlist]['server_name'].'#'.self::$licenselist[$current_serverlist]['server_addr'].'#'.self::$licenselist[$current_serverlist]['frame_key']);
+					self::$licenselist[$current_serverlist]['licensekeydev']=sha1($current_serverlist.'#'.self::$licenselist[$current_serverlist]['server_name'].'#'.self::$licenselist[$current_serverlist]['frame_key']);
+				}
+			}
+			ksort(self::$licenselist[$current_serverlist]);
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param string $current_serverlist
+	 * @return array
+	 */
+	public static function getLicenseList(string $current_serverlist=''):array {
+		self::readLicenseList();
+
+		if ($current_serverlist=='') {
+			return self::$licenselist;
+		}
+
+		if (isset(self::$licenselist[$current_serverlist])) {
+			return self::$licenselist[$current_serverlist];
 		}
 
 		return [];

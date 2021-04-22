@@ -94,7 +94,7 @@
 				<?php foreach ($Tool->getHTUsers() as $user=>$blank): ?>
 
 					<tr>
-						<td class="text-center"><?php echo $osW_Form->drawCheckboxField('updtusers['.$user.']', 1, 0);?></td>
+						<td class="text-center"><?php echo $osW_Form->drawCheckboxField('updtusers['.$user.']', 1, 0); ?></td>
 						<td><?php echo \osWFrame\Core\HTML::outputString($user) ?></td>
 					</tr>
 
@@ -123,6 +123,36 @@
 	<?php endif ?>
 
 	<?php echo $osW_Form->endForm(); ?>
+
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['framekey'])): ?>
+
+
+	<p>The Frame-Key is relevant for license management. If you already have one, please enter it.</p>
+
+	<hr/>
+
+	<?php echo $osW_Form->startForm('oswtools_framekey_form', 'current', '', ['input_addid'=>true]); ?>
+
+	<label class="font-weight-bold" for="frame_key">Frame-Key:</label>
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text"><i class="fas fa-key fa-fw"></i></span>
+		</div>
+		<?php echo $osW_Form->drawTextField('frame_key', \osWFrame\Tools\Server::getFrameKey(), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
+		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('frame_key') ?></div>
+	</div>
+
+	<hr/>
+
+	<a href="javascript:$('#oswtools_framekey_form').submit()" class="btn btn-primary d-block">Change Frame-Key</a>
+
+	<?php echo $osW_Form->drawHiddenField('doaction', 'dochange'); ?>
+
+	<?php echo $osW_Form->endForm(); ?>
+
+	<hr>
+
+	<a href="<?php echo $this->buildHrefLink('current', 'action=framekey&doaction=donew')?>" class="float-right text-danger">Create new Frame-Key</a>
 
 <?php else: ?>
 

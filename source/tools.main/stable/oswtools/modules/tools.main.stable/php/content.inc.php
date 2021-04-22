@@ -24,6 +24,7 @@ if ($Tool->hasUpdate()===true) {
 $Tool->addNavigationElement('start', ['action'=>'start', 'title'=>'Start', 'icon'=>'fa fa-home fa-fw']);
 $Tool->addNavigationElement('more', ['title'=>'More', 'icon'=>'fas fa-cog fa-fw']);
 $Tool->addNavigationElement('protecttools', ['action'=>'protecttools', 'title'=>'Protect Tools', 'icon'=>'fas fa-sign-in-alt fa-fw'], 'more');
+$Tool->addNavigationElement('framekey', ['action'=>'framekey', 'title'=>'Frame-Key', 'icon'=>'fas fa-key fa-fw'], 'more');
 $Tool->addNavigationElement('changelog', ['action'=>'changelog', 'title'=>'Changelog', 'icon'=>'fas fa-list fa-fw'], 'more');
 $Tool->addNavigationElement('about', ['action'=>'about', 'title'=>'About', 'icon'=>'fas fa-info fa-fw'], 'more');
 \osWFrame\Core\Settings::setAction($Tool->validateAction(\osWFrame\Core\Settings::getAction()));
@@ -81,6 +82,28 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 	}
 
 	$osW_Template->setVar('osW_Form', $osW_Form);
+
+} elseif (in_array(\osWFrame\Core\Settings::getAction(), ['framekey'])) {
+
+	$osW_Form=new \osWFrame\Core\Form();
+
+	if (\osWFrame\Tools\Helper::getDoAction()=='donew') {
+		$Tool->createNewFrameKey();
+		\osWFrame\Tools\Server::getFrameKey(true);
+	}
+
+	if (\osWFrame\Tools\Helper::getDoAction()=='dochange') {
+		$frame_key=\osWFrame\Core\Settings::catchStringPostValue('frame_key');
+		if ($Tool->validateFrameKey($frame_key)!==true) {
+			$osW_Form->addErrorMessage('frame_key', 'Frame-Key is not correct. 64 chars, 0-9a-zA-Z.');
+		} else {
+			$Tool->writeFrameKey($frame_key);
+			\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'Frame-Key changed successfully.']);
+		}
+	}
+
+	$osW_Template->setVar('osW_Form', $osW_Form);
+
 } else {
 	$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tools.main.js'];
 	$osW_Template->addTemplateJSFiles('head', $jsfiles);
