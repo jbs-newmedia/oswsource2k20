@@ -70,9 +70,15 @@
 					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['s']==1): ?><i class="fas fa-not-equal fa-fw"></i><?php elseif ($status['s']==2): ?><i class="fas fa-plus fa-fw"></i><?php elseif ($status['s']==3): ?><i class="fas fa-minus fa-fw"></i><?php else: ?><i class="fas fa-bug"></i><?php endif ?></span></td>
 					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['t']=='f'): ?><i class="fas fa-file fa-fw"></i><?php elseif ($status['t']='d'): ?><i class="fas fa-folder fa-fw"></i><?php else: ?><i class="fas fa-bug"></i><?php endif ?></span></td>
 					<td><?php echo $element ?></td>
-					<td class="projectverify_options text-center"><a title="Remove" href="javascript:engine('<?php echo $this->buildhrefLink('current', 'action=settings&doaction=doignore')?>', '<?php echo $this->buildhrefLink('current', 'action=start')?>', '<?php echo $element?>', '<?php echo $status['t']?>')" class="btn btn-primary btn-xs"><i class="fa fa-times fa-fw"></i></a></td>
+					<td class="projectverify_options text-center"><a title="Remove" href="javascript:engine('<?php echo $this->buildhrefLink('current', 'action=settings&doaction=doignore') ?>', '<?php echo $this->buildhrefLink('current', 'action=start') ?>', '<?php echo $element ?>', '<?php echo $status['t'] ?>')" class="btn btn-primary btn-xs"><i class="fa fa-times fa-fw"></i></a></td>
 				</tr>
 			<?php endforeach ?>
+
+		<?php else: ?>
+
+			<tr>
+				<td colspan="4">Nothing changed.</td>
+			</tr>
 
 		<?php endif ?>
 
@@ -83,7 +89,7 @@
 
 		<hr/>
 
-		<a href="<?php echo $this->buildhrefLink('current', 'action=start&doaction=download')?>" class="btn btn-primary d-block">Create and download ZIP-archive</a>
+		<a href="<?php echo $this->buildhrefLink('current', 'action=start&doaction=download') ?>" class="btn btn-primary d-block">Create and download ZIP-archive</a>
 
 	<?php endif ?>
 
