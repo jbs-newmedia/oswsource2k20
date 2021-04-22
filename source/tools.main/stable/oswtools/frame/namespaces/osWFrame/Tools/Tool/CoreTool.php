@@ -110,6 +110,9 @@ class CoreTool {
 		$this->initUsedSoftware();
 		Frame\MessageWriter::addIgnore('result');
 		Frame\MessageWriter::addIgnore('configure');
+		if ($this->checkProtection()!==true) {
+			\osWFrame\Core\MessageStack::addMessage('result', 'danger', ['msg'=>'Please protect your tools. Check "osWTools:Main" ➜ "More" ➜ "Protect Tools"']);
+		}
 	}
 
 	/**
@@ -331,6 +334,7 @@ class CoreTool {
 					$update=Frame\Session::getArrayVar('update');
 					if (($update==null)||(!isset($update[$this->getServerlist().'#'.$this->getPackage().'#'.$this->getRelease()]))) {
 						Tools\Server::updatePackageList(true);
+
 						return true;
 					}
 				}
@@ -454,6 +458,32 @@ class CoreTool {
 	 */
 	public function getActions():array {
 		return $this->actions;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasProtection():bool {
+		$file_ht=\osWFrame\Core\Settings::getStringVar('settings_abspath').'.htaccess';
+		if (Frame\Filesystem::existsFile($file_ht)) {
+			if (strpos(file_get_contents($file_ht), 'AuthType Basic')>0) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function checkProtection():bool {
+		$file_dev=\osWFrame\Core\Settings::getStringVar('settings_framepath').'modules'.DIRECTORY_SEPARATOR.'configure.project-dev.php';
+		if (Frame\Filesystem::existsFile($file_dev)===true) {
+			return true;
+		}
+
+		return $this->hasProtection();
 	}
 
 }

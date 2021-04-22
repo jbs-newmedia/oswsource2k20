@@ -22,11 +22,107 @@
 
 <?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['protecttools'])): ?>
 
+	<ul class="nav nav-tabs mb-3">
+		<li class="nav-item">
+			<a class="nav-link<?php if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['manage'])): ?> active<?php endif ?>" href="<?php echo $this->buildhrefLink('current', 'doaction=manage') ?>">Manage</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link<?php if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['new'])): ?> active<?php endif ?>" href="<?php echo $this->buildhrefLink('current', 'doaction=new') ?>">New user</a>
+		</li>
+	</ul>
 
-	<?php if (in_array($part, ['manage'])): ?>
+	<?php echo $osW_Form->startForm('oswtools_main_form', 'current', 'action=protecttools', ['input_addid'=>true]); ?>
+
+	<?php if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['new'])): ?>
+
+		<p>Please enter the requested data and confirm your input by pressing the button "create user in .htaccess".</p>
+
+		<hr/>
+
+		<label class="font-weight-bold" for="main_username">Username*:</label>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
+			</div>
+			<?php echo $osW_Form->drawTextField('main_username', '', ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
+			<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('main_username') ?></div>
+		</div>
+
+		<label class="font-weight-bold" for="main_password">Password*:</label>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text"><i class="fas fa-lock fa-fw"></i></span>
+			</div>
+			<?php echo $osW_Form->drawPasswordField('main_password', '', ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
+			<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('main_password') ?></div>
+		</div>
+
+		<label class="font-weight-bold" for="main_confirm_password">Password (confirm)*:</label>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text"><i class="fas fa-lock fa-fw"></i></span>
+			</div>
+			<?php echo $osW_Form->drawPasswordField('main_confirm_password', '', ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
+			<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('main_confirm_password') ?></div>
+		</div>
+
+		<hr/>
+
+		<a href="javascript:$('#oswtools_main_form').submit()" class="btn btn-primary d-block">create user in .htaccess</a>
+
+		<?php echo $osW_Form->drawHiddenField('doaction', 'donew'); ?>
 
 	<?php endif ?>
 
+
+	<?php if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['manage'])): ?>
+
+		<p>The user list provides an overview of all created users. Select "remove" and then the "remove selected users from .htaccess" button to delete the users.</p>
+
+		<hr/>
+
+		<table id="oswtools_main_protecttools_manager" class="table table-striped table-bordered">
+			<thead>
+			<tr>
+				<th style="width:3rem;" class="text-center">Remove</th>
+				<th>Username</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php if ($Tool->getHTUsers()!==[]): ?>
+
+				<?php foreach ($Tool->getHTUsers() as $user=>$blank): ?>
+
+					<tr>
+						<td class="text-center"><?php echo $osW_Form->drawCheckboxField('updtusers['.$user.']', 1, 0);?></td>
+						<td><?php echo \osWFrame\Core\HTML::outputString($user) ?></td>
+					</tr>
+
+				<?php endforeach ?>
+
+			<?php else: ?>
+				<tr>
+					<td colspan="2">No users available in table</td>
+				</tr>
+			<?php endif ?>
+			</tbody>
+		</table>
+
+		<?php if ($Tool->getHTUsers()!==[]): ?>
+
+			<hr/>
+
+			<a href="javascript:$('#oswtools_main_form').submit()" class="btn btn-primary d-block">Remove selected users from .htaccess</a>
+
+
+		<?php endif ?>
+
+
+		<?php echo $osW_Form->drawHiddenField('doaction', 'domanage'); ?>
+
+	<?php endif ?>
+
+	<?php echo $osW_Form->endForm(); ?>
 
 <?php else: ?>
 

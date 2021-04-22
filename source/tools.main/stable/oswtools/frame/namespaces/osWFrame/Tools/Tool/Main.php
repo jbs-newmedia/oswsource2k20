@@ -135,7 +135,7 @@ class Main extends CoreTool {
 	/**
 	 * @return array
 	 */
-	public function getHTUsers():array {
+	public function loadHTUsers():object {
 		$htpasswd_file=Frame\Settings::getStringVar('settings_abspath').'.htpasswd';
 
 		$this->htusers=[];
@@ -146,7 +146,7 @@ class Main extends CoreTool {
 					if (strlen($user)>3) {
 						$ar_user=explode(':', $user);
 						if (count($ar_user)>=2) {
-							$this->htusers[$ar_user[0]]=trim($user);
+							$this->htusers[$ar_user[0]]=trim(str_replace($ar_user[0].':', '', $user));
 						}
 					}
 				}
@@ -155,7 +155,81 @@ class Main extends CoreTool {
 			$this->htusers=[];
 		}
 
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getHTUsers():array {
+		if ($this->htusers==[]) {
+			$this->loadHTUsers();
+		}
+
 		return $this->htusers;
+	}
+
+	/**
+	 * @param array $users
+	 * @return object
+	 */
+	public function removeHTUsers(array $users):object {
+		if ($this->htusers==[]) {
+			$this->loadHTUsers();
+		}
+
+		foreach ($users as $user) {
+			if (isset($this->htusers[$user])) {
+				unset($this->htusers[$user]);
+			}
+		}
+		$this->writeHTAccess();
+		$this->loadHTUsers();
+
+		return $this;
+	}
+
+	/**
+	 * @param string $username
+	 * @param string $password
+	 * @return object
+	 */
+	public function addHTUser(string $username, string $password):object {
+		if ($this->htusers==[]) {
+			$this->loadHTUsers();
+		}
+		$this->htusers[$username]=crypt($password, crypt('pass12$hz', 'oswtools'));
+
+		return $this;
+	}
+
+	/**
+	 * @return object
+	 */
+	public function writeHTAccess():object {
+		$file_ht=\osWFrame\Core\Settings::getStringVar('settings_abspath').'.htaccess';
+		$file_pw=\osWFrame\Core\Settings::getStringVar('settings_abspath').'.htpasswd';
+		if (Frame\Filesystem::existsFile($file_ht)) {
+			if ($this->htusers!==[]) {
+				$content_pw=[];
+				ksort($this->htusers);
+				foreach ($this->htusers as $user=>$password) {
+					$content_pw[]=$user.':'.$password;
+				}
+				file_put_contents($file_pw, implode("\n", $content_pw));
+				Frame\Filesystem::changeFilemode($file_pw, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
+				$content_ht="\n\nAuthType Basic\nAuthName \"osWTools\"\nAuthUserFile \"".\osWFrame\Core\Settings::getStringVar('settings_abspath').".htpasswd\"\nrequire valid-user\n\n";
+			} else {
+				if (Frame\Filesystem::existsFile($file_pw)) {
+					Frame\Filesystem::delFile($file_pw);
+				}
+				$content_ht="\n\n";
+			}
+			file_put_contents($file_ht, preg_replace('/# osWFrame .htaccess permission begin #(.*)# osWFrame .htaccess permission end #/Uis', '# osWFrame .htaccess permission begin #'.$content_ht.'# osWFrame .htaccess permission end #', file_get_contents($file_ht)));
+			Frame\Filesystem::changeFilemode($file_ht, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
+		}
+
+		return $this;
 	}
 
 }

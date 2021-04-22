@@ -34,81 +34,53 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 } elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])) {
 	include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'changelog.inc.php';
 } elseif (in_array(\osWFrame\Core\Settings::getAction(), ['protecttools'])) {
-	$part=\osWFrame\Core\Settings::catchStringValue('part', '', 'pg');
-	if (!in_array($part, ['new', 'manage'])) {
-		$part='manage';
+	if (!in_array(\osWFrame\Tools\Helper::getDoAction(), ['new', 'donew', 'manage', 'domanage'])) {
+		\osWFrame\Tools\Helper::setDoAction('manage');
+	}
+
+	$osW_Form=new \osWFrame\Core\Form();
+
+	if (\osWFrame\Tools\Helper::getDoAction()=='donew') {
+		$main_username=trim(\osWFrame\Core\Settings::catchStringValue('main_username'));
+		$main_password=\osWFrame\Core\Settings::catchStringValue('main_password');
+		$main_confirm_password=\osWFrame\Core\Settings::catchStringValue('main_confirm_password');
+
+		if (strlen($main_username)<3) {
+			$osW_Form->addErrorMessage('main_username', 'Username is too short.');
+		}
+
+		if (strlen($main_password)<8) {
+			$osW_Form->addErrorMessage('main_password', 'Password is too short.');
+		} elseif ($main_password!==$main_confirm_password) {
+			$osW_Form->addErrorMessage('main_confirm_password', 'Password and confirmation does not match.');
+		}
+
+		if ($osW_Form->hasErrorMessages()===true) {
+			\osWFrame\Tools\Helper::setDoAction('new');
+		} else {
+			$Tool->addHTUser($main_username, $main_password);
+			$Tool->writeHTAccess();
+			\osWFrame\Tools\Helper::setDoAction('manage');
+			\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'.htaccess has been successfully updated.']);
+		}
 	}
 
 	if (\osWFrame\Tools\Helper::getDoAction()=='domanage') {
-		$config = array();
-		$config['htaccess'] = abs_path.'.htaccess';
-		$config['htpasswd'] = abs_path.'.htpasswd';
-
-		if (count($users)>0) {
-			foreach ($users as $user => $blank) {
+		$remove=[];
+		if ($Tool->getHTUsers()!==[]) {
+			foreach ($Tool->getHTUsers() as $user=>$password) {
 				if (isset($_POST['updtusers'][$user])) {
-					unset($users[$user]);
+					$remove[]=$user;
 				}
 			}
 		}
-
-		if (file_exists($config['htaccess'])) {
-			$htaccess=file_get_contents($config['htaccess']);
-		} else {
-			$htaccess='';
-		}
-		if ((!file_exists($config['htaccess']))||(!strstr($htaccess, '#osWFrame tpf#'))) {
-			$file = fopen($config['htaccess'], "w+");
-			$rules = array( '#osWFrame tpf#',
-				'AuthType Basic',
-				'AuthName "osWTools"',
-				'AuthUserFile "'.$config['htpasswd'].'"',
-				'require valid-user');
-
-			foreach($rules as $line) {
-				fputs($file,$line."\n");
-			}
-			fclose($file);
-			chmod($config['htaccess'], osW_Tool::getInstance()->chmodFile());
-		}
-
-		$file = fopen($config['htpasswd'], "w+");
-		foreach($users as $line) {
-			fputs($file,$line."\n");
-		}
-		fclose($file);
-		chmod($config['htpasswd'], osW_Tool::getInstance()->chmodFile());
-
-		$users=array();
-		if (file_exists($htpasswd_file)) {
-			$htpasswd=file($htpasswd_file);
-
-			if (count($htpasswd)>0) {
-				foreach ($htpasswd as $user) {
-					if (strlen($user)>3) {
-						$ar_user=explode(':', $user);
-						if (count($ar_user)>=2) {
-							$users[$ar_user[0]]=trim($user);
-						}
-					}
-				}
-			} else {
-				unlink($config['htaccess']);
-				unlink($config['htpasswd']);
-			}
-		} else {
-			$htpasswd=array();
-		}
-
-		$messages['success'][]='.htaccess has been successfully updated.';
-		osW_Tool_Session::getInstance()->set('messages', $messages);
-		osW_Tool::getInstance()->_direct('index.php?session='.osW_Tool_Session::getInstance()->getId().'&action=protecttools&part=manage');
+		$Tool->removeHTUsers($remove);
+		$Tool->writeHTAccess();
+		\osWFrame\Tools\Helper::setDoAction('manage');
+		\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'.htaccess has been successfully updated.']);
 	}
 
-
-	print_a($part);
-	die();
-	$osW_Template->setVar('part', $part);
+	$osW_Template->setVar('osW_Form', $osW_Form);
 } else {
 	$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'tools.main.js'];
 	$osW_Template->addTemplateJSFiles('head', $jsfiles);

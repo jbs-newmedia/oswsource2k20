@@ -46,7 +46,7 @@
 			<?php if(count($Tool->getResourceList())>0):?>
 				<?php $i=0;foreach ($Tool->getResourceList() as $dir):$i++;?>
 					<tr>
-						<td class="text-center"><input type="checkbox" name="dir[<?php echo $dir?>]" value="1"/></td>
+						<td class="text-center"><?php echo $osW_Form->drawCheckboxField('dir['.$dir.']', 1, 0);?></td>
 						<td><?php echo $dir?></td>
 					</tr>
 				<?php endforeach?>

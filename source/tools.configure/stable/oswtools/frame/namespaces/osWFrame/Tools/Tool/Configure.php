@@ -342,7 +342,7 @@ class Configure extends CoreTool {
 			}
 			$file=$dir.$this->files[$page]['file'].'.json';
 			file_put_contents($file, json_encode($this->values_post));
-			Frame\Filesystem::changeFilemode($file, Tools\Configure::getFrameConfigInt('settings_chmod_file', 'int'));
+			Frame\Filesystem::changeFilemode($file, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
 		}
 
 		return $this;
