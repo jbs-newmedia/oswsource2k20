@@ -25,12 +25,12 @@ class Template {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -690,18 +690,6 @@ class Template {
 			$namespace='osWFrame\Core\Form';
 		}
 		$this->forms[$alias]=new $namespace();
-
-		return true;
-	}
-
-	/**
-	 *
-	 * @param string $alias
-	 * @param object $object
-	 * @return bool
-	 */
-	public function addForm(string $alias='default', object $object):bool {
-		$this->forms[$alias]=$object;
 
 		return true;
 	}
