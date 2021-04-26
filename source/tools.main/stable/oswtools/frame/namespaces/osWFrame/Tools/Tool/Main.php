@@ -27,7 +27,7 @@ class Main extends CoreTool {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -70,6 +70,7 @@ class Main extends CoreTool {
 	public function __construct(string $serverlist, string $package, string $release) {
 		parent::__construct($serverlist, $package, $release);
 		$this->Manager=new Tools\Manager();
+		$this->checkHTAccess();
 	}
 
 	/**
@@ -227,6 +228,28 @@ class Main extends CoreTool {
 			}
 			file_put_contents($file_ht, preg_replace('/# osWFrame .htaccess permission begin #(.*)# osWFrame .htaccess permission end #/Uis', '# osWFrame .htaccess permission begin #'.$content_ht.'# osWFrame .htaccess permission end #', file_get_contents($file_ht)));
 			Frame\Filesystem::changeFilemode($file_ht, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return object
+	 */
+	public function checkHTAccess():object {
+		$file_ht=\osWFrame\Core\Settings::getStringVar('settings_abspath').'.htaccess';
+		if (Frame\Filesystem::getFileModTime($file_ht)<Frame\Filesystem::getFileModTime(__FILE__)) {
+			if (Frame\Filesystem::existsFile($file_ht)!==true) {
+				file_put_contents($file_ht, "# osWFrame .htaccess permission begin #\n\n# osWFrame .htaccess permission end #\n\n# osWFrame .htaccess block begin #\n\nRewriteEngine on\n\nRewriteRule ^tools.([a-z0-9-_]+).stable$ ?module=tools.$1.stable&%{QUERY_STRING} [L]\nRewriteRule ^tools.([a-z0-9-_]+).stable/$ ?module=tools.$1.stable&%{QUERY_STRING} [L]\nRewriteRule ^tools.([a-z0-9-_]+).stable/([a-z0-9-_]+)$ ?module=tools.$1.stable&action=$2&%{QUERY_STRING} [L]\nRewriteRule ^tools.([a-z0-9-_]+).stable/([a-z0-9-_]+)/$ ?module=tools.$1.stable&action=$2&%{QUERY_STRING} [L]\n\nRewriteRule ^([a-zA-Z0-9-_]+)/([a-zA-Z0-9-]+)?_([0-9]+)$ ?module=$1&element_id=$3&%{QUERY_STRING} [L]\nRewriteRule ^([a-zA-Z0-9-_]+)$ ?module=$1&%{QUERY_STRING} [L]\n\nErrorDocument 400 ?module=_errorlogger&error_status=400\nErrorDocument 401 ?module=_errorlogger&error_status=401\nErrorDocument 402 ?module=_errorlogger&error_status=402\nErrorDocument 403 ?module=_errorlogger&error_status=403\nErrorDocument 404 ?module=_errorlogger&error_status=404\nErrorDocument 405 ?module=_errorlogger&error_status=405\nErrorDocument 406 ?module=_errorlogger&error_status=406\nErrorDocument 407 ?module=_errorlogger&error_status=407\nErrorDocument 408 ?module=_errorlogger&error_status=408\nErrorDocument 409 ?module=_errorlogger&error_status=409\nErrorDocument 410 ?module=_errorlogger&error_status=410\nErrorDocument 411 ?module=_errorlogger&error_status=411\nErrorDocument 412 ?module=_errorlogger&error_status=412\nErrorDocument 413 ?module=_errorlogger&error_status=413\nErrorDocument 414 ?module=_errorlogger&error_status=414\nErrorDocument 415 ?module=_errorlogger&error_status=415\nErrorDocument 416 ?module=_errorlogger&error_status=416\nErrorDocument 417 ?module=_errorlogger&error_status=417\n\n# osWFrame .htaccess block end #");
+				Frame\Filesystem::changeFilemode($file_ht, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
+			} else {
+				touch($file_ht);
+			}
+
+			$file_pw=\osWFrame\Core\Settings::getStringVar('settings_abspath').'.htpasswd';
+			if (Frame\Filesystem::existsFile($file_pw)===true) {
+				file_put_contents($file_ht, preg_replace('/# osWFrame .htaccess permission begin #(.*)# osWFrame .htaccess permission end #/Uis', '# osWFrame .htaccess permission begin #'."\n\nAuthType Basic\nAuthName \"osWTools\"\nAuthUserFile \"".\osWFrame\Core\Settings::getStringVar('settings_abspath').".htpasswd\"\nrequire valid-user\n\n".'# osWFrame .htaccess permission end #', file_get_contents($file_ht)));
+			}
 		}
 
 		return $this;
