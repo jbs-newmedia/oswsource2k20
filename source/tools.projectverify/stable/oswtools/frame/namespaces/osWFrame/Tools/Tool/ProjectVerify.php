@@ -33,7 +33,7 @@ class ProjectVerify extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -241,7 +241,7 @@ class ProjectVerify extends CoreTool {
 	 * @return bool
 	 */
 	public function updateSettings(array $_projectverify_files, array $_projectverify_dirs, bool $load_settings=false):bool {
-		if ($load_settings===true) {
+		if (($load_settings===true)&&($this->getArraySetting('projectverify_files')!==null)) {
 			$projectverify_files=$this->getArraySetting('projectverify_files');
 		} else {
 			$projectverify_files=[];
@@ -252,8 +252,7 @@ class ProjectVerify extends CoreTool {
 				$projectverify_files[]=$value;
 			}
 		}
-
-		if ($load_settings===true) {
+		if (($load_settings===true)&&($this->getArraySetting('projectverify_dirs')!==null)) {
 			$projectverify_dirs=$this->getArraySetting('projectverify_dirs');
 		} else {
 			$projectverify_dirs=[];
