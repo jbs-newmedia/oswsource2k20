@@ -29,7 +29,7 @@ class Cache {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -299,7 +299,7 @@ class Cache {
 	 * @param string $extension
 	 * @return bool
 	 */
-	public static function clearCache(string $module, int $expire, $extension='.cache'):bool {
+	public static function clearCache(string $module, int $expire, string $extension='.cache'):bool {
 		$dir=self::getDirName($module);
 		$oldertime=time()-$expire;
 		$dir_a=scandir($dir);

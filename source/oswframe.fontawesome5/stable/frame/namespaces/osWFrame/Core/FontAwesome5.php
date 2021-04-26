@@ -25,7 +25,7 @@ class FontAwesome5 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -100,23 +100,11 @@ class FontAwesome5 {
 	}
 
 	/**
-	 * Initialisiert die Klasse.
-	 *
-	 * @return bool
-	 */
-	public function init():bool {
-		$this->loaded_plugins=[];
-		$this->clearTemplateFiles();
-
-		return true;
-	}
-
-	/**
 	 * Gibt die aktuelle Version zurück.
 	 *
 	 * @return string
 	 */
-	public function getCurrentVersion() {
+	public function getCurrentVersion():string {
 		return self::CURRENT_RESOURCE_VERSION;
 	}
 

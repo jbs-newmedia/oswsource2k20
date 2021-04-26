@@ -30,7 +30,7 @@ class Settings {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -498,14 +498,13 @@ class Settings {
 	/**
 	 * Gibt den Inhalt einer GET/POST/FILES/COOKIE/SESSION/SERVER Variablen zurück oder initialisiert sie.
 	 *
-	 * @access public
-	 * @param string Name der Variable
-	 * @param mixed Initialisierungswert sofern Variable nicht vorhanden ist
-	 * @param string Liste und Reihenfolge der Globals (g=GET, p=POST, f=FILE, c=COOKIE, s=SESSION, r=SERVER)
-	 * @param mixed wenn gesetzt, dann der Key des Arrays
+	 * @param string $key Name der Variable
+	 * @param mixed $default Initialisierungswert sofern Variable nicht vorhanden ist
+	 * @param string $order Liste und Reihenfolge der Globals (g=GET, p=POST, f=FILE, c=COOKIE, s=SESSION, r=SERVER)
+	 * @param null $index wenn gesetzt, dann der Key des Arrays
 	 * @return mixed
 	 */
-	public static function catchValue($key, $default='', $order='gpcs', $index=null) {
+	public static function catchValue(string $key, mixed $default='', string $order='gpcs', $index=null):mixed {
 		for ($i=0; $i<strlen($order); $i++) {
 			switch ($order[$i]) {
 				case 'g':

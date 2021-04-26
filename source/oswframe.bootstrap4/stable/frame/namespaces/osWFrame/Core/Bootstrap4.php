@@ -30,7 +30,7 @@ class Bootstrap4 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -100,7 +100,7 @@ class Bootstrap4 {
 	 *
 	 * @return string
 	 */
-	public function getCurrentVersion() {
+	public function getCurrentVersion():string {
 		return self::CURRENT_RESOURCE_VERSION;
 	}
 

@@ -24,7 +24,7 @@ class Database {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -84,102 +84,103 @@ class Database {
 	 *
 	 * @param string $alias
 	 */
-	public function __construct($alias='default') {
+	public function __construct(string $alias='default') {
 		$this->PDO=DB::getConnection($alias);
 	}
 
 	/**
-	 *
-	 * @param string $query
-	 * @return array
+	 * @param $query
+	 * @return object
 	 */
-	public function prepare($query) {
+	public function prepare(string $query):object {
 		$this->setQuery($query);
+
+		return $this;
 	}
 
 	/**
 	 *
 	 * @param string $name
 	 * @param string $value
-	 * @return bool
+	 * @return object
 	 */
-	public function bindTable(string $name, string $value):bool {
+	public function bindTable(string $name, string $value):object {
 		$this->setQuery(str_replace($name, Settings::getStringVar('database_prefix').$value, $this->getQuery()));
 
-		return true;
+		return $this;
 	}
 
 	/**
 	 *
 	 * @param string $name
 	 * @param bool $value
-	 * @return bool
+	 * @return object
 	 */
-	public function bindBool(string $name, bool $value):bool {
+	public function bindBool(string $name, bool $value):object {
 		$this->setQuery(str_replace($name, intval($value), $this->getQuery()));
 
-		return true;
+		return $this;
 	}
 
 	/**
 	 *
 	 * @param string $name
 	 * @param string $value
-	 * @return bool
+	 * @return object
 	 */
-	public function bindString(string $name, string $value):bool {
+	public function bindString(string $name, string $value):object {
 		$this->setQuery(str_replace($name, $this->escapeString($value), $this->getQuery()));
 
-		return true;
+		return $this;
 	}
 
 	/**
 	 *
 	 * @param string $name
 	 * @param string $value
-	 * @return bool
+	 * @return object
 	 */
-	public function bindCrypt(string $name, string $value):bool {
+	public function bindCrypt(string $name, string $value):object {
 		$this->setQuery(str_replace($name, $this->escapeString(StringFunctions::encryptString($value, 'sha512', 6)), $this->getQuery()));
 
-		return true;
+		return $this;
 	}
 
 	/**
 	 *
 	 * @param string $name
 	 * @param int $value
-	 * @return bool
+	 * @return object
 	 */
-	public function bindInt(string $name, int $value):bool {
+	public function bindInt(string $name, int $value):object {
 		$this->setQuery(str_replace($name, $value, $this->getQuery()));
 
-		return true;
+		return $this;
 	}
 
 	/**
 	 *
 	 * @param string $name
 	 * @param float $value
-	 * @return bool
+	 * @return object
 	 */
-	public function bindFloat(string $name, float $value):bool {
+	public function bindFloat(string $name, float $value):object {
 		$value=str_replace(',', '.', strval($value));
 		$this->setQuery(str_replace($name, $value, $this->getQuery()));
 
-		return true;
+		return $this;
 	}
 
 	/**
 	 *
 	 * @param string $name
 	 * @param string $value
-	 * @return bool
+	 * @return object
 	 */
-	public function bindRaw(string $name, string $value):bool {
+	public function bindRaw(string $name, string $value):object {
 		$this->setQuery(str_replace($name, $value, $this->getQuery()));
 
-		return true;
+		return $this;
 	}
 
 	/**
@@ -188,9 +189,9 @@ class Database {
 	 * @param int $max_rows
 	 * @param int $page
 	 * @param string $page_holder
-	 * @return bool
+	 * @return object
 	 */
-	public function bindLimit(string $primay_key, int $number_of_rows_per_page=100, int $current_page_number=0, string $page_holder='page'):bool {
+	public function bindLimit(string $primay_key, int $number_of_rows_per_page=100, int $current_page_number=0, string $page_holder='page'):object {
 		if ($current_page_number==0) {
 			$current_page_number=intval(h()->_catch($page_holder, 1, 'gp'));
 		}
@@ -225,18 +226,18 @@ class Database {
 		}
 		$this->setQuery($this->getQuery().' LIMIT '.$offset.', '.$this->limitrows['number_of_rows_per_page']);
 
-		return true;
+		return $this;
 	}
 
 	/**
 	 *
 	 * @param string $query
-	 * @return bool
+	 * @return object
 	 */
-	public function setQuery(string $query):bool {
+	public function setQuery(string $query):object {
 		$this->query=$query;
 
-		return true;
+		return $this;
 	}
 
 	/**

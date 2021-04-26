@@ -29,7 +29,7 @@ class IconCreator extends \PHP_ICO {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -65,11 +65,11 @@ class IconCreator extends \PHP_ICO {
 	}
 
 	/**
-	 * @param $file
-	 * @param $sizes
+	 * @param string $file
+	 * @param array $sizes
 	 * @return bool
 	 */
-	public static function existsCache($file, $sizes) {
+	public static function existsCache(string $file, array $sizes):bool {
 		$filenamecache=md5($file.'#'.serialize($sizes));
 		if ((Cache::existsCache(self::getClassName(), $filenamecache)!==true)||((Filesystem::getFileModTime($file)>Cache::getCacheModTime(self::getClassName(), $filenamecache)))) {
 			return false;
@@ -79,22 +79,22 @@ class IconCreator extends \PHP_ICO {
 	}
 
 	/**
-	 * @param $file
-	 * @param $sizes
+	 * @param string $file
+	 * @param array $sizes
 	 * @return string
 	 */
-	public static function readCache($file, $sizes):string {
+	public static function readCache(string $file, array $sizes):string {
 		$filenamecache=md5($file.'#'.serialize($sizes));
 
 		return Cache::readCacheAsString(self::getClassName(), $filenamecache);
 	}
 
 	/**
-	 * @param $file
-	 * @param $sizes
+	 * @param string $file
+	 * @param array $sizes
 	 * @return bool
 	 */
-	public function writeCache($file, $sizes):bool {
+	public function writeCache(string $file, array $sizes):bool {
 		$filenamecache=md5($file.'#'.serialize($sizes));
 		if (!$this->_has_requirements) {
 			return false;

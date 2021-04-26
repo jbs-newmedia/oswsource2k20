@@ -13,8 +13,8 @@
 /**
  * PHP Version prüfen.
  */
-if ((!defined('PHP_VERSION_ID'))||(PHP_VERSION_ID<70400)) {
-	die('This version of osWFrame requires PHP 7.4 or higher.<br/>You are currently running PHP '.phpversion().'.');
+if ((!defined('PHP_VERSION_ID'))||(PHP_VERSION_ID<80000)) {
+	die('This version of osWFrame requires PHP 8.0 or higher.<br/>You are currently running PHP '.phpversion().'.');
 }
 
 /**

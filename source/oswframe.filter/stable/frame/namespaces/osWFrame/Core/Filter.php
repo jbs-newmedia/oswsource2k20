@@ -29,7 +29,7 @@ class Filter {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -48,9 +48,9 @@ class Filter {
 	 * @param mixed $variable
 	 * @param int $filter
 	 * @param array $options
-	 * @return mixed
+	 * @return bool
 	 */
-	public static function verifyPattern($variable, int $filter=FILTER_DEFAULT, $options=[]):bool {
+	public static function verifyPattern(mixed $variable, int $filter=FILTER_DEFAULT, array $options=[]):bool {
 		if (filter_var($variable, $filter, $options)) {
 			return true;
 		}

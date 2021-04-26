@@ -29,7 +29,7 @@ class BreadCrumb {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -106,7 +106,6 @@ class BreadCrumb {
 	 * @return array|null
 	 */
 	public function get(int $id=0):?array {
-		$id=intval($id);
 		if ($id>0) {
 			if (isset($this->data[$id])) {
 				return $this->data[$id];

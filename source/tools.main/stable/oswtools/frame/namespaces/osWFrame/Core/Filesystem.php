@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -299,7 +299,7 @@ class Filesystem {
 	 * @param array $result
 	 * @return array|null
 	 */
-	private static function scanDirToArrayCore(string $dir, bool $recursive=false, int $deep=0, string $mode='fd', int $current_level=0, $result=[], bool $only_deep_result=false):?array {
+	private static function scanDirToArrayCore(string $dir, bool $recursive=false, int $deep=0, string $mode='fd', int $current_level=0, array $result=[], bool $only_deep_result=false):?array {
 		$dir=self::getDirName($dir);
 		if (self::isDir($dir)!==true) {
 			return null;
@@ -390,7 +390,7 @@ class Filesystem {
 	 * @param string $file
 	 * @return bool
 	 */
-	public static function delFile(string $file) {
+	public static function delFile(string $file):bool {
 		return self::unlink($file);
 	}
 
@@ -400,7 +400,7 @@ class Filesystem {
 	 * @param string $dir
 	 * @return bool
 	 */
-	public static function delDir(string $dir) {
+	public static function delDir(string $dir):bool {
 		$files=array_diff(self::scanDir($dir), ['.', '..']);
 		foreach ($files as $file) {
 			if (self::isDir($dir.$file)) {

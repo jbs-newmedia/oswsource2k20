@@ -25,7 +25,7 @@ class FavIcon {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -76,41 +76,6 @@ class FavIcon {
 		$this->setIcons();
 		$this->setAppleTouchIcons();
 		$this->setMSApplication();
-	}
-
-	public function writeIconsCache():bool {
-		/*
-		$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getFile();
-		$options=pathinfo($file);
-
-		print_a($options);
-
-		foreach ($this->getIcons() as $icon) {
-			print_a($icon);
-
-			if ((Cache::existsCache(self::getClassName(), $filename, '')!==true)||((self::getFilesModTime([$file])>Cache::getCacheModTime(self::getClassName(), $filename, '')))&&(Settings::getBoolVar('smartoptimizer_servercachecheck')===true)) {
-				$generateContent=true;
-			} else {
-				$generateContent=false;
-			}
-			if (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
-				if ($generateContent!==true) {
-					$mtime=Cache::getCacheModTime(self::getClassName(), $filename, '');
-				} else {
-					$mtime=self::getFilesModTime([$file]);
-				}
-				$mtimestr=DateTime::convertTimeStamp2GM($mtime);
-
-				if (Cache::existsCache(self::getClassName(), $file, '')!==true) {
-					Cache::writeCache(self::getClassName(), $file, $data, '');
-
-					return true;
-				}
-			}
-
-			return true;
-		}
-		*/
 	}
 
 	/**

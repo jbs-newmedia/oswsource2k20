@@ -37,7 +37,7 @@ trait BaseMessageTrait {
 	/**
 	 * @return bool
 	 */
-	public function getError() {
+	public function getError():bool {
 		return $this->error;
 	}
 

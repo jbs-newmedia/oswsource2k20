@@ -28,7 +28,7 @@ class FPDI extends \setasign\Fpdi\Tcpdf\Fpdi {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -41,7 +41,10 @@ class FPDI extends \setasign\Fpdi\Tcpdf\Fpdi {
 	 */
 	private const CLASS_EXTRA_VERSION='';
 
-	function Header() {
+	/**
+	 * @return object
+	 */
+	public function Header():object {
 		if ($this->tplId===null) {
 		}
 
@@ -49,10 +52,16 @@ class FPDI extends \setasign\Fpdi\Tcpdf\Fpdi {
 		$this->SetTextColor(0);
 		$this->SetXY(PDF_MARGIN_LEFT, 5);
 		$this->Cell(0, $size['height'], 'TCPDF and FPDI');
+
+		return $this;
 	}
 
-	function Footer() {
+	/**
+	 * @return object
+	 */
+	public function Footer():object {
 		// empty method body
+		return $this;
 	}
 
 }
