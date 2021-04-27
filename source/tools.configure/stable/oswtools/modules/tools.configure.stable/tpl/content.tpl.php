@@ -61,11 +61,11 @@
 
 	<div class="row">
 
-		<div class="col">
-			<?php if ($Tool->isFirstPage()!==true): ?><?php echo $osW_Form->drawSubmit('prev', 'Previous step', ['input_class'=>'btn btn-primary btn-block']); ?><?php endif ?>
-		</div>
-		<div class="col">
+		<div class="col order-2">
 			<?php if ($Tool->isLastPage()!==true): ?><?php echo $osW_Form->drawSubmit('next', 'Next step', ['input_class'=>'btn btn-primary btn-block']); ?><?php endif ?>
+		</div>
+		<div class="col order-1">
+			<?php if ($Tool->isFirstPage()!==true): ?><?php echo $osW_Form->drawSubmit('prev', 'Previous step', ['input_class'=>'btn btn-primary btn-block']); ?><?php endif ?>
 		</div>
 
 	</div>
