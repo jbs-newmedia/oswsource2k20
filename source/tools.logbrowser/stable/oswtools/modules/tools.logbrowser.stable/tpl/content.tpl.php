@@ -34,7 +34,7 @@
 					</div>
 				</div>
 			<?php else: ?>
-				---
+				<button class="btn btn-primary btn-block dropdown-toggle text-left dropdown-flex-right" type="button" id="dropdownDir" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">---</button>
 			<?php endif ?>
 		</div>
 		<div class="col">
@@ -72,6 +72,12 @@
 	</div>
 	<div class="row mt-3">
 		<div class="col">
+			<?php if (count($Tool->getLogDirs())==0): ?>
+				<div class="alert alert-info" role="alert">
+					No logfiles available.
+				</div>
+
+			<?php endif ?>
 
 			<?php if ($Tool->getFileDetailType()=='csv'): ?>
 				<div class="table-responsive">
