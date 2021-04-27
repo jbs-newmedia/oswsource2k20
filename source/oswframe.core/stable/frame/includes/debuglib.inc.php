@@ -1,11 +1,14 @@
 <?php
-#############################################################
-## Name		  : debuglib for PHP5
-## Author		: Thomas Schüßler <debuglib at atomar dot de>
-## Last changed  : 31.03.2009 10:15:13
-## Revision	  : 45
-## Website	   : http://phpdebuglib.de
-############################################################
+
+/**
+ * Based on "debuglib for PHP5" by Thomas Schüßler <debuglib at atomar dot de> (http://phpdebuglib.de)
+ *
+ * @author Juergen Schwind (https://jbs-newmedia.com)
+ * @package debuglib for PHP
+ * @link https://jbs-newmedia.com
+ * @version 46, 2021.05.27 11:12:32
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ */
 
 /*
  * Copyright (C) 2004-2009 by Thomas Schüßler
@@ -28,11 +31,11 @@
  *
 */
 
-if (function_exists('print_a')):
+if (function_exists('print_a')) {
 
 	return; // debuglib was already included before
 
-else:
+} else {
 
 	if (!defined('USE_DEBUGLIB'))
 		define('USE_DEBUGLIB', true);
@@ -905,15 +908,6 @@ else:
 		die;
 	}
 
-	// deprecated
-	function die_a($input, $options_string=null) {
-		if (!$GLOBALS['USE_DEBUGLIB'])
-			return;
-
-		print_a($input, $options_string);
-		die;
-	}
-
 	// good for printing all kind of superglobals at the bottom of a page
 	function show_vars($options_string=null) {
 		if (!$GLOBALS['USE_DEBUGLIB'])
@@ -957,18 +951,18 @@ else:
 		if (!$GLOBALS['USE_DEBUGLIB'])
 			return;
 
-		if (!$mysql_result||mysql_num_rows($mysql_result)<1)
+		if (!$mysql_result||mysqli_num_rows($mysql_result)<1)
 			return;
 
-		$field_count=mysql_num_fields($mysql_result);
+		$field_count=mysqli_num_fields($mysql_result);
 
 		$tables=[];
 
 		for ($i=0; $i<$field_count; $i++) {
-			if (isset($tables[mysql_field_table($mysql_result, $i)])) {
-				$tables[mysql_field_table($mysql_result, $i)]++;
+			if (isset($tables[mysqli_fetch_field_direct($mysql_result, $i)])) {
+				$tables[mysqli_fetch_field_direct($mysql_result, $i)]++;
 			} else {
-				$tables[mysql_field_table($mysql_result, $i)]=1;
+				$tables[mysqli_fetch_field_direct($mysql_result, $i)]=1;
 			}
 		}
 
@@ -1008,20 +1002,20 @@ else:
 		$html.='</tr>';
 
 		$html.='<tr>';
-		for ($i=0; $i<mysql_num_fields($mysql_result); $i++) {
-			$field=mysql_field_name($mysql_result, $i);
+		for ($i=0; $i<mysqli_num_fields($mysql_result); $i++) {
+			$field=mysqli_fetch_field_direct($mysql_result, $i);
 			$col=='#0054A6'?$col='#003471':$col='#0054A6';
 			$html.='<th style="background:'.$col.';" class="f_name">'.$field.'</th>';
 		}
 		$html.='</tr>';
 
-		mysql_data_seek($mysql_result, 0);
+		mysqli_data_seek($mysql_result, 0);
 
 		$toggle=false;
 		$pointer=0;
 
 		$table_id=str_replace('.', '', microtime(true));
-		while ($db_row=mysql_fetch_array($mysql_result, MYSQL_NUM)) {
+		while ($db_row=mysqli_fetch_array($mysql_result, MYSQL_NUM)) {
 			$pointer++;
 			if ($toggle) {
 				$col1="#E6E6E6";
@@ -1036,14 +1030,14 @@ else:
 			$html.='<tr id="'.$id.'" onMouseDown="DbugL_highlight(\''.$id.'\');">';
 			foreach ($db_row as $i=>$value) {
 				$col==$col1?$col=$col2:$col=$col1;
-				$flags=mysql_field_flags($mysql_result, $i);
+				$flags=mysqli_fetch_field_direct($mysql_result, $i);
 				$primary_flag=strpos($flags, 'primary_key')!==false;
 				$html.='<td style="background:'.$col.';'.($primary_flag?'font-weight:bold;':'').'" nowrap="nowrap">'.nl2br($value).'</td>';
 			}
 			$html.='</tr>';
 		}
 		$html.='</table>';
-		mysql_data_seek($mysql_result, 0);
+		mysqli_data_seek($mysql_result, 0);
 
 		if ($return_mode) {
 			return $html;
@@ -1051,17 +1045,6 @@ else:
 			print $html;
 		}
 	}
+}
 
-endif;
-
-#TODO#
-/*
-	inject css through javascript (inline style is bad... m'kay?)
-	unify options parsing
-	debuglevel and default parameter arrays for every function
-	fix fieldset width in IEx
-	debug backtrace issues
-	write a C extension that can test for reference recursions
-	start from scratch :)
-*/
-
+?>
