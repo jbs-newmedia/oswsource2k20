@@ -32,7 +32,6 @@
 	<?php endif ?>
 
 	<?php /* error */ ?>
-
 	<?php if ($this->getTemplate()->Form()->getErrorMessage($element)!==null): ?>
 		<div class="text-danger small"><?php echo $this->getTemplate()->Form()->getErrorMessage($element) ?></div>
 	<?php endif ?>

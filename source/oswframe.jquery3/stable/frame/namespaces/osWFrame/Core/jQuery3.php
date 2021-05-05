@@ -30,7 +30,7 @@ class jQuery3 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,7 +43,7 @@ class jQuery3 {
 	 *
 	 * @var string
 	 */
-	private const CURRENT_RESOURCE_VERSION='3.5.1';
+	private const CURRENT_RESOURCE_VERSION='3.6.0';
 
 	/**
 	 * Verwaltet die geladenen Plugins.

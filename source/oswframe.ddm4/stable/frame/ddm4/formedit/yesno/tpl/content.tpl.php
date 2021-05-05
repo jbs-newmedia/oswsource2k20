@@ -31,21 +31,17 @@
 
 		<?php /* input */ ?><?php foreach (str_split($this->getEditElementOption($element, 'displayorder')) as $key): ?><?php if ($key=='y'): ?>
 			<div class="form-check-inline">
-				<label class="form-check-label">
-					<div class="custom-control custom-radio">
-						<?php echo $this->getTemplate()->Form()->drawRadioField($element, '1', $this->getEditElementStorage($element), ['input_class'=>'custom-control-input']) ?>
-						<label class="custom-control-label<?php if ($this->getTemplate()->Form()->getErrorMessage($element)): ?> text-danger<?php endif ?>" for="<?php echo $element ?>0"><?php echo \osWFrame\Core\HTML::outputString($values['options']['text_yes']) ?></label>
-					</div>
-				</label>
+				<div class="form-check">
+					<?php echo $this->getTemplate()->Form()->drawRadioField($element, '1', $this->getEditElementStorage($element), ['input_class'=>'form-check-input']) ?>
+					<label class="form-check-label<?php if ($this->getTemplate()->Form()->getErrorMessage($element)): ?> text-danger<?php endif ?>" for="<?php echo $element ?>0"><?php echo \osWFrame\Core\HTML::outputString($values['options']['text_yes']) ?></label>
+				</div>
 			</div>
 		<?php endif ?><?php if ($key=='n'): ?>
 			<div class="form-check-inline">
-				<label class="form-check-label">
-					<div class="custom-control custom-radio">
-						<?php echo $this->getTemplate()->Form()->drawRadioField($element, '0', $this->getEditElementStorage($element), ['input_class'=>'custom-control-input']) ?>
-						<label class="custom-control-label<?php if ($this->getTemplate()->Form()->getErrorMessage($element)): ?> text-danger<?php endif ?>" for="<?php echo $element ?>1"><?php echo \osWFrame\Core\HTML::outputString($values['options']['text_no']) ?></label>
-					</div>
-				</label>
+				<div class="form-check">
+					<?php echo $this->getTemplate()->Form()->drawRadioField($element, '0', $this->getEditElementStorage($element), ['input_class'=>'form-check-input']) ?>
+					<label class="form-check-label<?php if ($this->getTemplate()->Form()->getErrorMessage($element)): ?> text-danger<?php endif ?>" for="<?php echo $element ?>1"><?php echo \osWFrame\Core\HTML::outputString($values['options']['text_no']) ?></label>
+				</div>
 			</div>
 		<?php endif ?><?php endforeach ?>
 

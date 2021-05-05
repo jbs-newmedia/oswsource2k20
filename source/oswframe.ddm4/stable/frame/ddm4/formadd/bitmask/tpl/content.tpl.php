@@ -64,9 +64,9 @@
 				<div class="form-check-inline">
 			<?php endif; ?>
 
-			<div class="custom-control custom-checkbox">
-				<?php echo $this->getTemplate()->Form()->drawCheckBoxField($element.'_'.$key, '1', ((isset($bitmask[$key])&&($bitmask[$key]=='1'))?1:0), ['input_parameter'=>'title="'.\osWFrame\Core\HTML::outputString($value).'"', 'input_class'=>'custom-control-input']) ?>
-				<label class="custom-control-label<?php if ($this->getTemplate()->Form()->getErrorMessage($element)!==null): ?> text-danger<?php endif ?>" for="<?php echo $element.'_'.$key ?>0"><?php echo \osWFrame\Core\HTML::outputString($value) ?></label>
+			<div class="form-check">
+				<?php echo $this->getTemplate()->Form()->drawCheckBoxField($element.'_'.$key, '1', ((isset($bitmask[$key])&&($bitmask[$key]=='1'))?1:0), ['input_parameter'=>'title="'.\osWFrame\Core\HTML::outputString($value).'"', 'input_class'=>'form-check-input']) ?>
+				<label class="form-check-label<?php if ($this->getTemplate()->Form()->getErrorMessage($element)!==null): ?> text-danger<?php endif ?>" for="<?php echo $element.'_'.$key ?>0"><?php echo \osWFrame\Core\HTML::outputString($value) ?></label>
 			</div>
 
 			<?php if ($this->getEditElementOption($element, 'orientation')=='horizontal'): ?>

@@ -24,12 +24,12 @@ class Filesystem {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -392,6 +392,15 @@ class Filesystem {
 	 */
 	public static function delFile(string $file):bool {
 		return self::unlink($file);
+	}
+
+	/**
+	 * @param string $oldname
+	 * @param string $newname
+	 * @return bool
+	 */
+	public static function renameFile(string $oldname, string $newname):bool {
+		return rename($oldname, $newname);
 	}
 
 	/**

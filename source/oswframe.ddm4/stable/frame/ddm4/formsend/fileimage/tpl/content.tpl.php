@@ -54,14 +54,14 @@
 
 	<?php /* misc */ ?>
 	<?php if (($this->getDoSendElementStorage($element.$this->getSendElementOption($element, 'temp_suffix'))!='')&&($this->getSendElementOption($element, 'read_only')!==true)): ?>
-		<div class="custom-control custom-checkbox">
-			<?php echo $this->getTemplate()->Form()->drawCheckBoxField($element.$this->getSendElementOption($element, 'temp_suffix').$this->getSendElementOption($element, 'delete_suffix'), 1, 0, ['input_parameter'=>'title="'.\osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_delete')).'"', 'input_class'=>'custom-control-input']) ?>
-			<label class="custom-control-label" for="<?php echo $element.$this->getSendElementOption($element, 'temp_suffix').$this->getSendElementOption($element, 'delete_suffix') ?>0"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_delete')) ?></label>
+		<div class="form-check">
+			<?php echo $this->getTemplate()->Form()->drawCheckBoxField($element.$this->getSendElementOption($element, 'temp_suffix').$this->getSendElementOption($element, 'delete_suffix'), 1, 0, ['input_parameter'=>'title="'.\osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_delete')).'"', 'input_class'=>'form-check-input']) ?>
+			<label class="form-check-label" for="<?php echo $element.$this->getSendElementOption($element, 'temp_suffix').$this->getSendElementOption($element, 'delete_suffix') ?>0"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_delete')) ?></label>
 		</div>
 		<?php $this->getTemplate()->Form()->drawHiddenField($element.$this->getSendElementOption($element, 'temp_suffix'), $this->getDoSendElementStorage($element.$this->getSendElementOption($element, 'temp_suffix'))) ?><?php $this->getTemplate()->Form()->drawHiddenField($element, $this->getDoSendElementStorage($element)) ?><?php elseif (($this->getSendElementStorage($element)!='')&&($this->getSendElementOption($element, 'read_only')!==true)): ?>
-		<div class="custom-control custom-checkbox">
-			<?php echo $this->getTemplate()->Form()->drawCheckBoxField($element.$this->getSendElementOption($element, 'delete_suffix'), 1, 0, ['input_parameter'=>'title="'.\osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_delete')).'"', 'input_class'=>'custom-control-input']) ?>
-			<label class="custom-control-label" for="<?php echo $element.$this->getSendElementOption($element, 'delete_suffix') ?>0"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_delete')) ?></label>
+		<div class="form-check">
+			<?php echo $this->getTemplate()->Form()->drawCheckBoxField($element.$this->getSendElementOption($element, 'delete_suffix'), 1, 0, ['input_parameter'=>'title="'.\osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_delete')).'"', 'input_class'=>'form-check-input']) ?>
+			<label class="form-check-label" for="<?php echo $element.$this->getSendElementOption($element, 'delete_suffix') ?>0"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_delete')) ?></label>
 		</div>
 		<?php $this->getTemplate()->Form()->drawHiddenField($element, $this->getSendElementStorage($element)) ?><?php endif ?>
 
