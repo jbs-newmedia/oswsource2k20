@@ -38,14 +38,14 @@ class Bootstrap5_Notify {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
-	 * Bootstrap4 Version.
+	 * Bootstrap5 Version.
 	 *
 	 * @var string
 	 */
 	private const CURRENT_RESOURCE_VERSION='4.3.1';
 
 	/**
-	 * Bootstrap4_Notify constructor.
+	 * Bootstrap5_Notify constructor.
 	 *
 	 * @param object $Template
 	 * @param string $version

@@ -39,7 +39,7 @@ class Bootstrap5 {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
-	 * Bootstrap4 Version.
+	 * Bootstrap5 Version.
 	 *
 	 * @var string
 	 */

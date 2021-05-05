@@ -15,7 +15,7 @@
   "required": [
     {
       "serverlist": "oswframe2k20",
-      "package": "oswframe.bootstrap4_datepicker",
+      "package": "oswframe.bootstrap5_datepicker",
       "release": "stable"
     }
   ]
