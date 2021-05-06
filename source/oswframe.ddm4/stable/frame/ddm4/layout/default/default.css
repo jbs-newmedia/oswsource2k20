@@ -1,34 +1,6 @@
-.ddm4_button_option {
-    border: 1px solid #cccccc;
-    padding: 3px;
-    border-radius: 3px;
-    color: #777777;
-    background-color: #fff;
-}
-
-.ddm4_button_option.disabled,
-.ddm4_button_option[disabled] {
-    cursor: not-allowed;
-    filter: alpha(opacity=65);
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    opacity: .65;
-    color: #cccccc;
-}
-
-.ddm4-checkbox-first {
-    padding-top: 0px;
-    margin-top: 0px;
-}
-
-.ddm4-checkbox-last {
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-}
-
 .ddm4_iframe_holder {
     background-color: #fff;
-    background: url("/modules/vis2/img/loader.gif") center center no-repeat;
+    background: url("/data/resources/ddm4/1.0.0-default/loader.gif") center center no-repeat;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
@@ -40,9 +12,6 @@
     width: 100%;
 }
 
-.ddm4-label-readonly {
-    margin-left: -20px;
-}
 
 .form-control.disabled, .form-control.readonly {
     background-color: #e9ecef;
@@ -72,6 +41,7 @@
     position: absolute;
     right: 0;
     top: 0;
+    padding-right: 16px;
 }
 
 .modal.modal-fullscreen .modal-dialog {
