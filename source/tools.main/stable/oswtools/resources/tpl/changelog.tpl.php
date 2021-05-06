@@ -20,7 +20,7 @@
 			<div class="card mb-2">
 				<div class="card-header" id="heading<?php echo md5($version) ?>">
 					<h5 class="mb-0 d-block">
-						<a class="btn btn-link d-block text-left<?php if ($version!=array_key_first($changelog)): ?> collapsed<?php endif ?>" data-toggle="collapse" data-target="#collapse<?php echo md5($version) ?>" aria-expanded="true" aria-controls="collapse<?php echo md5($version) ?>">
+						<a class="btn btn-link d-block text-start<?php if ($version!=array_key_first($changelog)): ?> collapsed<?php endif ?>" data-toggle="collapse" data-target="#collapse<?php echo md5($version) ?>" aria-expanded="true" aria-controls="collapse<?php echo md5($version) ?>">
 							<?php echo $version ?>
 						</a>
 					</h5>

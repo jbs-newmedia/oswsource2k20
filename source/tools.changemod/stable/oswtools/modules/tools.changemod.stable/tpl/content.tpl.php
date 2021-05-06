@@ -26,37 +26,28 @@
 
 	<hr/>
 
-
 	<?php echo $osW_Form->startForm('oswtools_chmod_form', 'current', '', ['input_addid'=>true]); ?>
 
-
-	<label class="font-weight-bold" for="chmod_directory">Directory:</label>
-	<div class="input-group mb-3">
-		<div class="input-group-prepend">
-			<span class="input-group-text"><i class="fas fa-sitemap fa-fw"></i></span>
-		</div>
-		<?php echo $osW_Form->drawSelectField('chmod_directory', [''=>'']+$Tool->getDirList(), '', ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="10"']) ?>
+	<label class="font-weight-bold" for="main_username">Directory:</label>
+	<div class="input-group mb-3 has-validation">
+		<span class="input-group-text"><i class="fas fa-sitemap fa-fw"></i></span>
+		<?php echo $osW_Form->drawSelectField('chmod_directory', [''=>'']+$Tool->getDirList(), '', ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="form-select custom-select" data-size="10"']) ?>
 		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('chmod_directory') ?></div>
 	</div>
 
 	<label class="font-weight-bold" for="chmod_files_select">Files (mode):</label>
-	<div class="input-group mb-3">
-		<div class="input-group-prepend">
-			<span class="input-group-text"><i class="fas fa-file fa-fw"></i></span>
-		</div>
-		<?php echo $osW_Form->drawSelectField('chmod_files_select', $Tool->getFileOptions(), $Tool->getFile(), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select"']) ?>
+	<div class="input-group mb-3 has-validation">
+		<span class="input-group-text"><i class="fas fa-file fa-fw"></i></span>
+		<?php echo $osW_Form->drawSelectField('chmod_files_select', $Tool->getFileOptions(), $Tool->getFile(), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="form-select custom-select"']) ?>
 		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('chmod_files_select') ?></div>
 	</div>
 
 	<label class="font-weight-bold" for="chmod_directory_select">Directories (mode):</label>
-	<div class="input-group mb-3">
-		<div class="input-group-prepend">
-			<span class="input-group-text"><i class="fas fa-folder fa-fw"></i></span>
-		</div>
-		<?php echo $osW_Form->drawSelectField('chmod_directory_select', $Tool->getDirOptions(), $Tool->getDir(), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select"']) ?>
+	<div class="input-group mb-3 has-validation">
+		<span class="input-group-text"><i class="fas fa-folder fa-fw"></i></span>
+		<?php echo $osW_Form->drawSelectField('chmod_directory_select', $Tool->getDirOptions(), $Tool->getDir(), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="form-select custom-select"']) ?>
 		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('chmod_directory_select') ?></div>
 	</div>
-
 
 	<?php if (count($Tool->getFileOptions())>0): ?>
 

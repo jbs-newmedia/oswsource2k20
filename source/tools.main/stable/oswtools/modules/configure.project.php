@@ -42,5 +42,5 @@ osW_setVar('project_timezone', 'Europe/Paris');
 osW_setVar('oswtools_default_tool', 'tools.main.stable');
 
 # osWFrame configure block end #
-
+osW_setVar('template_stripoutput', false);
 ?>

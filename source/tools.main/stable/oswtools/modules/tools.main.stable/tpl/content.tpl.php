@@ -40,28 +40,22 @@
 		<hr/>
 
 		<label class="font-weight-bold" for="main_username">Username*:</label>
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
-			</div>
+		<div class="input-group mb-3 has-validation">
+			<span class="input-group-text"><i class="fas fa-user fa-fw"></i></span>
 			<?php echo $osW_Form->drawTextField('main_username', '', ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
 			<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('main_username') ?></div>
 		</div>
 
 		<label class="font-weight-bold" for="main_password">Password*:</label>
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text"><i class="fas fa-lock fa-fw"></i></span>
-			</div>
+		<div class="input-group mb-3 has-validation">
+			<span class="input-group-text"><i class="fas fa-lock fa-fw"></i></span>
 			<?php echo $osW_Form->drawPasswordField('main_password', '', ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
 			<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('main_password') ?></div>
 		</div>
 
 		<label class="font-weight-bold" for="main_confirm_password">Password (confirm)*:</label>
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text"><i class="fas fa-lock fa-fw"></i></span>
-			</div>
+		<div class="input-group mb-3 has-validation">
+			<span class="input-group-text"><i class="fas fa-lock fa-fw"></i></span>
 			<?php echo $osW_Form->drawPasswordField('main_confirm_password', '', ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
 			<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('main_confirm_password') ?></div>
 		</div>

@@ -25,23 +25,27 @@
 	<div class="row">
 		<div class="col">
 			<?php if (count($Tool->getLogDirs())>0): ?>
-				<div class="dropdown">
-					<button class="btn btn-primary btn-block dropdown-toggle text-left dropdown-flex-right" type="button" id="dropdownDir" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php if ($curdir!=''): ?><?php echo \osWFrame\Core\HTML::outputString(substr($curdir, 0, -1)) ?><?php else: ?>Select Class<?php endif ?></button>
-					<div class="dropdown-menu dropdown-scrollable-menu" aria-labelledby="dropdownDir">
+				<div class="btn-group w-100">
+					<button type="button" class="btn btn-primary dropdown-flex-right dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						<?php if ($curdir!=''): ?><?php echo \osWFrame\Core\HTML::outputString(substr($curdir, 0, -1)) ?><?php else: ?>Select Class<?php endif ?>
+					</button>
+					<ul class="dropdown-menu">
 						<?php foreach ($Tool->getLogDirs() as $_dir): ?>
 							<a class="dropdown-item<?php if ($_dir==$curdir): ?> active<?php endif ?>" href="<?php echo $this->buildhrefLink('current', 'dir='.$_dir) ?>"><?php echo \osWFrame\Core\HTML::outputString(substr($_dir, 0, -1)) ?></a>
 						<?php endforeach ?>
-					</div>
+					</ul>
 				</div>
 			<?php else: ?>
-				<button class="btn btn-primary btn-block dropdown-toggle text-left dropdown-flex-right" type="button" id="dropdownDir" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">---</button>
+				<button class="btn btn-primary dropdown-flex-right dropdown-toggle w-100" type="button" id="dropdownDir" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">---</button>
 			<?php endif ?>
 		</div>
 		<div class="col">
 			<?php if (count($Tool->getLogFiles())>0): ?>
-				<div class="dropdown">
-					<button class="btn btn-primary btn-block dropdown-toggle text-left dropdown-flex-right" type="button" id="dropdownFile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php if ($curfile!=''): ?><?php echo \osWFrame\Core\HTML::outputString($curfile) ?><?php else: ?>Select Logfile<?php endif ?></button>
-					<div class="dropdown-menu dropdown-scrollable-menu" aria-labelledby="dropdownFile">
+				<div class="btn-group w-100">
+					<button type="button" class="btn btn-primary dropdown-flex-right dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						<?php if ($curfile!=''): ?><?php echo \osWFrame\Core\HTML::outputString($curfile) ?><?php else: ?>Select Logfile<?php endif ?>
+					</button>
+					<ul class="dropdown-menu">
 						<?php foreach ($Tool->getLogFiles() as $date=>$files): ?>
 
 							<?php if (strlen($date)==8): ?>
@@ -53,20 +57,22 @@
 							<?php endforeach ?>
 
 						<?php endforeach ?>
-					</div>
+					</ul>
 				</div>
 			<?php else: ?>
-				<button class="btn btn-primary btn-block dropdown-toggle text-left dropdown-flex-right" type="button" id="dropdownFile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">---</button>
+				<button class="btn btn-primary dropdown-flex-right dropdown-toggle w-100" type="button" id="dropdownFile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">---</button>
 			<?php endif ?>
 		</div>
 		<div class="col">
-			<div class="dropdown">
-				<button class="btn btn-primary btn-block dropdown-toggle text-left dropdown-flex-right" type="button" id="dropdownlayout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo \osWFrame\Core\HTML::outputString(\osWFrame\Tools\Tool\LogBrowser::getCurrentDisplayOption($Tool->getFileDetailType(), $curdisplay)) ?></button>
-				<div class="dropdown-menu" aria-labelledby="dropdownlayout">
+			<div class="btn-group w-100">
+				<button type="button" class="btn btn-primary dropdown-flex-right dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+					<?php echo \osWFrame\Core\HTML::outputString(\osWFrame\Tools\Tool\LogBrowser::getCurrentDisplayOption($Tool->getFileDetailType(), $curdisplay)) ?>
+				</button>
+				<ul class="dropdown-menu">
 					<?php foreach ($Tool->getDisplayOptions() as $_display=>$display): ?>
 						<a class="dropdown-item<?php if ($_display==$curdisplay): ?> active<?php endif ?>" href="<?php echo $this->buildhrefLink('current', 'dir='.$curdir.'&file='.$curfile.'&display='.$_display) ?>"><?php echo \osWFrame\Core\HTML::outputString($display) ?></a>
 					<?php endforeach ?>
-				</div>
+				</ul>
 			</div>
 		</div>
 	</div>

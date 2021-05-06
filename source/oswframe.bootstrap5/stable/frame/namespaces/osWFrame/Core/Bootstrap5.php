@@ -25,7 +25,7 @@ class Bootstrap5 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -60,26 +60,95 @@ class Bootstrap5 {
 	private $versions=[];
 
 	/**
+	 * @var string
+	 */
+	private $version='';
+
+	/**
+	 * @var string
+	 */
+	private $theme='';
+
+	/**
+	 * @var bool
+	 */
+	private $min=true;
+
+	/**
 	 * Bootstrap4 constructor.
 	 *
-	 * Lädt Bootstrap und kümmert sich um die Resourcen.
-	 *
 	 * @param object $Template
-	 * @param string $theme
-	 * @param string $version
-	 * @param bool $min
 	 */
-	public function __construct(object $Template, string $theme='', string $version='current', bool $min=true) {
+	public function __construct(object $Template) {
 		$this->setTemplate($Template);
+		$this->setVersion('current');
+	}
+
+	/**
+	 * @param string $version
+	 * @return object
+	 */
+	public function setVersion(string $version):object {
 		if ($version=='current') {
-			$version=$this->getCurrentVersion();
+			$this->version=$this->getCurrentVersion();
 		} else {
 			if (!in_array($version, $this->getVersions())) {
-				$version=$this->getCurrentVersion();
+				$this->version=$this->getCurrentVersion();
 			}
 		}
 
-		$theme=strtolower($theme);
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getVersion():string {
+		return $this->version;
+	}
+
+	/**
+	 * @param string $theme
+	 * @return object
+	 */
+	public function setTheme(string $theme):object {
+		$this->theme=$theme;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTheme():string {
+		return $this->theme;
+	}
+
+	/**
+	 * @param string $min
+	 * @return object
+	 */
+	public function setMin(bool $min):object {
+		$this->min=$min;
+
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getMin():bool {
+		return $this->min;
+	}
+
+	/**
+	 * @return object
+	 */
+	public function load():object {
+		$version=$this->getVersion();
+		$theme=strtolower($this->getTheme());
+		$min=$this->getMin();
+
 		$path=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'bootstrap5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
 		if ((Filesystem::existsFile($path.'css'.DIRECTORY_SEPARATOR.'bootstrap-'.$theme.'.css')===true)&&(Filesystem::existsFile($path.'css'.DIRECTORY_SEPARATOR.'bootstrap-'.$theme.'.min.css')===true)) {
 			$theme='-'.$theme;
@@ -105,6 +174,8 @@ class Bootstrap5 {
 		}
 		$this->addTemplateJSFiles('head', $jsfiles);
 		$this->addTemplateCSSFiles('head', $cssfiles);
+
+		return $this;
 	}
 
 	/**

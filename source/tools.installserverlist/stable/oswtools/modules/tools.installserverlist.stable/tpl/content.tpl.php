@@ -28,13 +28,11 @@
 
 	<?php echo $osW_Form->startForm('oswtools_installserverlist_form', 'current', '', ['input_addid'=>true]); ?>
 
-	<label class="font-weight-bold" for="conf_url">Serverlist:</label>
-	<div class="input-group mb-3">
-		<div class="input-group-prepend">
-			<span class="input-group-text"><i class="fas fa-link fa-fw"></i></span>
-		</div>
+	<label class="font-weight-bold" for="conf_url">Serverlist*:</label>
+	<div class="input-group mb-3 has-validation">
+		<span class="input-group-text"><i class="fas fa-link fa-fw"></i></span>
 		<?php echo $osW_Form->drawTextField('conf_url', '', ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
-		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('chmod_directory') ?></div>
+		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('conf_url') ?></div>
 	</div>
 
 	<hr/>

@@ -27,24 +27,29 @@ $jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'jquery.easin
 $osW_Template->addTemplateJSFiles('head', $jsfiles);
 
 /**
- * Bootstrap4
+ * Bootstrap5
  */
 $jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.min.js'];
-#$cssfiles=['resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap-oswtools.min.css'];
 $cssfiles=['resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap.min.css'];
 $osW_Template->addTemplateJSFiles('head', $jsfiles);
 $osW_Template->addTemplateCSSFiles('head', $cssfiles);
 
 /**
- * Bootstrap4 - Datatables
+ * Bootstrap5 - Icons
  */
-$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'jquery.dataTables.min.js', 'resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'dataTables.bootstrap4.min.js', 'resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'dataTables.responsive.min.js'];
-$cssfiles=['resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'dataTables.bootstrap4.min.css', 'resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'responsive.bootstrap4.min.css'];
+$cssfiles=['resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap-icons.css'];
+$osW_Template->addTemplateCSSFiles('head', $cssfiles);
+
+/**
+ * Bootstrap5 - Datatables
+ */
+$jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'jquery.dataTables.min.js', 'resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'dataTables.bootstrap5.min.js', 'resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'dataTables.responsive.min.js'];
+$cssfiles=['resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'dataTables.bootstrap5.min.css', 'resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'responsive.bootstrap5.min.css'];
 $osW_Template->addTemplateJSFiles('head', $jsfiles);
 $osW_Template->addTemplateCSSFiles('head', $cssfiles);
 
 /**
- * Bootstrap4 - Select
+ * Bootstrap5 - Select
  */
 $jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'bootstrap-select.min.js'];
 $cssfiles=['resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap-select.min.css'];
@@ -52,7 +57,7 @@ $osW_Template->addTemplateJSFiles('head', $jsfiles);
 $osW_Template->addTemplateCSSFiles('head', $cssfiles);
 
 /**
- * Bootstrap4 - bootbox
+ * Bootstrap5 - bootbox
  */
 $jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'bootbox.all.min.js'];
 $osW_Template->addTemplateJSFiles('head', $jsfiles);

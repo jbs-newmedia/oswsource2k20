@@ -25,12 +25,12 @@ class FontAwesome5 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -60,23 +60,72 @@ class FontAwesome5 {
 	private array $versions=[];
 
 	/**
+	 * @var string
+	 */
+	private $version='';
+
+	/**
+	 * @var bool
+	 */
+	private $min=true;
+
+	/**
 	 * FontAwesome5 constructor.
 	 *
-	 * Lädt Bootstrap und kümmert sich um die Resourcen.
-	 *
 	 * @param object $Template
-	 * @param string $version
-	 * @param bool $min
 	 */
-	public function __construct(object $Template, string $version='current', bool $min=false) {
+	public function __construct(object $Template) {
 		$this->setTemplate($Template);
+		$this->setVersion('current');
+	}
+
+	/**
+	 * @param string $version
+	 * @return object
+	 */
+	public function setVersion(string $version):object {
 		if ($version=='current') {
-			$version=$this->getCurrentVersion();
+			$this->version=$this->getCurrentVersion();
 		} else {
 			if (!in_array($version, $this->getVersions())) {
-				$version=$this->getCurrentVersion();
+				$this->version=$this->getCurrentVersion();
 			}
 		}
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getVersion():string {
+		return $this->version;
+	}
+
+	/**
+	 * @param string $min
+	 * @return object
+	 */
+	public function setMin(bool $min):object {
+		$this->min=$min;
+
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getMin():bool {
+		return $this->min;
+	}
+
+	/**
+	 * @return object
+	 */
+	public function load():object {
+		$version=$this->getVersion();
+		$min=$this->getMin();
+
 		$name=$version.'.resource';
 		if (Resource::existsResource($this->getClassName(), $name)!==true) {
 			Resource::copyResourcePath('frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR);
@@ -97,6 +146,8 @@ class FontAwesome5 {
 			$cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'all.css'];
 		}
 		$this->addTemplateCSSFiles('head', $cssfiles);
+
+		return $this;
 	}
 
 	/**
