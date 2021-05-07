@@ -35,12 +35,6 @@ $osW_Template->addTemplateJSFiles('head', $jsfiles);
 $osW_Template->addTemplateCSSFiles('head', $cssfiles);
 
 /**
- * Bootstrap5 - Icons
- */
-$cssfiles=['resources'.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap-icons.css'];
-$osW_Template->addTemplateCSSFiles('head', $cssfiles);
-
-/**
  * Bootstrap5 - Datatables
  */
 $jsfiles=['resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'jquery.dataTables.min.js', 'resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'dataTables.bootstrap5.min.js', 'resources'.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'dataTables.responsive.min.js'];
