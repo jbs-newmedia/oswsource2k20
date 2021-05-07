@@ -43,7 +43,7 @@ class Bootstrap5 {
 	 *
 	 * @var string
 	 */
-	private const CURRENT_RESOURCE_VERSION='5.0.0-beta3';
+	private const CURRENT_RESOURCE_VERSION='5.0.0';
 
 	/**
 	 * Verwaltet die geladenen Plugins.
