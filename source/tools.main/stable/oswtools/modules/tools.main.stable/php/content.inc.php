@@ -23,7 +23,7 @@ if ($Tool->hasUpdate()===true) {
 
 $Tool->addNavigationElement('start', ['action'=>'start', 'title'=>'Start', 'icon'=>'fa fa-home fa-fw']);
 $Tool->addNavigationElement('more', ['title'=>'More', 'icon'=>'fas fa-cog fa-fw']);
-$Tool->addNavigationElement('protecttools', ['action'=>'protecttools', 'title'=>'Protect Tools', 'icon'=>'fas fa-sign-in-alt fa-fw'], 'more');
+$Tool->addNavigationElement('protecttools', ['action'=>'protecttools', 'title'=>'Protect tools', 'icon'=>'fas fa-sign-in-alt fa-fw'], 'more');
 $Tool->addNavigationElement('framekey', ['action'=>'framekey', 'title'=>'Frame-Key', 'icon'=>'fas fa-key fa-fw'], 'more');
 $Tool->addNavigationElement('changelog', ['action'=>'changelog', 'title'=>'Changelog', 'icon'=>'fas fa-list fa-fw'], 'more');
 $Tool->addNavigationElement('about', ['action'=>'about', 'title'=>'About', 'icon'=>'fas fa-info fa-fw'], 'more');

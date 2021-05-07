@@ -15,29 +15,27 @@
 <h4 class="mb-3">Changelog</h4>
 
 <?php if ($changelog!=[]): ?>
-	<div id="accordion">
-		<?php foreach ($changelog as $version=>$changes): ?>
-			<div class="card mb-2">
-				<div class="card-header" id="heading<?php echo md5($version) ?>">
-					<h5 class="mb-0 d-block">
-						<a class="btn btn-link d-block text-start<?php if ($version!=array_key_first($changelog)): ?> collapsed<?php endif ?>" data-toggle="collapse" data-target="#collapse<?php echo md5($version) ?>" aria-expanded="true" aria-controls="collapse<?php echo md5($version) ?>">
-							<?php echo $version ?>
-						</a>
-					</h5>
-				</div>
+	<div class="accordion" id="accordionChangelog">
+<?php foreach ($changelog as $version=>$changes): ?>
+		<div class="accordion-item">
+			<h2 class="accordion-header" id="heading<?php echo md5($version) ?>">
+				<button class="accordion-button<?php if ($version!=array_key_first($changelog)): ?> collapsed<?php endif ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo md5($version) ?>" aria-expanded="true" aria-controls="collapse<?php echo md5($version) ?>">
+					<?php echo $version ?>
+				</button>
+			</h2>
 
-				<div id="collapse<?php echo md5($version) ?>" class="collapse<?php if ($version==array_key_first($changelog)): ?> show<?php endif?>" aria-labelledby="heading<?php echo md5($version) ?>" data-parent="#accordion">
-					<div class="card-body">
-						<?php $changes=explode("\n", $changes); ?>
-						<ul>
-							<?php foreach ($changes as $change): ?>
-								<li><?php echo trim(substr($change, 2)) ?></li>
-							<?php endforeach ?>
-						</ul>
-					</div>
+			<div id="collapse<?php echo md5($version) ?>" class="accordion-collapse collapse<?php if ($version==array_key_first($changelog)): ?> show<?php endif ?>" aria-labelledby="heading<?php echo md5($version) ?>" data-bs-parent="#accordionChangelog">
+				<div class="accordion-body">
+					<?php $changes=explode("\n", $changes); ?>
+					<ul>
+						<?php foreach ($changes as $change): ?>
+							<li><?php echo trim(substr($change, 2)) ?></li>
+						<?php endforeach ?>
+					</ul>
 				</div>
 			</div>
-		<?php endforeach ?>
+		</div>
+<?php endforeach;?>
 	</div>
 <?php else: ?>
 	<div class="card mb-2">

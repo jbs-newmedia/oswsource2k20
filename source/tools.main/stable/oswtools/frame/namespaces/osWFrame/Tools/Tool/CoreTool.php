@@ -112,7 +112,7 @@ class CoreTool {
 		Frame\MessageWriter::addIgnore('result');
 		Frame\MessageWriter::addIgnore('configure');
 		if ($this->checkProtection()!==true) {
-			\osWFrame\Core\MessageStack::addMessage('result', 'danger', ['msg'=>'Please protect your tools. Check "osWTools:Main" ➜ "More" ➜ "Protect Tools"']);
+			\osWFrame\Core\MessageStack::addMessage('result', 'danger', ['msg'=>'Please protect your tools. Check "osWTools:Main" ➜ "More" ➜ "Protect tools"']);
 		}
 	}
 
