@@ -550,11 +550,11 @@ class Template {
 			$file=md5($str).'.js';
 			SmartOptimizer::writeCacheFile($file, $str);
 			if (Settings::getStringVar('template_versionnumber')=='') {
-				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file]);
+				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file], $pos);
 			} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)]);
+				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)], $pos);
 			} else {
-				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')]);
+				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')], $pos);
 			}
 		} else {
 			if ($this->getTemplateFiles($pos, 'js')!=[]) {
@@ -566,19 +566,19 @@ class Template {
 					}
 					if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file]);
+							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file], $pos);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)], $pos);
 						} else {
-							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')], $pos);
 						}
 					} else {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addTag('script', ['src'=>$file]);
+							$this->addTag('script', ['src'=>$file], $pos);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addTag('script', ['src'=>$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addTag('script', ['src'=>$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)], $pos);
 						} else {
-							$this->addTag('script', ['src'=>$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addTag('script', ['src'=>$file.$c.'v='.Settings::getStringVar('template_versionnumber')], $pos);
 						}
 					}
 				}
@@ -598,11 +598,11 @@ class Template {
 			$file=md5($str).'.css';
 			SmartOptimizer::writeCacheFile($file, $str);
 			if (Settings::getStringVar('template_versionnumber')=='') {
-				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file]);
+				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file], $pos);
 			} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)]);
+				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)], $pos);
 			} else {
-				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')]);
+				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')], $pos);
 			}
 		} else {
 			if ($this->getTemplateFiles($pos, 'css')!=[]) {
@@ -614,19 +614,19 @@ class Template {
 					}
 					if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file], $pos);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)], $pos);
 						} else {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')], $pos);
 						}
 					} else {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file], $pos);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)], $pos);
 						} else {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file.$c.'v='.Settings::getStringVar('template_versionnumber')], $pos);
 						}
 					}
 				}
