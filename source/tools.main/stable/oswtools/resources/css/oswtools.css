@@ -90,3 +90,7 @@ main a {
 main a:hover {
     text-decoration: underline;
 }
+
+.bootbox-close-button {
+    display:none;
+}
