@@ -23,6 +23,7 @@ if ($Tool->hasUpdate()===true) {
 
 $Tool->addNavigationElement('start', ['action'=>'start', 'title'=>'Start', 'icon'=>'fa fa-home fa-fw']);
 $Tool->addNavigationElement('more', ['title'=>'More', 'icon'=>'fas fa-cog fa-fw']);
+$Tool->addNavigationElement('updatepackagelist', ['action'=>'updatepackagelist', 'title'=>'Update packagelist', 'icon'=>'fas fa-database fa-fw'], 'more');
 $Tool->addNavigationElement('changelog', ['action'=>'changelog', 'title'=>'Changelog', 'icon'=>'fas fa-list fa-fw'], 'more');
 $Tool->addNavigationElement('about', ['action'=>'about', 'title'=>'About', 'icon'=>'fas fa-info fa-fw'], 'more');
 \osWFrame\Core\Settings::setAction($Tool->validateAction(\osWFrame\Core\Settings::getAction()));
@@ -32,6 +33,10 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 	include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'about.inc.php';
 } elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])) {
 	include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'changelog.inc.php';
+} elseif (in_array(\osWFrame\Core\Settings::getAction(), ['updatepackagelist'])) {
+	\osWFrame\Tools\Server::updatePackageList(true);
+	\osWFrame\Core\SessionMessageStack::addMessage('session', 'success', ['msg'=>'Packagelist has been successfully updated.']);
+	\osWFrame\Core\Network::directHeader($osW_Template->buildhrefLink('current', 'action=start'));
 } else {
 	$Tool->loadPackages();
 	if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['install', 'update', 'remove'])) {
