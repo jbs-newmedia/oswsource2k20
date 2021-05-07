@@ -26,20 +26,14 @@
 
 	<label class="font-weight-bold" for="projectverify_dirs">Ignored directories:</label>
 	<div class="input-group mb-3">
-		<div class="input-group-prepend">
-			<span class="input-group-text"><i class="fas fa-folder fa-fw"></i></span>
-		</div>
-		<?php echo $osW_Form->drawTextareaField('projectverify_dirs', implode("\n", $Tool->getArraySetting('projectverify_dirs')), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>'rows="8"']) ?>
-		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('projectverify_dirs') ?></div>
+		<span class="input-group-text"><i class="fas fa-folder fa-fw"></i></span>
+		<?php echo $osW_Form->drawTextareaField('projectverify_dirs', implode("\n", ($Tool->getArraySetting('projectverify_dirs')==null)?[]:$Tool->getArraySetting('projectverify_dirs')), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>'rows="8"']) ?>
 	</div>
 
 	<label class="font-weight-bold" for="projectverify_files">Ignored files:</label>
 	<div class="input-group mb-3">
-		<div class="input-group-prepend">
-			<span class="input-group-text"><i class="fas fa-file fa-fw"></i></span>
-		</div>
-		<?php echo $osW_Form->drawTextareaField('projectverify_files', implode("\n", $Tool->getArraySetting('projectverify_files')), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>'rows="8"']) ?>
-		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('projectverify_files') ?></div>
+		<span class="input-group-text"><i class="fas fa-file fa-fw"></i></span>
+		<?php echo $osW_Form->drawTextareaField('projectverify_files', implode("\n", ($Tool->getArraySetting('projectverify_files')==null)?[]:$Tool->getArraySetting('projectverify_files')), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>'rows="8"']) ?>
 	</div>
 
 	<hr/>
@@ -67,10 +61,19 @@
 
 			<?php foreach ($Tool->getList() as $element=>$status): ?>
 				<tr>
-					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['s']==1): ?><i class="fas fa-not-equal fa-fw"></i><?php elseif ($status['s']==2): ?><i class="fas fa-plus fa-fw"></i><?php elseif ($status['s']==3): ?><i class="fas fa-minus fa-fw"></i><?php else: ?><i class="fas fa-bug"></i><?php endif ?></span></td>
-					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['t']=='f'): ?><i class="fas fa-file fa-fw"></i><?php elseif ($status['t']='d'): ?><i class="fas fa-folder fa-fw"></i><?php else: ?><i class="fas fa-bug"></i><?php endif ?></span></td>
+					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['s']==1): ?>
+								<i class="fas fa-not-equal fa-fw"></i><?php elseif ($status['s']==2): ?>
+								<i class="fas fa-plus fa-fw"></i><?php elseif ($status['s']==3): ?>
+								<i class="fas fa-minus fa-fw"></i><?php else: ?><i class="fas fa-bug"></i><?php endif ?></span>
+					</td>
+					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['t']=='f'): ?>
+								<i class="fas fa-file fa-fw"></i><?php elseif ($status['t']='d'): ?>
+								<i class="fas fa-folder fa-fw"></i><?php else: ?>
+								<i class="fas fa-bug"></i><?php endif ?></span></td>
 					<td><?php echo $element ?></td>
-					<td class="projectverify_options text-center"><a title="Remove" href="javascript:engine('<?php echo $this->buildhrefLink('current', 'action=settings&doaction=doignore') ?>', '<?php echo $this->buildhrefLink('current', 'action=start') ?>', '<?php echo $element ?>', '<?php echo $status['t'] ?>')" class="btn btn-primary btn-xs"><i class="fa fa-times fa-fw"></i></a></td>
+					<td class="projectverify_options text-center">
+						<a title="Remove" href="javascript:engine('<?php echo $this->buildhrefLink('current', 'action=settings&doaction=doignore') ?>', '<?php echo $this->buildhrefLink('current', 'action=start') ?>', '<?php echo $element ?>', '<?php echo $status['t'] ?>')" class="btn btn-primary btn-xs"><i class="fa fa-times fa-fw"></i></a>
+					</td>
 				</tr>
 			<?php endforeach ?>
 
