@@ -30,7 +30,7 @@ class jQuery3 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -87,7 +87,9 @@ class jQuery3 {
 		if ($version=='current') {
 			$this->version=$this->getCurrentVersion();
 		} else {
-			if (!in_array($version, $this->getVersions())) {
+			if (in_array($version, $this->getVersions())) {
+				$this->version=$version;
+			} else {
 				$this->version=$this->getCurrentVersion();
 			}
 		}
