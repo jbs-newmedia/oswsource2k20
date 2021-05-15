@@ -26,7 +26,7 @@ if (\osWFrame\Core\Settings::getAction()=='adminer') {
 		return new AdminerPlugin($plugins);
 	}
 
-	include_once \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'adminer'.DIRECTORY_SEPARATOR.'adminer-4.8.0.php';
+	include_once \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'adminer'.DIRECTORY_SEPARATOR.'adminer-4.8.1.php';
 	\osWFrame\Core\Settings::dieScript();
 }
 
