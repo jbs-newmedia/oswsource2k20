@@ -4,9 +4,11 @@
 			"scriptoptimizer_module": "_scriptoptimizer",
 			"styleoptimizer_module": "_styleoptimizer",
 			"smartoptimizer_allowed_dirs": [
+				"data",
 				"frame",
 				"modules"
 			],
+			"smartoptimizer_allowed_dirs_custom": [],
 			"smartoptimizer_stripoutput": true,
 			"smartoptimizer_combine_files": true,
 			"smartoptimizer_gzipcompression": true,
