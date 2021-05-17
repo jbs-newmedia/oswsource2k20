@@ -8,7 +8,7 @@
 			"settings_ramlimit": 8388608,
 			"settings_chmod_file": "0644",
 			"settings_chmod_dir": "0755",
-			"settings_protection_salt": "KLg2%§$jkhAKJdhas3254jkhh@sdafkj"
+			"settings_protection_salt": ""
 		}
 	}
 }
