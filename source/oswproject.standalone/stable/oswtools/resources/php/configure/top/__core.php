@@ -98,9 +98,9 @@ $this->fields['settings_ssl']=['default_name'=>'SSL', 'default_type'=>'select', 
 
 $this->fields['settings_protection_salt']=['default_name'=>'Salt', 'default_type'=>'text', 'default_value'=>$salt, 'valid_type'=>'string', 'valid_min_length'=>32, 'valid_max_length'=>64, 'configure_write'=>true];
 
-$this->fields['project_email']=['default_name'=>'E-Mail (Contact)', 'default_type'=>'text', 'default_value'=>'info@'.$domain, 'valid_type'=>'string', 'valid_min_length'=>6, 'valid_max_length'=>32, 'valid_function'=>'check_email', 'configure_write'=>true];
+$this->fields['project_email']=['default_name'=>'E-Mail (Contact)', 'default_type'=>'text', 'default_value'=>'info@'.$domain, 'valid_type'=>'string', 'valid_min_length'=>6, 'valid_max_length'=>64, 'valid_function'=>'check_email', 'configure_write'=>true];
 
-$this->fields['project_email_system']=['default_name'=>'E-Mail (Admin)', 'default_type'=>'text', 'default_value'=>'admin@'.$domain, 'valid_type'=>'string', 'valid_min_length'=>6, 'valid_max_length'=>32, 'valid_function'=>'check_email', 'configure_write'=>true];
+$this->fields['project_email_system']=['default_name'=>'E-Mail (Admin)', 'default_type'=>'text', 'default_value'=>'admin@'.$domain, 'valid_type'=>'string', 'valid_min_length'=>6, 'valid_max_length'=>64, 'valid_function'=>'check_email', 'configure_write'=>true];
 
 $this->fields['project_default_module']=['default_name'=>'Defaultmodule', 'default_type'=>'select', 'default_value'=>$default_module, 'default_select'=>$ar_default_module, 'valid_type'=>'string', 'valid_min_length'=>1, 'valid_max_length'=>32, 'configure_write'=>true];
 
