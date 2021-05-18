@@ -40,6 +40,7 @@ osW_setVar('project_default_language', 'en_US');
 osW_setVar('project_locale', 'en_US.utf8');
 osW_setVar('project_timezone', 'Europe/Paris');
 osW_setVar('oswtools_default_tool', 'tools.main.stable');
+osW_setVar('session_name', 'oswtoolsid');
 
 # osWFrame configure block end #
 osW_setVar('template_stripoutput', false);
