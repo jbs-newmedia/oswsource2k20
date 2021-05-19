@@ -1,13 +1,21 @@
-#jbsadmin-body {
+.jbsadmin-body-full,
+.jbsadmin-body-modal {
   display: flex;
   flex-wrap: nowrap;
   height: -webkit-fill-available;
-  overflow-y: scroll !important;
   overflow-x: auto !important;
   padding-right: 0px !important;
 }
 
-#jbsadmin-body .modal-open {
+.jbsadmin-body-full {
+  overflow-y: scroll !important;
+}
+
+.jbsadmin-body-modal {
+  overflow-y: hidden !important;
+}
+
+.jbsadmin-body-full .modal-open {
   overflow: hidden !important;
 }
 
@@ -158,7 +166,7 @@
   padding: 0.15rem 0.3rem;
   font-size: 0.725rem;
   border-radius: 0.2rem;
-  margin:0 0;
+  margin: 0 0;
 }
 
 .btn-xs + .dropdown-toggle-split,
@@ -283,4 +291,12 @@
   pointer-events: none;
   user-select: none;
   opacity: 0.25;
+}
+
+.modal-open .modal {
+  overflow: hidden;
+}
+
+.modal-backdrop.show {
+  z-index: 1050 !important;
 }
