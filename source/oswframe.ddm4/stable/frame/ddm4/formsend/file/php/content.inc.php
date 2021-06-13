@@ -88,9 +88,9 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 		$file=$dir.$file_name;
 		$file_tmp=$dir_tmp.$file_name;
 		\osWFrame\Core\Filesystem::makeDir($dir);
-		\osWFrame\Core\Filesystem::changeFilemode($dir);
+		\osWFrame\Core\Filesystem::changeDirmode($dir);
 		\osWFrame\Core\Filesystem::makeDir($dir_tmp);
-		\osWFrame\Core\Filesystem::changeFilemode($dir_tmp);
+		\osWFrame\Core\Filesystem::changeDirmode($dir_tmp);
 		move_uploaded_file($_FILES[$element]['tmp_name'], $file_tmp);
 		\osWFrame\Core\Filesystem::changeFilemode($file_tmp);
 
