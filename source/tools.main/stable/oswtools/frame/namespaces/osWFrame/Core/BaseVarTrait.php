@@ -90,7 +90,7 @@ trait BaseVarTrait {
 	}
 
 	/**
-	 * *Setzt eine Variable vom Typ Int.
+	 * Setzt eine Variable vom Typ Int.
 	 *
 	 * @param string $name
 	 * @param int $value
@@ -104,7 +104,7 @@ trait BaseVarTrait {
 	}
 
 	/**
-	 * *Setzt eine Variable vom Typ Float.
+	 * Setzt eine Variable vom Typ Float.
 	 *
 	 * @param string $name
 	 * @param float $value
@@ -118,7 +118,7 @@ trait BaseVarTrait {
 	}
 
 	/**
-	 * *Setzt eine Variable vom Typ Array.
+	 * Setzt eine Variable vom Typ Array.
 	 *
 	 * @param string $name
 	 * @param array $value
