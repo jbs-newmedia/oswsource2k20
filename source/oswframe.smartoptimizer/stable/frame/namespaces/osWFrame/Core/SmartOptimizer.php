@@ -24,7 +24,7 @@ class SmartOptimizer {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -193,23 +193,23 @@ class SmartOptimizer {
 						switch ($filetype) {
 							case 'css':
 								if (substr($cfile, -8)=='.min.css') {
-									$content[]=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+									$content[]=file_get_contents($cfile);
 								} else {
 									if (Settings::getBoolVar('smartoptimizer_stripoutput')==true) {
-										$content[]=self::stripCSS(self::getOuputContent(file_get_contents($cfile), $__DIR__));
+										$content[]=self::stripCSS(file_get_contents($cfile));
 									} else {
-										$content[]=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+										$content[]=file_get_contents($cfile);
 									}
 								}
 								break;
 							case 'js':
 								if (substr($cfile, -7)=='.min.js') {
-									$content[]=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+									$content[]=file_get_contents($cfile);
 								} else {
 									if (Settings::getBoolVar('smartoptimizer_stripoutput')==true) {
-										$content[]=self::stripJS(self::getOuputContent(file_get_contents($cfile), $__DIR__));
+										$content[]=self::stripJS(file_get_contents($cfile));
 									} else {
-										$content[]=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+										$content[]=file_get_contents($cfile);
 									}
 								}
 								break;
@@ -330,7 +330,7 @@ class SmartOptimizer {
 				$__DIR__='../../';
 				$cfile=Settings::getStringVar('settings_abspath').$file;
 				if (file_exists($cfile)) {
-					$content=self::getOuputContent(file_get_contents($cfile), $__DIR__);
+					$content=file_get_contents($cfile);
 				} else {
 					MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
 				}
@@ -370,65 +370,6 @@ class SmartOptimizer {
 		}
 
 		return true;
-	}
-
-	/**
-	 *
-	 * @param string $contentin
-	 * @param string $dir
-	 * @return string
-	 */
-	public static function getOuputContent(string $contentin, string $dir):string {
-		return $contentin;
-		/*
-		 * TODO: Altes Framework. Wird wohl nicht mehr benötigt.
-		 */
-		if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
-			$images=[];
-			preg_match_all('/(url\()([a-zA-Z0-9\@\_\/\.\-]+)(\))/', $contentin, $images);
-			foreach ($images[2] as $image) {
-				if ((stripos($contentin, '__IMAGEOPTIMIZER__')!==false)||(stripos($contentin, '__IMAGEOPTIMIZER_PATH__')!==false)) {
-					$file=str_replace('/', '', strrchr($image, '/'));
-					$fileparts=explode('.', $file);
-					$count=count($fileparts);
-					$options=ImageOptimizer::getOptionsArrayFromString($fileparts[1]);
-					if ($count==2) {
-						$filename=$fileparts[0].'.ps_'.(substr(md5($fileparts[0].'.'.$fileparts[1].'#'.ImageOptimizer::getOptionsArrayToString($options).'#'.Settings::getStringVar('settings_protection_salt')), 3, 6)).'.'.$fileparts[1];
-					}
-					if ($count==3) {
-						$filename=$fileparts[0].'.'.ImageOptimizer::getOptionsArrayToString($options).'-ps_'.(substr(md5($fileparts[0].'.'.$fileparts[2].'#'.ImageOptimizer::getOptionsArrayToString($options).'#'.Settings::getStringVar('settings_protection_salt')), 3, 6)).'.'.$fileparts[2];
-					}
-					$contentin=str_replace('url('.$image.')', 'url('.str_replace($file, $filename, $image).')', $contentin);
-				}
-			}
-			preg_match_all('/(url\()\"([a-zA-Z0-9\@\\_\/\.\-]+)\"(\))/', $contentin, $images);
-			foreach ($images[2] as $image) {
-				if ((stripos($contentin, '__IMAGEOPTIMIZER__')!==false)||(stripos($contentin, '__IMAGEOPTIMIZER_PATH__')!==false)) {
-					$file=str_replace('/', '', strrchr($image, '/'));
-					$fileparts=explode('.', $file);
-					$count=count($fileparts);
-					$options=ImageOptimizer::getOptionsArrayFromString($fileparts[1]);
-					if ($count==2) {
-						$filename=$fileparts[0].'.ps_'.(substr(md5($fileparts[0].'.'.$fileparts[1].'#'.ImageOptimizer::getOptionsArrayToString($options).'#'.Settings::getStringVar('settings_protection_salt')), 3, 6)).'.'.$fileparts[1];
-					}
-					if ($count==3) {
-						$filename=$fileparts[0].'.'.ImageOptimizer::getOptionsArrayToString($options).'-ps_'.(substr(md5($fileparts[0].'.'.$fileparts[2].'#'.ImageOptimizer::getOptionsArrayToString($options).'#'.Settings::getStringVar('settings_protection_salt')), 3, 6)).'.'.$fileparts[2];
-					}
-					$contentin=str_replace('url('.$image.')', 'url('.str_replace($file, $filename, $image).')', $contentin);
-				}
-			}
-		}
-		$contentin=str_ireplace('__DEFAULT_MODULE_PATH__', '__DIR__/modules/__DEFAULT_MODULE__', $contentin);
-		$contentin=str_ireplace('__IMAGEOPTIMIZER_PATH__', '__DIR__/static/__IMAGEOPTIMIZER__', $contentin);
-		$contentin=str_ireplace('__SCRIPTOPTIMIZER_PATH__', '__DIR__/static/__SCRIPTOPTIMIZER__', $contentin);
-		$contentin=str_ireplace('__STYLEOPTIMIZER_PATH__', '__DIR__/static/__STYLEOPTIMIZER__', $contentin);
-		$contentin=str_ireplace('__DIR__/', $dir, $contentin);
-		$contentin=str_ireplace('__DEFAULT_MODULE__', Settings::getStringVar('project_default_module'), $contentin);
-		$contentin=str_ireplace('__IMAGEOPTIMIZER__', Settings::getStringVar('imageoptimizer_module'), $contentin);
-		$contentin=str_ireplace('__SCRIPTOPTIMIZER__', Settings::getStringVar('scriptoptimizer_module'), $contentin);
-		$contentin=str_ireplace('__STYLEOPTIMIZER__', Settings::getStringVar('styleoptimizer_module'), $contentin);
-
-		return $contentin;
 	}
 
 	/**
