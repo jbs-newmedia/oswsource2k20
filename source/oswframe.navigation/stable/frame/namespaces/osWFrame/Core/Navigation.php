@@ -97,7 +97,7 @@ class Navigation {
 		$acceptable_spider_parameters=[];
 		$acceptable_user_parameters=[Settings::getStringVar('session_name')];
 		$go_default=true;
-		$file=Settings::getStringVar('settings_abspath').'modules/'.$module.'/rewrite/rules.inc.php';
+		$file=Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR.$module.DIRECTORY_SEPARATOR.'rewrite'.DIRECTORY_SEPARATOR.'rules.inc.php';
 		if (file_exists($file)) {
 			include $file;
 		}
