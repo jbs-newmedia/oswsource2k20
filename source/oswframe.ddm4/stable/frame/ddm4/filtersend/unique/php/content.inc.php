@@ -12,8 +12,9 @@
 
 if (strlen($this->getDoSendElementStorage($element))>0) {
 	$QcheckData=self::getConnection();
-	$QcheckData->prepare('SELECT :formdata_name: FROM :table: WHERE :formdata_name: LIKE :value:');
+	$QcheckData->prepare('SELECT :formdata_name: FROM :table: AS :alias: WHERE :formdata_name: LIKE :value:');
 	$QcheckData->bindTable(':table:', $this->getGroupOption('table', 'database'));
+	$QcheckData->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));
 	$QcheckData->bindRaw(':formdata_name:', $this->getSendElementValue($element, 'name'));
 	$QcheckData->bindString(':value:', $this->getDoSendElementStorage($element));
 	if ($QcheckData->exec()>0) {

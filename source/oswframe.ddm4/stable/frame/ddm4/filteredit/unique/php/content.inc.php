@@ -12,11 +12,18 @@
 
 if (strlen($this->getDoEditElementStorage($element))>0) {
 	$QcheckData=self::getConnection();
-	$QcheckData->prepare('SELECT :formdata_name: FROM :table: WHERE :formdata_name: LIKE :value:');
+	$QcheckData->prepare('SELECT :formdata_name: FROM :table: AS :alias: WHERE :formdata_name: LIKE :value: AND :name_index:!=:value_index:');
 	$QcheckData->bindTable(':table:', $this->getGroupOption('table', 'database'));
-	$QcheckData->bindRaw(':formdata_name:', $this->getEditElementValue($element, 'name'));
+	$QcheckData->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));
+	$QcheckData->bindRaw(':name_index:', $this->getGroupOption('alias', 'database').'.'.$this->getGroupOption('index', 'database'));
+	if ($this->getGroupOption('db_index_type', 'database')=='string') {
+		$QcheckData->bindString(':value_index:', $this->getIndexElementStorage());
+	} else {
+		$QcheckData->bindInt(':value_index:', intval($this->getIndexElementStorage()));
+	}
+	$QcheckData->bindRaw(':formdata_name:', $this->getGroupOption('alias', 'database').'.'.$this->getEditElementValue($element, 'name'));
 	$QcheckData->bindString(':value:', $this->getDoEditElementStorage($element));
-	if ($QcheckData->exec()>1) {
+	if ($QcheckData->exec()>0) {
 		$this->getTemplate()->Form()->addErrorMessage($element, osWFrame\Core\StringFunctions::parseTextWithVars($this->getGroupMessage('validation_element_unique'), $this->getFilterElementStorage($element)));
 		$this->setFilterErrorElementStorage($element, true);
 	}

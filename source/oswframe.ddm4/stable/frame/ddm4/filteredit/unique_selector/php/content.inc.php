@@ -12,19 +12,13 @@
 
 if (strlen($this->getDoEditElementStorage($element))>0) {
 	$database_where_string='';
-	$ddm_filter_array=$this->getGroupOption('filter', 'database');
-	if (!empty($ddm_filter_array)) {
-		$ddm_filter=[];
-		foreach ($ddm_filter_array as $filter_data) {
-			$ar_values=[];
-			foreach ($filter_data as $filter_logic=>$filter_elements) {
-				foreach ($filter_elements as $filter_element) {
-					$ar_values[]=$this->getGroupOption('alias', 'database').'.'.$filter_element['key'].$filter_element['operator'].$filter_element['value'];
-				}
-			}
-			$ddm_filter[]='('.implode(' '.strtoupper($filter_logic).' ', $ar_values).')';
+	$ddm_selector_array=$this->getGroupOption('selector', 'database');
+	if (!empty($ddm_selector_array)) {
+		$ar_values=[];
+		foreach ($ddm_selector_array as $key => $value) {
+			$ar_values[]=$this->getGroupOption('alias', 'database').'.'.$key.'='.$value;
 		}
-		$database_where_string.=' AND ('.implode(' OR ', $ddm_filter).')';
+		$database_where_string.=' AND ('.implode(' AND ', $ar_values).')';
 	}
 
 	$QcheckData=self::getConnection();
