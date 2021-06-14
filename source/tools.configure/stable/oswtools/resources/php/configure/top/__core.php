@@ -26,6 +26,14 @@ if ($path[0]=='oswtools') {
 	$path=$path[0];
 }
 
+$chars='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+$chars_length=strlen($chars);
+$salt='';
+for ($i=0; $i<32; $i++) {
+	$salt.=$chars[rand(0, $chars_length-1)];
+}
+
+
 $default_module='';
 $ar_default_module=[];
 $dir_list=scandir(\osWFrame\Core\Settings::getStringVar('settings_framepath').'modules'.DIRECTORY_SEPARATOR);
@@ -88,9 +96,11 @@ $this->fields['project_path']=['default_name'=>'Path', 'default_type'=>'text', '
 
 $this->fields['settings_ssl']=['default_name'=>'SSL', 'default_type'=>'select', 'default_value'=>0, 'default_select'=>[0=>'No', 1=>'Yes'], 'valid_type'=>'boolean', 'configure_write'=>true, 'valid_min_length'=>1, 'valid_max_length'=>1];
 
-$this->fields['project_email']=['default_name'=>'E-Mail (Contact)', 'default_type'=>'text', 'default_value'=>'info@'.$domain, 'valid_type'=>'string', 'valid_min_length'=>6, 'valid_max_length'=>32, 'valid_function'=>'check_email', 'configure_write'=>true];
+$this->fields['settings_protection_salt']=['default_name'=>'Salt', 'default_type'=>'text', 'default_value'=>$salt, 'valid_type'=>'string', 'valid_min_length'=>32, 'valid_max_length'=>64, 'configure_write'=>true];
 
-$this->fields['project_email_system']=['default_name'=>'E-Mail (Admin)', 'default_type'=>'text', 'default_value'=>'admin@'.$domain, 'valid_type'=>'string', 'valid_min_length'=>6, 'valid_max_length'=>32, 'valid_function'=>'check_email', 'configure_write'=>true];
+$this->fields['project_email']=['default_name'=>'E-Mail (Contact)', 'default_type'=>'text', 'default_value'=>'info@'.$domain, 'valid_type'=>'string', 'valid_min_length'=>6, 'valid_max_length'=>64, 'valid_function'=>'check_email', 'configure_write'=>true];
+
+$this->fields['project_email_system']=['default_name'=>'E-Mail (Admin)', 'default_type'=>'text', 'default_value'=>'admin@'.$domain, 'valid_type'=>'string', 'valid_min_length'=>6, 'valid_max_length'=>64, 'valid_function'=>'check_email', 'configure_write'=>true];
 
 $this->fields['project_default_module']=['default_name'=>'Defaultmodule', 'default_type'=>'select', 'default_value'=>$default_module, 'default_select'=>$ar_default_module, 'valid_type'=>'string', 'valid_min_length'=>1, 'valid_max_length'=>32, 'configure_write'=>true];
 
