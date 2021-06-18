@@ -132,6 +132,18 @@ trait BaseVarTrait {
 	}
 
 	/**
+	 * @param string $name
+	 * @param object $value
+	 * @return bool
+	 */
+	public function setObjectVar(string $name, object $value):bool {
+		$this->initVars();
+		$this->vars[$name]=$value;
+
+		return true;
+	}
+
+	/**
 	 * Gibt eine Variable vom Typ Bool zurück.
 	 * Existiert die Variable nicht, wird NULL zurückgeliefert.
 	 *
@@ -199,6 +211,18 @@ trait BaseVarTrait {
 	 * @return array|null
 	 */
 	public function getArrayVar(string $name):?array {
+		if ((strlen($name)>0)&&(isset($this->vars[$name]))) {
+			return $this->vars[$name];
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param string $name
+	 * @return object|null
+	 */
+	public function getObjectVar(string $name):?object {
 		if ((strlen($name)>0)&&(isset($this->vars[$name]))) {
 			return $this->vars[$name];
 		}
