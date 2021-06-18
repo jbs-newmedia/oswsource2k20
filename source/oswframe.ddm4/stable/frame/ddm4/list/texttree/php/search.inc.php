@@ -10,6 +10,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
  */
 
-$ddm_search_case_array[]=$this->getGroupOption('alias', 'database').'.'.$key.' LIKE \'%'.self::getConnection()->escapeString($search['value']).'%\'';
+$ddm_search_case_array[]=$this->getGroupOption('alias', 'database').'.'.$key.' LIKE '.self::getConnection()->escapeString('%'.$search['value'].'%');
 
 ?>
