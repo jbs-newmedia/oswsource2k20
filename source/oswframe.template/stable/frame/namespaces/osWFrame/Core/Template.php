@@ -697,9 +697,9 @@ class Template {
 		}
 		if ($codes!=[]) {
 			if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
-				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n");
+				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n", $pos);
 			} else {
-				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n");
+				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n", $pos);
 			}
 		}
 
@@ -719,9 +719,9 @@ class Template {
 		}
 		if ($codes!=[]) {
 			if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
-				$this->addCode('style', ['type'=>'text/css', 'title'=>'text/css'], "\n".implode("\n\n", $codes)."\n");
+				$this->addCode('style', ['type'=>'text/css', 'title'=>'text/css'], "\n".implode("\n\n", $codes)."\n", $pos);
 			} else {
-				$this->addCode('style', ['type'=>'text/css', 'title'=>'text/css'], "\n".implode("\n\n", $codes)."\n");
+				$this->addCode('style', ['type'=>'text/css', 'title'=>'text/css'], "\n".implode("\n\n", $codes)."\n", $pos);
 			}
 		}
 
