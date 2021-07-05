@@ -11,7 +11,7 @@
  */
 
 if ((isset($options['name']))&&($options['name']!='')) {
-	$_columns[$options['name']]=['name'=>$options['name'], 'order'=>true, 'search'=>false, 'hidden'=>true,];
+	$_columns[$options['name']]=['name'=>$options['name'], 'order'=>true, 'search'=>false, 'hidden'=>true];
 }
 
 $this->incCounter('list_view_elements');

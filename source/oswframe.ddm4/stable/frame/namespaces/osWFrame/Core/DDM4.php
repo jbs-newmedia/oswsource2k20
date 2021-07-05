@@ -698,7 +698,7 @@ class DDM4 {
 	// ////////////////////////////////////////////
 	// ////////////////////////////////////////////
 	// ////////////////////////////////////////////
-	public function getElementValue($type, $element, $option, $group='') {
+	public function getElementValue(string $type, string $element, string $option, string $group='') {
 		if ($group=='') {
 			if (isset($this->ddm['elements'][$type][$element][$option])) {
 				return $this->ddm['elements'][$type][$element][$option];
@@ -768,7 +768,7 @@ class DDM4 {
 		return $this->getElementValue('edit', $element, $option, '');
 	}
 
-	public function getEditElementOption($element, $option) {
+	public function getEditElementOption(string $element, string $option) {
 		return $this->getElementValue('edit', $element, $option, 'options');
 	}
 

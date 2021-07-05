@@ -16,7 +16,7 @@ $fields['element_title']=$this->getSendElementValue($element, 'title');
 $this->setFilterElementStorage($element, $fields);
 $this->setFilterErrorElementStorage($element, false);
 
-if (($this->getFilterErrorElementStorage($element)!==true)&&(strval(intval($this->getDoSendElementStorage($element)))!==strval($this->getDoSendElementStorage($element)))) {
+if (($this->getFilterErrorElementStorage($element)!==true)&&(str_replace(',', '.', strval(floatval($this->getDoSendElementStorage($element))))!==strval($this->getDoSendElementStorage($element)))) {
 	$this->getTemplate()->Form()->addErrorMessage($element, osWFrame\Core\StringFunctions::parseTextWithVars($this->getGroupMessage('validation_element_incorrect'), $fields));
 	$this->setFilterErrorElementStorage($element, true);
 }
