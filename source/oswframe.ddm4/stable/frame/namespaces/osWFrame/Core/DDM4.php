@@ -309,10 +309,13 @@ class DDM4 {
 		return $this->getGroupOption($option, 'messages');
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function addElement($type, $element, $options) {
+	/**
+	 * @param string $type
+	 * @param string $element
+	 * @param array $options
+	 * @return bool
+	 */
+	public function addElement(string $type, string $element, array $options):bool {
 		if ((!isset($options['enabled']))||($options['enabled']!==true)) {
 			$options['id']=$element;
 			if (isset($this->ddm[$type]['elements'][$element])) {
@@ -370,34 +373,66 @@ class DDM4 {
 		return false;
 	}
 
-	public function addPreViewElement($element, $options) {
+	/**
+	 * @param string $element
+	 * @param array $options
+	 * @return bool
+	 */
+	public function addPreViewElement(string $element, array $options):bool {
 		return $this->addElement('preview', $element, $options);
 	}
 
-	public function addViewElement($element, $options) {
+	/**
+	 * @param string $element
+	 * @param array $options
+	 * @return bool
+	 */
+	public function addViewElement(string $element, array $options):bool {
 		return $this->addElement('view', $element, $options);
 	}
 
-	public function addDataElement($element, $options) {
+	/**
+	 * @param string $element
+	 * @param array $options
+	 * @return bool
+	 */
+	public function addDataElement(string $element, array $options):bool {
 		return $this->addElement('data', $element, $options);
 	}
 
-	public function addSendElement($element, $options) {
+	/**
+	 * @param string $element
+	 * @param array $options
+	 * @return bool
+	 */
+	public function addSendElement(string $element, array $options):bool {
 		return $this->addElement('send', $element, $options);
 	}
 
-	public function addFinishElement($element, $options) {
+	/**
+	 * @param string $element
+	 * @param array $options
+	 * @return bool
+	 */
+	public function addFinishElement(string $element, array $options):bool {
 		return $this->addElement('finish', $element, $options);
 	}
 
-	public function addAfterFinishElement($element, $options) {
+	/**
+	 * @param string $element
+	 * @param array $options
+	 * @return bool
+	 */
+	public function addAfterFinishElement(string $element, array $options):bool {
 		return $this->addElement('afterfinish', $element, $options);
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function setReadOnly($element, $status=true) {
+	/**
+	 * @param string $element
+	 * @param bool $status
+	 * @return object
+	 */
+	public function setReadOnly(string $element, bool $status=true):object {
 		if ((isset($this->ddm))&&(isset($this->ddm['elements']['add'][$element]))) {
 			$this->ddm['elements']['add'][$element]['options']['read_only']=$status;
 		}
@@ -407,16 +442,26 @@ class DDM4 {
 		if ((isset($this->ddm))&&(isset($this->ddm['elements']['delete'][$element]))) {
 			$this->ddm['elements']['delete'][$element]['options']['read_only']=$status;
 		}
+
+		return $this;
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function setCounter($counter, $value) {
+	/**
+	 * @param $counter
+	 * @param $value
+	 * @return object
+	 */
+	public function setCounter($counter, $value):object {
 		$this->ddm['counts'][$counter]=$value;
+
+		return $this;
 	}
 
-	public function incCounter($counter) {
+	/**
+	 * @param string $counter
+	 * @return bool|int
+	 */
+	public function incCounter(string $counter):bool|int {
 		if (!isset($this->ddm['counts'][$counter])) {
 			$this->setCounter($counter, 0);
 		}
@@ -425,7 +470,11 @@ class DDM4 {
 		return $this->getCounter($counter);
 	}
 
-	public function decCounter($counter) {
+	/**
+	 * @param string $counter
+	 * @return bool|int
+	 */
+	public function decCounter(string $counter):bool|int {
 		if (!isset($this->ddm['counts'][$counter])) {
 			$this->setCounter($counter, 0);
 		}
@@ -434,7 +483,11 @@ class DDM4 {
 		return $this->getCounter($counter);
 	}
 
-	public function getCounter($counter) {
+	/**
+	 * @param string $counter
+	 * @return bool|int
+	 */
+	public function getCounter(string $counter):bool|int {
 		if (isset($this->ddm['counts'][$counter])) {
 			return $this->ddm['counts'][$counter];
 		}
@@ -442,13 +495,11 @@ class DDM4 {
 		return false;
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getOrderElementName($element) {
+	/**
+	 * @param string $element
+	 * @return string
+	 */
+	public function getOrderElementName(string $element):string {
 		if (isset($this->ddm['orderelementnames'][$element])) {
 			return $this->ddm['orderelementnames'][$element];
 		} else {
@@ -456,19 +507,22 @@ class DDM4 {
 		}
 	}
 
-	public function setOrderElementName($element, $value) {
+	/**
+	 * @param string $element
+	 * @param string $value
+	 * @return bool
+	 */
+	public function setOrderElementName(string $element, string $value):bool {
 		$this->ddm['orderelementnames'][$element]=$value;
 
 		return true;
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getElements($type) {
+	/**
+	 * @param string $type
+	 * @return array
+	 */
+	public function getElements(string $type):array {
 		if (isset($this->ddm['elements'][$type])) {
 			return $this->ddm['elements'][$type];
 		} else {
@@ -476,53 +530,82 @@ class DDM4 {
 		}
 	}
 
-	public function getPreViewElements() {
+	/**
+	 * @return array
+	 */
+	public function getPreViewElements():array {
 		return $this->getElements('preview');
 	}
 
-	public function getViewElements() {
+	/**
+	 * @return array
+	 */
+	public function getViewElements():array {
 		return $this->getElements('view');
 	}
 
-	public function getListElements() {
+	/**
+	 * @return array
+	 */
+	public function getListElements():array {
 		return $this->getElements('list');
 	}
 
-	public function getSearchElements() {
+	/**
+	 * @return array
+	 */
+	public function getSearchElements():array {
 		return $this->getElements('search');
 	}
 
-	public function getAddElements() {
+	/**
+	 * @return array
+	 */
+	public function getAddElements():array {
 		return $this->getElements('add');
 	}
 
-	public function getEditElements() {
+	/**
+	 * @return array
+	 */
+	public function getEditElements():array {
 		return $this->getElements('edit');
 	}
 
-	public function getDeleteElements() {
+	/**
+	 * @return array
+	 */
+	public function getDeleteElements():array {
 		return $this->getElements('delete');
 	}
 
-	public function getSendElements() {
+	/**
+	 * @return array
+	 */
+	public function getSendElements():array {
 		return $this->getElements('send');
 	}
 
-	public function getFinishElements() {
+	/**
+	 * @return array
+	 */
+	public function getFinishElements():array {
 		return $this->getElements('finish');
 	}
 
-	public function getAfterFinishElements() {
+	/**
+	 * @return array
+	 */
+	public function getAfterFinishElements():array {
 		return $this->getElements('afterfinish');
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getElement($type, $element) {
+	/**
+	 * @param string $type
+	 * @param string $element
+	 * @return array
+	 */
+	public function getElement(string $type, string $element):array {
 		if ((isset($this->ddm['elements'][$type]))&&(isset($this->ddm['elements'][$type][$element]))) {
 			return $this->ddm['elements'][$type][$element];
 		} else {
@@ -530,53 +613,93 @@ class DDM4 {
 		}
 	}
 
-	public function getPreViewElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getPreViewElement(string $element):array {
 		return $this->getElement('preview', $element);
 	}
 
-	public function getViewElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getViewElement(string $element):array {
 		return $this->getElement('view', $element);
 	}
 
-	public function getListElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getListElement(string $element):array {
 		return $this->getElement('list', $element);
 	}
 
-	public function getSearchElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getSearchElement(string $element):array {
 		return $this->getElement('search', $element);
 	}
 
-	public function getAddElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getAddElement(string $element):array {
 		return $this->getElement('add', $element);
 	}
 
-	public function getEditElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getEditElement(string $element):array {
 		return $this->getElement('edit', $element);
 	}
 
-	public function getDeleteElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getDeleteElement(string $element):array {
 		return $this->getElement('delete', $element);
 	}
 
-	public function getSendElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getSendElement(string $element):array {
 		return $this->getElement('send', $element);
 	}
 
-	public function getFinishElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getFinishElement(string $element):array {
 		return $this->getElement('finish', $element);
 	}
 
-	public function getAfterFinishElement($element) {
+	/**
+	 * @param string $element
+	 * @return array
+	 */
+	public function getAfterFinishElement(string $element):array {
 		return $this->getElement('afterfinish', $element);
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getElementsValue($type, $key, $group='') {
+	/**
+	 * @param string $type
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getElementsValue(string $type, string $key, string $group=''):array {
 		$ar_tmp=[];
 		foreach ($this->getElements($type) as $id=>$options) {
 			if ($group!='') {
@@ -590,51 +713,94 @@ class DDM4 {
 		return $ar_tmp;
 	}
 
-	public function getViewElementsValue($key, $group='') {
+	/**
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getViewElementsValue(string $key, string $group=''):array {
 		return $this->getElementsValue('view', $key, $group);
 	}
 
-	public function getListElementsValue($key, $group='') {
+	/**
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getListElementsValue(string $key, string $group=''):array {
 		return $this->getElementsValue('list', $key, $group);
 	}
 
-	public function getSearchElementsValue($key, $group='') {
+	/**
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getSearchElementsValue(string $key, string $group=''):array {
 		return $this->getElementsValue('search', $key, $group);
 	}
 
-	public function getAddElementsValue($key, $group='') {
+	/**
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getAddElementsValue(string $key, string $group=''):array {
 		return $this->getElementsValue('add', $key, $group);
 	}
 
-	public function getEditElementsValue($key, $group='') {
+	/**
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getEditElementsValue(string $key, string $group=''):array {
 		return $this->getElementsValue('edit', $key, $group);
 	}
 
-	public function getDeleteElementsValue($key, $group='') {
+	/**
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getDeleteElementsValue(string $key, string $group=''):array {
 		return $this->getElementsValue('delete', $key, $group);
 	}
 
-	public function getSendElementsValue($key, $group='') {
+	/**
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getSendElementsValue(string $key, string $group=''):array {
 		return $this->getElementsValue('send', $key, $group);
 	}
 
-	public function getFinishElementsValue($key, $group='') {
+	/**
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getFinishElementsValue(string $key, string $group=''):array {
 		return $this->getElementsValue('finish', $key, $group);
 	}
 
-	public function getAfterFinishElementsValue($key, $group='') {
+	/**
+	 * @param string $key
+	 * @param string $group
+	 * @return array
+	 */
+	public function getAfterFinishElementsValue(string $key, string $group=''):array {
 		return $this->getElementsValue('afterfinish', $key, $group);
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getElementsName($type, $group='') {
+	/**
+	 * @param string $type
+	 * @param string $group
+	 * @return array
+	 */
+	public function getElementsName(string $type, string $group=''):array {
 		$ar_tmp=[];
-		$key='name';
 		foreach ($this->getElements($type) as $id=>$options) {
 			if ($group!='') {
 			} else {
@@ -656,49 +822,86 @@ class DDM4 {
 		return $ar_tmp;
 	}
 
-	public function getViewElementsName($group='') {
+	/**
+	 * @param string $group
+	 * @return array
+	 */
+	public function getViewElementsName(string $group=''):array {
 		return $this->getElementsName('view', $group);
 	}
 
-	public function getListElementsName($group='') {
+	/**
+	 * @param string $group
+	 * @return array
+	 */
+	public function getListElementsName(string $group=''):array {
 		return $this->getElementsName('list', $group);
 	}
 
-	public function getSearchElementsName($group='') {
+	/**
+	 * @param string $group
+	 * @return array
+	 */
+	public function getSearchElementsName(string $group=''):array {
 		return $this->getElementsName('search', $group);
 	}
 
-	public function getAddElementsName($group='') {
+	/**
+	 * @param string $group
+	 * @return array
+	 */
+	public function getAddElementsName(string $group=''):array {
 		return $this->getElementsName('add', $group);
 	}
 
-	public function getEditElementsName($group='') {
+	/**
+	 * @param string $group
+	 * @return array
+	 */
+	public function getEditElementsName(string $group=''):array {
 		return $this->getElementsName('edit', $group);
 	}
 
+	/**
+	 * @param string $group
+	 * @return array
+	 */
 	public function getDeleteElementsName($group='') {
 		return $this->getElementsName('delete', $group);
 	}
 
-	public function getSendElementsName($group='') {
+	/**
+	 * @param string $group
+	 * @return array
+	 */
+	public function getSendElementsName(string $group=''):array {
 		return $this->getElementsName('send', $group);
 	}
 
-	public function getFinishElementsName($group='') {
+	/**
+	 * @param string $group
+	 * @return array
+	 */
+	public function getFinishElementsName(string $group=''):array {
 		return $this->getElementsName('finish', $group);
 	}
 
-	public function getAfterFinishElementsName($group='') {
+	/**
+	 * @param string $group
+	 * @return array
+	 */
+	public function getAfterFinishElementsName(string $group=''):array {
 		return $this->getElementsName('afterfinish', $group);
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getElementValue(string $type, string $element, string $option, string $group='') {
+	/**
+	 * @param string $type
+	 * @param string $element
+	 * @param string $option
+	 * @param string $group
+	 * @return mixed
+	 */
+	public function getElementValue(string $type, string $element, string $option, string $group=''):mixed {
 		if ($group=='') {
 			if (isset($this->ddm['elements'][$type][$element][$option])) {
 				return $this->ddm['elements'][$type][$element][$option];
@@ -724,113 +927,240 @@ class DDM4 {
 		return '';
 	}
 
-	public function getViewElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getViewElementValue(string $element, string $option):mixed {
 		return $this->getElementValue('view', $element, $option, '');
 	}
 
-	public function getViewElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getViewElementOption(string $element, string $option):mixed {
 		return $this->getElementValue('view', $element, $option, 'options');
 	}
 
-	public function getListElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getListElementValue(string $element, string $option):mixed {
 		return $this->getElementValue('list', $element, $option, '');
 	}
 
-	public function getListElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getListElementOption(string $element, string $option):mixed {
 		return $this->getElementValue('list', $element, $option, 'options');
 	}
 
-	public function getSearchElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getSearchElementValue(string $element, string $option):mixed {
 		return $this->getElementValue('search', $element, $option, '');
 	}
 
-	public function getSearchElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getSearchElementOption(string $element, string $option):mixed {
 		return $this->getElementValue('search', $element, $option, 'options');
 	}
 
-	public function getSearchElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getSearchElementValidation(string $element, string $option):mixed {
 		return $this->getElementValue('search', $element, $option, 'validation');
 	}
 
-	public function getAddElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getAddElementValue(string $element, string $option):mixed {
 		return $this->getElementValue('add', $element, $option, '');
 	}
 
-	public function getAddElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getAddElementOption(string $element, string $option):mixed {
 		return $this->getElementValue('add', $element, $option, 'options');
 	}
 
-	public function getAddElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getAddElementValidation(string $element, string $option):mixed {
 		return $this->getElementValue('add', $element, $option, 'validation');
 	}
 
-	public function getEditElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getEditElementValue(string $element, string $option):mixed {
 		return $this->getElementValue('edit', $element, $option, '');
 	}
 
-	public function getEditElementOption(string $element, string $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getEditElementOption(string $element, string $option):mixed {
 		return $this->getElementValue('edit', $element, $option, 'options');
 	}
 
-	public function getEditElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getEditElementValidation(string $element, string $option):mixed {
 		return $this->getElementValue('edit', $element, $option, 'validation');
 	}
 
-	public function getDeleteElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getDeleteElementValue(string $element, string $option):mixed {
 		return $this->getElementValue('delete', $element, $option, '');
 	}
 
-	public function getDeleteElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getDeleteElementOption(string $element, string $option):mixed {
 		return $this->getElementValue('delete', $element, $option, 'options');
 	}
 
-	public function getDeleteElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getDeleteElementValidation(string $element, string $option):mixed {
 		return $this->getElementValue('delete', $element, $option, 'validation');
 	}
 
-	public function getSendElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getSendElementValue(string $element, string $option):mixed {
 		return $this->getElementValue('send', $element, $option, '');
 	}
 
-	public function getSendElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getSendElementOption(string $element, string $option):mixed {
 		return $this->getElementValue('send', $element, $option, 'options');
 	}
 
-	public function getSendElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getSendElementValidation(string $element, string $option):mixed {
 		return $this->getElementValue('send', $element, $option, 'validation');
 	}
 
-	public function getFinishElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getFinishElementValue(string $element, string $option):mixed {
 		return $this->getElementValue('finish', $element, $option, '');
 	}
 
-	public function getFinishElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getFinishElementOption(string $element, string $option):mixed {
 		return $this->getElementValue('finish', $element, $option, 'options');
 	}
 
-	public function getFinishElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getFinishElementValidation(string $element, string $option):mixed {
 		return $this->getElementValue('finish', $element, $option, 'validation');
 	}
 
-	public function getAfterFinishElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getAfterFinishElementValue(string $element, string $option):mixed {
 		return $this->getElementValue('afterfinish', $element, $option, '');
 	}
 
-	public function getAfterFinishElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getAfterFinishElementOption(string $element, string $option):mixed {
 		return $this->getElementValue('afterfinish', $element, $option, 'options');
 	}
 
-	public function getAfterFinishElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getAfterFinishElementValidation(string $element, string $option):mixed {
 		return $this->getElementValue('afterfinish', $element, $option, 'validation');
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function setElementValue($type, $element, $option, $value, $group='') {
+	/**
+	 * @param string $type
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @param string $group
+	 * @return bool
+	 */
+	public function setElementValue(string $type, string $element, string $option, mixed $value, string $group=''):bool {
 		if ($group=='') {
 			$this->ddm['elements'][$type][$element][$option]=$value;
 
@@ -844,86 +1174,200 @@ class DDM4 {
 		return false;
 	}
 
-	public function setViewElementValue($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setViewElementValue(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('view', $element, $option, $value, '');
 	}
 
-	public function setViewElementOption($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setViewElementOption(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('view', $element, $option, $value, 'options');
 	}
 
-	public function setListElementValue($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setListElementValue(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('list', $element, $option, $value, '');
 	}
 
-	public function setListElementOption($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setListElementOption(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('list', $element, $option, $value, 'options');
 	}
 
-	public function setSearchElementValue($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setSearchElementValue(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('search', $element, $option, $value, '');
 	}
 
-	public function setSearchElementOption($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setSearchElementOption(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('search', $element, $option, $value, 'options');
 	}
 
-	public function setSearchElementValidation($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setSearchElementValidation(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('search', $element, $option, $value, 'validation');
 	}
 
-	public function setAddElementValue($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setAddElementValue(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('add', $element, $option, $value, '');
 	}
 
-	public function setAddElementOption($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setAddElementOption(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('add', $element, $option, $value, 'options');
 	}
 
-	public function setAddElementValidation($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setAddElementValidation(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('add', $element, $option, $value, 'validation');
 	}
 
-	public function setEditElementValue($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setEditElementValue(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('edit', $element, $option, $value, '');
 	}
 
-	public function setEditElementOption($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setEditElementOption(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('edit', $element, $option, $value, 'options');
 	}
 
-	public function setEditElementValidation($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setEditElementValidation(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('edit', $element, $option, $value, 'validation');
 	}
 
-	public function setDeleteElementValue($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setDeleteElementValue(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('delete', $element, $option, $value, '');
 	}
 
-	public function setDeleteElementOption($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setDeleteElementOption(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('delete', $element, $option, $value, 'options');
 	}
 
-	public function setDeleteElementValidation($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setDeleteElementValidation(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('delete', $element, $option, $value, 'validation');
 	}
 
-	public function setSendElementValue($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setSendElementValue(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('send', $element, $option, $value, '');
 	}
 
-	public function setSendElementOption($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setSendElementOption(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('send', $element, $option, $value, 'options');
 	}
 
-	public function setSendElementValidation($element, $option, $value) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setSendElementValidation(string $element, string $option, mixed $value):bool {
 		return $this->setElementValue('send', $element, $option, $value, 'validation');
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function removeElements() {
+	/**
+	 * @return bool
+	 */
+	public function removeElements():bool {
 		if (isset($this->ddm['elements'])) {
 			unset($this->ddm['elements']);
 
@@ -933,7 +1377,12 @@ class DDM4 {
 		return false;
 	}
 
-	public function removeElement($type, $element) {
+	/**
+	 * @param string $type
+	 * @param string $element
+	 * @return bool
+	 */
+	public function removeElement(string $type, string $element):bool {
 		if (isset($this->ddm['elements'][$type][$element])) {
 			unset($this->ddm['elements'][$type][$element]);
 
@@ -943,10 +1392,14 @@ class DDM4 {
 		return false;
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function removeElementValue($type, $element, $option, $group='') {
+	/**
+	 * @param string $type
+	 * @param string $element
+	 * @param string $option
+	 * @param string $group
+	 * @return bool
+	 */
+	public function removeElementValue(string $type, string $element, string $option, string $group=''):bool {
 		if ($group=='') {
 			if (isset($this->ddm['elements'][$type][$element][$option])) {
 				unset($this->ddm['elements'][$type][$element][$option]);
@@ -964,105 +1417,202 @@ class DDM4 {
 		return false;
 	}
 
-	public function removeViewElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeViewElementValue(string $element, string $option):bool {
 		return $this->removeElementValue('view', $element, $option, '');
 	}
 
-	public function removeViewElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeViewElementOption(string $element, string $option):bool {
 		return $this->removeElementValue('view', $element, $option, 'options');
 	}
 
-	public function removeListElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeListElementValue(string $element, string $option):bool {
 		return $this->removeElementValue('list', $element, $option, '');
 	}
 
-	public function removeListElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeListElementOption(string $element, string $option):bool {
 		return $this->removeElementValue('list', $element, $option, 'options');
 	}
 
-	public function removeSearchElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeSearchElementValue(string $element, string $option):bool {
 		return $this->removeElementValue('search', $element, $option, '');
 	}
 
-	public function removeSearchElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeSearchElementOption(string $element, string $option):bool {
 		return $this->removeElementValue('search', $element, $option, 'options');
 	}
 
-	public function removeSearchElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeSearchElementValidation(string $element, string $option):bool {
 		return $this->removeElementValue('search', $element, $option, 'validation');
 	}
 
-	public function removeAddElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeAddElementValue(string $element, string $option):bool {
 		return $this->removeElementValue('add', $element, $option, '');
 	}
 
-	public function removeAddElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeAddElementOption(string $element, string $option):bool {
 		return $this->removeElementValue('add', $element, $option, 'options');
 	}
 
-	public function removeAddElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeAddElementValidation(string $element, string $option):bool {
 		return $this->removeElementValue('add', $element, $option, 'validation');
 	}
 
-	public function removeEditElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeEditElementValue(string $element, string $option):bool {
 		return $this->removeElementValue('edit', $element, $option, '');
 	}
 
-	public function removeEditElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeEditElementOption(string $element, string $option):bool {
 		return $this->removeElementValue('edit', $element, $option, 'options');
 	}
 
-	public function removeEditElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeEditElementValidation(string $element, string $option):bool {
 		return $this->removeElementValue('edit', $element, $option, 'validation');
 	}
 
-	public function removeDeleteElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeDeleteElementValue(string $element, string $option):bool {
 		return $this->removeElementValue('delete', $element, $option, '');
 	}
 
-	public function removeDeleteElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeDeleteElementOption(string $element, string $option):bool {
 		return $this->removeElementValue('delete', $element, $option, 'options');
 	}
 
-	public function removeDeleteElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeDeleteElementValidation(string $element, string $option):bool {
 		return $this->removeElementValue('delete', $element, $option, 'validation');
 	}
 
-	public function removeSendElementValue($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeSendElementValue(string $element, string $option):bool {
 		return $this->removeElementValue('send', $element, $option, '');
 	}
 
-	public function removeSendElementOption($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeSendElementOption(string $element, string $option):bool {
 		return $this->removeElementValue('send', $element, $option, 'options');
 	}
 
-	public function removeSendElementValidation($element, $option) {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function removeSendElementValidation(string $element, string $option):bool {
 		return $this->removeElementValue('send', $element, $option, 'validation');
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function setStorageValues($type, $elements) {
+	/**
+	 * @param string $type
+	 * @param array $elements
+	 * @return bool
+	 */
+	public function setStorageValues(string $type, array $elements):bool {
 		$this->ddm['storage'][$type]=$elements;
 
 		return true;
 	}
 
-	public function setListStorageValues($elements) {
+	/**
+	 * @param array $elements
+	 * @return bool
+	 */
+	public function setListStorageValues(array $elements):bool {
 		return $this->setStorageValues('list', $elements);
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getStorageValue($type, $element) {
+	/**
+	 * @param string $type
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getStorageValue(string $type, string $element):mixed {
 		if (isset($this->ddm['storage'][$type][$element])) {
 			return $this->ddm['storage'][$type][$element];
 		}
@@ -1070,17 +1620,21 @@ class DDM4 {
 		return '';
 	}
 
-	public function getListStorageValue($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getListStorageValue(string $element):mixed {
 		return $this->getStorageValue('list', $element);
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function setElementStorage($element, $value, $option='default') {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @param string $option
+	 * @return bool
+	 */
+	public function setElementStorage(string $element, mixed $value, string $option='default'):bool {
 		if (!isset($this->ddm['storage']['data'])) {
 			$this->ddm['storage']['data']=[];
 		}
@@ -1088,67 +1642,132 @@ class DDM4 {
 			$this->ddm['storage']['data'][$option]=[];
 		}
 		$this->ddm['storage']['data'][$option][$element]=$value;
+
+		return true;
 	}
 
-	public function setSearchElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setSearchElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'search');
 	}
 
-	public function setDataBaseElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setDataBaseElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'database');
 	}
 
-	public function setAddElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setAddElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'add');
 	}
 
-	public function setDoAddElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setDoAddElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'doadd');
 	}
 
-	public function setEditElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setEditElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'edit');
 	}
 
-	public function setDoEditElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setDoEditElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'doedit');
 	}
 
-	public function setDeleteElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setDeleteElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'delete');
 	}
 
-	public function setDoDeleteElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setDoDeleteElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'dodelete');
 	}
 
-	public function setSendElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setSendElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'send');
 	}
 
-	public function setDoSendElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setDoSendElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'dosend');
 	}
 
-	public function setFilterElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setFilterElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'filter');
 	}
 
-	public function setFilterErrorElementStorage($element, $value) {
+	/**
+	 * @param string $element
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setFilterErrorElementStorage(string $element, mixed $value):bool {
 		return $this->setElementStorage($element, $value, 'filtererror');
 	}
 
-	public function setIndexElementStorage($value) {
+	/**
+	 * @param mixed $value
+	 * @return bool
+	 */
+	public function setIndexElementStorage(mixed $value):bool {
 		return $this->setElementStorage('index', $value, 'index');
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getElementStorage($element, $option='default') {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return mixed
+	 */
+	public function getElementStorage(string $element, string $option='default'):mixed {
 		if (isset($this->ddm['storage']['data'][$option][$element])) {
 			return $this->ddm['storage']['data'][$option][$element];
 		}
@@ -1156,73 +1775,128 @@ class DDM4 {
 		return '';
 	}
 
-	public function getSearchElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getSearchElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'search');
 	}
 
-	public function getAddElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getAddElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'add');
 	}
 
-	public function getDoAddElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getDoAddElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'doadd');
 	}
 
-	public function getEditElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getEditElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'edit');
 	}
 
-	public function getDoEditElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getDoEditElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'doedit');
 	}
 
-	public function getDeleteElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getDeleteElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'delete');
 	}
 
-	public function getDoDeleteElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getDoDeleteElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'dodelete');
 	}
 
-	public function getSendElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getSendElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'send');
 	}
 
-	public function getDoSendElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getDoSendElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'dosend');
 	}
 
-	public function getDataBaseElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getDataBaseElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'database');
 	}
 
-	public function getFilterElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getFilterElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'filter');
 	}
 
-	public function getFilterErrorElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return mixed
+	 */
+	public function getFilterErrorElementStorage(string $element):mixed {
 		return $this->getElementStorage($element, 'filtererror');
 	}
 
-	public function getIndexElementStorage() {
+	/**
+	 * @return mixed
+	 */
+	public function getIndexElementStorage():mixed {
 		return $this->getElementStorage('index', 'index');
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getSearchElementsStorage() {
+	/**
+	 * @return array
+	 */
+	public function getSearchElementsStorage():array {
 		return $this->getElementsStorage('search');
 	}
 
-	public function getDataBaseElementsStorage() {
+	/**
+	 * @return array
+	 */
+	public function getDataBaseElementsStorage():array {
 		return $this->getElementsStorage('database');
 	}
 
-	public function getElementsStorage($option='default') {
+	/**
+	 * @param string $option
+	 * @return array
+	 */
+	public function getElementsStorage(string $option='default'):array {
 		if (isset($this->ddm['storage']['data'][$option])) {
 			return $this->ddm['storage']['data'][$option];
 		}
@@ -1230,17 +1904,20 @@ class DDM4 {
 		return [];
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function clearSearchElementStorage($element) {
+	/**
+	 * @param string $element
+	 * @return bool
+	 */
+	public function clearSearchElementStorage(string $element):bool {
 		return $this->clearElementStorage($element, 'search');
 	}
 
-	public function clearElementStorage($element, $option='default') {
+	/**
+	 * @param string $element
+	 * @param string $option
+	 * @return bool
+	 */
+	public function clearElementStorage(string $element, string $option='default'):bool {
 		if (isset($this->ddm['storage']['data'][$option][$element])) {
 			unset($this->ddm['storage']['data'][$option][$element]);
 		}
@@ -1248,13 +1925,10 @@ class DDM4 {
 		return true;
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function getDirectModule() {
+	/**
+	 * @return string
+	 */
+	public function getDirectModule():string {
 		if (''!=$this->getGroupOption('module', 'direct')) {
 			return $this->getGroupOption('module', 'direct');
 		}
@@ -1262,7 +1936,10 @@ class DDM4 {
 		return 'current';
 	}
 
-	public function getDirectParameters() {
+	/**
+	 * @return string
+	 */
+	public function getDirectParameters():string {
 		$_paramters=[];
 		if ((''!=$this->getGroupOption('parameters', 'direct'))&&(is_array($this->getGroupOption('parameters', 'direct')))&&(count($this->getGroupOption('parameters', 'direct'))>0)) {
 			foreach ($this->getGroupOption('parameters', 'direct') as $element=>$value) {
@@ -1273,26 +1950,31 @@ class DDM4 {
 		return implode('&', $_paramters);
 	}
 
-	public function direct($module='current', $parameter='') {
+	/**
+	 * @param string $module
+	 * @param string $parameter
+	 */
+	public function direct(string $module='current', string $parameter=''):void {
 		$this->storeParameters();
 		Network::directHeader($this->getTemplate()->buildhrefLink($module, $parameter));
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-
-	public function addAjaxFunction($name, $value) {
+	/**
+	 * @param string $name
+	 * @param string $value
+	 */
+	public function addAjaxFunction(string $name, string $value) {
 		if (!isset($this->ddm['ajaxfunction'])) {
 			$this->ddm['ajaxfunction']=[];
 		}
 		$this->ddm['ajaxfunction'][$name]=$value;
 	}
 
-	public function getAjaxFunction($name) {
+	/**
+	 * @param string $name
+	 * @return array|mixed
+	 */
+	public function getAjaxFunction(string $name) {
 		if (isset($this->ddm['ajaxfunction'][$name])) {
 			return $this->ddm['ajaxfunction'][$name];
 		}
@@ -1300,7 +1982,10 @@ class DDM4 {
 		return [];
 	}
 
-	public function getAjaxFunctions() {
+	/**
+	 * @return array
+	 */
+	public function getAjaxFunctions():array {
 		if (isset($this->ddm['ajaxfunction'])) {
 			return $this->ddm['ajaxfunction'];
 		}
@@ -1308,7 +1993,11 @@ class DDM4 {
 		return [];
 	}
 
-	public function removeAjaxFunction($name) {
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function removeAjaxFunction(string $name):bool {
 		if (!isset($this->ddm['ajaxfunction'])) {
 			$this->ddm['ajaxfunction']=[];
 		}
@@ -1321,18 +2010,34 @@ class DDM4 {
 		return false;
 	}
 
-	public function setParameter($name, $value) {
+	/**
+	 * @param string $name
+	 * @param string|int $value
+	 * @return object
+	 */
+	public function setParameter(string $name, string|int $value):object {
 		return $this->addParameter($name, $value);
 	}
 
-	public function addParameter($name, $value) {
+	/**
+	 * @param string $name
+	 * @param string|int|array $value
+	 * @return object
+	 */
+	public function addParameter(string $name, string|int|array $value):object {
 		if (!isset($this->ddm['parameters'])) {
 			$this->ddm['parameters']=[];
 		}
 		$this->ddm['parameters'][$name]=$value;
+
+		return $this;
 	}
 
-	public function getParameter($name) {
+	/**
+	 * @param string $name
+	 * @return string|int|array
+	 */
+	public function getParameter(string $name):string|int|array {
 		if (isset($this->ddm['parameters'][$name])) {
 			return $this->ddm['parameters'][$name];
 		}
@@ -1343,7 +2048,11 @@ class DDM4 {
 		return '';
 	}
 
-	public function removeParameter($name) {
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function removeParameter(string $name):bool {
 		if (!isset($this->ddm['parameters'])) {
 			$this->ddm['parameters']=[];
 		}
@@ -1379,93 +2088,193 @@ class DDM4 {
 		return true;
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function parseElementPHP($type, $element, $values) {
+	/**
+	 * @param string $type
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseElementPHP(string $type, string $element, array $values):bool {
 		return $this->parseElement($element, $values, $type, 'content', 'php');
 	}
 
-	public function parseViewElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseViewElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('view', $element, $values);
 	}
 
-	public function parseListElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseListElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('list', $element, $values);
 	}
 
-	public function parseFormSearchElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFormSearchElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('formsearch', $element, $values);
 	}
 
-	public function parseParserSearchElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseParserSearchElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('parsersearch', $element, $values);
 	}
 
-	public function parseFormAddElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFormAddElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('formadd', $element, $values);
 	}
 
-	public function parseParserAddElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseParserAddElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('parseradd', $element, $values);
 	}
 
-	public function parseFilterAddElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFilterAddElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('filteradd', $element, $values);
 	}
 
-	public function parseFinishAddElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFinishAddElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('finishadd', $element, $values);
 	}
 
-	public function parseFormEditElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFormEditElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('formedit', $element, $values);
 	}
 
-	public function parseParserEditElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseParserEditElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('parseredit', $element, $values);
 	}
 
-	public function parseFilterEditElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFilterEditElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('filteredit', $element, $values);
 	}
 
-	public function parseFinishEditElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFinishEditElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('finishedit', $element, $values);
 	}
 
-	public function parseFormDeleteElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFormDeleteElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('formdelete', $element, $values);
 	}
 
-	public function parseParserDeleteElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseParserDeleteElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('parserdelete', $element, $values);
 	}
 
-	public function parseFinishDeleteElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFinishDeleteElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('finishdelete', $element, $values);
 	}
 
-	public function parseFinishSearchElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFinishSearchElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('finishsearch', $element, $values);
 	}
 
-	public function parseFormSendElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFormSendElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('formsend', $element, $values);
 	}
 
-	public function parseParserSendElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseParserSendElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('parsersend', $element, $values);
 	}
 
-	public function parseFilterSendElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFilterSendElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('filtersend', $element, $values);
 	}
 
-	public function parseFinishSendElementPHP($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return bool
+	 */
+	public function parseFinishSendElementPHP(string $element, array $values):bool {
 		return $this->parseElementPHP('finishsend', $element, $values);
 	}
 
@@ -1556,49 +2365,98 @@ class DDM4 {
 		return true;
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function parseElementTPL($type, $position, $element, $values) {
+	/**
+	 * @param string $type
+	 * @param string $position
+	 * @param string $element
+	 * @param array $values
+	 * @return string|bool
+	 */
+	public function parseElementTPL(string $type, string $position, string $element, array $values):string|bool {
 		return $this->parseElement($element, $values, $type, $position, 'tpl');
 	}
 
-	public function parseViewElementTPL($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return string|bool
+	 */
+	public function parseViewElementTPL(string $element, array $values):string|bool {
 		return $this->parseElementTPL('view', 'content', $element, $values);
 	}
 
-	public function parseListElementTPL($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return string|bool
+	 */
+	public function parseListElementTPL(string $element, array $values):string|bool {
 		return $this->parseElementTPL('list', 'content', $element, $values);
 	}
 
-	public function parseListHeaderElementTPL($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return string|bool
+	 */
+	public function parseListHeaderElementTPL(string $element, array $values):string|bool {
 		return $this->parseElementTPL('list', 'header', $element, $values);
 	}
 
-	public function parseFormSearchElementTPL($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return string|bool
+	 */
+	public function parseFormSearchElementTPL(string $element, array $values):string|bool {
 		return $this->parseElementTPL('formsearch', 'content', $element, $values);
 	}
 
-	public function parseFormAddElementTPL($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return string|bool
+	 */
+	public function parseFormAddElementTPL(string $element, array $values):string|bool {
 		return $this->parseElementTPL('formadd', 'content', $element, $values);
 	}
 
-	public function parseFormEditElementTPL($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return string|bool
+	 */
+	public function parseFormEditElementTPL(string $element, array $values):string|bool {
 		return $this->parseElementTPL('formedit', 'content', $element, $values);
 	}
 
-	public function parseFormDeleteElementTPL($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return string|bool
+	 */
+	public function parseFormDeleteElementTPL(string $element, array $values):string|bool {
 		return $this->parseElementTPL('formdelete', 'content', $element, $values);
 	}
 
-	public function parseFormSendElementTPL($element, $values) {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @return string|bool
+	 */
+	public function parseFormSendElementTPL(string $element, array $values):string|bool {
 		return $this->parseElementTPL('formsend', 'content', $element, $values);
 	}
 
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	// ////////////////////////////////////////////
-	public function parseElement($element, $values, $type='', $file='content', $script='php') {
+	/**
+	 * @param string $element
+	 * @param array $values
+	 * @param string $type
+	 * @param string $file
+	 * @param string $script
+	 * @return string|bool
+	 */
+	public function parseElement(string $element, array $values, string $type='', string $file='content', string $script='php'):string|bool {
 		if (!isset($values['module'])) {
 			return false;
 		}
@@ -1623,7 +2481,6 @@ class DDM4 {
 	}
 
 	/**
-	 *
 	 * @return bool
 	 */
 	public function runDDMPHP():bool {
@@ -1641,7 +2498,6 @@ class DDM4 {
 	}
 
 	/**
-	 *
 	 * @return string
 	 */
 	public function runDDMTPL():string {
