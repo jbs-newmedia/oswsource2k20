@@ -53,7 +53,7 @@ class SCSSCompiler extends \ScssPhp\ScssPhp\Compiler {
 	public function getCompressed(string $content):string {
 		$this->setOutputStyle(\ScssPhp\ScssPhp\OutputStyle::COMPRESSED);
 
-		return $this->compile($content);
+		return $this->compileString($content)->getCss();
 	}
 
 	/**
@@ -63,7 +63,7 @@ class SCSSCompiler extends \ScssPhp\ScssPhp\Compiler {
 	public function getExpanded(string $content):string {
 		$this->setOutputStyle(\ScssPhp\ScssPhp\OutputStyle::EXPANDED);
 
-		return $this->compile($content);
+		return $this->compileString($content)->getCss();
 	}
 
 }
