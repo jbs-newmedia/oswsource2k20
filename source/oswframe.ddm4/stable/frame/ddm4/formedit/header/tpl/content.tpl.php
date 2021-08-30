@@ -12,4 +12,4 @@
 
 ?>
 
-<h4 class="form-group bg-primary text-white ddm4_element_header ddm_element_<?php echo $this->getEditElementValue($element, 'id') ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementValue($element, 'title')) ?></h4>
+<h4 class="form-group bg-primary text-white ddm4_element_header px-2 py-2 ddm_element_<?php echo $this->getEditElementValue($element, 'id') ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementValue($element, 'title')) ?></h4>

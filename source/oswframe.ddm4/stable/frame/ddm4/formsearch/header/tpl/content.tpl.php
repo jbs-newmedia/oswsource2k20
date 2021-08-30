@@ -12,6 +12,4 @@
 
 ?>
 
-<div class="form-group<?php if ($this->getTemplate()->Form()->getErrorMessage($element)): ?> has-error<?php endif ?> ddm_element_<?php echo $this->getSearchElementValue($element, 'id') ?>">
-	<h4><?php echo \osWFrame\Core\HTML::outputString($this->getSearchElementValue($element, 'title')) ?></h4>
-</div>
+<h4 class="form-group bg-primary text-white ddm4_element_header px-2 py-2 ddm_element_<?php echo $this->getSearchElementValue($element, 'id') ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getSearchElementValue($element, 'title')) ?></h4>

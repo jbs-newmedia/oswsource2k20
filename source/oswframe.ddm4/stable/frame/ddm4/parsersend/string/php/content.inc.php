@@ -32,7 +32,7 @@ if (($this->getFilterErrorElementStorage($element)!==true)&&(($this->getSendElem
 if (($this->getFilterErrorElementStorage($element)!==true)&&($this->getSendElementValidation($element, 'length_max')!='')) {
 	if (strlen($this->getDoSendElementStorage($element))>$this->getSendElementValidation($element, 'length_max')) {
 		$fields['length_max']=$this->getSendElementValidation($element, 'length_max');
-		$this->getTemplate()->Form()->addErrorMessage($element, osWFrame\Core\StringFunctions::parseTextWithVars($this->getGroupMessage('validation_element_tolong'), $this->getFilterElementStorage($element)));
+		$this->getTemplate()->Form()->addErrorMessage($element, osWFrame\Core\StringFunctions::parseTextWithVars($this->getGroupMessage('validation_element_tolong'), $fields));
 		$this->setFilterErrorElementStorage($element, true);
 	}
 }

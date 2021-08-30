@@ -31,7 +31,7 @@ if (($this->getFilterErrorElementStorage($element)!==true)&&($this->getEditEleme
 if (($this->getFilterErrorElementStorage($element)!==true)&&($this->getEditElementValidation($element, 'length_max')!='')) {
 	if (strlen($this->getDoEditElementStorage($element))>$this->getEditElementValidation($element, 'length_max')) {
 		$fields['length_max']=$this->getEditElementValidation($element, 'length_max');
-		$this->getTemplate()->Form()->addErrorMessage($element, osWFrame\Core\StringFunctions::parseTextWithVars($this->getGroupMessage('validation_element_tolong'), $this->getFilterElementStorage($element)));
+		$this->getTemplate()->Form()->addErrorMessage($element, osWFrame\Core\StringFunctions::parseTextWithVars($this->getGroupMessage('validation_element_tolong'), $fields));
 		$this->setFilterErrorElementStorage($element, true);
 	}
 }
