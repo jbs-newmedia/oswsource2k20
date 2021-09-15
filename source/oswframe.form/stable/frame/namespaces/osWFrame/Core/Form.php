@@ -753,6 +753,9 @@ class Form {
 		}
 		$form.=' method="'.HTML::outputString($options['form_method']).'"';
 		$form.=' '.$options['form_parameter'];
+		if (isset($options['input_class'])) {
+			$form.=' class="'.HTML::outputString($options['input_class']).'"';
+		}
 		$form.='>';
 
 		return $form;
