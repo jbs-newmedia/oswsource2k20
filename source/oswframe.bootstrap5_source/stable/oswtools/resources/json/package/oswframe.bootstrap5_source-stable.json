@@ -1,0 +1,16 @@
+{
+  "info": {
+    "name": "osWFrame:Bootstrap5|Source",
+    "author": "Juergen Schwind",
+    "copyright": "JBS New Media GmbH",
+    "link": "https:\/\/oswframe.com",
+    "license": "GNU General Public License 3",
+    "package": "oswframe.bootstrap5",
+    "version": "",
+    "release": "stable",
+    "group": "core",
+    "unique": false,
+    "serverlist": "oswframe2k20"
+  },
+  "required": []
+}
