@@ -24,7 +24,7 @@ class Form {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
@@ -87,6 +87,19 @@ class Form {
 	}
 
 	/**
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @param string $input_type
+	 * @return string
+	 */
+	public function drawInputField(string $name, string $value='', array $options=[], string $input_type='text'):string {
+		$options['input_type']=$input_type;
+
+		return $this->createInputField($name, $value, $options);
+	}
+
+	/**
 	 * Text-Feld
 	 *
 	 * @param string $name
@@ -95,9 +108,7 @@ class Form {
 	 * @return string
 	 */
 	public function drawTextField(string $name, string $value='', array $options=[]):string {
-		$options['input_type']='text';
-
-		return $this->createInputField($name, $value, $options);
+		return $this->drawInputField($name, $value, $options);
 	}
 
 	/**
@@ -109,9 +120,7 @@ class Form {
 	 * @return string
 	 */
 	public function drawPasswordField(string $name, string $value='', array $options=[]):string {
-		$options['input_type']='password';
-
-		return $this->createInputField($name, $value, $options);
+		return $this->drawInputField($name, $value, $options, 'password');
 	}
 
 	/**
@@ -123,9 +132,7 @@ class Form {
 	 * @return string
 	 */
 	public function drawFileField(string $name, string $value='', array $options=[]):string {
-		$options['input_type']='file';
-
-		return $this->createInputField($name, $value, $options);
+		return $this->drawInputField($name, $value, $options, 'file');
 	}
 
 	/**
@@ -137,9 +144,7 @@ class Form {
 	 * @return string
 	 */
 	public function drawTextareaField(string $name, string $value='', array $options=[]):string {
-		$options['input_type']='textarea';
-
-		return $this->createTextField($name, $value, $options);
+		return $this->drawInputField($name, $value, $options, 'textarea');
 	}
 
 	/**
@@ -257,16 +262,6 @@ class Form {
 		$field='';
 		if (!isset($options['input_type'])) {
 			$options['input_type']='text';
-		} else {
-			switch ($options['input_type']) {
-				case 'password':
-					break;
-				case 'file':
-					break;
-				case 'text':
-				default:
-					$options['input_type']='text';
-			}
 		}
 		if (!isset($options['input_errorclass'])) {
 			$options['input_errorclass']='oswerror';
