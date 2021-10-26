@@ -24,7 +24,7 @@ class Form {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=4;
 
 	/**
 	 * Release-Version der Klasse.
@@ -87,6 +87,19 @@ class Form {
 	}
 
 	/**
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @param string $input_type
+	 * @return string
+	 */
+	public function drawInputField(string $name, string $value='', array $options=[], string $input_type='text'):string {
+		$options['input_type']=$input_type;
+
+		return $this->createInputField($name, $value, $options);
+	}
+
+	/**
 	 * Text-Feld
 	 *
 	 * @param string $name
@@ -95,9 +108,7 @@ class Form {
 	 * @return string
 	 */
 	public function drawTextField(string $name, string $value='', array $options=[]):string {
-		$options['input_type']='text';
-
-		return $this->createInputField($name, $value, $options);
+		return $this->drawInputField($name, $value, $options);
 	}
 
 	/**
@@ -109,9 +120,151 @@ class Form {
 	 * @return string
 	 */
 	public function drawPasswordField(string $name, string $value='', array $options=[]):string {
-		$options['input_type']='password';
+		return $this->drawInputField($name, $value, $options, 'password');
+	}
 
-		return $this->createInputField($name, $value, $options);
+	/**
+	 * Farb-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawColorField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'color');
+	}
+
+	/**
+	 * Datum-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawDateField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'date');
+	}
+
+	/**
+	 * Lokales Datum-Zeit-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawDateTimeLocalField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'datetime-local');
+	}
+
+	/**
+	 * E-Mail-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawEMailField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'email');
+	}
+
+	/**
+	 * Monat-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawMonthField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'month');
+	}
+
+	/**
+	 * Zahlen-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawNumberField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'number');
+	}
+
+	/**
+	 * Such-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawSearchField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'search');
+	}
+
+	/**
+	 * Telefon-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawTelField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'tel');
+	}
+
+	/**
+	 * Zeit-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawTimeField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'time');
+	}
+
+	/**
+	 * Bereich-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawRangeField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'range');
+	}
+
+	/**
+	 * Url-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawUrlField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'url');
+	}
+
+	/**
+	 * Woche-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawWeekField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'week');
 	}
 
 	/**
@@ -123,9 +276,7 @@ class Form {
 	 * @return string
 	 */
 	public function drawFileField(string $name, string $value='', array $options=[]):string {
-		$options['input_type']='file';
-
-		return $this->createInputField($name, $value, $options);
+		return $this->drawInputField($name, $value, $options, 'file');
 	}
 
 	/**
@@ -137,8 +288,6 @@ class Form {
 	 * @return string
 	 */
 	public function drawTextareaField(string $name, string $value='', array $options=[]):string {
-		$options['input_type']='textarea';
-
 		return $this->createTextField($name, $value, $options);
 	}
 
@@ -257,16 +406,6 @@ class Form {
 		$field='';
 		if (!isset($options['input_type'])) {
 			$options['input_type']='text';
-		} else {
-			switch ($options['input_type']) {
-				case 'password':
-					break;
-				case 'file':
-					break;
-				case 'text':
-				default:
-					$options['input_type']='text';
-			}
 		}
 		if (!isset($options['input_errorclass'])) {
 			$options['input_errorclass']='oswerror';
@@ -347,6 +486,9 @@ class Form {
 		if (!isset($options['input_addid'])) {
 			$options['input_addid']=true;
 		}
+		if (!isset($options['input_rows'])) {
+			$options['input_rows']=4;
+		}
 		if (!isset($options['reinsert_value'])) {
 			$options['reinsert_value']=true;
 		}
@@ -375,6 +517,7 @@ class Form {
 				$field.=' class="'.$options['input_errorclass'].'"';
 			}
 		}
+		$field.=' rows="'.$options['input_rows'].'"';
 		if ($options['reinsert_value']===true) {
 			if (isset($_GET[$name])) {
 				$value=$_GET[$name];
@@ -462,7 +605,6 @@ class Form {
 			} elseif (isset($_POST[$name])) {
 				$selected=$_POST[$name];
 			}
-		} else {
 		}
 		$value=trim($value);
 		if (strlen($value)>0) {
@@ -701,8 +843,7 @@ class Form {
 				$field.=' class="'.$options['input_errorclass'].'"';
 			}
 		}
-		if ($options['input_type']=='image') {
-		} else {
+		if ($options['input_type']!='image') {
 			$field.=' title="'.HTML::outputString($value).'" value="'.HTML::outputString($value).'"';
 		}
 		if (isset($options['input_parameter'])) {
@@ -753,6 +894,9 @@ class Form {
 		}
 		$form.=' method="'.HTML::outputString($options['form_method']).'"';
 		$form.=' '.$options['form_parameter'];
+		if (isset($options['input_class'])) {
+			$form.=' class="'.HTML::outputString($options['input_class']).'"';
+		}
 		$form.='>';
 
 		return $form;

@@ -24,7 +24,7 @@ class Form {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=3;
+	private const CLASS_MINOR_VERSION=4;
 
 	/**
 	 * Release-Version der Klasse.
@@ -124,6 +124,150 @@ class Form {
 	}
 
 	/**
+	 * Farb-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawColorField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'color');
+	}
+
+	/**
+	 * Datum-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawDateField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'date');
+	}
+
+	/**
+	 * Lokales Datum-Zeit-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawDateTimeLocalField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'datetime-local');
+	}
+
+	/**
+	 * E-Mail-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawEMailField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'email');
+	}
+
+	/**
+	 * Monat-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawMonthField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'month');
+	}
+
+	/**
+	 * Zahlen-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawNumberField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'number');
+	}
+
+	/**
+	 * Such-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawSearchField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'search');
+	}
+
+	/**
+	 * Telefon-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawTelField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'tel');
+	}
+
+	/**
+	 * Zeit-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawTimeField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'time');
+	}
+
+	/**
+	 * Bereich-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawRangeField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'range');
+	}
+
+	/**
+	 * Url-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawUrlField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'url');
+	}
+
+	/**
+	 * Woche-Feld
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return string
+	 */
+	public function drawWeekField(string $name, string $value='', array $options=[]):string {
+		return $this->drawInputField($name, $value, $options, 'week');
+	}
+
+	/**
 	 * Datei-Feld
 	 *
 	 * @param string $name
@@ -144,7 +288,7 @@ class Form {
 	 * @return string
 	 */
 	public function drawTextareaField(string $name, string $value='', array $options=[]):string {
-		return $this->drawInputField($name, $value, $options, 'textarea');
+		return $this->createTextField($name, $value, $options);
 	}
 
 	/**
@@ -342,6 +486,9 @@ class Form {
 		if (!isset($options['input_addid'])) {
 			$options['input_addid']=true;
 		}
+		if (!isset($options['input_rows'])) {
+			$options['input_rows']=4;
+		}
 		if (!isset($options['reinsert_value'])) {
 			$options['reinsert_value']=true;
 		}
@@ -370,6 +517,7 @@ class Form {
 				$field.=' class="'.$options['input_errorclass'].'"';
 			}
 		}
+		$field.=' rows="'.$options['input_rows'].'"';
 		if ($options['reinsert_value']===true) {
 			if (isset($_GET[$name])) {
 				$value=$_GET[$name];
@@ -457,7 +605,6 @@ class Form {
 			} elseif (isset($_POST[$name])) {
 				$selected=$_POST[$name];
 			}
-		} else {
 		}
 		$value=trim($value);
 		if (strlen($value)>0) {
@@ -696,8 +843,7 @@ class Form {
 				$field.=' class="'.$options['input_errorclass'].'"';
 			}
 		}
-		if ($options['input_type']=='image') {
-		} else {
+		if ($options['input_type']!='image') {
 			$field.=' title="'.HTML::outputString($value).'" value="'.HTML::outputString($value).'"';
 		}
 		if (isset($options['input_parameter'])) {
