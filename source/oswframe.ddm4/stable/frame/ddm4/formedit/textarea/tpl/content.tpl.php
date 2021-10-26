@@ -25,7 +25,9 @@
 
 	<?php else: ?>
 
-		<?php /* input */ ?><?php echo $this->getTemplate()->Form()->drawTextareaField($element, $this->getEditElementStorage($element), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']); ?>
+		<?php /* input */ ?>
+
+		<?php echo $this->getTemplate()->Form()->drawTextareaField($element, $this->getEditElementStorage($element), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']); ?>
 
 	<?php endif ?>
 
