@@ -24,7 +24,7 @@ class Lock {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -56,21 +56,21 @@ class Lock {
 	public function lock(string $module, string $lock):bool {
 		$module=strtolower($module);
 
-		$dir=Settings::getStringVar('settings_abspath').Settings::getStringVar('lock_path');;
+		$dir=Settings::getStringVar('settings_abspath').Settings::getStringVar('lock_path');
 
 		if (Filesystem::isDir($dir)!==true) {
 			Filesystem::makeDir($dir);
 			Filesystem::protectDir($dir);
 		}
 
-		$dir=$dir.$module.'/';
+		$dir=$dir.$module.DIRECTORY_SEPARATOR;
 
 		if (Filesystem::isDir($dir)!==true) {
 			Filesystem::makeDir($dir);
 		}
 
 		$this->locks[$module.'_'.$lock]=fopen($dir.$lock.'.lock', "w+");
-		if (flock($this->locks[$module.'_'.$lock], LOCK_EX)) {
+		if (flock($this->locks[$module.'_'.$lock], LOCK_EX|LOCK_NB)) {
 			return true;
 		} else {
 			return false;
@@ -87,7 +87,33 @@ class Lock {
 		$result=flock($this->locks[$module.'_'.$lock], LOCK_UN);
 		fclose($this->locks[$module.'_'.$lock]);
 
+		$module=strtolower($module);
+		$filename=Settings::getStringVar('settings_abspath').Settings::getStringVar('lock_path').$module.DIRECTORY_SEPARATOR.$lock.'.lock';
+		Filesystem::unlink($filename);
+
 		return $result;
+	}
+
+	/**
+	 * @param string $module
+	 * @param string $lock
+	 * @param int $milliseconds
+	 * @param int $retry
+	 * @return bool
+	 */
+	public function wlock(string $module, string $lock, int $milliseconds=1000, int $retry=10):bool {
+		$milliseconds=$milliseconds*1000;
+
+		while ($retry>0) {
+			$retry--;
+			if ($this->lock($module, $lock)===true) {
+				return true;
+			} else {
+				usleep($milliseconds);
+			}
+		}
+
+		return false;
 	}
 
 }
