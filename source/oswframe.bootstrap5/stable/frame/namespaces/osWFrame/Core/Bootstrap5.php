@@ -25,7 +25,7 @@ class Bootstrap5 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=3;
+	private const CLASS_MINOR_VERSION=4;
 
 	/**
 	 * Release-Version der Klasse.
@@ -80,12 +80,14 @@ class Bootstrap5 {
 	private $custom=[];
 
 	/**
-	 * Bootstrap4 constructor.
+	 * Bootstrap5 constructor.
 	 *
-	 * @param object $Template
+	 * @param object|null $Template
 	 */
-	public function __construct(object $Template) {
-		$this->setTemplate($Template);
+	public function __construct(?object $Template) {
+		if ($Template!==null) {
+			$this->setTemplate($Template);
+		}
 		$this->setVersion('current');
 	}
 
@@ -149,9 +151,11 @@ class Bootstrap5 {
 	}
 
 	/**
+	 * @param bool $load_js
+	 * @param bool $load_css
 	 * @return object
 	 */
-	public function load():object {
+	public function load(bool $load_js=true, bool $load_css=true):object {
 		$version=$this->getVersion();
 		$theme=strtolower($this->getTheme());
 		$min=$this->getMin();
@@ -201,8 +205,12 @@ class Bootstrap5 {
 			$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.js'];
 			$cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$custom_string_check.'.css'];
 		}
-		$this->addTemplateJSFiles('head', $jsfiles);
-		$this->addTemplateCSSFiles('head', $cssfiles);
+		if ($load_js===true) {
+			$this->addTemplateJSFiles('head', $jsfiles);
+		}
+		if ($load_css===true) {
+			$this->addTemplateCSSFiles('head', $cssfiles);
+		}
 
 		return $this;
 	}
