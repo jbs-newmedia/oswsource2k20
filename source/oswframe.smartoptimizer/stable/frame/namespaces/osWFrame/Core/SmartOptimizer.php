@@ -516,7 +516,8 @@ class SmartOptimizer {
 				break;
 			$current_char=$str[$i];
 			if ($LF_needed)
-				$current_char="\n"; elseif ($current_char=="\t")
+				$current_char="\n"; 
+			elseif ($current_char=="\t")
 				$current_char=" ";
 			elseif ($current_char=="\r")
 				$current_char="\n";
@@ -526,6 +527,16 @@ class SmartOptimizer {
 					$res.=$current_char;
 			} elseif ($current_char=="\n") {
 				if (strlen($res)&&(preg_match('/^[^({[=+\-*%&|!><?:~^,;\/][^)}\]=+\-*%&|><?:,;\/]$/', $res[strlen($res)-1].$str[$i+1])||(strlen($res)>1&&preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-2].$res[strlen($res)-1]))||(strlen($str)>$i+2&&preg_match('/^(\+\+)|(--)$/', $str[$i+1].$str[$i+2]))||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // || // for example i+ ++j;
+					$res.=$current_char;
+			} elseif($current_char=="}") {
+				$j=1;
+				while(($i+$j)<strlen($str)&&preg_match('/[\n\r\t ]/', $str[$i+$j]))
+					$j++;
+				if(!preg_match('/[;,.)\]}]/', $str[$i+$j]) &&
+					(($i+$j+4)<strlen($str)&&!preg_match('/(else.)|(while)|(catch)/', $str[$i+$j].$str[$i+$j+1].$str[$i+$j+2].$str[$i+$j+3].$str[$i+$j+4])) &&
+					(($i+$j+6)<strlen($str)&&!preg_match('/finally/', $str[$i+$j].$str[$i+$j+1].$str[$i+$j+2].$str[$i+$j+3].$str[$i+$j+4].$str[$i+$j+5].$str[$i+$j+6])))
+					$res.=$current_char.';';
+				else
 					$res.=$current_char;
 			} else
 				$res.=$current_char;
