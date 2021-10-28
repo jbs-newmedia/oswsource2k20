@@ -451,6 +451,9 @@ class SmartOptimizer {
 	 * @return string
 	 */
 	public static function stripJS(string $str):string {
+		$str = str_replace("\r\n", "\n", $str);
+		$str = str_replace('/**/', '', $str);
+		$str .= PHP_EOL;
 		$res='';
 		$maybe_regex=true;
 		$i=0;
@@ -530,11 +533,21 @@ class SmartOptimizer {
 					$res.=$current_char;
 			} elseif($current_char=="}") {
 				$j=1;
-				while(($i+$j)<strlen($str)&&preg_match('/[\n\r\t ]/', $str[$i+$j]))
+				while(($i+$j)<strlen($str)&&preg_match('/[\n\r\t ]/', $str[$i+$j])){
 					$j++;
-				if(!preg_match('/[;,.)\]}]/', $str[$i+$j]) &&
-					(($i+$j+4)<strlen($str)&&!preg_match('/(else.)|(while)|(catch)/', $str[$i+$j].$str[$i+$j+1].$str[$i+$j+2].$str[$i+$j+3].$str[$i+$j+4])) &&
-					(($i+$j+6)<strlen($str)&&!preg_match('/finally/', $str[$i+$j].$str[$i+$j+1].$str[$i+$j+2].$str[$i+$j+3].$str[$i+$j+4].$str[$i+$j+5].$str[$i+$j+6])))
+					if(($i+$j+1)<strlen($str)&&$str[$i+$j].$str[$i+$j+1]=='//') { // single-line comment detected
+						$j+=2;
+						while ($i+$j<strlen($str)&&$str[$i+$j]!="\n"&&$str[$i+$j]!="\r")
+							$j++;
+					} elseif (($i+$j+2)<strlen($str)&&$str[$i+$j].$str[$i+$j+1]=='/*'&&$str[$i+$j+2]!='@') { // multi-line comment detected
+						$j+=3;
+						while ($i+$j<strlen($str)&&$str[$i+$j-1].$str[$i+$j]!='*/')
+							$j++;
+					}
+				}
+				if((($i+$j)<strlen($str)&&!preg_match('/^[(){}\[\]=*%&|><?:,;.]$/', $str[$i+$j])) &&
+					(($i+$j+4)<strlen($str)&&!preg_match('/^(else[\S\s])|(while)|(catch)$/', substr($str,$i+$j,5))) &&
+					(($i+$j+6)<strlen($str)&&!preg_match('/^finally$/', substr($str,$i+$j,7))))
 					$res.=$current_char.';';
 				else
 					$res.=$current_char;
