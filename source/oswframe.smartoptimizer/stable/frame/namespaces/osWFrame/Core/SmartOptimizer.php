@@ -543,6 +543,7 @@ class SmartOptimizer {
 						$j+=3;
 						while ($i+$j<strlen($str)&&$str[$i+$j-1].$str[$i+$j]!='*/')
 							$j++;
+						$j++;
 					}
 				}
 				if((($i+$j)<strlen($str)&&!preg_match('/^[(){}\[\]=*%&|><?:,;.]$/', $str[$i+$j])) &&
