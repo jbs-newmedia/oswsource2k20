@@ -470,12 +470,14 @@ class SmartOptimizer {
 							if ($str[$i]=='\\') {
 								$res.=$str[$i++];
 							}
-							$res.=$str[$i++];
+							$res.=$i<strlen($str)?$str[$i]:'';
+							$i++;
 						} while ($i<strlen($str)&&$str[$i]!=']');
 					}
 					$res.=$str[$i++];
 				} while ($i<strlen($str)&&$str[$i]!='/');
-				$res.=$str[$i++];
+				$res.=$i<strlen($str)?$str[$i]:'';
+				$i++;
 				$maybe_regex=false;
 				continue;
 			} elseif ($str[$i]=='"'||$str[$i]=="'") { // quoted string detected
@@ -526,12 +528,12 @@ class SmartOptimizer {
 				$current_char="\n";
 			// detect unnecessary white spaces
 			if ($current_char==" ") {
-				if (strlen($res)&&(preg_match('/^[^(){}[\]=+\-*\/%&|!><?:~^,;"\']{2}$/', $res[strlen($res)-1].$str[$i+1])||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // for example i+ ++j;
+				if (strlen($res)&&(preg_match('/^[^(){}\[\]=+\-*\/%&|!><?:~^,;"\']{2}$/', $res[strlen($res)-1].$str[$i+1])||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // for example i+ ++j;
 					$res.=$current_char;
 			} elseif ($current_char=="\n") {
-				if (strlen($res)&&(preg_match('/^[^({[=+\-*%&|!><?:~^,;\/][^)}\]=+\-*%&|><?:,;\/]$/', $res[strlen($res)-1].$str[$i+1])||(strlen($res)>1&&preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-2].$res[strlen($res)-1]))||(strlen($str)>$i+2&&preg_match('/^(\+\+)|(--)$/', $str[$i+1].$str[$i+2]))||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // || // for example i+ ++j;
+				if (strlen($res)&&(preg_match('/^[^({\[=+\-*%&|!><?:~^,;\/][^)}\]=+\-*%&|><?:,;\/]$/',, $res[strlen($res)-1].$str[$i+1])||(strlen($res)>1&&preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-2].$res[strlen($res)-1]))||(strlen($str)>$i+2&&preg_match('/^(\+\+)|(--)$/', $str[$i+1].$str[$i+2]))||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // || // for example i+ ++j;
 					$res.=$current_char;
-			} elseif($current_char=="}") {
+			} elseif($current_char=="}") {  //insert semicolon after block
 				$j=1;
 				while(($i+$j)<strlen($str)&&preg_match('/[\n\r\t ]/', $str[$i+$j])){
 					$j++;
@@ -546,17 +548,20 @@ class SmartOptimizer {
 						$j++;
 					}
 				}
-				if((($i+$j)<strlen($str)&&!preg_match('/^[(){}\[\]=*%&|><?:,;.]$/', $str[$i+$j])) &&
-					(($i+$j+4)<strlen($str)&&!preg_match('/^(else[\S\s])|(while)|(catch)$/', substr($str,$i+$j,5))) &&
-					(($i+$j+6)<strlen($str)&&!preg_match('/^finally$/', substr($str,$i+$j,7))))
+				//Next token should not be one of the following
+				if((($i+$j)<strlen($str)&&strpos('(){}[]=*%&|><?:,;.', $str[$i+$j])===false) &&
+					(($i+$j+3)<strlen($str)&&strpos('else', substr($str,$i+$j,4))===false) &&
+					(($i+$j+4)<strlen($str)&&strpos('while&catch', substr($str,$i+$j,5))===false) &&
+					(($i+$j+6)<strlen($str)&&strpos('finally', substr($str,$i+$j,7))===false))
 					$res.=$current_char.';';
 				else
 					$res.=$current_char;
 			} else
 				$res.=$current_char;
 			// if the next character be a slash, detects if it is a divide operator or start of a regex
-			if (preg_match('/[({[=+\-*\/%&|!><?:~^,;]/', $current_char))
-				$maybe_regex=true; elseif (!preg_match('/[\n ]/', $current_char))
+			if (strpos('({[=+-*/%&|!><?:~^,;', $current_char)!==false)
+				$maybe_regex=true; 
+			elseif (!preg_match('/[\n ]/', $current_char))
 				$maybe_regex=false;
 			$i++;
 		}
