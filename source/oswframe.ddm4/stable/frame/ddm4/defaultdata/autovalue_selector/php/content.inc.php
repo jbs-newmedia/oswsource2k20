@@ -18,5 +18,8 @@ $default_options['options']['selector_use']=true;
 $default_options['validation']['module']='integer';
 $default_options['validation']['filter']['unique_selector']=[];
 $default_options['_search']['options']['default_value']='';
+$default_options['_edit']['enabled']=false;
+$default_options['_delete']['enabled']=false;
+$default_options['_send']['enabled']=false;
 
 ?>
