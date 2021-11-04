@@ -64,14 +64,14 @@ class StringFunctions {
 	 *
 	 * @param string $string
 	 * @param string $algo
-	 * @param string $salt_length
+	 * @param int $salt_length
 	 * @return string
 	 */
 	public static function encryptString(string $string, string $algo=PASSWORD_DEFAULT, int $salt_length=6):string {
 		if (in_array($algo, ['md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'ripemd256', 'ripemd320', 'whirlpool'])) {
 			$password='';
 			for ($i=0; $i<($salt_length*3); $i++) {
-				$password=Math::randomInt(0, 9);
+				$password.=Math::randomInt(0, 9);
 			}
 			$salt=substr(hash($algo, $password), 0, $salt_length);
 
