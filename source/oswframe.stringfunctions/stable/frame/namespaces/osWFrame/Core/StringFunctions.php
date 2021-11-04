@@ -67,18 +67,19 @@ class StringFunctions {
 	 * @param string $salt_length
 	 * @return string
 	 */
-	public static function encryptString(string $string, string $algo='sha512', int $salt_length=6) {
-		$password='';
-		for ($i=0; $i<($salt_length*3); $i++) {
-			$password.=Math::randomInt(0, 9);
-		}
-		if (!in_array($algo, ['md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'ripemd256', 'ripemd320', 'whirlpool'])) {
-			$algo='sha512';
-		}
-		$salt=substr(hash($algo, $password), 0, $salt_length);
-		$password=hash($algo, $salt.$string).':'.$salt;
-
-		return $password;
+	public static function encryptString(string $string, string $algo = PASSWORD_DEFAULT, int $salt_length=6): string{
+        if(in_array($algo, ['md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'ripemd256', 'ripemd320', 'whirlpool'])){
+            $password = '';
+            for ($i=0; $i<($salt_length*3); $i++) {
+                $password = Math::randomInt(0, 9);
+            }
+            $salt=substr(hash($algo, $password), 0, $salt_length);
+            return hash($algo, $salt.$string).':'.$salt;
+        }elseif(in_array($algo, [PASSWORD_ARGON2I, PASSWORD_ARGON2ID, PASSWORD_BCRYPT])) {
+            return password_hash($string, $algo);
+        }else{
+            return password_hash($string, PASSWORD_DEFAULT);
+        }
 	}
 
 	/**
