@@ -24,7 +24,7 @@ class StringFunctions {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -68,19 +68,30 @@ class StringFunctions {
 	 * @return string
 	 */
 	public static function encryptString(string $string, string $algo=PASSWORD_DEFAULT, int $salt_length=6):string {
-		if (in_array($algo, ['md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'ripemd256', 'ripemd320', 'whirlpool'])) {
-			$password='';
-			for ($i=0; $i<($salt_length*3); $i++) {
-				$password.=Math::randomInt(0, 9);
-			}
-			$salt=substr(hash($algo, $password), 0, $salt_length);
+		$hashed_string='';
+		for ($i=0; $i<($salt_length*3); $i++) {
+			$hashed_string.=Math::randomInt(0, 9);
+		}
+		if (!in_array($algo, ['md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'ripemd256', 'ripemd320', 'whirlpool'])) {
+			$algo='sha512';
+		}
+		$salt=substr(hash($algo, $hashed_string), 0, $salt_length);
+		$hashed_string=hash($algo, $salt.$string).':'.$salt;
 
-			return hash($algo, $salt.$string).':'.$salt;
-		} elseif (in_array($algo, [PASSWORD_ARGON2I, PASSWORD_ARGON2ID, PASSWORD_BCRYPT])) {
-			return password_hash($string, $algo);
+		return $hashed_string;
+	}
+
+	/**
+	 * @param string $password
+	 * @param string $algo
+	 * @return string
+	 */
+	public static function hashPassword(string $password, string $algo=PASSWORD_DEFAULT):string {
+		if (in_array($algo, [PASSWORD_ARGON2I, PASSWORD_ARGON2ID, PASSWORD_BCRYPT])) {
+			return password_hash($password, $algo);
 		}
 
-		return password_hash($string, PASSWORD_DEFAULT);
+		return password_hash($password, PASSWORD_DEFAULT);
 	}
 
 	/**
