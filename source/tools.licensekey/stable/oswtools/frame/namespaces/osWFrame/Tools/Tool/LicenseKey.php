@@ -38,7 +38,7 @@ class LicenseKey extends CoreTool {
 	 * Extra-Version der Klasse.
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
-	private const CLASS_EXTRA_VERSION='beta';
+	private const CLASS_EXTRA_VERSION='';
 
 	/**
 	 * Configure constructor.
