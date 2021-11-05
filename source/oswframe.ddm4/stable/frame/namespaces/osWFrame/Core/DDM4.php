@@ -30,7 +30,7 @@ class DDM4 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -802,17 +802,18 @@ class DDM4 {
 	public function getElementsName(string $type, string $group=''):array {
 		$ar_tmp=[];
 		foreach ($this->getElements($type) as $id=>$options) {
-			if ($group!='') {
-			} else {
-				if (isset($options['name'])) {
-					$ar_tmp[]=$options['name'];
-				}
-				if (isset($options['name_array'])) {
-					foreach ($options['name_array'] as $name) {
-						if ($options['options']['prefix']!='') {
-							$ar_tmp[]=$options['options']['prefix'].$name;
-						} else {
-							$ar_tmp[]=$name;
+			if ($group=='') {
+				if ((isset($options['enabled']))&&($options['enabled']===true)) {
+					if (isset($options['name'])) {
+						$ar_tmp[]=$options['name'];
+					}
+					if (isset($options['name_array'])) {
+						foreach ($options['name_array'] as $name) {
+							if ($options['options']['prefix']!='') {
+								$ar_tmp[]=$options['options']['prefix'].$name;
+							} else {
+								$ar_tmp[]=$name;
+							}
 						}
 					}
 				}

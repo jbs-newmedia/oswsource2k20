@@ -35,7 +35,7 @@ class MessageWriter {
 	 * Extra-Version der Klasse.
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
-	private const CLASS_EXTRA_VERSION='beta';
+	private const CLASS_EXTRA_VERSION='';
 
 	/**
 	 * @var array
@@ -101,11 +101,10 @@ class MessageWriter {
 									}
 								}
 							}
-
 							if (Filesystem::existsFile($logfile)!==true) {
-								$ar_header=array_flip($messages[0]);
-								$csv_data='"'.implode('";"', $ar_header).'"';
-								error_log($csv_data."\n", 3, $logfile);
+								$csv_data='"'.implode('";"', array_keys($messages[0])).'"';
+								file_put_contents($logfile, $csv_data."\n");
+								Filesystem::changeFilemode($logfile);
 							}
 							foreach ($messages as $message) {
 								foreach ($message as $key=>$value) {
@@ -114,7 +113,7 @@ class MessageWriter {
 									}
 								}
 								$csv_data='"'.implode('";"', $message).'"';
-								error_log($csv_data."\n", 3, $logfile);
+								file_put_contents($logfile, $csv_data."\n", FILE_APPEND);
 							}
 						}
 					}

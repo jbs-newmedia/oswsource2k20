@@ -45,20 +45,33 @@ class Result {
 	 */
 	private array $result=[];
 
+	/**
+	 * Result constructor.
+	 */
 	public function __construct() {
 
 	}
 
+	/**
+	 * @param array $result
+	 * @return bool
+	 */
 	public function setResult(array $result):bool {
 		$this->result=$result;
 
 		return true;
 	}
 
-	public function getResult() {
+	/**
+	 * @return array
+	 */
+	public function getResult():array {
 		return $this->result;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getData():array {
 		return ['result'=>$this->getResult(), 'error'=>$this->getError(), 'error_message'=>$this->getErrorMessage(), 'success_message'=>$this->getSuccessMessage()];
 	}

@@ -83,42 +83,46 @@ class FavIcon {
 	 */
 	public function setIcons2Template():bool {
 		$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getFile();
-		$path=dirname($this->getFile());
-		$path_filename=pathinfo($file, PATHINFO_FILENAME);
-		$path_extension=pathinfo($file, PATHINFO_EXTENSION);
-		$options=getimagesize($file);
-		if ($this->getFavIcon()===true) {
-			$this->getTemplate()->addVoidTag('link', ['rel'=>'shortcut icon', 'type'=>'image/ico', 'href'=>'favicon.ico']);
-		}
-		foreach ($this->getIcons() as $icon) {
-			$osW_ImageOptimizer=new ImageOptimizer();
-			$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
-			if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
-				$osW_ImageOptimizer->setPS($this->getFile());
+		if (Filesystem::existsFile($file)) {
+			$path=dirname($this->getFile());
+			$path_filename=pathinfo($file, PATHINFO_FILENAME);
+			$path_extension=pathinfo($file, PATHINFO_EXTENSION);
+			$options=getimagesize($file);
+			if ($this->getFavIcon()===true) {
+				$this->getTemplate()->addVoidTag('link', ['rel'=>'shortcut icon', 'type'=>'image/ico', 'href'=>'favicon.ico']);
 			}
-			$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
-			$this->getTemplate()->addVoidTag('link', ['rel'=>'icon', 'type'=>$options['mime'], 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']]);
-		}
-		foreach ($this->getAppleTouchIcons() as $icon) {
-			$osW_ImageOptimizer=new ImageOptimizer();
-			$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
-			if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
-				$osW_ImageOptimizer->setPS($this->getFile());
+			foreach ($this->getIcons() as $icon) {
+				$osW_ImageOptimizer=new ImageOptimizer();
+				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
+				if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+					$osW_ImageOptimizer->setPS($this->getFile());
+				}
+				$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
+				$this->getTemplate()->addVoidTag('link', ['rel'=>'icon', 'type'=>$options['mime'], 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']]);
 			}
-			$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
-			$this->getTemplate()->addVoidTag('link', ['rel'=>'apple-touch-icon', 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']]);
-		}
-		foreach ($this->getMSApplication() as $icon) {
-			$osW_ImageOptimizer=new ImageOptimizer();
-			$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
-			if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
-				$osW_ImageOptimizer->setPS($this->getFile());
+			foreach ($this->getAppleTouchIcons() as $icon) {
+				$osW_ImageOptimizer=new ImageOptimizer();
+				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
+				if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+					$osW_ImageOptimizer->setPS($this->getFile());
+				}
+				$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
+				$this->getTemplate()->addVoidTag('link', ['rel'=>'apple-touch-icon', 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']]);
 			}
-			$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
-			$this->getTemplate()->addVoidTag('meta', ['name'=>'msapplication-square'.$icon['x'].'x'.$icon['y'].'logo', 'content'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename]);
-		}
+			foreach ($this->getMSApplication() as $icon) {
+				$osW_ImageOptimizer=new ImageOptimizer();
+				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
+				if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+					$osW_ImageOptimizer->setPS($this->getFile());
+				}
+				$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
+				$this->getTemplate()->addVoidTag('meta', ['name'=>'msapplication-square'.$icon['x'].'x'.$icon['y'].'logo', 'content'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename]);
+			}
 
-		return true;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

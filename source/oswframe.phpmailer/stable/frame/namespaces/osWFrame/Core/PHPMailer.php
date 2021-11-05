@@ -12,12 +12,7 @@
 
 namespace osWFrame\Core;
 
-$file=Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'PHPMailer'.DIRECTORY_SEPARATOR.'osW_PHPMailerAutoload.php';
-if ((file_exists($file))&&(class_exists('PHPMailer')!==true)) {
-	require_once $file;
-}
-
-class PHPMailer extends \PHPMailer {
+class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 
 	use BaseStaticTrait;
 

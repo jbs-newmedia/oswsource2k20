@@ -132,7 +132,8 @@ foreach ($css_init as $element=>$code) {
 
 $js_code.='
 
-function ddm4formular_'.$ddm_group.'() {
+function ddm4formular_'.$this->getName().'() {
+
 	var elements={};
 	'.implode("\n	", $js_clear).'
 
@@ -147,13 +148,12 @@ function ddm4formular_'.$ddm_group.'() {
 	});
 }
 
-$(window).load(function() {
+$(window).on("load", function(){
 	'.implode("\n	", $js_ajax).'
 });
 
 ';
-
-osW_Template::getInstance()->addJSCodeHead($js_code);
-osW_Template::getInstance()->addCSSCodeHead($css_code);
+$this->getTemplate()->addJSCodeHead($js_code);
+$this->getTemplate()->addCSSCodeHead($css_code);
 
 ?>
