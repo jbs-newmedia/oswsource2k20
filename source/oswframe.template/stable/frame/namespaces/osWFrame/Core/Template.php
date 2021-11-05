@@ -51,6 +51,16 @@ class Template {
 	/**
 	 * @var array
 	 */
+	private $script_mark_matches=[];
+
+	/**
+	 * @var int
+	 */
+	private $script_mark_counter=0;
+
+	/**
+	 * @var array
+	 */
 	private array $vars=[];
 
 	/**
@@ -107,27 +117,93 @@ class Template {
 	}
 
 	/**
-	 * @param array $matches
-	 * @return string
+	 * @param string $string
 	 */
-	private function callback_marktextarea(array $matches):string {
-		$this->textarea_matches[]=$matches[0];
-
-		return '<<<OSW_STRIP_REPLACE_TEXTAREA_MARKER_'.$this->textarea_counter++.'>>>';
+	private function tagOutTextareas($content){
+		while(($textarea_startpos=strpos($content, '<textarea'))!==false){
+			$textarea_endpos=strpos($content,'</textarea>',$textarea_startpos)+strlen('</textarea>');
+			$this->textarea_mark_matches[]=substr($content,$textarea_startpos,$textarea_endpos-$textarea_startpos);
+			$content=substr_replace($content,'<<<OSW_STRIP_REPLACE_TEXTAREA_MARKER_'.$this->textarea_mark_counter++.'>>>',$textarea_startpos,$textarea_endpos-$textarea_startpos);
+		}
+		return $content;
 	}
 
 	/**
-	 * @param string $c
+	 * @param string $string
+	 */
+	private function tagInTextareas($content){
+		foreach ($this->textarea_mark_matches as $key=>$val) {
+			$content=str_replace('<<<OSW_STRIP_REPLACE_TEXTAREA_MARKER_'.$key.'>>>', $this->textarea_mark_matches[$key], $content);
+		}
+		return $content;
+	}
+
+	/**
+	 * @param string $string
+	 */
+	private function tagOutScripts($content){
+		while(($script_startpos=strpos($content,'<script'))!==false){
+			$script_endpos=strpos($content,'</script>',$script_startpos)+strlen('</script>');
+			$this->script_mark_matches[]=substr($content,$script_startpos,$script_endpos-$script_startpos);
+			$content=substr_replace($content,'<<<OSW_STRIP_REPLACE_SCRIPT_MARKER_'.$this->script_mark_counter++.'>>>',$script_startpos,$script_endpos-$script_startpos);
+		}
+		return $content;
+	}
+
+	/**
+	 * @param string $string
+	 */
+	private function tagInScripts($content){
+		if (Settings::getBoolVar('smartoptimizer_stripoutput')===true){
+			$stray_js='';
+			$last_mark_key=$this->script_mark_matches?max(array_keys($this->script_mark_matches)):null;
+			foreach ($this->script_mark_matches as $key=>$val) {
+				//Find script-tags without src-attribute
+				if(!preg_match('/^<script[^>]+(src="[^"]+")|(data-smartoptimizer="min")[^>]*>/is', $val)){
+					$start_pos = strpos($val,'>')+1;
+					$val=substr($val,$start_pos,(strlen($val)-strlen('</script>'))-$start_pos);
+					if($val){
+						if(!$stray_js){
+							$stray_js='<script type="text/javascript" data-smartoptimizer="min">' . PHP_EOL;
+						}
+						$stray_js.=$val . PHP_EOL;
+						$val='';
+					}
+				}
+				//Save the last replace-tag for minimized stray js-code
+				if($key !== $last_mark_key || !$stray_js){
+					$content=str_replace('<<<OSW_STRIP_REPLACE_SCRIPT_MARKER_'.$key.'>>>', $val, $content);
+				}
+			}
+			//If stray js-code was found minimize it and put it at the last replace-tag
+			if($stray_js){
+				$stray_js.='</script>' . PHP_EOL;
+				$content=str_replace('<<<OSW_STRIP_REPLACE_SCRIPT_MARKER_'.$last_mark_key.'>>>', osW_SmartOptimizer::stripJS($stray_js), $content);
+			}
+		}else{
+			foreach ($this->script_mark_matches as $key=>$val) {
+				$content=str_replace('<<<OSW_STRIP_REPLACE_SCRIPT_MARKER_'.$key.'>>>', $this->script_mark_matches[$key], $content);
+			}
+		}
+		return $content;
+	}
+
+	/**
+	 * @param string $content
 	 * @return string
 	 */
-	public function strip(string $c):string {
+	public function strip(string $content):string {
 		if (Settings::getBoolVar('template_textarea_used')===true) {
-			$c=preg_replace_callback('/<textarea [^>]*>.*<\/textarea>/Uis', [$this, 'callback_marktextarea'], $c);
+			$content=$this->tagOutTextareas($content);
 		}
-		$c=HTML::stripContent($c);
+		$content=$this->tagOutScripts($content);
+		
+		$content=HTML::stripContent($content);
+		
+		$content=$this->tagInScripts($content);
 		if (Settings::getBoolVar('template_textarea_used')===true) {
 			foreach (array_keys($this->textarea_matches) as $key) {
-				$c=preg_replace('/<<<OSW_STRIP_REPLACE_TEXTAREA_MARKER_'.$key.'>>>/', $this->textarea_matches[$key], $c);
+				$content=$this->tagInTextareas($content);
 			}
 		}
 
@@ -697,7 +773,7 @@ class Template {
 		}
 		if ($codes!=[]) {
 			if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
-				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n", $pos);
+				$this->addCode('script', ['type'=>'text/javascript','data-smartoptimizer'=>'min'], "\n".implode("\n\n", $codes)."\n", $pos);
 			} else {
 				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n", $pos);
 			}
