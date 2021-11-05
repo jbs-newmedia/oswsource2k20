@@ -521,7 +521,7 @@ class SmartOptimizer {
 				break;
 			$current_char=$str[$i];
 			if ($LF_needed)
-				$current_char="\n"; 
+				$current_char="\n";
 			elseif ($current_char=="\t")
 				$current_char=" ";
 			elseif ($current_char=="\r")
@@ -531,9 +531,9 @@ class SmartOptimizer {
 				if (strlen($res)&&(preg_match('/^[^(){}\[\]=+\-*\/%&|!><?:~^,;"\']{2}$/', $res[strlen($res)-1].$str[$i+1])||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // for example i+ ++j;
 					$res.=$current_char;
 			} elseif ($current_char=="\n") {
-				if (strlen($res)&&(preg_match('/^[^({\[=+\-*%&|!><?:~^,;\/][^)}\]=+\-*%&|><?:,;\/]$/',, $res[strlen($res)-1].$str[$i+1])||(strlen($res)>1&&preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-2].$res[strlen($res)-1]))||(strlen($str)>$i+2&&preg_match('/^(\+\+)|(--)$/', $str[$i+1].$str[$i+2]))||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // || // for example i+ ++j;
+				if (strlen($res)&&(preg_match('/^[^({\[=+\-*%&|!><?:~^,;\/][^)}\]=+\-*%&|><?:,;\/]$/', $res[strlen($res)-1].$str[$i+1])||(strlen($res)>1&&preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-2].$res[strlen($res)-1]))||(strlen($str)>$i+2&&preg_match('/^(\+\+)|(--)$/', $str[$i+1].$str[$i+2]))||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // || // for example i+ ++j;
 					$res.=$current_char;
-			} elseif($current_char=="}") {  //insert semicolon after block
+			} elseif($current_char=="}") {  //insert semicolon after block (means less newlines and prevents some syntax-errors)
 				$j=1;
 				while(($i+$j)<strlen($str)&&preg_match('/[\n\r\t ]/', $str[$i+$j])){
 					$j++;
@@ -558,9 +558,9 @@ class SmartOptimizer {
 					$res.=$current_char;
 			} else
 				$res.=$current_char;
-			// if the next character be a slash, detects if it is a divide operator or start of a regex
+			// if the next character is a slash, detect if it is a divide operator or the start of a regex
 			if (strpos('({[=+-*/%&|!><?:~^,;', $current_char)!==false)
-				$maybe_regex=true; 
+				$maybe_regex=true;
 			elseif (!preg_match('/[\n ]/', $current_char))
 				$maybe_regex=false;
 			$i++;
