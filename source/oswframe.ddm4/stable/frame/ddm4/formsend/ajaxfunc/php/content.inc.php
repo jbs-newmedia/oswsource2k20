@@ -153,6 +153,7 @@ $(window).on("load", function(){
 });
 
 ';
+
 $this->getTemplate()->addJSCodeHead($js_code);
 $this->getTemplate()->addCSSCodeHead($css_code);
 
