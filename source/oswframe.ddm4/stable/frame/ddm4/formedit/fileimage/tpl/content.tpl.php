@@ -74,7 +74,7 @@
 				<a target="_blank" class="btn btn-secondary btn-sm" href="<?php echo $this->getEditElementStorage($element) ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementOption($element, 'text_file_view')) ?></a>
 				<?php $this->getTemplate()->Form()->drawHiddenField($element, $this->getEditElementStorage($element)) ?><?php endif ?>
 			<?php if ($this->getEditElementOption($element, 'edit_enabled')): ?>
-				<a class="btn btn-secondary btn-sm" target="_blank" id="ddm_element_<?php echo $ddm_group ?>_<?php echo $element ?>_crop_link" href="<?php echo $this->getTemplate()->buildhrefLink('current', 'vistool='.$this->getGroupOption('tool', 'data').'&vispage=vis_api&action=ddm4_popup&function=ddm4_fileimage_edit&ddm_element='.$ddm_group.'_'.$element) ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementOption($element, 'text_file_edit')) ?></a>
+				<a class="btn btn-secondary btn-sm" target="_blank" id="ddm_element_<?php echo $this->getName() ?>_<?php echo $element ?>_crop_link" href="<?php echo $this->getTemplate()->buildhrefLink('current', 'vistool='.$this->getGroupOption('tool', 'data').'&vispage=vis_api&action=ddm4_popup&function=ddm4_fileimage_edit&ddm_element='.$ddm_group.'_'.$element) ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementOption($element, 'text_file_edit')) ?></a>
 			<?php endif ?>
 			<?php echo implode(' ', $this->getEditElementOption($element, 'buttons')) ?>
 		</div>
