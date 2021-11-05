@@ -117,9 +117,9 @@ class Template {
 	}
 
 	/**
-	 * @param string $string
+	 * @param string $content
 	 */
-	private function tagOutTextareas($content){
+	private function tagOutTextareas(string $content):string {
 		while(($textarea_startpos=strpos($content, '<textarea'))!==false){
 			$textarea_endpos=strpos($content,'</textarea>',$textarea_startpos)+strlen('</textarea>');
 			$this->textarea_mark_matches[]=substr($content,$textarea_startpos,$textarea_endpos-$textarea_startpos);
@@ -129,9 +129,9 @@ class Template {
 	}
 
 	/**
-	 * @param string $string
+	 * @param string $content
 	 */
-	private function tagInTextareas($content){
+	private function tagInTextareas(string $content):string {
 		foreach ($this->textarea_mark_matches as $key=>$val) {
 			$content=str_replace('<<<OSW_STRIP_REPLACE_TEXTAREA_MARKER_'.$key.'>>>', $this->textarea_mark_matches[$key], $content);
 		}
@@ -139,9 +139,9 @@ class Template {
 	}
 
 	/**
-	 * @param string $string
+	 * @param string $content
 	 */
-	private function tagOutScripts($content){
+	private function tagOutScripts(string $content):string {
 		while(($script_startpos=strpos($content,'<script'))!==false){
 			$script_endpos=strpos($content,'</script>',$script_startpos)+strlen('</script>');
 			$this->script_mark_matches[]=substr($content,$script_startpos,$script_endpos-$script_startpos);
@@ -151,9 +151,9 @@ class Template {
 	}
 
 	/**
-	 * @param string $string
+	 * @param string $content
 	 */
-	private function tagInScripts($content){
+	private function tagInScripts(string $content):string {
 		if (Settings::getBoolVar('smartoptimizer_stripoutput')===true){
 			$stray_js='';
 			$last_mark_key=$this->script_mark_matches?max(array_keys($this->script_mark_matches)):null;
