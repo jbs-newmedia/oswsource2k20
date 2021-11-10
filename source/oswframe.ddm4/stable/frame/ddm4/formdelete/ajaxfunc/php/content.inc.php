@@ -132,7 +132,7 @@ foreach ($css_init as $element=>$code) {
 
 $js_code.='
 
-function ddm4formular_'.$ddm_group.'() {
+function ddm4formular_'.$this->getName().'() {
 	var elements={};
 	'.implode("\n	", $js_clear).'
 
