@@ -23,7 +23,7 @@ trait BaseConnectionTrait {
 	 * @param string $alias
 	 * @return static
 	 */
-	public static function getConnection($alias='default'):self {
+	public static function getConnection($alias='default'):Database {
 		return new \osWFrame\Core\Database($alias);
 	}
 
@@ -31,7 +31,7 @@ trait BaseConnectionTrait {
 	 * @param string $alias
 	 * @return static
 	 */
-	public static function getConnectionRef($alias='default'):self {
+	public static function getConnectionRef($alias='default'):Database {
 		if ((!isset(self::$connection[$alias]))||(self::$connection[$alias]===null)) {
 			self::$connection[$alias]=new \osWFrame\Core\Database($alias);
 		}
