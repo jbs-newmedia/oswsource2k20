@@ -24,7 +24,7 @@ class Database {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
@@ -42,42 +42,73 @@ class Database {
 	 *
 	 * @var ?object
 	 */
-	public ?object $PDO=null;
+	protected ?object $PDO=null;
 
 	/**
 	 * Speichert das Result-Objekt als PDOStatement.
 	 *
 	 * @var ?object
 	 */
-	public ?object $PDOStatement=null;
+	protected ?object $PDOStatement=null;
+
+	/**
+	 * @var int|null
+	 */
+	protected ?int $result_key=null;
+
+	/**
+	 * @var int
+	 */
+	protected int $result_count=0;
 
 	/**
 	 *
 	 * @var array
 	 */
-	public array $result=[];
+	protected array $result=[];
+
+	/**
+	 *
+	 * @var array
+	 */
+	protected array $result_all=[];
 
 	/**
 	 *
 	 * @var string
 	 */
-	public string $query='';
+	protected string $query='';
+
+	/**
+	 * @var int
+	 */
+	protected int $query_count=0;
+
+	/**
+	 * @var float
+	 */
+	protected float $query_runtime=0;
 
 	/**
 	 *
 	 * @var array
 	 */
-	public array $limitrows=[];
+	protected array $limitrows=[];
 
 	/**
 	 * @var bool
 	 */
-	public bool $error=false;
+	protected bool $error=false;
 
 	/**
 	 * @var string
 	 */
-	public string $error_message='';
+	protected string $error_message='';
+
+	/**
+	 * @var array
+	 */
+	protected static array $stats=[];
 
 	/**
 	 * Database constructor.
@@ -89,82 +120,76 @@ class Database {
 	}
 
 	/**
-	 * @param $query
-	 * @return object
+	 * @param string $query
+	 * @return $this
 	 */
-	public function prepare(string $query):object {
+	public function prepare(string $query):self {
 		$this->setQuery($query);
 
 		return $this;
 	}
 
 	/**
-	 *
 	 * @param string $name
 	 * @param string $value
-	 * @return object
+	 * @return $this
 	 */
-	public function bindTable(string $name, string $value):object {
+	public function bindTable(string $name, string $value):self {
 		$this->setQuery(str_replace($name, Settings::getStringVar('database_prefix').$value, $this->getQuery()));
 
 		return $this;
 	}
 
 	/**
-	 *
 	 * @param string $name
 	 * @param bool $value
-	 * @return object
+	 * @return $this
 	 */
-	public function bindBool(string $name, bool $value):object {
+	public function bindBool(string $name, bool $value):self {
 		$this->setQuery(str_replace($name, intval($value), $this->getQuery()));
 
 		return $this;
 	}
 
 	/**
-	 *
 	 * @param string $name
 	 * @param string $value
-	 * @return object
+	 * @return $this
 	 */
-	public function bindString(string $name, string $value):object {
+	public function bindString(string $name, string $value):self {
 		$this->setQuery(str_replace($name, $this->escapeString($value), $this->getQuery()));
 
 		return $this;
 	}
 
 	/**
-	 *
 	 * @param string $name
 	 * @param string $value
-	 * @return object
+	 * @return $this
 	 */
-	public function bindCrypt(string $name, string $value):object {
+	public function bindCrypt(string $name, string $value):self {
 		$this->setQuery(str_replace($name, $this->escapeString(StringFunctions::encryptString($value, 'sha512', 6)), $this->getQuery()));
 
 		return $this;
 	}
 
 	/**
-	 *
 	 * @param string $name
 	 * @param int $value
-	 * @return object
+	 * @return $this
 	 */
-	public function bindInt(string $name, int $value):object {
+	public function bindInt(string $name, int $value):self {
 		$this->setQuery(str_replace($name, $value, $this->getQuery()));
 
 		return $this;
 	}
 
 	/**
-	 *
 	 * @param string $name
 	 * @param float $value
-	 * @return object
+	 * @return $this
 	 */
-	public function bindFloat(string $name, float $value):object {
+	public function bindFloat(string $name, float $value):self {
 		$value=str_replace(',', '.', strval($value));
 		$this->setQuery(str_replace($name, $value, $this->getQuery()));
 
@@ -172,28 +197,26 @@ class Database {
 	}
 
 	/**
-	 *
 	 * @param string $name
 	 * @param string $value
-	 * @return object
+	 * @return $this
 	 */
-	public function bindRaw(string $name, string $value):object {
+	public function bindRaw(string $name, string $value):self {
 		$this->setQuery(str_replace($name, $value, $this->getQuery()));
 
 		return $this;
 	}
 
 	/**
-	 *
 	 * @param string $primay_key
-	 * @param int $max_rows
-	 * @param int $page
+	 * @param int $number_of_rows_per_page
+	 * @param int $current_page_number
 	 * @param string $page_holder
-	 * @return object
+	 * @return $this
 	 */
-	public function bindLimit(string $primay_key, int $number_of_rows_per_page=100, int $current_page_number=0, string $page_holder='page'):object {
+	public function bindLimit(string $primay_key, int $number_of_rows_per_page=100, int $current_page_number=0, string $page_holder='page'):self {
 		if ($current_page_number==0) {
-			$current_page_number=intval(h()->_catch($page_holder, 1, 'gp'));
+			$current_page_number=intval(Settings::catchIntValue($page_holder, 1, 'gp'));
 		}
 		if ($current_page_number<1) {
 			$current_page_number=1;
@@ -209,7 +232,12 @@ class Database {
 			$query=substr($query, 0, $pos);
 		}
 		$query=trim(preg_replace('/SELECT(.*)\ FROM/Uis', 'SELECT COUNT('.$primay_key.') AS osWCounter_Temp FROM', $query));
+
+		Debug::startTimer(self::getNameAsString().'_query');
 		$this->execute($query);
+		Debug::stopTimer(self::getNameAsString().'_query');
+		$this->checkSlowQuery(Debug::calcTimer(self::getNameAsString().'_query'), $query);
+
 		$this->fetch();
 		$this->limitrows['number_of_rows']=$this->getInt('osWCounter_Temp');
 		$this->limitrows['number_of_pages']=ceil($this->limitrows['number_of_rows']/$this->limitrows['number_of_rows_per_page']);
@@ -230,11 +258,17 @@ class Database {
 	}
 
 	/**
-	 *
-	 * @param string $query
-	 * @return object
+	 * @return array
 	 */
-	public function setQuery(string $query):object {
+	public function getLimitRows():array {
+		return $this->limitrows;
+	}
+
+	/**
+	 * @param string $query
+	 * @return $this
+	 */
+	public function setQuery(string $query):self {
 		$this->query=$query;
 
 		return $this;
@@ -258,39 +292,62 @@ class Database {
 	}
 
 	/**
-	 *
-	 * @param string $query
-	 * @return bool|null
+	 * @return $this
 	 */
-	public function execute(string $query=''):?bool {
-		if ($query=='') {
-			$query=$this->getQuery();
-		}
-		$this->PDOStatement=$this->PDO->prepare($query);
-
-		$result=$this->PDOStatement->execute();
-
-		if ($result===false) {
-			$this->logError($this->PDOStatement->errorInfo(), $query);
-			$this->error=true;
-			$this->error_message=$this->PDOStatement->errorInfo()[2];
-
-			return null;
-		}
-
+	public function initResult():self {
+		$this->result_key=null;
+		$this->result_count=0;
+		$this->result=[];
+		$this->result_all=[];
 		$this->error=false;
 		$this->error_message='';
 
-		return $result;
+		return $this;
+	}
+
+	public function execute(string $query='', int $expire=0):bool {
+		if ($query=='') {
+			$query=$this->getQuery();
+		}
+		$this->initResult();
+		if (($expire==0)||(null===($result=Cache::readCacheAsArray(self::getNameAsString(), 'execute-'.md5($query), $expire)))) {
+			try {
+				$this->PDOStatement=$this->PDO->prepare($query);
+				Debug::startTimer(self::getNameAsString().'_query');
+				$result_state=$this->PDOStatement->execute();
+				Debug::stopTimer(self::getNameAsString().'_query');
+				$this->checkSlowQuery(Debug::calcTimer(self::getNameAsString().'_query'), $query);
+				$this->result_all=$this->PDOStatement->fetchAll(\PDO::FETCH_ASSOC);
+				$this->result_count=$this->PDOStatement->rowCount();
+				Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				if (!isset(self::$stats['query_count'])) {
+					self::$stats['query_count']=0;
+				}
+				self::$stats['query_count']++;
+				$this->query_count=self::$stats['query_count'];
+				$this->query_runtime=Debug::calcTimer(self::getNameAsString().'_query', 6);
+			} catch (\PDOException $e) {
+				$this->error=true;
+				$this->error_message=$e->getMessage();
+				$this->logPDOError('query', $e, $query);
+
+				return false;
+			}
+		} else {
+			$this->result_all=$result;
+			$this->result_count=count($this->result_all);
+		}
+
+		return $result_state;
 	}
 
 	/**
-	 *
 	 * @param string $query
+	 * @param int $expire
 	 * @return int
 	 */
-	public function exec(string $query=''):int {
-		if ($this->execute($query)===true) {
+	public function exec(string $query='', int $expire=0):int {
+		if ($this->execute($query, $expire)===true) {
 			return $this->rowCount();
 		} else {
 			return 0;
@@ -298,27 +355,81 @@ class Database {
 	}
 
 	/**
-	 * @param string $query
-	 * @return \PDOStatement|null
+	 * @return $this
 	 */
-	public function query(string $query=''):?\PDOStatement {
+	public function dump():self {
+		print_a(['query_number'=>$this->query_count, 'query_runtime'=>$this->query_runtime, 'query'=>$this->query, 'result_key'=>$this->result_key, 'result_count'=>$this->result_count]);
+
+		return $this;
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function dumpResult():self {
+		print_a(['result'=>$this->result]);
+
+		return $this;
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function dumpResultAll():self {
+		print_a(['result_all'=>$this->result_all]);
+
+		return $this;
+	}
+
+	/**
+	 * @param string $query
+	 * @param int $expire
+	 * @return array
+	 */
+	public function query(string $query='', int $expire=0):array {
 		if ($query=='') {
 			$query=$this->getQuery();
 		}
-		$result=$this->PDO->query($query, \PDO::FETCH_ASSOC);
+		$this->initResult();
+		if (($expire==0)||(null===($result=Cache::readCacheAsArray(self::getNameAsString(), 'query-'.md5($query), $expire)))) {
+			try {
+				Debug::startTimer(self::getNameAsString().'_query');
+				$result_state=$this->PDO->query($query, \PDO::FETCH_ASSOC);
+				Debug::stopTimer(self::getNameAsString().'_query');
+				$this->checkSlowQuery(Debug::calcTimer(self::getNameAsString().'_query'), $query);
+				foreach ($result_state as $key=>$values) {
+					$this->result_all[$key]=$values;
+				}
+				$this->result_count=count($this->result_all);
+				Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				if (!isset(self::$stats['query_count'])) {
+					self::$stats['query_count']=0;
+				}
+				self::$stats['query_count']++;
+				$this->query_count=self::$stats['query_count'];
+				$this->query_runtime=Debug::calcTimer(self::getNameAsString().'_query', 6);
+			} catch (\PDOException $e) {
+				$this->error=true;
+				$this->error_message=$e->getMessage();
+				$this->logPDOError('query', $e, $query);
 
-		if ($result===false) {
-			$this->logError($this->PDO->errorInfo(), $query);
-			$this->error=true;
-			$this->error_message=$this->PDO->errorInfo()[2];
-
-			return null;
+				return [];
+			}
+		} else {
+			$this->result_all=$result;
+			$this->result_count=count($this->result_all);
 		}
 
-		$this->error=false;
-		$this->error_message='';
+		return $this->result_all;
+	}
 
-		return $result;
+	/**
+	 * @param string $query
+	 * @param int $expire
+	 * @return DatabaseResult
+	 */
+	public function queryObject(string $query='', int $expire=0):DatabaseResult {
+		return new DatabaseResult($this->query());
 	}
 
 	/**
@@ -326,7 +437,7 @@ class Database {
 	 * @return int
 	 */
 	public function rowCount():int {
-		return $this->PDOStatement->rowCount();
+		return $this->result_count;
 	}
 
 	/**
@@ -334,27 +445,39 @@ class Database {
 	 * @return array|null
 	 */
 	public function fetch():?array {
-		$this->result=$this->PDOStatement->fetch(\PDO::FETCH_ASSOC);
-		if ($this->result===false) {
-			// TODO: Fehler
+		if ($this->next()!==true) {
 			return null;
 		}
 
-		return $this->result;
+		return $this->result_all[$this->result_key];
 	}
 
 	/**
-	 *
 	 * @return DatabaseResult|null
 	 */
-	public function next():?DatabaseResult {
-		$this->result=$this->PDOStatement->fetch(\PDO::FETCH_ASSOC);
-		if ($this->result===false) {
-			// TODO: Fehler
+	public function fetchObject():?DatabaseResult {
+		if ($this->next()!==true) {
 			return null;
 		}
 
-		return new DatabaseResult($this->result);
+		return new DatabaseResult($this->result_all[$this->result_key]);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function next():bool {
+		if ($this->result_count==0) {
+			return false;
+		}
+
+		if ($this->result_key===null) {
+			$this->result_key=0;
+		} elseif ($this->result_count>$this->result_key) {
+			$this->result_key++;
+		}
+
+		return true;
 	}
 
 	/**
@@ -368,12 +491,23 @@ class Database {
 
 	/**
 	 *
-	 * @param string $name
 	 * @return array|null
 	 */
-	public function getResult(string $name):?array {
-		if ($this->result) {
+	public function getResult():?array {
+		if ($this->result!==[]) {
 			return $this->result;
+		}
+
+		return null;
+	}
+
+	/**
+	 *
+	 * @return DatabaseResult|null
+	 */
+	public function getResultObject():?DatabaseResult {
+		if ($this->result!==[]) {
+			return new DatabaseResult($this->result);
 		}
 
 		return null;
@@ -455,13 +589,56 @@ class Database {
 	}
 
 	/**
-	 * @param array $result
+	 * @return $this
+	 */
+	public function free():self {
+		$this->PDO=null;
+		$this->PDOStatement=null;
+		$this->result_key=null;
+		$this->result_count=0;
+		$this->result=[];
+		$this->result_all=[];
+		$this->query='';
+		$this->limitrows=[];
+		$this->error=false;
+		$this->error_message='';
+
+		return $this;
+	}
+
+	/**
+	 * @param string $error_type
+	 * @param \PDOException $result
+	 * @param string $query
+	 * @return $this
+	 */
+	public function logPDOError(string $error_type, \PDOException $result, string $query=''):self {
+		$trace=$result->getTrace();
+		if (isset($trace[1])) {
+			$error_file=$trace[1]['file'];
+			$error_line=$trace[1]['line'];
+		} else {
+			$error_file='-';
+			$error_line='-';
+		}
+		MessageStack::addMessage(self::getNameAsString(), $error_type, ['time'=>time(), 'query'=>$query, 'error'=>$result->getMessage(), 'error_code'=>$result->getCode(), 'error_file'=>$error_file, 'error_line'=>$error_line]);
+
+		return $this;
+	}
+
+	/**
+	 * @param int $runtime
+	 * @param string $query
 	 * @return bool
 	 */
-	public function logError(array $result, string $query=''):bool {
-		MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$result[2], 'query'=>$query, 'errno'=>$result[1]]);
+	public function checkSlowQuery(int $runtime, string $query):bool {
+		if ($runtime>Settings::getFloatVar('database_slowruntime')) {
+			MessageStack::addMessage(self::getNameAsString(), 'slowruntime', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'runtime'=>$runtime, 'query'=>$query]);
 
-		return true;
+			return true;
+		}
+
+		return false;
 	}
 
 }

@@ -24,7 +24,7 @@ class DatabaseResult {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -38,11 +38,11 @@ class DatabaseResult {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
-	 * Speichert das Datenbank-Objekt als PDO
+	 * Speichert die Daten als Array
 	 *
-	 * @var ?object
+	 * @var ?array
 	 */
-	public ?object $result=null;
+	public ?array $result=null;
 
 	/**
 	 * DatabaseResult constructor.
@@ -55,10 +55,9 @@ class DatabaseResult {
 
 	/**
 	 *
-	 * @param string $name
 	 * @return array|null
 	 */
-	public function getResult(string $name):?array {
+	public function getResult():?array {
 		if ($this->result) {
 			return $this->result;
 		}

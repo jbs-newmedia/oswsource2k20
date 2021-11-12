@@ -15,20 +15,28 @@ namespace osWFrame\Core;
 trait BaseConnectionTrait {
 
 	/**
-	 * @var object|null
+	 * @var array|null
 	 */
-	private static ?object $connection=null;
+	private static ?array $connection=null;
 
 	/**
 	 * @param string $alias
-	 * @return object
+	 * @return static
 	 */
-	public static function getConnection($alias='default'):object {
-		if (self::$connection===null) {
-			self::$connection=new \osWFrame\Core\Database($alias);
+	public static function getConnection($alias='default'):self {
+		return new \osWFrame\Core\Database($alias);
+	}
+
+	/**
+	 * @param string $alias
+	 * @return static
+	 */
+	public static function getConnectionRef($alias='default'):self {
+		if ((!isset(self::$connection[$alias]))||(self::$connection[$alias]===null)) {
+			self::$connection[$alias]=new \osWFrame\Core\Database($alias);
 		}
 
-		return self::$connection;
+		return self::$connection[$alias];
 	}
 
 }
