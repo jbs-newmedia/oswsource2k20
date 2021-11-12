@@ -19,7 +19,7 @@ trait BaseTemplateBridgeTrait {
 	/**
 	 * Fügt das Objekt dem Template hinzu und arbeitet über Referenzen.
 	 *
-	 * @param object $obj_Template
+	 * @param object $Template
 	 * @return bool
 	 */
 	public function setTemplate(object $Template):bool {
@@ -29,7 +29,6 @@ trait BaseTemplateBridgeTrait {
 	}
 
 	/**
-	 *
 	 * @return object|null
 	 */
 	public function getTemplate():?object {
