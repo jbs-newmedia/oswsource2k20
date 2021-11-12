@@ -24,7 +24,7 @@ class DB {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -111,7 +111,7 @@ class DB {
 	 * @param string $alias
 	 * @return object|null
 	 */
-	public static function getConnection(string $alias='default'):?object {
+	public static function getConnection(string $alias='default'):?\PDO {
 		if (!isset(self::$connections[$alias])) {
 			return null;
 		}
