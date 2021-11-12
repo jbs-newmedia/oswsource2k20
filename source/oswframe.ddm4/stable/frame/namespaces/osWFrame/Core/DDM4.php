@@ -30,7 +30,7 @@ class DDM4 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -430,9 +430,9 @@ class DDM4 {
 	/**
 	 * @param string $element
 	 * @param bool $status
-	 * @return object
+	 * @return $this
 	 */
-	public function setReadOnly(string $element, bool $status=true):object {
+	public function setReadOnly(string $element, bool $status=true):self {
 		if ((isset($this->ddm))&&(isset($this->ddm['elements']['add'][$element]))) {
 			$this->ddm['elements']['add'][$element]['options']['read_only']=$status;
 		}
@@ -449,9 +449,9 @@ class DDM4 {
 	/**
 	 * @param $counter
 	 * @param $value
-	 * @return object
+	 * @return $this
 	 */
-	public function setCounter($counter, $value):object {
+	public function setCounter($counter, $value):self {
 		$this->ddm['counts'][$counter]=$value;
 
 		return $this;
@@ -2014,18 +2014,18 @@ class DDM4 {
 	/**
 	 * @param string $name
 	 * @param string|int $value
-	 * @return object
+	 * @return $this
 	 */
-	public function setParameter(string $name, string|int $value):object {
+	public function setParameter(string $name, string|int $value):self {
 		return $this->addParameter($name, $value);
 	}
 
 	/**
 	 * @param string $name
 	 * @param string|int|array $value
-	 * @return object
+	 * @return $this
 	 */
-	public function addParameter(string $name, string|int|array $value):object {
+	public function addParameter(string $name, string|int|array $value):self {
 		if (!isset($this->ddm['parameters'])) {
 			$this->ddm['parameters']=[];
 		}

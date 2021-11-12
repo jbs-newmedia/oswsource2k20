@@ -30,7 +30,7 @@ class FavIcon {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -127,9 +127,9 @@ class FavIcon {
 
 	/**
 	 * @param string $file
-	 * @return object
+	 * @return $this
 	 */
-	public function setFile(string $file):object {
+	public function setFile(string $file):self {
 		$this->file=$file;
 
 		return $this;
@@ -144,9 +144,9 @@ class FavIcon {
 
 	/**
 	 * @param bool $status
-	 * @return object
+	 * @return $this
 	 */
-	public function setFavIcon(bool $status):object {
+	public function setFavIcon(bool $status):self {
 		$this->favicon=$status;
 
 		return $this;
@@ -161,9 +161,9 @@ class FavIcon {
 
 	/**
 	 * @param array|null $icons
-	 * @return object
+	 * @return $this
 	 */
-	public function setIcons(?array $icons=null):object {
+	public function setIcons(?array $icons=null):self {
 		if ($icons!==null) {
 			$this->icons=[];
 		} elseif ($icons!=[]) {
@@ -189,10 +189,9 @@ class FavIcon {
 
 	/**
 	 * @param array|null $icons
-	 * @return object
+	 * @return $this
 	 */
-
-	public function setAppleTouchIcons(?array $icons=null):object {
+	public function setAppleTouchIcons(?array $icons=null):self {
 		if ($icons!==null) {
 			$this->apple_touch_icons=[];
 		} elseif ($icons!=[]) {
@@ -223,10 +222,9 @@ class FavIcon {
 
 	/**
 	 * @param array|null $icons
-	 * @return object
+	 * @return $this
 	 */
-
-	public function setMSApplication(?array $icons=null):object {
+	public function setMSApplication(?array $icons=null):self {
 		if ($icons!==null) {
 			$this->msapplication=[];
 		} elseif ($icons!=[]) {

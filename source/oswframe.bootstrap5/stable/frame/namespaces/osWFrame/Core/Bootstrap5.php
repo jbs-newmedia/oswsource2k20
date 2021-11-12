@@ -30,7 +30,7 @@ class Bootstrap5 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -93,9 +93,9 @@ class Bootstrap5 {
 
 	/**
 	 * @param string $version
-	 * @return object
+	 * @return $this
 	 */
-	public function setVersion(string $version):object {
+	public function setVersion(string $version):self {
 		if ($version=='current') {
 			$this->version=$this->getCurrentVersion();
 		} else {
@@ -118,9 +118,9 @@ class Bootstrap5 {
 
 	/**
 	 * @param string $theme
-	 * @return object
+	 * @return $this
 	 */
-	public function setTheme(string $theme):object {
+	public function setTheme(string $theme):self {
 		$this->theme=$theme;
 
 		return $this;
@@ -134,10 +134,10 @@ class Bootstrap5 {
 	}
 
 	/**
-	 * @param string $min
-	 * @return object
+	 * @param bool $min
+	 * @return $this
 	 */
-	public function setMin(bool $min):object {
+	public function setMin(bool $min):self {
 		$this->min=$min;
 
 		return $this;
@@ -153,9 +153,9 @@ class Bootstrap5 {
 	/**
 	 * @param bool $load_js
 	 * @param bool $load_css
-	 * @return object
+	 * @return $this
 	 */
-	public function load(bool $load_js=true, bool $load_css=true):object {
+	public function load(bool $load_js=true, bool $load_css=true):self {
 		$version=$this->getVersion();
 		$theme=strtolower($this->getTheme());
 		$min=$this->getMin();
@@ -264,9 +264,9 @@ class Bootstrap5 {
 	/**
 	 * @param string $var
 	 * @param string $value
-	 * @return object
+	 * @return $this
 	 */
-	public function setCustom(string $var, string $value):object {
+	public function setCustom(string $var, string $value):self {
 		$this->custom[$var]=$value;
 
 		return $this;
