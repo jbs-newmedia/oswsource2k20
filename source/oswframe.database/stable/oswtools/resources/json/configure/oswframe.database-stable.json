@@ -9,7 +9,8 @@
 			"database_prefix": "osw_",
 			"database_engine": "InnoDB",
 			"database_character": "utf8mb4",
-			"database_collation": "utf8mb4_general_ci"
+			"database_collation": "utf8mb4_general_ci",
+			"database_slowruntime": 0.5
 		}
 	}
 }
