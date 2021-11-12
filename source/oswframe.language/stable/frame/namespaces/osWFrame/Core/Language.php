@@ -155,7 +155,6 @@ class Language {
 	 * @return string
 	 */
 	public static function getModuleName(string $module, string $current_language=''):string {
-		#print_a($module);
 		if ($current_language=='') {
 			$current_language=self::getCurrentLanguage('short');
 		}

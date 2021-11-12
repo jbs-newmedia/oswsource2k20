@@ -743,7 +743,6 @@ class Template {
 	}
 
 	/**
-	 *
 	 * @param string $alias
 	 * @return object
 	 */
