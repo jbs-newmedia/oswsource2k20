@@ -67,7 +67,7 @@ class StringFunctions {
 	 * @param int $salt_length
 	 * @return string
 	 */
-	public static function encryptString(string $string, string $algo=PASSWORD_DEFAULT, int $salt_length=6):string {
+	public static function encryptString(string $string, string $algo='sha512', int $salt_length=6):string {
 		$hashed_string='';
 		for ($i=0; $i<($salt_length*3); $i++) {
 			$hashed_string.=Math::randomInt(0, 9);
