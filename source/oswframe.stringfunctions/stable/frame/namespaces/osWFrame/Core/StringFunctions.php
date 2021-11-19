@@ -72,7 +72,7 @@ class StringFunctions {
 		for ($i=0; $i<($salt_length*3); $i++) {
 			$hashed_string.=Math::randomInt(0, 9);
 		}
-		if (!in_array($algo, ['md5', 'sha1', 'sha256', 'sha384', 'sha512', 'ripemd128', 'ripemd160', 'ripemd256', 'ripemd320', 'whirlpool'])) {
+		if (!in_array($algo, hash_algos())) {
 			$algo='sha512';
 		}
 		$salt=substr(hash($algo, $hashed_string), 0, $salt_length);
