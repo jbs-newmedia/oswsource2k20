@@ -358,7 +358,7 @@ class Database {
 	 * @return $this
 	 */
 	public function dump():self {
-		print_a(['query_number'=>$this->query_count, 'query_runtime'=>$this->query_runtime, 'query'=>$this->query, 'result_key'=>$this->result_key, 'result_count'=>$this->result_count]);
+		print_a(['query_number'=>$this->query_count, 'query_runtime'=>$this->query_runtime, 'query'=>$this->query, 'result_key'=>$this->result_key, 'result_count'=>$this->result_count, 'error'=>$this->error, 'error_message'=>$this->error_message]);
 
 		return $this;
 	}
@@ -476,6 +476,8 @@ class Database {
 		} elseif ($this->result_count>$this->result_key) {
 			$this->result_key++;
 		}
+
+		$this->result=$this->result_all[$this->result_key];
 
 		return true;
 	}
