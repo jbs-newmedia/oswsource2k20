@@ -141,6 +141,7 @@ class LogBrowser extends CoreTool {
 				}
 
 			}
+			krsort($this->file_list);
 		}
 
 		return $this;
