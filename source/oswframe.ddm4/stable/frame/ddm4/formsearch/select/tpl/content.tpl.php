@@ -15,7 +15,7 @@
 <div class="form-group ddm_element_<?php echo $this->getSearchElementValue($element, 'id') ?>">
 
 	<?php /* label */ ?>
-	<label for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getSearchElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
+	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getSearchElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
 
 	<?php if ($this->getSearchElementOption($element, 'read_only')===true): ?>
 
