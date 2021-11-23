@@ -327,9 +327,11 @@ class DDM4 {
 			if ($type=='data') {
 				$_data=['list', 'search', 'add', 'edit', 'delete'];
 				$default_options=[];
-				$file=Settings::getStringVar('settings_abspath').'frame/ddm4/defaultdata/'.$options['module'].'/php/content.inc.php';
-				if (file_exists($file)) {
-					include $file;
+				if ((isset($options['module']))&&($options['module']!='')) {
+					$file=Settings::getStringVar('settings_abspath').'frame/ddm4/defaultdata/'.$options['module'].'/php/content.inc.php';
+					if (file_exists($file)) {
+						include $file;
+					}
 				}
 				$options=array_replace_recursive($default_options, $options);
 				$_tmp=[];
@@ -356,9 +358,11 @@ class DDM4 {
 				}
 			} else {
 				$default_options=[];
-				$file=Settings::getStringVar('settings_abspath').'frame/ddm4/defaultdata/'.$options['module'].'/php/content.inc.php';
-				if (file_exists($file)) {
-					include $file;
+				if ((isset($options['module']))&&($options['module']!='')) {
+					$file=Settings::getStringVar('settings_abspath').'frame/ddm4/defaultdata/'.$options['module'].'/php/content.inc.php';
+					if (file_exists($file)) {
+						include $file;
+					}
 				}
 				$options=array_replace_recursive($default_options, $options);
 				if ($this->getGroupOption('disable_'.$type)!==true) {
