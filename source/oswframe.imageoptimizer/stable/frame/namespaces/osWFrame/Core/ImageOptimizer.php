@@ -285,19 +285,19 @@ class ImageOptimizer {
 		if ($allowed_check!==true) {
 			$msg='File out of allowed dir ('.implode(',', $disallowed_files).')';
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 
 		if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 			if (!isset($options['ps'])) {
 				$msg='Checksum not matched ('.$rel_file.')';
 				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				Settings::dieScript();
 			}
 			if ($this->validatePS($rel_file, $options, $options['ps'])!==true) {
 				$msg='Checksum not matched ('.$rel_file.')';
 				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				Settings::dieScript();
 			}
 		}
 
@@ -319,7 +319,7 @@ class ImageOptimizer {
 			default :
 				$msg='Unsupported file type ('.$image_type.')';
 				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				Settings::dieScript();
 				break;
 		}
 
@@ -356,7 +356,7 @@ class ImageOptimizer {
 			} else {
 				$content=Cache::readCacheAsString(self::getClassName(), $filenamecache, 0, '');
 				Network::sendHeader('Content-Length: '.strlen($content));
-				#Network::sendHeader('HTTP/1.0 304 Not Modified');
+				Network::sendHeader('HTTP/1.0 304 Not Modified');
 				echo $content;
 			}
 		} else {

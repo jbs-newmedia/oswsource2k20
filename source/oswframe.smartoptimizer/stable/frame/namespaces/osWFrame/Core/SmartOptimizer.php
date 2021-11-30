@@ -87,7 +87,7 @@ class SmartOptimizer {
 		if (Cache::existsCache(self::getClassName(), $query_string, '')!==true) {
 			$msg='File not found ('.$query_string.')';
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		// Dateiliste aus Cachedatei erzeugen
 		$files=explode(',', Cache::readCacheAsString(self::getClassName(), $query_string, 0, ''));
@@ -108,7 +108,7 @@ class SmartOptimizer {
 				$msg='File not found ('.implode(',', $missing_files).')';
 			}
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		$allowed_dirs=[];
 		if ((Settings::getArrayVar('smartoptimizer_allowed_dirs')!=null)&&(Settings::getArrayVar('smartoptimizer_allowed_dirs')!=[])) {
@@ -138,7 +138,7 @@ class SmartOptimizer {
 				$msg='File out of allowed dir ('.implode(',', $disallowed_files).')';
 			}
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		switch ($filetype) {
 			case 'css':
@@ -150,7 +150,7 @@ class SmartOptimizer {
 			default:
 				$msg='Unsupported file type ('.$filetype.')';
 				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				Settings::dieScript();
 				break;
 		}
 		if ((Settings::getBoolVar('smartoptimizer_gzipcompression')===true)&&(!headers_sent())&&(!connection_aborted())) {
@@ -259,7 +259,7 @@ class SmartOptimizer {
 		if (!file_exists($cfile)) {
 			$msg='File not found ('.$cfile.')';
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		$allowed_dirs=[];
 		if ((Settings::getArrayVar('smartoptimizer_allowed_dirs')!=null)&&(Settings::getArrayVar('smartoptimizer_allowed_dirs')!=[])) {
@@ -279,7 +279,7 @@ class SmartOptimizer {
 		if ($allowed_check!==true) {
 			$msg='File out of allowed dir ('.$file.')';
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		switch ($filetype) {
 			case 'css':
@@ -291,7 +291,7 @@ class SmartOptimizer {
 			default:
 				$msg='Unsupported file type ('.$filetype.')';
 				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				Settings::dieScript();
 				break;
 		}
 		if ((Settings::getBoolVar('smartoptimizer_gzipcompression')===true)&&(!headers_sent())&&(!connection_aborted())) {
