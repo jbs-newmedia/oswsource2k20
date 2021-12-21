@@ -32,7 +32,6 @@ trait BaseTemplateBridgeStaticTrait {
 	}
 
 	/**
-	 *
 	 * @return object|null
 	 */
 	public function getTemplate():?object {

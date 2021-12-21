@@ -25,7 +25,7 @@ class Template {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -151,6 +151,24 @@ class Template {
 	/**
 	 * @param string $name
 	 * @param $value
+	 * @return mixed
+	 */
+	public function prependVar(string $name, $value) {
+		return $this->prependVarAsCopy($name, $value);
+	}
+
+	/**
+	 * @param string $name
+	 * @param $value
+	 * @return mixed
+	 */
+	public function appendVar(string $name, $value) {
+		return $this->appendVarAsCopy($name, $value);
+	}
+
+	/**
+	 * @param string $name
+	 * @param $value
 	 * @return bool
 	 */
 	public function setVarAsRef(string $name, &$value) {
@@ -166,6 +184,36 @@ class Template {
 	 */
 	public function setVarAsCopy(string $name, $value):bool {
 		$this->vars[$name]=$value;
+
+		return true;
+	}
+
+	/**
+	 * @param string $name
+	 * @param $value
+	 * @return bool
+	 */
+	public function prependVarAsCopy(string $name, $value):bool {
+		if (isset($this->vars[$name])) {
+			$this->vars[$name]=$value.$this->vars[$name];
+		} else {
+			$this->vars[$name]=$value;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param string $name
+	 * @param $value
+	 * @return bool
+	 */
+	public function appendVarAsCopy(string $name, $value):bool {
+		if (isset($this->vars[$name])) {
+			$this->vars[$name]=$this->vars[$name].$value;
+		} else {
+			$this->vars[$name]=$value;
+		}
 
 		return true;
 	}
@@ -545,19 +593,19 @@ class Template {
 	 * @return bool
 	 */
 	private function getJSFiles(string $pos):bool {
-		if (Settings::getBoolVar('smartoptimizer_combine_files')===true) {
-			$str=implode(',', $this->getTemplateFiles($pos, 'js'));
-			$file=md5($str).'.js';
-			SmartOptimizer::writeCacheFile($file, $str);
-			if (Settings::getStringVar('template_versionnumber')=='') {
-				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file]);
-			} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)]);
+		if ($this->getTemplateFiles($pos, 'js')!=[]) {
+			if (Settings::getBoolVar('smartoptimizer_combine_files')===true) {
+				$str=implode(',', $this->getTemplateFiles($pos, 'js'));
+				$file=md5($str).'.js';
+				SmartOptimizer::writeCacheFile($file, $str);
+				if (Settings::getStringVar('template_versionnumber')=='') {
+					$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file], $pos);
+				} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
+					$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)], $pos);
+				} else {
+					$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')], $pos);
+				}
 			} else {
-				$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')]);
-			}
-		} else {
-			if ($this->getTemplateFiles($pos, 'js')!=[]) {
 				foreach ($this->getTemplateFiles($pos, 'js') as $file) {
 					if (strstr($file, '?')) {
 						$c='&';
@@ -566,19 +614,19 @@ class Template {
 					}
 					if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file]);
+							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file], $pos);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)], $pos);
 						} else {
-							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addTag('script', ['src'=>'static/'.Settings::getStringVar('scriptoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')], $pos);
 						}
 					} else {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addTag('script', ['src'=>$file]);
+							$this->addTag('script', ['src'=>$file], $pos);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addTag('script', ['src'=>$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addTag('script', ['src'=>$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)], $pos);
 						} else {
-							$this->addTag('script', ['src'=>$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addTag('script', ['src'=>$file.$c.'v='.Settings::getStringVar('template_versionnumber')], $pos);
 						}
 					}
 				}
@@ -593,19 +641,19 @@ class Template {
 	 * @return bool
 	 */
 	private function getCSSFiles(string $pos):bool {
-		if (Settings::getBoolVar('smartoptimizer_combine_files')===true) {
-			$str=implode(',', $this->getTemplateFiles($pos, 'css'));
-			$file=md5($str).'.css';
-			SmartOptimizer::writeCacheFile($file, $str);
-			if (Settings::getStringVar('template_versionnumber')=='') {
-				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file]);
-			} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)]);
+		if ($this->getTemplateFiles($pos, 'css')!=[]) {
+			if (Settings::getBoolVar('smartoptimizer_combine_files')===true) {
+				$str=implode(',', $this->getTemplateFiles($pos, 'css'));
+				$file=md5($str).'.css';
+				SmartOptimizer::writeCacheFile($file, $str);
+				if (Settings::getStringVar('template_versionnumber')=='') {
+					$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file], $pos);
+				} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
+					$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$file, false)], $pos);
+				} else {
+					$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')], $pos);
+				}
 			} else {
-				$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.'?v='.Settings::getStringVar('template_versionnumber')]);
-			}
-		} else {
-			if ($this->getTemplateFiles($pos, 'css')!=[]) {
 				foreach ($this->getTemplateFiles($pos, 'css') as $file) {
 					if (strstr($file, '?')) {
 						$c='&';
@@ -614,19 +662,19 @@ class Template {
 					}
 					if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file], $pos);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)], $pos);
 						} else {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>'static/'.Settings::getStringVar('styleoptimizer_module').'/'.$file.$c.'v='.Settings::getStringVar('template_versionnumber')], $pos);
 						}
 					} else {
 						if (Settings::getStringVar('template_versionnumber')=='') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file], $pos);
 						} elseif (Settings::getStringVar('template_versionnumber')=='cachetime') {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file.$c.'v='.Filesystem::getFileModTime(Settings::getStringVar('settings_abspath').$file, false)], $pos);
 						} else {
-							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file.$c.'v='.Settings::getStringVar('template_versionnumber')]);
+							$this->addVoidTag('link', ['rel'=>'stylesheet', 'type'=>'text/css', 'href'=>$file.$c.'v='.Settings::getStringVar('template_versionnumber')], $pos);
 						}
 					}
 				}
@@ -649,9 +697,9 @@ class Template {
 		}
 		if ($codes!=[]) {
 			if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
-				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n");
+				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n", $pos);
 			} else {
-				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n");
+				$this->addCode('script', ['type'=>'text/javascript'], "\n".implode("\n\n", $codes)."\n", $pos);
 			}
 		}
 
@@ -671,9 +719,9 @@ class Template {
 		}
 		if ($codes!=[]) {
 			if (Settings::getBoolVar('smartoptimizer_stripoutput')===true) {
-				$this->addCode('style', ['type'=>'text/css', 'title'=>'text/css'], "\n".implode("\n\n", $codes)."\n");
+				$this->addCode('style', ['type'=>'text/css', 'title'=>'text/css'], "\n".implode("\n\n", $codes)."\n", $pos);
 			} else {
-				$this->addCode('style', ['type'=>'text/css', 'title'=>'text/css'], "\n".implode("\n\n", $codes)."\n");
+				$this->addCode('style', ['type'=>'text/css', 'title'=>'text/css'], "\n".implode("\n\n", $codes)."\n", $pos);
 			}
 		}
 
@@ -695,7 +743,6 @@ class Template {
 	}
 
 	/**
-	 *
 	 * @param string $alias
 	 * @return object
 	 */

@@ -15,7 +15,6 @@ $fields['element']=$element;
 $fields['element_title']=$this->getEditElementValue($element, 'title');
 $this->setFilterElementStorage($element, $fields);
 $this->setFilterErrorElementStorage($element, false);
-
 if (($this->getFilterErrorElementStorage($element)!==true)&&(($this->getEditElementValidation($element, 'length_min')!='')&&($this->getEditElementValidation($element, 'length_min')>0))) {
 	if ($this->getDoEditElementStorage($element)=='') {
 		$fields['length_min']=$this->getEditElementValidation($element, 'length_min');

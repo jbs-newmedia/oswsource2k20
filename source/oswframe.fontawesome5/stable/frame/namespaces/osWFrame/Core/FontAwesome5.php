@@ -30,7 +30,7 @@ class FontAwesome5 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -81,9 +81,9 @@ class FontAwesome5 {
 
 	/**
 	 * @param string $version
-	 * @return object
+	 * @return $this
 	 */
-	public function setVersion(string $version):object {
+	public function setVersion(string $version):self {
 		if ($version=='current') {
 			$this->version=$this->getCurrentVersion();
 		} else {
@@ -105,10 +105,10 @@ class FontAwesome5 {
 	}
 
 	/**
-	 * @param string $min
-	 * @return object
+	 * @param bool $min
+	 * @return $this
 	 */
-	public function setMin(bool $min):object {
+	public function setMin(bool $min):self {
 		$this->min=$min;
 
 		return $this;
@@ -122,9 +122,9 @@ class FontAwesome5 {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function load():object {
+	public function load():self {
 		$version=$this->getVersion();
 		$min=$this->getMin();
 

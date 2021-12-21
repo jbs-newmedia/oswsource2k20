@@ -34,15 +34,15 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 		$database_where_string.=' AND ('.$this->getSendElementValue($element, 'name').'>='.$this->getSendElementOption($element, 'default_value').')';
 	}
 
-	$QcheckData=osW_Database::getInstance()->query('SELECT :formdata_name: FROM :table: AS :alias: WHERE 1 :where: ORDER BY :formdata_name: DESC LIMIT 1');
+	$QcheckData=self::getConnection();
+	$QcheckData->prepare('SELECT :formdata_name: FROM :table: AS :alias: WHERE 1 :where: ORDER BY :formdata_name: DESC LIMIT 1');
 	$QcheckData->bindTable(':table:', $this->getGroupOption('table', 'database'));
 	$QcheckData->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));
 	$QcheckData->bindRaw(':formdata_name:', $this->getGroupOption('alias', 'database').'.'.$this->getSendElementValue($element, 'name'));
 	$QcheckData->bindRaw(':where:', $database_where_string);
-	$QcheckData->execute();
-	if ($QcheckData->numberOfRows()==1) {
-		$QcheckData->next();
-		$this->setDoSendElementStorage($element, ($QcheckData->result[$this->getSendElementValue($element, 'name')]+1));
+	if ($QcheckData->exec()==1) {
+		$result=$QcheckData->fetch();
+		$this->setDoSendElementStorage($element, ($result[$this->getSendElementValue($element, 'name')]+1));
 	} else {
 		$this->setDoSendElementStorage($element, $this->getSendElementOption($element, 'default_value'));
 	}

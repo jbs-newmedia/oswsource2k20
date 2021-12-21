@@ -17,27 +17,29 @@ if (\osWFrame\Core\Settings::getAction()=='doedit') {
 	$this->setDoEditElementStorage($element, osWFrame\Core\Settings::catchValue($element, '', 'p'));
 	$this->setDoEditElementStorage($element.$this->getEditElementOption($element, 'temp_suffix'), osWFrame\Core\Settings::catchValue($element.$this->getEditElementOption($element, 'temp_suffix'), '', 'p'));
 
-	if (($this->getEditElementOption($element, 'store_name')===true)||($this->getEditElementOption($element, 'store_type')===true)||($this->getEditElementOption($element, 'store_size')===true)||($this->getEditElementOption($element, 'store_md5')===true)||($this->getEditElementOption($element, 'store_sha1')===true)) {
-		$Qselect=self::getConnection();
-		$Qselect->prepare('SELECT :elements: FROM :table: AS :alias: WHERE :name_index:=:value_index:');
-		$Qselect->bindRaw(':elements:', implode(', ', [$this->getGroupOption('alias', 'database').'.'.$element.'_name', $this->getGroupOption('alias', 'database').'.'.$element.'_type', $this->getGroupOption('alias', 'database').'.'.$element.'_size', $this->getGroupOption('alias', 'database').'.'.$element.'_md5', $this->getGroupOption('alias', 'database').'.'.$element.'_sha1']));
-		$Qselect->bindTable(':table:', $this->getGroupOption('table', 'database'));
-		$Qselect->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));
-		$Qselect->bindRaw(':name_index:', $this->getGroupOption('alias', 'database').'.'.$this->getGroupOption('index', 'database'));
-		if ($this->getGroupOption('db_index_type', 'database')=='string') {
-			$Qselect->bindString(':value_index:', $this->getIndexElementStorage());
-		} else {
-			$Qselect->bindInt(':value_index:', $this->getIndexElementStorage());
-		}
-		if ($Qselect->exec()==1) {
-			$data_old=$Qselect->fetch();
-		} else {
-			$data_old=[];
-			$data_old[$element.'_name']='';
-			$data_old[$element.'_type']='';
-			$data_old[$element.'_size']=0;
-			$data_old[$element.'_md5']='';
-			$data_old[$element.'_sha1']='';
+	if ($this->getEditElementValue($element, 'name')!='') {
+		if (($this->getEditElementOption($element, 'store_name')===true)||($this->getEditElementOption($element, 'store_type')===true)||($this->getEditElementOption($element, 'store_size')===true)||($this->getEditElementOption($element, 'store_md5')===true)||($this->getEditElementOption($element, 'store_sha1')===true)) {
+			$Qselect=self::getConnection();
+			$Qselect->prepare('SELECT :elements: FROM :table: AS :alias: WHERE :name_index:=:value_index:');
+			$Qselect->bindRaw(':elements:', implode(', ', [$this->getGroupOption('alias', 'database').'.'.$element.'_name', $this->getGroupOption('alias', 'database').'.'.$element.'_type', $this->getGroupOption('alias', 'database').'.'.$element.'_size', $this->getGroupOption('alias', 'database').'.'.$element.'_md5', $this->getGroupOption('alias', 'database').'.'.$element.'_sha1']));
+			$Qselect->bindTable(':table:', $this->getGroupOption('table', 'database'));
+			$Qselect->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));
+			$Qselect->bindRaw(':name_index:', $this->getGroupOption('alias', 'database').'.'.$this->getGroupOption('index', 'database'));
+			if ($this->getGroupOption('db_index_type', 'database')=='string') {
+				$Qselect->bindString(':value_index:', $this->getIndexElementStorage());
+			} else {
+				$Qselect->bindInt(':value_index:', $this->getIndexElementStorage());
+			}
+			if ($Qselect->exec()==1) {
+				$data_old=$Qselect->fetch();
+			} else {
+				$data_old=[];
+				$data_old[$element.'_name']='';
+				$data_old[$element.'_type']='';
+				$data_old[$element.'_size']=0;
+				$data_old[$element.'_md5']='';
+				$data_old[$element.'_sha1']='';
+			}
 		}
 	}
 
@@ -88,27 +90,37 @@ if (\osWFrame\Core\Settings::getAction()=='doedit') {
 
 		if ($this->getEditElementOption($element, 'store_name')===true) {
 			$this->setDoEditElementStorage($element.'_name', ($_FILES[$element]['name']));
-			$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_name',]);
+			if ($this->getEditElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_name',]);
+			}
 		}
 
 		if ($this->getEditElementOption($element, 'store_type')===true) {
 			$this->setDoEditElementStorage($element.'_type', ($_FILES[$element]['type']));
-			$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_type',]);
+			if ($this->getEditElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_type',]);
+			}
 		}
 
 		if ($this->getEditElementOption($element, 'store_size')===true) {
 			$this->setDoEditElementStorage($element.'_size', ($_FILES[$element]['size']));
-			$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_size',]);
+			if ($this->getEditElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_size',]);
+			}
 		}
 
 		if ($this->getEditElementOption($element, 'store_md5')===true) {
 			$this->setDoEditElementStorage($element.'_md5', hash_file('md5', $_FILES[$element]['tmp_name']));
-			$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_md5',]);
+			if ($this->getEditElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_md5',]);
+			}
 		}
 
 		if ($this->getEditElementOption($element, 'store_sha1')===true) {
 			$this->setDoEditElementStorage($element.'_sha1', hash_file('sha1', $_FILES[$element]['tmp_name']));
-			$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_sha1',]);
+			if ($this->getEditElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_sha1',]);
+			}
 		}
 
 		$file_name='';

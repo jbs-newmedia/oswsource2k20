@@ -18,7 +18,11 @@ if (\osWFrame\Core\Settings::getAction()=='doadd') {
 		if (!empty($ddm_selector_array)) {
 			$ar_values=[];
 			foreach ($ddm_selector_array as $key => $value) {
-				$ar_values[]=$this->getGroupOption('alias', 'database').'.'.$key.'='.$value;
+				if (is_int($value)==true) {
+					$ar_values[]=$this->getGroupOption('alias', 'database').'.'.$key.'='.$value;
+				} else {
+					$ar_values[]=$this->getGroupOption('alias', 'database').'.'.$key.'=\''.$value.'\'';
+				}
 			}
 			$database_where_string.=' AND ('.implode(' AND ', $ar_values).')';
 		}
@@ -35,8 +39,8 @@ if (\osWFrame\Core\Settings::getAction()=='doadd') {
 	$QcheckData->bindRaw(':formdata_name:', $this->getGroupOption('alias', 'database').'.'.$this->getAddElementValue($element, 'name'));
 	$QcheckData->bindRaw(':where:', $database_where_string);
 	if ($QcheckData->exec()===1) {
-		$QcheckData->fetch();
-		$this->setDoAddElementStorage($element, ($QcheckData->result[$this->getAddElementValue($element, 'name')]+1));
+		$result=$QcheckData->fetch();
+		$this->setDoAddElementStorage($element, ($result[$this->getAddElementValue($element, 'name')]+1));
 	} else {
 		$this->setDoAddElementStorage($element, $this->getAddElementOption($element, 'default_value'));
 	}

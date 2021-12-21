@@ -14,25 +14,27 @@ namespace osWFrame\Core;
 
 trait BaseTemplateBridgeTrait {
 
-	public ?object $obj_Template=null;
+	/**
+	 * @var Template|null
+	 */
+	public ?Template $obj_Template=null;
 
 	/**
 	 * Fügt das Objekt dem Template hinzu und arbeitet über Referenzen.
 	 *
-	 * @param object $obj_Template
+	 * @param Template $obj_Template
 	 * @return bool
 	 */
-	public function setTemplate(object $Template):bool {
-		$this->obj_Template=$Template;
+	public function setTemplate(Template $obj_Template):bool {
+		$this->obj_Template=$obj_Template;
 
 		return true;
 	}
 
 	/**
-	 *
-	 * @return object|null
+	 * @return Template|null
 	 */
-	public function getTemplate():?object {
+	public function getTemplate():?Template {
 		return $this->obj_Template;
 	}
 

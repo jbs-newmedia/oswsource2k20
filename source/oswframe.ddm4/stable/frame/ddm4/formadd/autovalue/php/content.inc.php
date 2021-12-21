@@ -40,9 +40,9 @@ if (\osWFrame\Core\Settings::getAction()=='doadd') {
 	$QcheckData->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));
 	$QcheckData->bindRaw(':formdata_name:', $this->getGroupOption('alias', 'database').'.'.$this->getAddElementValue($element, 'name'));
 	$QcheckData->bindRaw(':where:', $database_where_string);
-	if ($QcheckData->exec()===1) {
-		$QcheckData->fetch();
-		$this->setDoAddElementStorage($element, ($QcheckData->result[$this->getAddElementValue($element, 'name')]+1));
+	if ($QcheckData->exec()==1) {
+		$result=$QcheckData->fetch();
+		$this->setDoAddElementStorage($element, ($result[$this->getAddElementValue($element, 'name')]+1));
 	} else {
 		$this->setDoAddElementStorage($element, $this->getAddElementOption($element, 'default_value'));
 	}

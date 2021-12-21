@@ -18,7 +18,8 @@ if (\osWFrame\Core\Settings::getAction()=='dodelete') {
 	$this->setDoDeleteElementStorage($element.$this->getDeleteElementOption($element, 'temp_suffix'), osWFrame\Core\Settings::catchValue($element.$this->getDeleteElementOption($element, 'temp_suffix'), '', 'p'));
 
 	if (($this->getDeleteElementOption($element, 'store_name')===true)||($this->getDeleteElementOption($element, 'store_type')===true)||($this->getDeleteElementOption($element, 'store_size')===true)||($this->getDeleteElementOption($element, 'store_md5')===true)||($this->getDeleteElementOption($element, 'store_sha1')===true)) {
-		$Qselect=osW_Database::getInstance()->query('SELECT :elements: FROM :table: AS :alias: WHERE :name_index:=:value_index:');
+		$Qselect=self::getConnection();
+		$Qselect->prepare('SELECT :elements: FROM :table: AS :alias: WHERE :name_index:=:value_index:');
 		$Qselect->bindRaw(':elements:', implode(', ', [$this->getGroupOption('alias', 'database').'.'.$element.'_name', $this->getGroupOption('alias', 'database').'.'.$element.'_type', $this->getGroupOption('alias', 'database').'.'.$element.'_size', $this->getGroupOption('alias', 'database').'.'.$element.'_md5', $this->getGroupOption('alias', 'database').'.'.$element.'_sha1']));
 		$Qselect->bindTable(':table:', $this->getGroupOption('table', 'database'));
 		$Qselect->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));
@@ -28,10 +29,8 @@ if (\osWFrame\Core\Settings::getAction()=='dodelete') {
 		} else {
 			$Qselect->bindInt(':value_index:', $this->getIndexElementStorage());
 		}
-		$Qselect->execute();
-		if ($Qselect->numberOfRows()==1) {
-			$Qselect->next();
-			$data_old=$Qselect->result;
+		if ($Qselect->exec()==1) {
+			$data_old=$Qselect->fetch();
 		} else {
 			$data_old=[];
 			$data_old[$element.'_name']='';

@@ -16,7 +16,11 @@ if (strlen($this->getDoEditElementStorage($element))>0) {
 	if (!empty($ddm_selector_array)) {
 		$ar_values=[];
 		foreach ($ddm_selector_array as $key => $value) {
-			$ar_values[]=$this->getGroupOption('alias', 'database').'.'.$key.'='.$value;
+			if (is_int($value)==true) {
+				$ar_values[]=$this->getGroupOption('alias', 'database').'.'.$key.'='.$value;
+			} else {
+				$ar_values[]=$this->getGroupOption('alias', 'database').'.'.$key.'=\''.$value.'\'';
+			}
 		}
 		$database_where_string.=' AND ('.implode(' AND ', $ar_values).')';
 	}

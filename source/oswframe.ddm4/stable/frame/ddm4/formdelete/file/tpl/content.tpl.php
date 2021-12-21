@@ -15,7 +15,7 @@
 <div class="form-group ddm_element_<?php echo $this->getDeleteElementValue($element, 'id') ?>">
 
 	<?php /* label */ ?>
-	<label for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php if ($this->getDeleteElementOption($element, 'required')===true): ?><?php echo $this->getGroupMessage('form_title_required_icon') ?><?php endif ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
+	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php if ($this->getDeleteElementOption($element, 'required')===true): ?><?php echo $this->getGroupMessage('form_title_required_icon') ?><?php endif ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
 
 	<?php /* read only */ ?>
 	<div class="form-control readonly">
@@ -36,7 +36,7 @@
 
 
 	<?php /* buttons */ ?>
-	<?php if (($this->getDeleteElementOption($element, 'buttons')!='')||(($this->getDoDeleteElementStorage($element.$this->getDeleteElementOption($element, 'temp_suffix'))!='')||($this->getDeleteElementStorage($element)!='')&&($this->getDeleteElementOption($element, 'read_only')!==true))): ?>
+	<?php if ($this->getDeleteElementOption($element, 'buttons')!=''): ?>
 		<div>
 			<?php echo implode(' ', $this->getDeleteElementOption($element, 'buttons')) ?>
 		</div>

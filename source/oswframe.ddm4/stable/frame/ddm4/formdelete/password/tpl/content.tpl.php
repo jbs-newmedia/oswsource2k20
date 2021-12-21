@@ -15,7 +15,7 @@
 <div class="form-group ddm_element_<?php echo $this->getDeleteElementValue($element, 'id') ?>">
 
 	<?php /* label */ ?>
-	<label for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
+	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
 
 	<?php /* read only */ ?>
 	<div class="form-control readonly"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementOption($element, 'text_hidden')) ?></div>

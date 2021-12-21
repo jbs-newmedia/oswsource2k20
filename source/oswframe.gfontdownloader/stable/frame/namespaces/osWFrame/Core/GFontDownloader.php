@@ -29,7 +29,7 @@ class GFontDownloader {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -63,10 +63,10 @@ class GFontDownloader {
 	}
 
 	/**
-	 * @param string $file
-	 * @return object
+	 * @param string $api_key
+	 * @return $this
 	 */
-	public function setApiKey(string $api_key):object {
+	public function setApiKey(string $api_key):self {
 		$this->api_key=$api_key;
 
 		return $this;
@@ -79,7 +79,10 @@ class GFontDownloader {
 		return $this->api_key;
 	}
 
-	public function loadFonts():object {
+	/**
+	 * @return $this
+	 */
+	public function loadFonts():self {
 		$this->fonts=[];
 		$cache=Cache::readCacheAsString('gfontdownloader', 'font_list', 60*60*24);
 		if (null===($cache=Cache::readCacheAsString('gfontdownloader', 'font_list', 60*60*24))) {

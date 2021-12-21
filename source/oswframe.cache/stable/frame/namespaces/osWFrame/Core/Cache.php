@@ -24,12 +24,12 @@ class Cache {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -89,6 +89,22 @@ class Cache {
 	}
 
 	/**
+	 * Schreibt den Cache in einen durch htaccess geschützten Ordner.
+	 *
+	 * @param string $module
+	 * @param string $file
+	 * @param string $data
+	 * @param string $extension
+	 * @return bool
+	 */
+	public static function writeProtectedCache(string $module, string $file, string $data, string $extension='.cache'):bool {
+		$result=self::writeCache($module, $file, $data, $extension);
+		Filesystem::protectDir(self::getDirName($module));
+
+		return $result;
+	}
+
+	/**
 	 * Schreibt einen Array als Cache.
 	 *
 	 * @param string $module
@@ -98,6 +114,18 @@ class Cache {
 	 */
 	public static function writeCacheArray(string $module, string $file, array $data):bool {
 		return self::writeCache($module, $file, serialize($data));
+	}
+
+	/**
+	 * Schreibt einen Array als Cache in einen durch htaccess geschützten Ordner.
+	 *
+	 * @param string $module
+	 * @param string $file
+	 * @param array $data
+	 * @return bool
+	 */
+	public static function writeProtectedCacheArray(string $module, string $file, array $data):bool {
+		return self::writeProtectedCache($module, $file, serialize($data));
 	}
 
 	/**
