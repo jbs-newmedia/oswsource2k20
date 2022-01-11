@@ -30,7 +30,7 @@ class Settings {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -167,13 +167,13 @@ class Settings {
 		$project_domain_full='';
 		if (self::getBoolVar('settings_ssl')===true) {
 			$project_domain_full.='https://'.$domain;
-			if (self::getIntVar('settings_ssl_port')!=443) {
-				$project_domain_full.':'.self::getIntVar('settings_ssl_port');
+			if (self::getIntVar('settings_ssl_port')!=self::getIntVar('project_ssl_port')) {
+				$project_domain_full.=':'.self::getIntVar('project_port');
 			}
 		} else {
 			$project_domain_full.='http://'.$domain;
-			if (self::getIntVar('settings_port')!=80) {
-				$project_domain_full.':'.self::getIntVar('settings_port');
+			if (self::getIntVar('settings_port')!=self::getIntVar('project_port')) {
+				$project_domain_full.=':'.self::getIntVar('project_port');
 			}
 		}
 		$project_domain_full.='/';

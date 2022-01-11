@@ -6,8 +6,10 @@ $url=parse_url($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER
 
 if ($url['scheme']=='https') {
 	osW_setVar('settings_ssl', true);
+	osW_setVar('project_ssl_port', $_SERVER['SERVER_PORT']);
 } else {
 	osW_setVar('settings_ssl', false);
+	osW_setVar('project_port', $_SERVER['SERVER_PORT']);
 }
 
 $host=explode('.', $url['host']);
