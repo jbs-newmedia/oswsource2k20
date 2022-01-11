@@ -29,7 +29,7 @@ class Database {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -319,7 +319,9 @@ class Database {
 				$this->checkSlowQuery(Debug::calcTimer(self::getNameAsString().'_query'), $query);
 				$this->result_all=$this->PDOStatement->fetchAll(\PDO::FETCH_ASSOC);
 				$this->result_count=$this->PDOStatement->rowCount();
-				Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				if ($expire>0) {
+					Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				}
 				if (!isset(self::$stats['query_count'])) {
 					self::$stats['query_count']=0;
 				}
@@ -401,7 +403,9 @@ class Database {
 					$this->result_all[$key]=$values;
 				}
 				$this->result_count=count($this->result_all);
-				Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				if ($expire>0) {
+					Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				}
 				if (!isset(self::$stats['query_count'])) {
 					self::$stats['query_count']=0;
 				}
