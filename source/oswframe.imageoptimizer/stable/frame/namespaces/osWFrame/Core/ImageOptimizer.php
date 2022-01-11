@@ -58,7 +58,7 @@ class ImageOptimizer {
 	 * @return bool
 	 */
 	private function setValidOptions():bool {
-		$this->valid_options=['longest', 'width', 'height', 'quality', 'scale', 'cropr', 'croprr', 'crops', 'cropsr', 'ps', 'transparent', 'border'];
+		$this->valid_options=['longest', 'width', 'height', 'quality', 'scale', 'cropr', 'croprr', 'crops', 'cropsr', 'ps', 'transparent', 'border', 'ts'];
 
 		return true;
 	}
@@ -279,6 +279,7 @@ class ImageOptimizer {
 		foreach ($allowed_dirs as $a_dir) {
 			if (strpos(realpath($abs_file), realpath(Settings::getStringVar('settings_abspath').$a_dir))===0) {
 				$allowed_check=true;
+				break;
 			}
 		}
 
@@ -334,8 +335,13 @@ class ImageOptimizer {
 			$mtimestr=DateTime::convertTimeStamp2GM($mtime);
 		}
 
-		if ((Settings::getBoolVar('imageoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
-			if (Settings::getBoolVar('imageoptimizer_clientcache')===true) {
+		if ((isset($options['ts']))||(Settings::getBoolVar('imageoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
+			if (isset($options['ts'])) {
+				$ct=60*60*24*365;
+				Network::sendHeader('Pragma: public');
+				Network::sendHeader('Cache-Control: max-age='.$ct);
+				Network::sendHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time()+$ct));
+			} elseif (Settings::getBoolVar('imageoptimizer_clientcache')===true) {
 				Network::sendHeader("Last-Modified: ".$mtimestr);
 				Network::sendHeader("Cache-Control: must-revalidate");
 			} else {
