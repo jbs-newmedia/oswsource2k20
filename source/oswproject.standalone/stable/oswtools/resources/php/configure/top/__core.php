@@ -94,6 +94,10 @@ $this->fields['project_domain']=['default_name'=>'Domain', 'default_type'=>'text
 
 $this->fields['project_path']=['default_name'=>'Path', 'default_type'=>'text', 'default_value'=>$path, 'valid_type'=>'string', 'valid_min_length'=>0, 'valid_max_length'=>32, 'configure_write'=>true];
 
+$this->fields['project_port']=['default_name'=>'Port', 'default_type'=>'text', 'default_value'=>80, 'valid_type'=>'integer', 'valid_min_length'=>0, 'valid_max_length'=>5, 'configure_write'=>true];
+
+$this->fields['project_ssl_port']=['default_name'=>'Port (SSL)', 'default_type'=>'text', 'default_value'=>443, 'valid_type'=>'integer', 'valid_min_length'=>0, 'valid_max_length'=>5, 'configure_write'=>true];
+
 $this->fields['settings_ssl']=['default_name'=>'SSL', 'default_type'=>'select', 'default_value'=>0, 'default_select'=>[0=>'No', 1=>'Yes'], 'valid_type'=>'boolean', 'configure_write'=>true, 'valid_min_length'=>1, 'valid_max_length'=>1];
 
 $this->fields['settings_protection_salt']=['default_name'=>'Salt', 'default_type'=>'text', 'default_value'=>$salt, 'valid_type'=>'string', 'valid_min_length'=>32, 'valid_max_length'=>64, 'configure_write'=>true];
