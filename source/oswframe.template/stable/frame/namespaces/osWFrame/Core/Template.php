@@ -30,7 +30,7 @@ class Template {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -597,9 +597,15 @@ class Template {
 		$this->getCSSFiles('head');
 		$this->getJSCodes('head');
 		$this->getCSSCodes('head');
+		$this->getJSFiles('headend');
+		$this->getCSSFiles('headend');
+		$this->getJSCodes('headend');
+		$this->getCSSCodes('headend');
 		$content='';
 		$content.=$this->outputTags('head');
 		$content.=$this->outputCodes('head');
+		$content.=$this->outputTags('headend');
+		$content.=$this->outputCodes('headend');
 
 		return $content;
 	}

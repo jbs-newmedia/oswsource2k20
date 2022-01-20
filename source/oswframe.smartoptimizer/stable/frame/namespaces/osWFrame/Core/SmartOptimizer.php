@@ -29,7 +29,7 @@ class SmartOptimizer {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -125,6 +125,7 @@ class SmartOptimizer {
 			foreach ($allowed_dirs as $a_dir) {
 				if (strpos(realpath(Settings::getStringVar('settings_abspath').$file), realpath(Settings::getStringVar('settings_abspath').$a_dir))===0) {
 					$allowed_check=true;
+					break;
 				}
 			}
 			if ($allowed_check!==true) {
@@ -187,7 +188,6 @@ class SmartOptimizer {
 			if ($generateContent===true) {
 				$content=[];
 				foreach ($files as $file) {
-					$__DIR__='../../';
 					$cfile=Settings::getStringVar('settings_abspath').$file;
 					if (file_exists($cfile)) {
 						switch ($filetype) {
@@ -274,6 +274,7 @@ class SmartOptimizer {
 		foreach ($allowed_dirs as $a_dir) {
 			if (strpos(realpath(Settings::getStringVar('settings_abspath').$file), realpath(Settings::getStringVar('settings_abspath').$a_dir))===0) {
 				$allowed_check=true;
+				break;
 			}
 		}
 		if ($allowed_check!==true) {
