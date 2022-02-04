@@ -24,7 +24,7 @@ class DB {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -84,10 +84,11 @@ class DB {
 	 * @param string $dbname
 	 * @param string $charset
 	 * @param string $alias
+	 * @param int $port
 	 * @return bool
 	 */
-	public static function addConnectionMYSQL(string $host, string $user, string $password, string $dbname, string $charset='utf8', string $alias='default'):bool {
-		return self::addConnection('mysql:host='.$host.';dbname='.$dbname.';charset='.$charset, $user, $password, $alias);
+	public static function addConnectionMYSQL(string $host, string $user, string $password, string $dbname, string $charset='utf8', string $alias='default', int $port=3306):bool {
+		return self::addConnection('mysql:host='.$host.';dbname='.$dbname.';charset='.$charset.';port='.$port, $user, $password, $alias);
 	}
 
 	/**

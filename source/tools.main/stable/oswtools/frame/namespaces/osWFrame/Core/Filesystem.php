@@ -24,12 +24,12 @@ class Filesystem {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=3;
+	private const CLASS_MINOR_VERSION=4;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -386,6 +386,16 @@ class Filesystem {
 	 */
 	public static function getFileModTime(string $file, bool $check_configs=false):int {
 		return self::getFilesModTime([$file], $check_configs);
+	}
+
+	/**
+	 * @param string $file
+	 * @param int|null $mtime
+	 * @param int|null $atime
+	 * @return bool
+	 */
+	public static function setFileModTime(string $file, ?int $mtime=null, ?int $atime=null):bool {
+		return touch($file, $mtime, $atime);
 	}
 
 	/**

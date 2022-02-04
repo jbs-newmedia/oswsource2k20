@@ -97,9 +97,6 @@ class Network {
 	public static function sendNoCacheHeader():bool {
 		self::sendHeader("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 		// always modified
-		/*
-		 * ToDo: GMTime
-		 */
 		self::sendHeader("Last-Modified: ".DateTime::convertTimeStamp2GM());
 		// HTTP/1.1
 		self::sendHeader("Cache-Control: no-store, no-cache, must-revalidate");
@@ -150,10 +147,20 @@ class Network {
 	}
 
 	/**
-	 *
 	 * @return string
 	 */
 	public static function getCurrentUrl():string {
+		$server_port=intval($_SERVER['SERVER_PORT']);
+		if ($_SERVER['REQUEST_SCHEME']=='https') {
+			if (($server_port!=Settings::getIntVar('project_ssl_port'))||(Settings::getIntVar('project_ssl_port')!=Settings::getIntVar('settings_ssl_port'))) {
+				return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].':'.$server_port.$_SERVER['REQUEST_URI'];
+			}
+		} elseif ($_SERVER['REQUEST_SCHEME']=='http') {
+			if (($server_port!=Settings::getIntVar('project_port'))||(Settings::getIntVar('project_port')!=Settings::getIntVar('settings_port'))) {
+				return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].':'.$server_port.$_SERVER['REQUEST_URI'];
+			}
+		}
+
 		return $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 	}
 
