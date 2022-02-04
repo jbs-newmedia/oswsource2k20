@@ -24,18 +24,23 @@ class SmartOptimizer {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
 	private const CLASS_EXTRA_VERSION='';
+
+	/**
+	 * @var int
+	 */
+	private static int $ts=0;
 
 	/**
 	 * SmartOptimizer constructor.
@@ -59,6 +64,15 @@ class SmartOptimizer {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param int $ts
+	 * @return int
+	 */
+	public static function setTS(int $ts):int {
+		self::$ts=$ts;
+		return self::$ts;
 	}
 
 	/**
@@ -90,6 +104,7 @@ class SmartOptimizer {
 			Settings::dieScript();
 		}
 		// Dateiliste aus Cachedatei erzeugen
+		$ctime=Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$query_string, false);
 		$files=explode(',', Cache::readCacheAsString(self::getClassName(), $query_string, 0, ''));
 		// Fehlende Dateien ermitteln
 		$missed_files=false;
@@ -173,8 +188,13 @@ class SmartOptimizer {
 			}
 			$mtimestr=DateTime::convertTimeStamp2GM($mtime);
 		}
-		if ((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
-			if (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
+		if ((self::$ts>0)||((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr))) {
+			if (self::$ts>0) {
+				$ct=60*60*24*365;
+				Network::sendHeader('Pragma: public');
+				Network::sendHeader('Cache-Control: max-age='.$ct);
+				Network::sendHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time()+$ct));
+			} elseif (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
 				Network::sendHeader("Last-Modified: ".$mtimestr);
 				Network::sendHeader("Cache-Control: must-revalidate");
 			} else {
@@ -184,7 +204,6 @@ class SmartOptimizer {
 			if ((defined('SID')===true)&&(strlen(SID)>0)) {
 				$session_parameter.='?'.SID;
 			}
-			$generateContent=true;
 			if ($generateContent===true) {
 				$content=[];
 				foreach ($files as $file) {
@@ -314,8 +333,16 @@ class SmartOptimizer {
 			}
 			$mtimestr=DateTime::convertTimeStamp2GM($mtime);
 		}
-		if ((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
-			if (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
+		if ($mtime!=$ctime) {
+			Filesystem::setFileModTime(Cache::getDirName('smartoptimizer').$query_string, $mtime);
+		}
+		if ((self::$ts>0)||((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr))) {
+			if (self::$ts>0) {
+				$ct=60*60*24*365;
+				Network::sendHeader('Pragma: public');
+				Network::sendHeader('Cache-Control: max-age='.$ct);
+				Network::sendHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time()+$ct));
+			} elseif (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
 				Network::sendHeader("Last-Modified: ".$mtimestr);
 				Network::sendHeader("Cache-Control: must-revalidate");
 			} else {
@@ -325,7 +352,6 @@ class SmartOptimizer {
 			if ((defined('SID')===true)&&(strlen(SID)>0)) {
 				$session_parameter.='?'.SID;
 			}
-			$generateContent=true;
 			if ($generateContent===true) {
 				$content=[];
 				$__DIR__='../../';

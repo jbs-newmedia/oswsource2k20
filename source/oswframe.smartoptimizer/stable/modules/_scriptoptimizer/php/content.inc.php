@@ -10,7 +10,11 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
  */
 
-$option=\osWFrame\Core\Settings::catchValue('option', '', 'g');
+$option=\osWFrame\Core\Settings::catchStringGetValue('option');
+$v=\osWFrame\Core\Settings::catchIntGetValue('v');
+if ($v>0) {
+	osWFrame\Core\SmartOptimizer::setTS($v);
+}
 
 switch (strtolower($option)) {
 	case 'single':
