@@ -12,21 +12,31 @@
 
 ?>
 
-<div class="form-group<?php if ($this->getTemplate()->Form()->getErrorMessage($element)): ?> has-error<?php endif ?> ddm_element_<?php echo $this->getSendElementValue($element, 'id') ?>">
+<div class="form-group ddm_element_<?php echo $this->getSendElementValue($element, 'id') ?>">
+
+	<?php /* label */ ?>
 	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementValue($element, 'title')) ?><?php if ($this->getSendElementOption($element, 'required')===true): ?><?php echo $this->getGroupMessage('form_title_required_icon') ?><?php endif ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
-	<?php if ($this->getSearchElementOption($element, 'ishtml')===true): ?>
-		<div class="form-control readonly" style="height:auto;"><?php echo $this->getSendElementOption($element, 'label') ?></div>
-	<?php else: ?>
-		<div class="form-control readonly" style="height:auto;"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'label')) ?></div>
+
+	<?php /* read only */ ?>
+	<div class="form-control readonly">
+		<?php if ($this->getSendElementOption($element, 'ishtml')===true): ?><?php echo $this->getSendElementOption($element, 'label') ?><?php else: ?><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'label')) ?><?php endif ?>
+	</div>
+
+	<?php /* error */ ?>
+	<?php if ($this->getTemplate()->Form()->getErrorMessage($element)!==null): ?>
+		<div class="text-danger small"><?php echo $this->getTemplate()->Form()->getErrorMessage($element) ?></div>
 	<?php endif ?>
-	<?php if ($this->getTemplate()->Form()->getErrorMessage($element)): ?>
-		<span class="help-block"><?php echo $this->getTemplate()->Form()->getErrorMessage($element) ?></span>
-	<?php elseif ($this->getSendElementOption($element, 'notice')!=''): ?>
-		<span class="help-block"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'notice')) ?></span>
+
+	<?php /* notice */ ?>
+	<?php if ($this->getSendElementOption($element, 'notice')!=''): ?>
+		<div class="text-info"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'notice')) ?></div>
 	<?php endif ?>
+
+	<?php /* buttons */ ?>
 	<?php if ($this->getSendElementOption($element, 'buttons')!=''): ?>
-		<div class="button-group">
+		<div>
 			<?php echo implode(' ', $this->getSendElementOption($element, 'buttons')) ?>
 		</div>
 	<?php endif ?>
+
 </div>
