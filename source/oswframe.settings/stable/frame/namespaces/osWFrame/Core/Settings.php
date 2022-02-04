@@ -25,12 +25,12 @@ class Settings {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -65,21 +65,22 @@ class Settings {
 	 * @return bool
 	 */
 	public static function loadDefaultConfigure():bool {
-		self::setStringVar('settings_runmode', 'live');
-		if (file_exists(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.dev.php')) {
-			require_once(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.dev.php');
-			self::addConfigFile(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.dev.php');
-			self::setStringVar('settings_runmode', 'dev');
-
-			return true;
-		} elseif (file_exists(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.php')) {
+		self::setStringVar('settings_runmode', 'none');
+		$load=false;
+		if (file_exists(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.php')) {
 			require_once(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.php');
 			self::addConfigFile(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.php');
-
-			return true;
+			self::setStringVar('settings_runmode', 'live');
+			$load=true;
+		}
+		if (file_exists(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure-dev.php')) {
+			require_once(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure-dev.php');
+			self::addConfigFile(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure-dev.php');
+			self::setStringVar('settings_runmode', 'dev');
+			$load=true;
 		}
 
-		return false;
+		return $load;
 	}
 
 	/**
@@ -94,22 +95,23 @@ class Settings {
 		if ($sub!='') {
 			$file.='.'.$sub;
 		}
-		$file_dev=$file.'-dev.php';
 		$file_prod=$file.'.php';
+		$file_dev=$file.'-dev.php';
+		$load=false;
+
+		if (file_exists($file_prod)) {
+			require_once $file_prod;
+			self::addConfigFile($file_prod);
+			$load=true;
+		}
 		if (file_exists($file_dev)) {
 			self::setStringVar('settings_runmode', 'dev');
 			require_once $file_dev;
 			self::addConfigFile($file_dev);
-
-			return true;
-		} elseif (file_exists($file_prod)) {
-			require_once $file_prod;
-			self::addConfigFile($file_prod);
-
-			return true;
+			$load=true;
 		}
 
-		return false;
+		return $load;
 	}
 
 	/**
