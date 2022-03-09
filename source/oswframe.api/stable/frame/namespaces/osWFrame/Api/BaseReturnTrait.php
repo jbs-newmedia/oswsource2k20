@@ -17,17 +17,17 @@ trait BaseReturnTrait {
 	/**
 	 * @var bool
 	 */
-	private bool $error=false;
+	protected bool $error=false;
 
 	/**
 	 * @var string
 	 */
-	private string $error_message='';
+	protected string $error_message='';
 
 	/**
 	 * @var string
 	 */
-	private string $success_message='';
+	protected string $success_message='';
 
 	/**
 	 * @param bool $error
@@ -42,7 +42,7 @@ trait BaseReturnTrait {
 	/**
 	 * @return bool
 	 */
-	public function getError() {
+	public function getError():bool {
 		return $this->error;
 	}
 

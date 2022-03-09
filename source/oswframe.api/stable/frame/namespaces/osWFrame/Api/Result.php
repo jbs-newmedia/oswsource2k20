@@ -43,7 +43,7 @@ class Result {
 	/**
 	 * @var array
 	 */
-	private array $result=[];
+	protected array $result=[];
 
 	/**
 	 * Result constructor.

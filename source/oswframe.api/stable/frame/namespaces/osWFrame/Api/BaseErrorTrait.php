@@ -17,12 +17,12 @@ trait BaseErrorTrait {
 	/**
 	 * @var bool
 	 */
-	private bool $error=false;
+	protected bool $error=false;
 
 	/**
 	 * @var string
 	 */
-	private string $error_message='';
+	protected string $error_message='';
 
 	/**
 	 * @param bool $error

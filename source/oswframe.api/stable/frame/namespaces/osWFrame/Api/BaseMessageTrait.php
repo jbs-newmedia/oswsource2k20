@@ -17,12 +17,12 @@ trait BaseMessageTrait {
 	/**
 	 * @var bool
 	 */
-	private bool $return_status=false;
+	protected bool $return_status=false;
 
 	/**
 	 * @var string
 	 */
-	private string $return_message='';
+	protected string $return_message='';
 
 	/**
 	 * @param bool $error

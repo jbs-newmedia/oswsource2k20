@@ -31,7 +31,7 @@ class Controller {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,17 +42,17 @@ class Controller {
 	/**
 	 * @var string
 	 */
-	private string $api='';
+	protected string $api='';
 
 	/**
 	 * @var string
 	 */
-	private string $section='';
+	protected string $section='';
 
 	/**
 	 * @var string
 	 */
-	private string $function='';
+	protected string $function='';
 
 	/**
 	 * Controller constructor.
@@ -84,7 +84,7 @@ class Controller {
 	/**
 	 * @return string
 	 */
-	public function getApi() {
+	public function getApi():string {
 		return $this->api;
 	}
 
@@ -101,7 +101,7 @@ class Controller {
 	/**
 	 * @return string
 	 */
-	public function getSection() {
+	public function getSection():string {
 		return $this->section;
 	}
 
@@ -116,9 +116,9 @@ class Controller {
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getFunction() {
+	public function getFunction():string {
 		return $this->function;
 	}
 
