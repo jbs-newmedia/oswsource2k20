@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools;
@@ -317,7 +317,7 @@ class Manager {
 			$configure_output[]=' * @package osWFrame';
 			$configure_output[]=' * @version '.date('YmdHis').' (created by osWTools)';
 			$configure_output[]=' * @link https://oswframe.com';
-			$configure_output[]=' * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3';
+			$configure_output[]=' * @license MIT License';
 			$configure_output[]=' *';
 			$configure_output[]=' */';
 			$configure_output[]='';

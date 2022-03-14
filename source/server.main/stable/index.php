@@ -1,13 +1,13 @@
 <?php
 
 /**
+ * This file is part of the osWFrame package
  *
  * @author Juergen Schwind
- * @copyright Copyright (c), Juergen Schwind
+ * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
- * @link http://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
- *
+ * @link https://oswframe.com
+ * @license MIT License
  */
 
 ######################################################################################################################################################
@@ -15,7 +15,7 @@
 ######################################################################################################################################################
 error_reporting(0);
 
-$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.04', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
+$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.05', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
 
 ######################################################################################################################################################
 # Funktionen

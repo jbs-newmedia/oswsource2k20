@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools;
@@ -101,6 +101,9 @@ class Helper {
 			case 'GNU General Public License':
 			case 'GNU General Public License 3':
 				return str_replace(['<a name="', '<a ', '<a target="_blank" id="'], ['<a id="', '<a target="_blank" ', '<a id="'], file_get_contents(Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'license'.DIRECTORY_SEPARATOR.'gpl-3.0.html'));
+				break;
+			case 'MIT License':
+				return file_get_contents(Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'license'.DIRECTORY_SEPARATOR.'mit.html');
 				break;
 			default:
 				return 'license ('.$license.') not found';
