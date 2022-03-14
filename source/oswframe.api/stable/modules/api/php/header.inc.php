@@ -12,5 +12,6 @@
 
 \osWFrame\Core\Settings::setStringVar('frame_default_engine', 'api');
 \osWFrame\Core\Settings::setStringVar('frame_default_output', 'api');
+\osWFrame\Core\Settings::setBoolVar('session_enabled', false);
 
 ?>
