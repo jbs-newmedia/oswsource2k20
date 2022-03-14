@@ -29,7 +29,7 @@ class Database {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -633,11 +633,11 @@ class Database {
 	}
 
 	/**
-	 * @param int $runtime
+	 * @param float $runtime
 	 * @param string $query
 	 * @return bool
 	 */
-	public function checkSlowQuery(int $runtime, string $query):bool {
+	public function checkSlowQuery(float $runtime, string $query):bool {
 		if ($runtime>Settings::getFloatVar('database_slowruntime')) {
 			MessageStack::addMessage(self::getNameAsString(), 'slowruntime', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'runtime'=>$runtime, 'query'=>$query]);
 

@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -156,6 +156,10 @@ class Filesystem {
 			$mod=Settings::getIntVar('settings_chmod_file');
 		}
 
+		if (self::existsFile($filename)!==true) {
+			return false;
+		}
+
 		return chmod($filename, $mod);
 	}
 
@@ -169,6 +173,10 @@ class Filesystem {
 	public static function changeDirmode(string $dirname, int $mod=0):bool {
 		if ($mod==0) {
 			$mod=Settings::getIntVar('settings_chmod_dir');
+		}
+
+		if (self::isDir($dirname)!==true) {
+			return false;
 		}
 
 		return chmod($dirname, $mod);
