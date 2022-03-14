@@ -29,7 +29,7 @@ class DB {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -65,8 +65,7 @@ class DB {
 			try {
 				self::$connections[$alias]['con']=new \PDO(self::$connections[$alias]['dns'], self::$connections[$alias]['user'], self::$connections[$alias]['password']);
 			} catch (\PDOException $e) {
-				/* TODO: Message */
-				echo 'Connection failed: '.$e->getMessage();
+				MessageStack::addMessage(self::getNameAsString(), 'connection', ['time'=>time(), 'code_code'=>$e->getCode(), 'error_message'=>$e->getMessage(), 'error_file'=>$e->getFile(), 'error_line'=>$e->getLine()]);
 
 				return false;
 			}
