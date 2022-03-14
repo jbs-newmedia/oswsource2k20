@@ -21,7 +21,7 @@ if (file_exists($file)) {
 	require_once $file;
 } else {
 	$osW_Result->setError(true);
-	$osW_Result->setErrorMessage('Api not found. ('.$osW_Controller->getApi().' - '.$osW_Controller->getSection().' - '.$osW_Controller->getFunction().')');
+	$osW_Result->setErrorMessage('Api not found. (- API: '.$osW_Controller->getApi('undefined').' -|- SECTION: '.$osW_Controller->getSection('undefined').' -|- FUNCTION: '.$osW_Controller->getFunction('undefined').' -)');
 }
 
 ?>

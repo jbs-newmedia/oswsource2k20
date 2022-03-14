@@ -26,12 +26,12 @@ class Controller {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -82,9 +82,13 @@ class Controller {
 	}
 
 	/**
+	 * @param string $default
 	 * @return string
 	 */
-	public function getApi():string {
+	public function getApi(string $default='') {
+		if ($this->api=='') {
+			return $default;
+		}
 		return $this->api;
 	}
 
@@ -99,9 +103,13 @@ class Controller {
 	}
 
 	/**
+	 * @param string $default
 	 * @return string
 	 */
-	public function getSection():string {
+	public function getSection(string $default='') {
+		if ($this->section=='') {
+			return $default;
+		}
 		return $this->section;
 	}
 
@@ -116,9 +124,14 @@ class Controller {
 	}
 
 	/**
+	 * @param string $default
 	 * @return string
 	 */
-	public function getFunction():string {
+	public function getFunction(string $default='') {
+		if ($this->function=='') {
+			return $default;
+		}
+
 		return $this->function;
 	}
 
