@@ -19,7 +19,7 @@ trait BaseVarStaticTrait {
 	 *
 	 * @var array|null
 	 */
-	private static ?array $vars=null;
+	protected static ?array $vars=null;
 
 	/**
 	 * @return bool
@@ -234,6 +234,20 @@ trait BaseVarStaticTrait {
 				return null;
 				break;
 		}
+	}
+
+	/**
+	 * @param array|null $vars
+	 */
+	public static function setVars(?array $vars):void {
+		self::$vars=$vars;
+	}
+
+	/**
+	 * @return array|null
+	 */
+	public static function getVars():?array {
+		return self::$vars;
 	}
 
 }

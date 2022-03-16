@@ -19,7 +19,7 @@ trait BaseVarTrait {
 	 *
 	 * @var array|null
 	 */
-	private ?array $vars=null;
+	protected ?array $vars=null;
 
 	/**
 	 * @return bool
@@ -258,6 +258,20 @@ trait BaseVarTrait {
 				return null;
 				break;
 		}
+	}
+
+	/**
+	 * @param array|null $vars
+	 */
+	public function setVars(?array $vars):void {
+		$this->vars=$vars;
+	}
+
+	/**
+	 * @return array|null
+	 */
+	public function getVars():?array {
+		return $this->vars;
 	}
 
 }

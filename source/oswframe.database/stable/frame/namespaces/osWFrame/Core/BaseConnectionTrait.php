@@ -17,7 +17,14 @@ trait BaseConnectionTrait {
 	/**
 	 * @var array|null
 	 */
-	private static ?array $connection=null;
+	protected static ?array $connection=null;
+
+	/**
+	 * @param array|null $connection
+	 */
+	public static function setConnection(?array $connection):void {
+		self::$connection=$connection;
+	}
 
 	/**
 	 * @param string $alias

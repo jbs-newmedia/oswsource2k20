@@ -19,14 +19,14 @@ trait BaseTemplateTrait {
 	 *
 	 * @var array
 	 */
-	public array $template_files=[];
+	protected array $template_files=[];
 
 	/**
 	 * Speichert alle benötigten Dateien.
 	 *
 	 * @var array
 	 */
-	public array $template_codes=[];
+	protected array $template_codes=[];
 
 	/**
 	 *
@@ -175,11 +175,17 @@ trait BaseTemplateTrait {
 	}
 
 	/**
-	 *
-	 * @return array
+	 * @return void
 	 */
-	public function clearTemplateFiles():array {
+	public function clearTemplateFiles():void {
 		$this->template_files=[];
+	}
+
+	/**
+	 * @param array $template_files
+	 */
+	public function setTemplateFiles(array $template_files):void {
+		$this->template_files=$template_files;
 	}
 
 	/**
@@ -281,11 +287,17 @@ trait BaseTemplateTrait {
 	}
 
 	/**
-	 *
-	 * @return array
+	 * @return void
 	 */
-	public function clearTemplateCodes():array {
+	public function clearTemplateCodes():void {
 		$this->template_codes=[];
+	}
+
+	/**
+	 * @param array $template_codes
+	 */
+	public function setTemplateCodes(array $template_codes):void {
+		$this->template_codes=$template_codes;
 	}
 
 	/**
