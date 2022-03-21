@@ -17,7 +17,7 @@ trait BaseTemplateBridgeTrait {
 	/**
 	 * @var Template|null
 	 */
-	public ?Template $obj_Template=null;
+	protected ?Template $obj_Template=null;
 
 	/**
 	 * Fügt das Objekt dem Template hinzu und arbeitet über Referenzen.

@@ -19,14 +19,14 @@ trait BaseTemplateTrait {
 	 *
 	 * @var array
 	 */
-	public array $template_files=[];
+	protected array $template_files=[];
 
 	/**
 	 * Speichert alle benötigten Dateien.
 	 *
 	 * @var array
 	 */
-	public array $template_codes=[];
+	protected array $template_codes=[];
 
 	/**
 	 *

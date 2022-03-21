@@ -29,7 +29,7 @@ class Session {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,27 +40,27 @@ class Session {
 	/**
 	 * @var bool
 	 */
-	private static bool $issessionstarted=false;
+	protected static bool $issessionstarted=false;
 
 	/**
 	 * @var bool
 	 */
-	private static bool $isnewsession=false;
+	protected static bool $isnewsession=false;
 
 	/**
 	 * @var string
 	 */
-	private static string $sessionip='';
+	protected static string $sessionip='';
 
 	/**
 	 * @var string
 	 */
-	private static string $useragent='';
+	protected static string $useragent='';
 
 	/**
 	 * @var bool
 	 */
-	private static bool $iscrawler=false;
+	protected static bool $iscrawler=false;
 
 	/**
 	 * Session constructor.
@@ -110,7 +110,7 @@ class Session {
 	 * @param string $name
 	 * @return bool
 	 */
-	private static function setSessionName(string $name=''):bool {
+	protected static function setSessionName(string $name=''):bool {
 		if ($name=='') {
 			$name=Settings::getStringVar('session_name');
 		}
@@ -132,7 +132,7 @@ class Session {
 	 * @param string $useragent
 	 * @return bool
 	 */
-	private static function setSessionUA(string $useragent=''):bool {
+	protected static function setSessionUA(string $useragent=''):bool {
 		if ($useragent=='') {
 			$useragent=Misc::getUserAgent();
 		}
@@ -154,7 +154,7 @@ class Session {
 	 * @param string $ip
 	 * @return bool
 	 */
-	private static function setSessionIP(string $ip=''):bool {
+	protected static function setSessionIP(string $ip=''):bool {
 		if ($ip=='') {
 			$ip=Network::getIPAddress();
 		}
@@ -243,7 +243,7 @@ class Session {
 	 *
 	 * @return bool
 	 */
-	private static function startSession():bool {
+	protected static function startSession():bool {
 		if (session_start()) {
 			if (!isset($_SESSION['sessionstart'])) {
 				session_regenerate_id(true);
@@ -261,7 +261,7 @@ class Session {
 	 *
 	 * @return bool
 	 */
-	private static function startNewSession():bool {
+	protected static function startNewSession():bool {
 		$time=time();
 		self::setNullSession();
 		self::setNewSession(true);
@@ -278,7 +278,7 @@ class Session {
 	 * @param bool $value
 	 * @return bool
 	 */
-	private static function setNewSession(bool $value):bool {
+	protected static function setNewSession(bool $value):bool {
 		if ($value===true) {
 			self::$isnewsession=true;
 		} else {
@@ -315,7 +315,7 @@ class Session {
 	 * @param bool $value
 	 * @return bool
 	 */
-	private static function setSessionStarted(bool $value):bool {
+	protected static function setSessionStarted(bool $value):bool {
 		if ($value===true) {
 			self::$issessionstarted=true;
 		} else {
@@ -341,7 +341,7 @@ class Session {
 	 *
 	 * @return bool
 	 */
-	private static function verifySession():bool {
+	protected static function verifySession():bool {
 		if (self::getIntVar('sessionlastcheck')<(time()-Settings::getIntVar('session_lifetime'))) {
 			return false;
 		}
@@ -556,7 +556,7 @@ class Session {
 	 *
 	 * @param bool $iscrawler
 	 */
-	private static function setIsCrawler(bool $iscrawler=null):bool {
+	protected static function setIsCrawler(bool $iscrawler=null):bool {
 		if ($iscrawler=='') {
 			$iscrawler=Misc::checkCrawler();
 		}

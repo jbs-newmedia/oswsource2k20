@@ -17,7 +17,7 @@ trait BaseConnectionTrait {
 	/**
 	 * @var array|null
 	 */
-	private static ?array $connection=null;
+	protected static ?array $connection=null;
 
 	/**
 	 * @param string $alias

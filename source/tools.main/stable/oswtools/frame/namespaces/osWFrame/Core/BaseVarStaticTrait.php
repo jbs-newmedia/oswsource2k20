@@ -19,7 +19,7 @@ trait BaseVarStaticTrait {
 	 *
 	 * @var array|null
 	 */
-	private static ?array $vars=null;
+	protected static ?array $vars=null;
 
 	/**
 	 * @return bool

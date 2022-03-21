@@ -29,7 +29,7 @@ class Cache {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -235,7 +235,7 @@ class Cache {
 	 * @param string $extension
 	 * @return string|null
 	 */
-	private static function readCache(string $module, string $file, int $expire=0, string $extension='.cache'):?string {
+	protected static function readCache(string $module, string $file, int $expire=0, string $extension='.cache'):?string {
 		$filename=self::getFileName($module, $file, $extension);
 		if (file_exists($filename)) {
 			if (($expire==0)||(filemtime($filename)>=(time()-$expire))) {

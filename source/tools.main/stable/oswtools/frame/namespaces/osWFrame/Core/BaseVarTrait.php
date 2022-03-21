@@ -19,7 +19,7 @@ trait BaseVarTrait {
 	 *
 	 * @var array|null
 	 */
-	private ?array $vars=null;
+	protected ?array $vars=null;
 
 	/**
 	 * @return bool
