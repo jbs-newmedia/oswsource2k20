@@ -260,20 +260,6 @@ trait BaseVarTrait {
 		}
 	}
 
-	/**
-	 * @param array|null $vars
-	 */
-	public function setVars(?array $vars):void {
-		$this->vars=$vars;
-	}
-
-	/**
-	 * @return array|null
-	 */
-	public function getVars():?array {
-		return $this->vars;
-	}
-
 }
 
 ?>

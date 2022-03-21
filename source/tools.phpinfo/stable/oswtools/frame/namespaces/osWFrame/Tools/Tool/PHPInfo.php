@@ -31,7 +31,7 @@ class PHPInfo extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,7 +42,7 @@ class PHPInfo extends CoreTool {
 	/**
 	 * @var string
 	 */
-	private string $phpinfo='';
+	protected string $phpinfo='';
 
 	/**
 	 * PHPInfo constructor.

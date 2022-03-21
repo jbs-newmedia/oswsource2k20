@@ -30,7 +30,7 @@ class Settings {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,14 +43,14 @@ class Settings {
 	 *
 	 * @var string
 	 */
-	private static string $action='';
+	protected static string $action='';
 
 	/**
 	 * Array zum Speichern der Config-Dateien.
 	 *
 	 * @var array
 	 */
-	private static array $config_files=[];
+	protected static array $config_files=[];
 
 	/**
 	 * Settings constructor.
@@ -202,7 +202,7 @@ class Settings {
 	 * @param array $array
 	 * @return bool
 	 */
-	private static function stripMagicQuotes(array $array):bool {
+	protected static function stripMagicQuotes(array $array):bool {
 		if (!is_array($array)||(sizeof($array)<1)) {
 			return false;
 		}

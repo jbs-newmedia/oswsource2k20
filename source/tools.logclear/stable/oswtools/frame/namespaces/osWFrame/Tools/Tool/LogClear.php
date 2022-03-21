@@ -31,7 +31,7 @@ class LogClear extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,7 +42,7 @@ class LogClear extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $dir_list=[];
+	protected array $dir_list=[];
 
 	/**
 	 * LogClear constructor.
@@ -57,9 +57,9 @@ class LogClear extends CoreTool {
 
 	/**
 	 * @param string $dir
-	 * @return array
+	 * @return $this
 	 */
-	public function readLogList(string $dir):object {
+	public function readLogList(string $dir):self {
 		$this->dir_list=[];
 
 		if (Frame\Filesystem::isDir($dir)) {

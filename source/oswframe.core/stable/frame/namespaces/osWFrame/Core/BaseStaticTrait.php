@@ -46,7 +46,6 @@ trait BaseStaticTrait {
 		if ($class=='') {
 			$class=__CLASS__;
 		}
-
 		return str_replace($namespace.'\\', '', $class);
 	}
 
@@ -60,9 +59,10 @@ trait BaseStaticTrait {
 		if ($class=='') {
 			$class=__CLASS__;
 		}
-
 		return str_replace('\\', '_', $class);
 	}
+
+
 
 }
 

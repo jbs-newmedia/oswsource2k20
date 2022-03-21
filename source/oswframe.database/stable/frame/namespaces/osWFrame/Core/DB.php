@@ -29,7 +29,7 @@ class DB {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,7 +42,7 @@ class DB {
 	 *
 	 * @var array
 	 */
-	public static array $connections=[];
+	protected static array $connections=[];
 
 	/**
 	 * DB constructor.

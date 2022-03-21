@@ -32,7 +32,7 @@ class Main extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,22 +43,22 @@ class Main extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $tools_local=[];
+	protected array $tools_local=[];
 
 	/**
 	 * @var array
 	 */
-	private array $tools=[];
+	protected array $tools=[];
 
 	/**
 	 * @var array
 	 */
-	private array $htusers=[];
+	protected array $htusers=[];
 
 	/**
 	 * @var object|Tools\Manager|null
 	 */
-	private ?object $Manager=null;
+	protected ?object $Manager=null;
 
 	/**
 	 * CacheClear constructor.
@@ -74,9 +74,9 @@ class Main extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function scanLocalTools():object {
+	public function scanLocalTools():self {
 		if ($this->tools_local===[]) {
 			$path=Frame\Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR;
 			foreach (scandir($path) as $node) {
@@ -134,9 +134,9 @@ class Main extends CoreTool {
 	}
 
 	/**
-	 * @return array
+	 * @return $this
 	 */
-	public function loadHTUsers():object {
+	public function loadHTUsers():self {
 		$htpasswd_file=Frame\Settings::getStringVar('settings_abspath').'.htpasswd';
 
 		$this->htusers=[];
@@ -172,9 +172,9 @@ class Main extends CoreTool {
 
 	/**
 	 * @param array $users
-	 * @return object
+	 * @return $this
 	 */
-	public function removeHTUsers(array $users):object {
+	public function removeHTUsers(array $users):self {
 		if ($this->htusers==[]) {
 			$this->loadHTUsers();
 		}
@@ -193,9 +193,9 @@ class Main extends CoreTool {
 	/**
 	 * @param string $username
 	 * @param string $password
-	 * @return object
+	 * @return $this
 	 */
-	public function addHTUser(string $username, string $password):object {
+	public function addHTUser(string $username, string $password):self {
 		if ($this->htusers==[]) {
 			$this->loadHTUsers();
 		}
@@ -205,9 +205,9 @@ class Main extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function writeHTAccess():object {
+	public function writeHTAccess():self {
 		$file_ht=\osWFrame\Core\Settings::getStringVar('settings_abspath').'.htaccess';
 		$file_pw=\osWFrame\Core\Settings::getStringVar('settings_abspath').'.htpasswd';
 		if (Frame\Filesystem::existsFile($file_ht)) {
@@ -234,9 +234,9 @@ class Main extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function checkHTAccess():object {
+	public function checkHTAccess():self {
 		$file_ht=\osWFrame\Core\Settings::getStringVar('settings_abspath').'.htaccess';
 		if (Frame\Filesystem::getFileModTime($file_ht)<Frame\Filesystem::getFileModTime(__FILE__)) {
 			if (Frame\Filesystem::existsFile($file_ht)!==true) {

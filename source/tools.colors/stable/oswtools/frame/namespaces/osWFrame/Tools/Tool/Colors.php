@@ -31,7 +31,7 @@ class Colors extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,12 +42,12 @@ class Colors extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $colors=[];
+	protected array $colors=[];
 
 	/**
 	 * @var string
 	 */
-	private string $color='';
+	protected string $color='';
 
 	/**
 	 * CacheClear constructor.
@@ -70,9 +70,9 @@ class Colors extends CoreTool {
 
 	/**
 	 * @param string $color
-	 * @return object
+	 * @return $this
 	 */
-	public function setColor(string $color):object {
+	public function setColor(string $color):self {
 		if (!isset($this->colors[$color])) {
 			$this->color='hex';
 		} else {

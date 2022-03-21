@@ -236,20 +236,6 @@ trait BaseVarStaticTrait {
 		}
 	}
 
-	/**
-	 * @param array|null $vars
-	 */
-	public static function setVars(?array $vars):void {
-		self::$vars=$vars;
-	}
-
-	/**
-	 * @return array|null
-	 */
-	public static function getVars():?array {
-		return self::$vars;
-	}
-
 }
 
 ?>

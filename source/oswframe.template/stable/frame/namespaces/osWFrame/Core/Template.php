@@ -30,7 +30,7 @@ class Template {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -41,42 +41,42 @@ class Template {
 	/**
 	 * @var array
 	 */
-	private array $textarea_matches=[];
+	protected array $textarea_matches=[];
 
 	/**
 	 * @var int
 	 */
-	private int $textarea_counter=0;
+	protected int $textarea_counter=0;
 
 	/**
 	 * @var array
 	 */
-	private array $vars=[];
+	protected array $vars=[];
 
 	/**
 	 * @var array
 	 */
-	private array $conf=[];
+	protected array $conf=[];
 
 	/**
 	 * @var array
 	 */
-	private array $loader=[];
+	protected array $loader=[];
 
 	/**
 	 * @var array
 	 */
-	private array $tags=[];
+	protected array $tags=[];
 
 	/**
 	 * @var array
 	 */
-	private array $codes=[];
+	protected array $codes=[];
 
 	/**
 	 * @var array
 	 */
-	private array $forms=[];
+	protected array $forms=[];
 
 	/**
 	 * Template constructor.
@@ -110,7 +110,7 @@ class Template {
 	 * @param array $matches
 	 * @return string
 	 */
-	private function callback_marktextarea(array $matches):string {
+	protected function callback_marktextarea(array $matches):string {
 		$this->textarea_matches[]=$matches[0];
 
 		return '<<<OSW_STRIP_REPLACE_TEXTAREA_MARKER_'.$this->textarea_counter++.'>>>';
@@ -257,7 +257,7 @@ class Template {
 	 * @param string $module
 	 * @return string
 	 */
-	private function getModuleByShort($module='project'):string {
+	protected function getModuleByShort($module='project'):string {
 		if ($module=='project') {
 			return Settings::getStringVar('project_default_module');
 		} elseif ($module=='default') {
@@ -432,7 +432,7 @@ class Template {
 	 * @param string $pos
 	 * @return string
 	 */
-	private function outputTags(string $pos):string {
+	protected function outputTags(string $pos):string {
 		if (!isset($this->tags[$pos])) {
 			return '';
 		}
@@ -450,7 +450,7 @@ class Template {
 	 * @param array $tag
 	 * @return string
 	 */
-	private function buildTag(array $tag):string {
+	protected function buildTag(array $tag):string {
 		if ($tag['string']===true) {
 			return '<'.$tag['tag'].'>'.$tag['attributes'].'</'.$tag['tag'].'>';
 		} else {
@@ -486,7 +486,7 @@ class Template {
 	 * @param string $pos
 	 * @return string
 	 */
-	private function outputCodes(string $pos):string {
+	protected function outputCodes(string $pos):string {
 		if (!isset($this->codes[$pos])) {
 			return '';
 		}
@@ -503,7 +503,7 @@ class Template {
 	 * @param array $attributes
 	 * @return string
 	 */
-	private function buildAttributes(array $attributes):string {
+	protected function buildAttributes(array $attributes):string {
 		$result=[];
 		foreach ($attributes as $key=>$value) {
 			$result[]=$key.'="'.$value.'"';
@@ -572,7 +572,7 @@ class Template {
 	 * @param string $type
 	 * @return array
 	 */
-	private function getTemplateFiles(string $pos='', string $type=''):array {
+	protected function getTemplateFiles(string $pos='', string $type=''):array {
 		if ((isset($this->template_files[$pos]))&&(isset($this->template_files[$pos][$type]))) {
 			return $this->template_files[$pos][$type];
 		}
@@ -586,7 +586,7 @@ class Template {
 	 * @param string $type
 	 * @return array
 	 */
-	private function getTemplateCodes(string $pos='', string $type=''):array {
+	protected function getTemplateCodes(string $pos='', string $type=''):array {
 		if ((isset($this->template_codes[$pos]))&&(isset($this->template_codes[$pos][$type]))) {
 			return $this->template_codes[$pos][$type];
 		}
@@ -598,7 +598,7 @@ class Template {
 	 *
 	 * @return bool
 	 */
-	private function getJSFiles(string $pos):bool {
+	protected function getJSFiles(string $pos):bool {
 		if ($this->getTemplateFiles($pos, 'js')!=[]) {
 			if (Settings::getBoolVar('smartoptimizer_combine_files')===true) {
 				$str=implode(',', $this->getTemplateFiles($pos, 'js'));
@@ -646,7 +646,7 @@ class Template {
 	 * @param string $pos
 	 * @return bool
 	 */
-	private function getCSSFiles(string $pos):bool {
+	protected function getCSSFiles(string $pos):bool {
 		if ($this->getTemplateFiles($pos, 'css')!=[]) {
 			if (Settings::getBoolVar('smartoptimizer_combine_files')===true) {
 				$str=implode(',', $this->getTemplateFiles($pos, 'css'));
@@ -694,7 +694,7 @@ class Template {
 	 * @param string $pos
 	 * @return bool
 	 */
-	private function getJSCodes(string $pos):bool {
+	protected function getJSCodes(string $pos):bool {
 		$codes=[];
 		if ($this->getTemplateCodes($pos, 'js')!=[]) {
 			foreach ($this->getTemplateCodes($pos, 'js') as $code) {
@@ -716,7 +716,7 @@ class Template {
 	 * @param string $pos
 	 * @return bool
 	 */
-	private function getCSSCodes(string $pos):bool {
+	protected function getCSSCodes(string $pos):bool {
 		$codes=[];
 		if ($this->getTemplateCodes($pos, 'css')!=[]) {
 			foreach ($this->getTemplateCodes($pos, 'css') as $code) {

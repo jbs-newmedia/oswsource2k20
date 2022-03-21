@@ -20,12 +20,12 @@ trait BaseSettingsTrait {
 	/**
 	 * @var array|null
 	 */
-	private ?array $settings=null;
+	protected ?array $settings=null;
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function initSettings():object {
+	public function initSettings():self {
 		if ($this->settings===null) {
 			$this->clearSettings();
 		}
@@ -34,9 +34,9 @@ trait BaseSettingsTrait {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function loadSettings():object {
+	public function loadSettings():self {
 		$this->initSettings();
 		$file=Frame\Settings::getStringVar('settings_framepath').'oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR.$this->getServerlist().'-'.$this->getPackage().'-'.$this->getRelease().'.json';
 		if (Frame\Filesystem::isFile($file)) {
@@ -47,9 +47,9 @@ trait BaseSettingsTrait {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function writeSettings():object {
+	public function writeSettings():self {
 		if ($this->settings!==null) {
 			$dir=Frame\Settings::getStringVar('settings_framepath').'oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR;
 			if (Frame\Filesystem::isDir($dir)!==true) {
@@ -64,18 +64,18 @@ trait BaseSettingsTrait {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function resetSettings():object {
+	public function resetSettings():self {
 		$this->settings=null;
 
 		return $this;
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function clearSettings():object {
+	public function clearSettings():self {
 		$this->settings=[];
 
 		return $this;
@@ -95,9 +95,9 @@ trait BaseSettingsTrait {
 	/**
 	 * @param string $name
 	 * @param bool $value
-	 * @return object
+	 * @return $this
 	 */
-	public function setBoolSetting(string $name, bool $value):object {
+	public function setBoolSetting(string $name, bool $value):self {
 		$this->initSettings();
 		$this->settings[$name]=$value;
 
@@ -107,9 +107,9 @@ trait BaseSettingsTrait {
 	/**
 	 * @param string $name
 	 * @param string $value
-	 * @return object
+	 * @return $this
 	 */
-	public function setStringSetting(string $name, string $value):object {
+	public function setStringSetting(string $name, string $value):self {
 		$this->initSettings();
 		$this->settings[$name]=$value;
 
@@ -119,9 +119,9 @@ trait BaseSettingsTrait {
 	/**
 	 * @param string $name
 	 * @param int $value
-	 * @return object
+	 * @return $this
 	 */
-	public function setIntSetting(string $name, int $value):object {
+	public function setIntSetting(string $name, int $value):self {
 		$this->initSettings();
 		$this->settings[$name]=$value;
 
@@ -131,9 +131,9 @@ trait BaseSettingsTrait {
 	/**
 	 * @param string $name
 	 * @param float $value
-	 * @return object
+	 * @return $this
 	 */
-	public function setFloatSetting(string $name, float $value):object {
+	public function setFloatSetting(string $name, float $value):self {
 		$this->initSettings();
 		$this->settings[$name]=$value;
 
@@ -143,9 +143,9 @@ trait BaseSettingsTrait {
 	/**
 	 * @param string $name
 	 * @param array $value
-	 * @return object
+	 * @return $this
 	 */
-	public function setArraySetting(string $name, array $value):object {
+	public function setArraySetting(string $name, array $value):self {
 		$this->initSettings();
 		$this->settings[$name]=$value;
 

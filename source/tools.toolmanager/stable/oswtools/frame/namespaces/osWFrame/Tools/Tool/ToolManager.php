@@ -32,7 +32,7 @@ class ToolManager extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,27 +43,27 @@ class ToolManager extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $tools_local=[];
+	protected array $tools_local=[];
 
 	/**
 	 * @var array
 	 */
-	private array $tools=[];
+	protected array $tools=[];
 
 	/**
 	 * @var array
 	 */
-	private array $server_list=[];
+	protected array $server_list=[];
 
 	/**
 	 * @var string
 	 */
-	private string $sl='';
+	protected string $sl='';
 
 	/**
 	 * @var object|Tools\Manager|null
 	 */
-	private ?object $Manager=null;
+	protected ?object $Manager=null;
 
 	/**
 	 * ToolsManager constructor.
@@ -78,9 +78,9 @@ class ToolManager extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function scanLocalTools():object {
+	public function scanLocalTools():self {
 		if ($this->tools_local===[]) {
 			$path=Frame\Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR;
 			foreach (scandir($path) as $node) {
@@ -103,9 +103,9 @@ class ToolManager extends CoreTool {
 	}
 
 	/**
-	 * @return array
+	 * @return $this
 	 */
-	public function loadTools():object {
+	public function loadTools():self {
 		if ($this->tools==[]) {
 			$tools=self::getLocalTools();
 			$this->Manager->setKeys(['tool'])->getServerPackageList()->checkPackageList();
@@ -154,9 +154,9 @@ class ToolManager extends CoreTool {
 
 	/**
 	 * @param string $sl
-	 * @return object
+	 * @return $this
 	 */
-	public function setSL(string $sl):object {
+	public function setSL(string $sl):self {
 		if (!isset($this->server_list[$sl])) {
 			$sl='';
 		}

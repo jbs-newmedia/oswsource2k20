@@ -29,7 +29,7 @@ class Mail {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,37 +40,37 @@ class Mail {
 	/**
 	 * @var string
 	 */
-	private string $from='';
+	protected string $from='';
 
 	/**
 	 * @var string
 	 */
-	private string $replyto='';
+	protected string $replyto='';
 
 	/**
 	 * @var array
 	 */
-	private array $to=[];
+	protected array $to=[];
 
 	/**
 	 * @var array
 	 */
-	private array $cc=[];
+	protected array $cc=[];
 
 	/**
 	 * @var array
 	 */
-	private array $bcc=[];
+	protected array $bcc=[];
 
 	/**
 	 * @var string
 	 */
-	private string $subject='';
+	protected string $subject='';
 
 	/**
 	 * @var string
 	 */
-	private string $message='';
+	protected string $message='';
 
 	/**
 	 * Mail constructor.
@@ -187,7 +187,7 @@ class Mail {
 	 * @param string $name
 	 * @return string
 	 */
-	private function makeAddress(string $address, string $name=''):string {
+	protected function makeAddress(string $address, string $name=''):string {
 		$name=$this->clearName($name);
 		if (strlen($name)==0) {
 			return $address;

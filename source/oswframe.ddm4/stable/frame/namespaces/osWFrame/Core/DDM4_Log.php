@@ -29,7 +29,7 @@ class DDM4_Log {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,7 +40,7 @@ class DDM4_Log {
 	/**
 	 * @var array
 	 */
-	private static array $elements=[];
+	protected static array $elements=[];
 
 	/**
 	 * DDM4_Log constructor.

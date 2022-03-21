@@ -175,17 +175,11 @@ trait BaseTemplateTrait {
 	}
 
 	/**
-	 * @return void
+	 *
+	 * @return array
 	 */
-	public function clearTemplateFiles():void {
+	public function clearTemplateFiles():array {
 		$this->template_files=[];
-	}
-
-	/**
-	 * @param array $template_files
-	 */
-	public function setTemplateFiles(array $template_files):void {
-		$this->template_files=$template_files;
 	}
 
 	/**
@@ -287,17 +281,11 @@ trait BaseTemplateTrait {
 	}
 
 	/**
-	 * @return void
+	 *
+	 * @return array
 	 */
-	public function clearTemplateCodes():void {
+	public function clearTemplateCodes():array {
 		$this->template_codes=[];
-	}
-
-	/**
-	 * @param array $template_codes
-	 */
-	public function setTemplateCodes(array $template_codes):void {
-		$this->template_codes=$template_codes;
 	}
 
 	/**

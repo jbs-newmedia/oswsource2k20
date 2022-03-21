@@ -20,36 +20,21 @@ trait BaseTemplateBridgeTrait {
 	protected ?Template $obj_Template=null;
 
 	/**
-	 * Alias für setObjTemplate.
-	 *
-	 * @param Template|null $obj_Template
-	 */
-	public function setTemplate(?Template $obj_Template):void {
-		$this->setObjTemplate($obj_Template);
-	}
-
-	/**
 	 * Fügt das Objekt dem Template hinzu und arbeitet über Referenzen.
 	 *
-	 * @param Template|null $obj_Template
+	 * @param Template $obj_Template
+	 * @return bool
 	 */
-	public function setObjTemplate(?Template $obj_Template):void {
+	public function setTemplate(Template $obj_Template):bool {
 		$this->obj_Template=$obj_Template;
+
+		return true;
 	}
 
 	/**
-	 * Alias für getObjTemplate.
-	 *
 	 * @return Template|null
 	 */
 	public function getTemplate():?Template {
-		return $this->getObjTemplate();
-	}
-
-	/**
-	 * @return Template|null
-	 */
-	public function getObjTemplate():?Template {
 		return $this->obj_Template;
 	}
 

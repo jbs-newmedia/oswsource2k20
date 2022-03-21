@@ -38,19 +38,19 @@ class Navigation {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
+	 * Navigation constructor.
+	 */
+	private function __construct() {
+
+	}
+
+	/**
 	 *
 	 * @param string $name
 	 * @return string
 	 */
 	public static function getModuleByName(string $name):string {
 		return Language::getNameModule($name);
-	}
-
-	/**
-	 * Navigation constructor.
-	 */
-	private function __construct() {
-
 	}
 
 	/**

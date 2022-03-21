@@ -29,7 +29,7 @@ class ImageOptimizer {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,12 +40,12 @@ class ImageOptimizer {
 	/**
 	 * @var array
 	 */
-	private array $options=[];
+	protected array $options=[];
 
 	/**
 	 * @var array
 	 */
-	private array $valid_options=[];
+	protected array $valid_options=[];
 
 	/**
 	 * ImageOptimizer constructor.
@@ -57,7 +57,7 @@ class ImageOptimizer {
 	/**
 	 * @return bool
 	 */
-	private function setValidOptions():bool {
+	protected function setValidOptions():bool {
 		$this->valid_options=['longest', 'width', 'height', 'quality', 'scale', 'cropr', 'croprr', 'crops', 'cropsr', 'ps', 'transparent', 'border', 'ts'];
 
 		return true;
@@ -139,7 +139,7 @@ class ImageOptimizer {
 	 * @param array $options
 	 * @return string
 	 */
-	private function createOptionsAsString(array $options) {
+	protected function createOptionsAsString(array $options) {
 		$str=[];
 		foreach ($options as $key=>$value) {
 			$str[]=$key.'_'.$value;
@@ -169,7 +169,7 @@ class ImageOptimizer {
 	 * @param string $protection_salt
 	 * @return bool
 	 */
-	private function validatePS(string $filename, array $options, string $ps, string $protection_salt=''):bool {
+	protected function validatePS(string $filename, array $options, string $ps, string $protection_salt=''):bool {
 		if ($protection_salt=='') {
 			$protection_salt=Settings::getStringVar('settings_protection_salt');
 		}
@@ -189,7 +189,7 @@ class ImageOptimizer {
 	 * @param string $protection_salt
 	 * @return string
 	 */
-	private function createPS(string $filename, array $options, string $protection_salt):string {
+	protected function createPS(string $filename, array $options, string $protection_salt):string {
 		return substr(md5($filename.'#'.$this->createOptionsAsString($options).'#'.$protection_salt), 3, 6);
 	}
 
@@ -198,7 +198,7 @@ class ImageOptimizer {
 	 * @param array $options
 	 * @return string
 	 */
-	private function getImageContent(string $file, array $options):string {
+	protected function getImageContent(string $file, array $options):string {
 		$osW_ImageLib=new ImageLib($file);
 		if (isset($options['quality'])) {
 			$osW_ImageLib->setQuality($options['quality']);

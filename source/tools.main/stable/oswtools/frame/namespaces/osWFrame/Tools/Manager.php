@@ -32,7 +32,7 @@ class Manager {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,17 +43,17 @@ class Manager {
 	/**
 	 * @var array
 	 */
-	private array $packagelist=[];
+	protected array $packagelist=[];
 
 	/**
 	 * @var array
 	 */
-	private array $installed_packages=[];
+	protected array $installed_packages=[];
 
 	/**
 	 * @var array
 	 */
-	private array $keys=[];
+	protected array $keys=[];
 
 	/**
 	 * Server constructor.
@@ -64,9 +64,9 @@ class Manager {
 
 	/**
 	 * @param array $keys
-	 * @return object
+	 * @return $this
 	 */
-	public function setKeys(array $keys):object {
+	public function setKeys(array $keys):self {
 		$this->keys=$keys;
 
 		return $this;
@@ -80,9 +80,9 @@ class Manager {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function getServerPackageList():object {
+	public function getServerPackageList():self {
 		$this->packagelist=Server::getPackageList();
 
 		return $this;
@@ -96,9 +96,9 @@ class Manager {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function checkPackageList():object {
+	public function checkPackageList():self {
 		foreach ($this->packagelist as $current_serverlist=>$server_packages) {
 			$installed=[];
 			foreach ($this->packagelist[$current_serverlist] as $key=>$package) {
@@ -206,7 +206,7 @@ class Manager {
 	 * @param string $release
 	 * @return bool
 	 */
-	private function installPackageForce(string $serverlist, string $package, string $release):bool {
+	protected function installPackageForce(string $serverlist, string $package, string $release):bool {
 		$return=true;
 		$server_data=Server::getConnectedServer($serverlist);
 		if ((isset($server_data['connected']))&&($server_data['connected']===true)) {
@@ -293,9 +293,9 @@ class Manager {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function createConfigureFile():object {
+	public function createConfigureFile():self {
 		$dir=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR;
 		$configure=[];
 		if (Frame\Filesystem::isDir($dir)) {
@@ -398,9 +398,9 @@ class Manager {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function createHtAccessFile():object {
+	public function createHtAccessFile():self {
 		$dir=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR;
 		$configure=[];
 		if (Frame\Filesystem::isDir($dir)) {
@@ -460,7 +460,7 @@ class Manager {
 							if (sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim(implode("\n", $configure_output))))==sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim($result[1])))) {
 								Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file ".htaccess" is up to date.']);
 							} else {
-								file_put_contents($htaccess_file, str_replace($result[1],implode("\n", $configure_output)."\n", $htaccess_content));
+								file_put_contents($htaccess_file, str_replace($result[1], implode("\n", $configure_output)."\n", $htaccess_content));
 								Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file ".htaccess" updated successfully.']);
 							}
 						} else {
@@ -485,9 +485,9 @@ class Manager {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function protectDirs():object {
+	public function protectDirs():self {
 		$dir=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR;
 		$configure=[];
 		if (Frame\Filesystem::isDir($dir)) {

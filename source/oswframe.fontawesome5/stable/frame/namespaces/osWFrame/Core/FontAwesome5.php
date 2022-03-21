@@ -30,7 +30,7 @@ class FontAwesome5 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,31 +43,31 @@ class FontAwesome5 {
 	 *
 	 * @var string
 	 */
-	private const CURRENT_RESOURCE_VERSION='5.15.3';
+	protected const CURRENT_RESOURCE_VERSION='5.15.3';
 
 	/**
 	 * Verwaltet die geladenen Plugins.
 	 *
 	 * @var array
 	 */
-	private array $loaded_plugins=[];
+	protected array $loaded_plugins=[];
 
 	/**
 	 * Speichert alle verfügbaren Versionen.
 	 *
 	 * @var array
 	 */
-	private array $versions=[];
+	protected array $versions=[];
 
 	/**
 	 * @var string
 	 */
-	private $version='';
+	protected $version='';
 
 	/**
 	 * @var bool
 	 */
-	private $min=true;
+	protected $min=true;
 
 	/**
 	 * FontAwesome5 constructor.

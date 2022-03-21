@@ -30,7 +30,7 @@ class JSLib {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,7 +43,7 @@ class JSLib {
 	 *
 	 * @var array
 	 */
-	private array $loaded_libs=[];
+	protected array $loaded_libs=[];
 
 	/**
 	 * JSLib constructor.

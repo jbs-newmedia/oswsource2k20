@@ -29,7 +29,7 @@ class Resource {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -51,7 +51,7 @@ class Resource {
 	 * @param string $file
 	 * @return string
 	 */
-	private static function getFileName(string $module, string $file):string {
+	protected static function getFileName(string $module, string $file):string {
 		return self::getAbsDir().strtolower($module).DIRECTORY_SEPARATOR.strtolower($file);
 	}
 
@@ -62,7 +62,7 @@ class Resource {
 	 * @param string $file
 	 * @return string
 	 */
-	private static function getDirName(string $module, string $file=''):string {
+	protected static function getDirName(string $module, string $file=''):string {
 		if ($file!=='') {
 			return self::getAbsDir().strtolower($module).DIRECTORY_SEPARATOR.strtolower($file);
 		} else {
@@ -169,7 +169,7 @@ class Resource {
 	 * @param int $expire
 	 * @return string|null
 	 */
-	private function readResource(string $module, string $file, int $expire=0):?string {
+	protected function readResource(string $module, string $file, int $expire=0):?string {
 		$filename=$this->getFileName($module, $file);
 		if (file_exists($filename)) {
 			if (($expire==0)||(filemtime($filename)>=(time()-$expire))) {

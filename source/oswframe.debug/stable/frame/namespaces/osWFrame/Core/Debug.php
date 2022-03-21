@@ -29,7 +29,7 @@ class Debug {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,7 +40,7 @@ class Debug {
 	/**
 	 * @var array
 	 */
-	private static array $timer=[];
+	protected static array $timer=[];
 
 	/**
 	 * Debug constructor.
@@ -55,7 +55,7 @@ class Debug {
 	 * @param float $microtime
 	 * @return float
 	 */
-	private static function getMicrotime(float $microtime=0):float {
+	protected static function getMicrotime(float $microtime=0):float {
 		if ($microtime==0) {
 			return microtime(true);
 		}

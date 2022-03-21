@@ -31,7 +31,7 @@ class Configure {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,7 +42,7 @@ class Configure {
 	/**
 	 * @var array|null
 	 */
-	private static ?array $configuration=null;
+	protected static ?array $configuration=null;
 
 	/**
 	 * Helper constructor.

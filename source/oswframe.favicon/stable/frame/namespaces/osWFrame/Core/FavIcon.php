@@ -30,7 +30,7 @@ class FavIcon {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -41,27 +41,27 @@ class FavIcon {
 	/**
 	 * @var string
 	 */
-	private string $file='';
+	protected string $file='';
 
 	/**
 	 * @var bool
 	 */
-	private bool $favicon=false;
+	protected bool $favicon=false;
 
 	/**
 	 * @var array
 	 */
-	private array $icons=[];
+	protected array $icons=[];
 
 	/**
 	 * @var array
 	 */
-	private array $apple_touch_icons=[];
+	protected array $apple_touch_icons=[];
 
 	/**
 	 * @var array
 	 */
-	private array $msapplication=[];
+	protected array $msapplication=[];
 
 	/**
 	 * FavIcon constructor.

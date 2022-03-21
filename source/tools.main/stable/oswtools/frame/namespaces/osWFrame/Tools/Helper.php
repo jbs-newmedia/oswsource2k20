@@ -31,7 +31,7 @@ class Helper {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,16 +40,16 @@ class Helper {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
+	 * @var string
+	 */
+	protected static string $doaction='';
+
+	/**
 	 * Helper constructor.
 	 */
 	private function __construct() {
 
 	}
-
-	/**
-	 * @var string
-	 */
-	private static string $doaction='';
 
 	/**
 	 * @param string $doaction
@@ -67,7 +67,6 @@ class Helper {
 	public static function getDoAction():string {
 		return self::$doaction;
 	}
-
 
 	/**
 	 * @param string $v1 current

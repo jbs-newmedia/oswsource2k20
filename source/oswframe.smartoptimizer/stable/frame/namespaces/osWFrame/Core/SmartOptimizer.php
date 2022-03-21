@@ -29,7 +29,7 @@ class SmartOptimizer {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,7 +40,7 @@ class SmartOptimizer {
 	/**
 	 * @var int
 	 */
-	private static int $ts=0;
+	protected static int $ts=0;
 
 	/**
 	 * SmartOptimizer constructor.
@@ -81,7 +81,7 @@ class SmartOptimizer {
 	 * @param array $files
 	 * @return int
 	 */
-	private static function getFilesModTime(array $files):int {
+	protected static function getFilesModTime(array $files):int {
 		foreach ($files as $key=>$value) {
 			$files[$key]=Settings::getStringVar('settings_abspath').$value;
 		}

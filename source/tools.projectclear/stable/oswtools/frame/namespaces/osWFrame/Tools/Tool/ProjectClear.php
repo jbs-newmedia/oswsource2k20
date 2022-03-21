@@ -33,7 +33,7 @@ class ProjectClear extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -44,27 +44,27 @@ class ProjectClear extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $ignore_files=[];
+	protected array $ignore_files=[];
 
 	/**
 	 * @var array
 	 */
-	private array $ignore_dirs=[];
+	protected array $ignore_dirs=[];
 
 	/**
 	 * @var array
 	 */
-	private array $list=[];
+	protected array $list=[];
 
 	/**
 	 * @var array
 	 */
-	private array $scanlist=[];
+	protected array $scanlist=[];
 
 	/**
 	 * @var array
 	 */
-	private array $readlist=[];
+	protected array $readlist=[];
 
 	/**
 	 * ProjectClear constructor.
@@ -79,9 +79,9 @@ class ProjectClear extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	private function setIgnoreDefaultList():object {
+	protected function setIgnoreDefaultList():self {
 		$this->settings['projectclear_dirs'][]='data'.DIRECTORY_SEPARATOR;
 		$this->settings['projectclear_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'top'.DIRECTORY_SEPARATOR;
 		$this->settings['projectclear_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'topmiddle'.DIRECTORY_SEPARATOR;
@@ -100,9 +100,9 @@ class ProjectClear extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	private function createList():object {
+	private function createList():self {
 		$this->setIgnoreDefaultList();
 		$this->readList();
 
@@ -160,27 +160,27 @@ class ProjectClear extends CoreTool {
 	}
 
 	/**
-	 * @return array
+	 * @return $this
 	 */
-	public function readList():object {
+	public function readList():self {
 		$this->setIgnoreDefaultList();
 		$dir=\osWFrame\Core\Settings::getStringVar('settings_framepath');
 		$this->scanlist=[];
 		if (Frame\Filesystem::isDir($dir)) {
 			$this->scanDirToArray($dir);
 			ksort($this->scanlist);
-
-			return $this;
 		}
+
+		return $this;
 	}
 
 	/**
 	 * Engine zum Scannen von Verzeichnissen.
 	 *
 	 * @param string $dir
-	 * @return object
+	 * @return $this
 	 */
-	private function scanDirToArray(string $dir):object {
+	protected function scanDirToArray(string $dir):self {
 		$list=Frame\Filesystem::scanDir($dir);
 		if (!empty($list)) {
 			foreach ($list as $f) {
@@ -281,9 +281,9 @@ class ProjectClear extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function clearProject():object {
+	public function clearProject():self {
 		$serverlist=[];
 		$path=\osWFrame\Core\Settings::getStringVar('settings_framepath').'oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'packagelist'.DIRECTORY_SEPARATOR;
 		foreach (glob($path.'*.json') as $package_list) {

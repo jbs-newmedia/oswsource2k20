@@ -29,7 +29,7 @@ class MessageWriter {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,7 +40,7 @@ class MessageWriter {
 	/**
 	 * @var array
 	 */
-	private static array $ignore=[];
+	protected static array $ignore=[];
 
 	/**
 	 * MessageWriter constructor.

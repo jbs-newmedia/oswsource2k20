@@ -32,7 +32,7 @@ class Configure extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,47 +43,47 @@ class Configure extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $areas=[];
+	protected array $areas=[];
 
 	/**
 	 * @var array
 	 */
-	private array $files=[];
+	protected array $files=[];
 
 	/**
 	 * @var int
 	 */
-	private int $pages=0;
+	protected int $pages=0;
 
 	/**
 	 * @var int
 	 */
-	private int $page=0;
+	protected int $page=0;
 
 	/**
 	 * @var array
 	 */
-	private array $values_post=[];
+	protected array $values_post=[];
 
 	/**
 	 * @var array
 	 */
-	private array $values_json=[];
+	protected array $values_json=[];
 
 	/**
 	 * @var array
 	 */
-	private array $settings=[];
+	protected array $settings=[];
 
 	/**
 	 * @var array
 	 */
-	private array $fields=[];
+	protected array $fields=[];
 
 	/**
 	 * @var object|null
 	 */
-	private ?object $osWForm=null;
+	protected ?object $osWForm=null;
 
 	/**
 	 * Configure constructor.
@@ -100,9 +100,9 @@ class Configure extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function clearPage():object {
+	public function clearPage():self {
 		$this->values_post=[];
 		$this->values_json=[];
 		$this->settings=[];
@@ -131,9 +131,9 @@ class Configure extends CoreTool {
 
 	/**
 	 * @param int $page
-	 * @return object
+	 * @return $this
 	 */
-	public function setPage(int $page=1):object {
+	public function setPage(int $page=1):self {
 		if ($page>0) {
 			$this->page=$page;
 		}
@@ -169,9 +169,9 @@ class Configure extends CoreTool {
 
 	/**
 	 * @param object $osW_Form
-	 * @return object
+	 * @return $this
 	 */
-	public function setForm(object &$osW_Form):object {
+	public function setForm(object &$osW_Form):self {
 		$this->osW_Form=$osW_Form;
 
 		return $this;
@@ -185,9 +185,9 @@ class Configure extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function initFiles():object {
+	public function initFiles():self {
 		$patch=[];
 		$this->files=[];
 		foreach ($this->getAreas() as $dir) {
@@ -223,24 +223,24 @@ class Configure extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function runFile():object {
+	public function runFile():self {
 		return $this->loadFile('run');
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function validateFile():object {
+	public function validateFile():self {
 		return $this->loadFile('validate');
 	}
 
 	/**
 	 * @param string $position
-	 * @return object
+	 * @return $this
 	 */
-	public function loadFile(string $position):object {
+	public function loadFile(string $position):self {
 		if ($this->page<$this->pages) {
 			$page=$this->page-1;
 			$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.$this->files[$page]['dir'].DIRECTORY_SEPARATOR.$this->files[$page]['file'];
@@ -252,9 +252,9 @@ class Configure extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function setDefaultValuesFromJSON():object {
+	public function setDefaultValuesFromJSON():self {
 		$page=$this->page-1;
 		$filename=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.$this->files[$page]['dir'].DIRECTORY_SEPARATOR.$this->files[$page]['file'].'.json';
 		if (Frame\Filesystem::existsFile($filename)) {
@@ -274,9 +274,9 @@ class Configure extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function loadValuesFromJSON():object {
+	public function loadValuesFromJSON():self {
 		if ($this->files==[]) {
 			$this->initFiles();
 		}
@@ -319,9 +319,9 @@ class Configure extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function writeValuesToJSON():object {
+	public function writeValuesToJSON():self {
 		if ($this->fields!=[]) {
 			foreach ($this->fields as $key=>$value) {
 				if ($value['default_type']=='password') {
@@ -356,9 +356,9 @@ class Configure extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function validateFields():object {
+	public function validateFields():self {
 		if (isset($this->fields)) {
 			foreach ($this->fields as $config_element=>$config_data) {
 				if ($config_data['default_type']!='function') {
@@ -446,27 +446,27 @@ class Configure extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function incPage():object {
+	public function incPage():self {
 		$this->page++;
 
 		return $this;
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function decPage():object {
+	public function decPage():self {
 		$this->page--;
 
 		return $this;
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function writeConfigure():object {
+	public function writeConfigure():self {
 		$configure_output=[];
 		$configure_output[]='';
 		$configure_output[]='# version '.date('YmdHis').' (created by osWTools) #';
