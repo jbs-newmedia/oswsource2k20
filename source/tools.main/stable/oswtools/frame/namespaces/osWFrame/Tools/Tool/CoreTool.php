@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools\Tool;
@@ -32,7 +32,7 @@ class CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,57 +43,57 @@ class CoreTool {
 	/**
 	 * @var bool
 	 */
-	private bool $fluid_navigation=false;
+	protected bool $fluid_navigation=false;
 
 	/**
 	 * @var bool
 	 */
-	private bool $fluid_content=false;
+	protected bool $fluid_content=false;
 
 	/**
 	 * @var bool
 	 */
-	private bool $vh=false;
+	protected bool $vh=false;
 
 	/**
 	 * @var string
 	 */
-	private string $serverlist='';
+	protected string $serverlist='';
 
 	/**
 	 * @var string
 	 */
-	private string $package='';
+	protected string $package='';
 
 	/**
 	 * @var string
 	 */
-	private string $release='';
+	protected string $release='';
 
 	/**
 	 * @var array
 	 */
-	private array $details=[];
+	protected array $details=[];
 
 	/**
 	 * @var array
 	 */
-	private array $navigation=[];
+	protected array $navigation=[];
 
 	/**
 	 * @var array
 	 */
-	private array $actions=[];
+	protected array $actions=[];
 
 	/**
 	 * @var array
 	 */
-	private array $actions_names=[];
+	protected array $actions_names=[];
 
 	/**
 	 * @var array
 	 */
-	private array $used_software=[];
+	protected array $used_software=[];
 
 	/**
 	 * Tool constructor.
@@ -118,9 +118,9 @@ class CoreTool {
 
 	/**
 	 * @param bool $vh
-	 * @return object
+	 * @return $this
 	 */
-	public function setVH(bool $vh):object {
+	public function setVH(bool $vh):self {
 		$this->vh=$vh;
 
 		return $this;
@@ -135,9 +135,9 @@ class CoreTool {
 
 	/**
 	 * @param bool $fluid
-	 * @return object
+	 * @return $this
 	 */
-	public function setFluidNavigation(bool $fluid):object {
+	public function setFluidNavigation(bool $fluid):self {
 		$this->fluid_navigation=$fluid;
 
 		return $this;
@@ -152,9 +152,9 @@ class CoreTool {
 
 	/**
 	 * @param bool $fluid
-	 * @return object
+	 * @return $this
 	 */
-	public function setFluidContent(bool $fluid):object {
+	public function setFluidContent(bool $fluid):self {
 		$this->fluid_content=$fluid;
 
 		return $this;
@@ -169,9 +169,9 @@ class CoreTool {
 
 	/**
 	 * @param string $serverlist
-	 * @return object
+	 * @return $this
 	 */
-	public function setServerlist(string $serverlist):object {
+	public function setServerlist(string $serverlist):self {
 		$this->serverlist=$serverlist;
 
 		return $this;
@@ -179,9 +179,9 @@ class CoreTool {
 
 	/**
 	 * @param string $package
-	 * @return object
+	 * @return $this
 	 */
-	public function setPackage(string $package):object {
+	public function setPackage(string $package):self {
 		$this->package=$package;
 
 		return $this;
@@ -189,9 +189,9 @@ class CoreTool {
 
 	/**
 	 * @param string $release
-	 * @return object
+	 * @return $this
 	 */
-	public function setRelease(string $release):object {
+	public function setRelease(string $release):self {
 		$this->release=$release;
 
 		return $this;
@@ -219,9 +219,9 @@ class CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function initTool():object {
+	public function initTool():self {
 		$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$this->getPackage().'-'.$this->getRelease().'.json';
 		$this->details['name']='';
 		$this->details['author']='';
@@ -247,9 +247,9 @@ class CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function initUsedSoftware():object {
+	public function initUsedSoftware():self {
 		$this->addUsedSoftware('jQuery', 'https://jquery.com', 'Write less, do more. JavaScript library');
 		$this->addUsedSoftware('Bootstrap', 'https://getbootstrap.com', 'The most popular HTML, CSS, and JS library in the world');
 		$this->addUsedSoftware('Font Awesome', 'https://fontawesome.com', 'the iconic font and CSS toolkit');
@@ -265,9 +265,9 @@ class CoreTool {
 	 * @param string $name
 	 * @param string $url
 	 * @param string $description
-	 * @return object
+	 * @return $this
 	 */
-	public function addUsedSoftware(string $name, string $url, string $description):object {
+	public function addUsedSoftware(string $name, string $url, string $description):self {
 		$this->used_software[md5($name)]=['name'=>$name, 'url'=>$url, 'description'=>$description];
 
 		return $this;
@@ -368,9 +368,9 @@ class CoreTool {
 	 * @param string $element_name
 	 * @param array $element_details
 	 * @param string $position
-	 * @return object
+	 * @return $this
 	 */
-	public function addNavigationElement(string $element_name, array $element_details, string $position=''):object {
+	public function addNavigationElement(string $element_name, array $element_details, string $position=''):self {
 		if (isset($element_details['action'])) {
 			$this->addAction($element_details['action']);
 		}
@@ -388,9 +388,9 @@ class CoreTool {
 
 	/**
 	 * @param string $action
-	 * @return object
+	 * @return $this
 	 */
-	public function checkNavigation(string $action):object {
+	public function checkNavigation(string $action):self {
 		foreach ($this->navigation as $element_name=>$a) {
 			if ((isset($this->navigation[$element_name]['action']))&&($this->navigation[$element_name]['action']==$action)) {
 				$this->navigation[$element_name]['active']=true;
@@ -425,9 +425,9 @@ class CoreTool {
 
 	/**
 	 * @param string $action
-	 * @return object
+	 * @return $this
 	 */
-	public function addAction(string $action):object {
+	public function addAction(string $action):self {
 		if (!in_array($action, $this->actions)) {
 			$this->actions[]=$action;
 		}
@@ -488,9 +488,9 @@ class CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function checkFrameKey():object {
+	public function checkFrameKey():self {
 		$file_framekey=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame.key';
 		if ((Frame\Filesystem::existsFile($file_framekey)!==true)||(filesize($file_framekey)!==64)) {
 			$this->writeFrameKey($this->generateFrameKey());
@@ -501,16 +501,20 @@ class CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function createNewFrameKey():object {
+	public function createNewFrameKey():self {
 		$this->writeFrameKey($this->generateFrameKey());
 		\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'Frame-Key generated successfully. Check "osWTools:Main" ➜ "More" ➜ "Frame-Key"']);
 
 		return $this;
 	}
 
-	public function writeFrameKey(string $frame_key):object {
+	/**
+	 * @param string $frame_key
+	 * @return $this
+	 */
+	public function writeFrameKey(string $frame_key):self {
 		$file_framekey=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame.key';
 		file_put_contents($file_framekey, $frame_key);
 		Frame\Filesystem::changeFilemode($file_framekey, Tools\Configure::getFrameConfigInt('settings_chmod_file'));

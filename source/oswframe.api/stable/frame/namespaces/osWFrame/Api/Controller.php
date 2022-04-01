@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Api;
@@ -26,7 +26,7 @@ class Controller {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -42,17 +42,17 @@ class Controller {
 	/**
 	 * @var string
 	 */
-	private string $api='';
+	protected string $api='';
 
 	/**
 	 * @var string
 	 */
-	private string $section='';
+	protected string $section='';
 
 	/**
 	 * @var string
 	 */
-	private string $function='';
+	protected string $function='';
 
 	/**
 	 * Controller constructor.
@@ -82,9 +82,13 @@ class Controller {
 	}
 
 	/**
+	 * @param string $default
 	 * @return string
 	 */
-	public function getApi() {
+	public function getApi(string $default='') {
+		if ($this->api=='') {
+			return $default;
+		}
 		return $this->api;
 	}
 
@@ -99,9 +103,13 @@ class Controller {
 	}
 
 	/**
+	 * @param string $default
 	 * @return string
 	 */
-	public function getSection() {
+	public function getSection(string $default='') {
+		if ($this->section=='') {
+			return $default;
+		}
 		return $this->section;
 	}
 
@@ -116,9 +124,14 @@ class Controller {
 	}
 
 	/**
-	 * @return mixed
+	 * @param string $default
+	 * @return string
 	 */
-	public function getFunction() {
+	public function getFunction(string $default='') {
+		if ($this->function=='') {
+			return $default;
+		}
+
 		return $this->function;
 	}
 

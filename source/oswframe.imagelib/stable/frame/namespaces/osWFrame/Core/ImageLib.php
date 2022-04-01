@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -29,7 +29,7 @@ class ImageLib {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,12 +40,12 @@ class ImageLib {
 	/**
 	 * @var resource
 	 */
-	private $image=null;
+	protected $image=null;
 
 	/**
 	 * @var array
 	 */
-	private array $options=[];
+	protected array $options=[];
 
 	/**
 	 * ImageLib constructor.
@@ -288,7 +288,7 @@ class ImageLib {
 	/**
 	 * @return bool
 	 */
-	private function checkSizeLimits():bool {
+	protected function checkSizeLimits():bool {
 		/* ToDo */
 		return true;
 	}

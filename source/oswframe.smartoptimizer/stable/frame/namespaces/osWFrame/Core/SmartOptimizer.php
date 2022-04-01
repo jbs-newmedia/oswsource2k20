@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -24,7 +24,7 @@ class SmartOptimizer {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -36,6 +36,11 @@ class SmartOptimizer {
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
 	private const CLASS_EXTRA_VERSION='';
+
+	/**
+	 * @var int
+	 */
+	protected static int $ts=0;
 
 	/**
 	 * SmartOptimizer constructor.
@@ -62,12 +67,21 @@ class SmartOptimizer {
 	}
 
 	/**
+	 * @param int $ts
+	 * @return int
+	 */
+	public static function setTS(int $ts):int {
+		self::$ts=$ts;
+		return self::$ts;
+	}
+
+	/**
 	 * * Gibt den letzen Aktualisierungszeitpunkt alle Dateien der Liste zurück.
 	 *
 	 * @param array $files
 	 * @return int
 	 */
-	private static function getFilesModTime(array $files):int {
+	protected static function getFilesModTime(array $files):int {
 		foreach ($files as $key=>$value) {
 			$files[$key]=Settings::getStringVar('settings_abspath').$value;
 		}
@@ -90,6 +104,7 @@ class SmartOptimizer {
 			Settings::dieScript();
 		}
 		// Dateiliste aus Cachedatei erzeugen
+		$ctime=Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$query_string, false);
 		$files=explode(',', Cache::readCacheAsString(self::getClassName(), $query_string, 0, ''));
 		// Fehlende Dateien ermitteln
 		$missed_files=false;
@@ -173,8 +188,13 @@ class SmartOptimizer {
 			}
 			$mtimestr=DateTime::convertTimeStamp2GM($mtime);
 		}
-		if ((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
-			if (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
+		if ((self::$ts>0)||((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr))) {
+			if (self::$ts>0) {
+				$ct=60*60*24*365;
+				Network::sendHeader('Pragma: public');
+				Network::sendHeader('Cache-Control: max-age='.$ct);
+				Network::sendHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time()+$ct));
+			} elseif (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
 				Network::sendHeader("Last-Modified: ".$mtimestr);
 				Network::sendHeader("Cache-Control: must-revalidate");
 			} else {
@@ -184,7 +204,6 @@ class SmartOptimizer {
 			if ((defined('SID')===true)&&(strlen(SID)>0)) {
 				$session_parameter.='?'.SID;
 			}
-			$generateContent=true;
 			if ($generateContent===true) {
 				$content=[];
 				foreach ($files as $file) {
@@ -314,8 +333,16 @@ class SmartOptimizer {
 			}
 			$mtimestr=DateTime::convertTimeStamp2GM($mtime);
 		}
-		if ((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
-			if (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
+		if ($mtime!=$ctime) {
+			Filesystem::setFileModTime(Cache::getDirName('smartoptimizer').$query_string, $mtime);
+		}
+		if ((self::$ts>0)||((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr))) {
+			if (self::$ts>0) {
+				$ct=60*60*24*365;
+				Network::sendHeader('Pragma: public');
+				Network::sendHeader('Cache-Control: max-age='.$ct);
+				Network::sendHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time()+$ct));
+			} elseif (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
 				Network::sendHeader("Last-Modified: ".$mtimestr);
 				Network::sendHeader("Cache-Control: must-revalidate");
 			} else {
@@ -325,7 +352,6 @@ class SmartOptimizer {
 			if ((defined('SID')===true)&&(strlen(SID)>0)) {
 				$session_parameter.='?'.SID;
 			}
-			$generateContent=true;
 			if ($generateContent===true) {
 				$content=[];
 				$__DIR__='../../';

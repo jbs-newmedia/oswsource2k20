@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools\Tool;
@@ -31,7 +31,7 @@ class LogBrowser extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,22 +42,22 @@ class LogBrowser extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $dir_list=[];
+	protected array $dir_list=[];
 
 	/**
 	 * @var array
 	 */
-	private array $file_list=[];
+	protected array $file_list=[];
 
 	/**
 	 * @var array
 	 */
-	private array $file_list_unsort=[];
+	protected array $file_list_unsort=[];
 
 	/**
 	 * @var array
 	 */
-	private array $file_details=[];
+	protected array $file_details=[];
 
 	/**
 	 * LogBrowser constructor.
@@ -72,9 +72,9 @@ class LogBrowser extends CoreTool {
 
 	/**
 	 * @param string $dir
-	 * @return object
+	 * @return $this
 	 */
-	public function readLogDirs(string $dir):object {
+	public function readLogDirs(string $dir):self {
 		$this->dir_list=[];
 
 		if (Frame\Filesystem::isDir($dir)) {
@@ -121,9 +121,9 @@ class LogBrowser extends CoreTool {
 
 	/**
 	 * @param string $dir
-	 * @return object
+	 * @return $this
 	 */
-	public function readLogFiles(string $dir):object {
+	public function readLogFiles(string $dir):self {
 		$this->file_list=[];
 		if (Frame\Filesystem::isDir($dir)) {
 			$lastday=date('Ymd', time()-(60*60*24*intval(\osWFrame\Tools\Configure::getFrameConfigInt('debug_maxdays'))));
@@ -158,9 +158,9 @@ class LogBrowser extends CoreTool {
 	 * @param string $dir
 	 * @param string $file
 	 * @param string $display
-	 * @return object
+	 * @return $this
 	 */
-	public function loadFile(string $dir, string $file, string $display):object {
+	public function loadFile(string $dir, string $file, string $display):self {
 		if (Frame\Filesystem::existsFile($dir.$file)===true) {
 			if (substr($file, -3)=='csv') {
 				$this->file_details['type']='csv';
@@ -201,7 +201,10 @@ class LogBrowser extends CoreTool {
 		return $this;
 	}
 
-	public function analyseLines():object {
+	/**
+	 * @return $this
+	 */
+	public function analyseLines():self {
 		$unset=[];
 		foreach ($this->file_details['head'] as $key=>$value) {
 			if ($value=='time') {

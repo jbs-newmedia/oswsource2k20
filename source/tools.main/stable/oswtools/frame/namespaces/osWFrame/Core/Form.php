@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -29,7 +29,7 @@ class Form {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,17 +40,17 @@ class Form {
 	/**
 	 * @var array
 	 */
-	private array $hidden_fields=[];
+	protected array $hidden_fields=[];
 
 	/**
 	 * @var array
 	 */
-	private array $errors=[];
+	protected array $errors=[];
 
 	/**
 	 * @var array
 	 */
-	private array $count=[];
+	protected array $count=[];
 
 	/**
 	 * Form constructor.
@@ -62,7 +62,7 @@ class Form {
 	/**
 	 * @return $this
 	 */
-	private function initClass():self {
+	protected function initClass():self {
 		$this->hidden_fields=[];
 		$this->textarea_used=false;
 		$this->errors=[];
@@ -401,7 +401,7 @@ class Form {
 	 * @param array $options
 	 * @return string
 	 */
-	private function createInputField(string $name, string $value, array $options=[]):string {
+	protected function createInputField(string $name, string $value, array $options=[]):string {
 		$field='';
 		if (!isset($options['input_type'])) {
 			$options['input_type']='text';
@@ -467,7 +467,7 @@ class Form {
 	 * @param array $options
 	 * @return string
 	 */
-	private function createTextField(string $name, string $value, array $options=[]):string {
+	protected function createTextField(string $name, string $value, array $options=[]):string {
 		$field='';
 		Settings::setBoolVar('template_textarea_used', true);
 		if (!isset($options['input_type'])) {
@@ -546,7 +546,7 @@ class Form {
 	 * @param array $options
 	 * @return string
 	 */
-	private function createSelectionField(string $name, string $value, string $selected, array $options=[]):string {
+	protected function createSelectionField(string $name, string $value, string $selected, array $options=[]):string {
 		$field='';
 		if (!isset($options['input_type'])) {
 			$options['input_type']='checkbox';
@@ -629,7 +629,7 @@ class Form {
 	 * @param array $options
 	 * @return string
 	 */
-	private function createListField(string $name, array $values, string $selected, array $options):string {
+	protected function createListField(string $name, array $values, string $selected, array $options):string {
 		$field='';
 		if (count($values)==0) {
 			$values=[];
@@ -786,7 +786,7 @@ class Form {
 	 * @param array $options
 	 * @return string
 	 */
-	private function createSubmit(string $name, string $value, array $options):string {
+	protected function createSubmit(string $name, string $value, array $options):string {
 		$field='';
 		if (!isset($options['input_type'])) {
 			$options['input_type']='submit';

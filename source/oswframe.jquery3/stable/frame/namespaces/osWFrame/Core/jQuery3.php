@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -30,7 +30,7 @@ class jQuery3 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,31 +43,31 @@ class jQuery3 {
 	 *
 	 * @var string
 	 */
-	private const CURRENT_RESOURCE_VERSION='3.6.0';
+	protected const CURRENT_RESOURCE_VERSION='3.6.0';
 
 	/**
 	 * Verwaltet die geladenen Plugins.
 	 *
 	 * @var array
 	 */
-	private array $loaded_plugins=[];
+	protected array $loaded_plugins=[];
 
 	/**
 	 * Speichert alle verfügbaren Versionen.
 	 *
 	 * @var array
 	 */
-	private array $versions=[];
+	protected array $versions=[];
 
 	/**
 	 * @var string
 	 */
-	private $version='';
+	protected $version='';
 
 	/**
 	 * @var bool
 	 */
-	private $min=true;
+	protected $min=true;
 
 	/**
 	 * jQuery3 constructor.

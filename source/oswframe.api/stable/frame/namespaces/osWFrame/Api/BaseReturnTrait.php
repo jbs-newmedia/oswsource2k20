@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Api;
@@ -17,17 +17,17 @@ trait BaseReturnTrait {
 	/**
 	 * @var bool
 	 */
-	private bool $error=false;
+	protected bool $error=false;
 
 	/**
 	 * @var string
 	 */
-	private string $error_message='';
+	protected string $error_message='';
 
 	/**
 	 * @var string
 	 */
-	private string $success_message='';
+	protected string $success_message='';
 
 	/**
 	 * @param bool $error
@@ -42,7 +42,7 @@ trait BaseReturnTrait {
 	/**
 	 * @return bool
 	 */
-	public function getError() {
+	public function getError():bool {
 		return $this->error;
 	}
 

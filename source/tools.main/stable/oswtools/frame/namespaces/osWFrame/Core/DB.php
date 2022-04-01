@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -24,12 +24,12 @@ class DB {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,7 +42,7 @@ class DB {
 	 *
 	 * @var array
 	 */
-	public static array $connections=[];
+	protected static array $connections=[];
 
 	/**
 	 * DB constructor.
@@ -65,8 +65,7 @@ class DB {
 			try {
 				self::$connections[$alias]['con']=new \PDO(self::$connections[$alias]['dns'], self::$connections[$alias]['user'], self::$connections[$alias]['password']);
 			} catch (\PDOException $e) {
-				/* TODO: Message */
-				echo 'Connection failed: '.$e->getMessage();
+				MessageStack::addMessage(self::getNameAsString(), 'connection', ['time'=>time(), 'code_code'=>$e->getCode(), 'error_message'=>$e->getMessage(), 'error_file'=>$e->getFile(), 'error_line'=>$e->getLine()]);
 
 				return false;
 			}
@@ -84,10 +83,11 @@ class DB {
 	 * @param string $dbname
 	 * @param string $charset
 	 * @param string $alias
+	 * @param int $port
 	 * @return bool
 	 */
-	public static function addConnectionMYSQL(string $host, string $user, string $password, string $dbname, string $charset='utf8', string $alias='default'):bool {
-		return self::addConnection('mysql:host='.$host.';dbname='.$dbname.';charset='.$charset, $user, $password, $alias);
+	public static function addConnectionMYSQL(string $host, string $user, string $password, string $dbname, string $charset='utf8', string $alias='default', int $port=3306):bool {
+		return self::addConnection('mysql:host='.$host.';dbname='.$dbname.';charset='.$charset.';port='.$port, $user, $password, $alias);
 	}
 
 	/**

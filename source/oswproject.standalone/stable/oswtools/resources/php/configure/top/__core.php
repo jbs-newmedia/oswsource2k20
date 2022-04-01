@@ -2,7 +2,32 @@
 
 $url='http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 $matches=[];
-if (($_SERVER['HTTP_HOST']=='127.0.0.1')||($_SERVER['HTTP_HOST']=='localhost')) {
+
+$port=80;
+$port_ssl=443;
+$current_port=0;
+$ssl=0;
+if (isset($_SERVER['REQUEST_SCHEME'])) {
+	if ($_SERVER['REQUEST_SCHEME']=='http') {
+		$port=$_SERVER['SERVER_PORT'];
+		$current_port=$port;
+	}
+	if ($_SERVER['REQUEST_SCHEME']=='https') {
+		$port_ssl=$_SERVER['SERVER_PORT'];
+		$current_port=$port_ssl;
+		$ssl=1;
+	}
+} elseif (isset($_SERVER['SERVER_PORT'])) {
+	$port=$_SERVER['SERVER_PORT'];
+	$current_port=$port;
+}
+
+$str_port='';
+if (!in_array($current_port, [80, 443])) {
+	$str_port=':'.$current_port;
+}
+
+if (($_SERVER['HTTP_HOST']=='127.0.0.1'.$str_port)||($_SERVER['HTTP_HOST']=='localhost'.$str_port)) {
 	$matches['d']='localhost';
 	$matches['tld']='';
 } elseif (substr_count($_SERVER['HTTP_HOST'], '.')==1) {
@@ -84,6 +109,7 @@ foreach ($tzlist as $timezone) {
 	$ar_timezone[$timezone]=$timezone;
 }
 
+
 $this->settings=['page_title'=>'Project Settings'];
 
 $this->fields['project_name']=['default_name'=>'Projectname', 'default_type'=>'text', 'default_value'=>'osWFrame Standalone', 'valid_type'=>'string', 'valid_min_length'=>2, 'valid_max_length'=>32, 'configure_write'=>true];
@@ -94,11 +120,11 @@ $this->fields['project_domain']=['default_name'=>'Domain', 'default_type'=>'text
 
 $this->fields['project_path']=['default_name'=>'Path', 'default_type'=>'text', 'default_value'=>$path, 'valid_type'=>'string', 'valid_min_length'=>0, 'valid_max_length'=>32, 'configure_write'=>true];
 
-$this->fields['project_port']=['default_name'=>'Port', 'default_type'=>'text', 'default_value'=>80, 'valid_type'=>'integer', 'valid_min_length'=>0, 'valid_max_length'=>5, 'configure_write'=>true];
+$this->fields['project_port']=['default_name'=>'Port', 'default_type'=>'text', 'default_value'=>$port, 'valid_type'=>'integer', 'valid_min_length'=>0, 'valid_max_length'=>5, 'configure_write'=>true];
 
-$this->fields['project_ssl_port']=['default_name'=>'Port (SSL)', 'default_type'=>'text', 'default_value'=>443, 'valid_type'=>'integer', 'valid_min_length'=>0, 'valid_max_length'=>5, 'configure_write'=>true];
+$this->fields['project_ssl_port']=['default_name'=>'Port (SSL)', 'default_type'=>'text', 'default_value'=>$port_ssl, 'valid_type'=>'integer', 'valid_min_length'=>0, 'valid_max_length'=>5, 'configure_write'=>true];
 
-$this->fields['settings_ssl']=['default_name'=>'SSL', 'default_type'=>'select', 'default_value'=>0, 'default_select'=>[0=>'No', 1=>'Yes'], 'valid_type'=>'boolean', 'configure_write'=>true, 'valid_min_length'=>1, 'valid_max_length'=>1];
+$this->fields['settings_ssl']=['default_name'=>'SSL', 'default_type'=>'select', 'default_value'=>$ssl, 'default_select'=>[0=>'No', 1=>'Yes'], 'valid_type'=>'boolean', 'configure_write'=>true, 'valid_min_length'=>1, 'valid_max_length'=>1];
 
 $this->fields['settings_protection_salt']=['default_name'=>'Salt', 'default_type'=>'text', 'default_value'=>$salt, 'valid_type'=>'string', 'valid_min_length'=>32, 'valid_max_length'=>64, 'configure_write'=>true];
 

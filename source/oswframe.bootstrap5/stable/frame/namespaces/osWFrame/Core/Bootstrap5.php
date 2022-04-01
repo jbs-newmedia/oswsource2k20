@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -30,7 +30,7 @@ class Bootstrap5 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,41 +43,41 @@ class Bootstrap5 {
 	 *
 	 * @var string
 	 */
-	private const CURRENT_RESOURCE_VERSION='5.1.1';
+	protected const CURRENT_RESOURCE_VERSION='5.1.1';
 
 	/**
 	 * Verwaltet die geladenen Plugins.
 	 *
 	 * @var array
 	 */
-	private $loaded_plugins=[];
+	protected $loaded_plugins=[];
 
 	/**
 	 * Speichert alle verfügbaren Versionen.
 	 *
 	 * @var array
 	 */
-	private $versions=[];
+	protected $versions=[];
 
 	/**
 	 * @var string
 	 */
-	private $version='';
+	protected $version='';
 
 	/**
 	 * @var string
 	 */
-	private $theme='';
+	protected $theme='';
 
 	/**
 	 * @var bool
 	 */
-	private $min=true;
+	protected $min=true;
 
 	/**
 	 * @var array
 	 */
-	private $custom=[];
+	protected $custom=[];
 
 	/**
 	 * Bootstrap5 constructor.

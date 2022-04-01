@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -24,12 +24,12 @@ class Filesystem {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=3;
+	private const CLASS_MINOR_VERSION=4;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -156,6 +156,10 @@ class Filesystem {
 			$mod=Settings::getIntVar('settings_chmod_file');
 		}
 
+		if (self::existsFile($filename)!==true) {
+			return false;
+		}
+
 		return chmod($filename, $mod);
 	}
 
@@ -169,6 +173,10 @@ class Filesystem {
 	public static function changeDirmode(string $dirname, int $mod=0):bool {
 		if ($mod==0) {
 			$mod=Settings::getIntVar('settings_chmod_dir');
+		}
+
+		if (self::isDir($dirname)!==true) {
+			return false;
 		}
 
 		return chmod($dirname, $mod);
@@ -303,7 +311,7 @@ class Filesystem {
 	 * @param array $result
 	 * @return array|null
 	 */
-	private static function scanDirToArrayCore(string $dir, bool $recursive=false, int $deep=0, string $mode='fd', int $current_level=0, array $result=[], bool $only_deep_result=false):?array {
+	protected static function scanDirToArrayCore(string $dir, bool $recursive=false, int $deep=0, string $mode='fd', int $current_level=0, array $result=[], bool $only_deep_result=false):?array {
 		$dir=self::getDirName($dir);
 		if (self::isDir($dir)!==true) {
 			return null;
@@ -386,6 +394,16 @@ class Filesystem {
 	 */
 	public static function getFileModTime(string $file, bool $check_configs=false):int {
 		return self::getFilesModTime([$file], $check_configs);
+	}
+
+	/**
+	 * @param string $file
+	 * @param int|null $mtime
+	 * @param int|null $atime
+	 * @return bool
+	 */
+	public static function setFileModTime(string $file, ?int $mtime=null, ?int $atime=null):bool {
+		return touch($file, $mtime, $atime);
 	}
 
 	/**

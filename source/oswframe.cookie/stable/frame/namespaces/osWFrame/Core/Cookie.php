@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -38,10 +38,30 @@ class Cookie {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
+	 * @var bool|null
+	 */
+	protected static ?bool $cookies_enabled=null;
+
+	/**
 	 * Cookie constructor.
 	 */
 	private function __construct() {
 
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isCookiesEnabled():bool {
+		if (self::$cookies_enabled==null) {
+			if ((defined('SID')===true)&&(strlen(SID)>0)) {
+				self::$cookies_enabled=false;
+			} else {
+				self::$cookies_enabled=true;
+			}
+		}
+
+		return self::$cookies_enabled;
 	}
 
 	/**
@@ -55,7 +75,11 @@ class Cookie {
 	 * @return bool
 	 */
 	public static function setCookie(string $name, string $value=null, int $expires=null, string $path=null, string $domain=null, bool $secure=null, bool $httponly=null):bool {
-		return setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
+		if (self::isCookiesEnabled()===true) {
+			return setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
+		}
+
+		return false;
 	}
 
 }

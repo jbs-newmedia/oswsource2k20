@@ -5,7 +5,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  *
  */
 
@@ -23,6 +23,7 @@ osW_setVar('frame_default_output', 'default');
 /* config-middle oswframe.database-stable */
 osW_setVar('database_type', 'mysql');
 osW_setVar('database_server', '');
+osW_setVar('database_port', 3306);
 osW_setVar('database_username', '');
 osW_setVar('database_password', '');
 osW_setVar('database_db', '');
@@ -30,6 +31,7 @@ osW_setVar('database_prefix', 'osw_');
 osW_setVar('database_engine', 'InnoDB');
 osW_setVar('database_character', 'utf8mb4');
 osW_setVar('database_collation', 'utf8mb4_general_ci');
+osW_setVar('database_slowruntime', 0.5);
 
 /* config-middle oswframe.debug-stable */
 osW_setVar('debug_write_logs', true);

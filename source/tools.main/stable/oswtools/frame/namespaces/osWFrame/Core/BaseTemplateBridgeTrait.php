@@ -7,31 +7,34 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
 
 trait BaseTemplateBridgeTrait {
 
-	public ?object $obj_Template=null;
+	/**
+	 * @var Template|null
+	 */
+	protected ?Template $obj_Template=null;
 
 	/**
 	 * Fügt das Objekt dem Template hinzu und arbeitet über Referenzen.
 	 *
-	 * @param object $Template
+	 * @param Template $obj_Template
 	 * @return bool
 	 */
-	public function setTemplate(object $Template):bool {
-		$this->obj_Template=$Template;
+	public function setTemplate(Template $obj_Template):bool {
+		$this->obj_Template=$obj_Template;
 
 		return true;
 	}
 
 	/**
-	 * @return object|null
+	 * @return Template|null
 	 */
-	public function getTemplate():?object {
+	public function getTemplate():?Template {
 		return $this->obj_Template;
 	}
 

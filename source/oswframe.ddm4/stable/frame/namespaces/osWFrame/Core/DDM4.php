@@ -6,7 +6,7 @@
  * @copyright Copyright (c), Juergen Schwind
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -30,7 +30,7 @@ class DDM4 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=3;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -41,12 +41,12 @@ class DDM4 {
 	/**
 	 * @var string
 	 */
-	private string $name='';
+	protected string $name='';
 
 	/**
 	 * @var array
 	 */
-	public array $ddm=[];
+	protected array $ddm=[];
 
 	/**
 	 * DDM4 constructor.

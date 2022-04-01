@@ -2,9 +2,10 @@
   "info": {
     "name": "ToolManager",
     "author": "Juergen Schwind",
-    "copyright": "Juergen Schwind",
+    "copyright": "JBS New Media GmbH",
+    "year": 2022,
     "link": "https:\/\/oswframe.com",
-    "license": "GNU General Public License 3",
+    "license": "MIT License",
     "package": "tools.toolmanager",
     "version": "",
     "release": "stable",

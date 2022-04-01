@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools;
@@ -31,7 +31,7 @@ class Server {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,32 +42,32 @@ class Server {
 	/**
 	 * @var array
 	 */
-	private static array $serverlist=[];
+	protected static array $serverlist=[];
 
 	/**
 	 * @var array
 	 */
-	private static array $serverlist_connected=[];
+	protected static array $serverlist_connected=[];
 
 	/**
 	 * @var array
 	 */
-	private static array $packagelist=[];
+	protected static array $packagelist=[];
 
 	/**
 	 * @var array
 	 */
-	private static array $licenselist=[];
+	protected static array $licenselist=[];
 
 	/**
 	 * @var int
 	 */
-	private static int $cachetime=3600;
+	protected static int $cachetime=3600;
 
 	/**
 	 * @var string
 	 */
-	private static string $frame_key='';
+	protected static string $frame_key='';
 
 	/**
 	 * Server constructor.

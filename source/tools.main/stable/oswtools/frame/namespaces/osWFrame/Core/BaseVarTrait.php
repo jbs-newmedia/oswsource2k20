@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -19,7 +19,7 @@ trait BaseVarTrait {
 	 *
 	 * @var array|null
 	 */
-	private ?array $vars=null;
+	protected ?array $vars=null;
 
 	/**
 	 * @return bool
@@ -132,6 +132,18 @@ trait BaseVarTrait {
 	}
 
 	/**
+	 * @param string $name
+	 * @param object $value
+	 * @return bool
+	 */
+	public function setObjectVar(string $name, object $value):bool {
+		$this->initVars();
+		$this->vars[$name]=$value;
+
+		return true;
+	}
+
+	/**
 	 * Gibt eine Variable vom Typ Bool zurück.
 	 * Existiert die Variable nicht, wird NULL zurückgeliefert.
 	 *
@@ -199,6 +211,18 @@ trait BaseVarTrait {
 	 * @return array|null
 	 */
 	public function getArrayVar(string $name):?array {
+		if ((strlen($name)>0)&&(isset($this->vars[$name]))) {
+			return $this->vars[$name];
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param string $name
+	 * @return object|null
+	 */
+	public function getObjectVar(string $name):?object {
 		if ((strlen($name)>0)&&(isset($this->vars[$name]))) {
 			return $this->vars[$name];
 		}

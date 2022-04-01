@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools\Tool;
@@ -32,7 +32,7 @@ class InstallServerlist extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -53,9 +53,9 @@ class InstallServerlist extends CoreTool {
 
 	/**
 	 * @param string $url
-	 * @return object
+	 * @return $this
 	 */
-	public function installServerListPackage(string $url):object {
+	public function installServerListPackage(string $url):self {
 		if ($url!='') {
 			$file=Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').md5($url).'.zip';
 			$package_data=Tools\Server::getUrlData($url.'/index.php?action=get_serverlist');

@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools\Tool;
@@ -32,7 +32,7 @@ class ChangeMod extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,17 +43,17 @@ class ChangeMod extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $dir_list=[];
+	protected array $dir_list=[];
 
 	/**
 	 * @var array
 	 */
-	private array $chmod_file=[];
+	protected array $chmod_file=[];
 
 	/**
 	 * @var array
 	 */
-	private array $chmod_dir=[];
+	protected array $chmod_dir=[];
 
 	/**
 	 * ChangeMod constructor.
@@ -70,9 +70,9 @@ class ChangeMod extends CoreTool {
 
 	/**
 	 * @param string $dir
-	 * @return array
+	 * @return $this
 	 */
-	public function readDirList(string $dir):object {
+	public function readDirList(string $dir):self {
 		$this->dir_list=[];
 		if (Frame\Filesystem::isDir($dir)) {
 			$dirs=Frame\Filesystem::scanDirsToArray($dir, true, 2);
@@ -80,9 +80,9 @@ class ChangeMod extends CoreTool {
 			foreach ($dirs as $key=>$value) {
 				$this->dir_list[md5($key)]=str_replace($dir, '', $value);
 			}
-
-			return $this;
 		}
+
+		return $this;
 	}
 
 	/**

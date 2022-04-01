@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools;
@@ -31,7 +31,7 @@ class Helper {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,16 +40,16 @@ class Helper {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
+	 * @var string
+	 */
+	protected static string $doaction='';
+
+	/**
 	 * Helper constructor.
 	 */
 	private function __construct() {
 
 	}
-
-	/**
-	 * @var string
-	 */
-	private static string $doaction='';
 
 	/**
 	 * @param string $doaction
@@ -67,7 +67,6 @@ class Helper {
 	public static function getDoAction():string {
 		return self::$doaction;
 	}
-
 
 	/**
 	 * @param string $v1 current
@@ -101,6 +100,9 @@ class Helper {
 			case 'GNU General Public License':
 			case 'GNU General Public License 3':
 				return str_replace(['<a name="', '<a ', '<a target="_blank" id="'], ['<a id="', '<a target="_blank" ', '<a id="'], file_get_contents(Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'license'.DIRECTORY_SEPARATOR.'gpl-3.0.html'));
+				break;
+			case 'MIT License':
+				return file_get_contents(Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'license'.DIRECTORY_SEPARATOR.'mit.html');
 				break;
 			default:
 				return 'license ('.$license.') not found';
