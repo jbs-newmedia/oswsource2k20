@@ -29,7 +29,7 @@ class Cookie {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -66,15 +66,15 @@ class Cookie {
 
 	/**
 	 * @param string $name
-	 * @param string|null $value
-	 * @param int|null $expires
-	 * @param string|null $path
-	 * @param string|null $domain
-	 * @param bool|null $secure
-	 * @param bool|null $httponly
+	 * @param string $value
+	 * @param int $expires
+	 * @param string $path
+	 * @param string $domain
+	 * @param bool $secure
+	 * @param bool $httponly
 	 * @return bool
 	 */
-	public static function setCookie(string $name, string $value=null, int $expires=null, string $path=null, string $domain=null, bool $secure=null, bool $httponly=null):bool {
+	public static function setCookie(string $name, string $value='', int $expires=0, string $path='', string $domain='', bool $secure=false, bool $httponly=false):bool {
 		if (self::isCookiesEnabled()===true) {
 			return setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
 		}
