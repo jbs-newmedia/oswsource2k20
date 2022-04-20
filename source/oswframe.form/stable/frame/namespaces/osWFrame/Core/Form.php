@@ -355,11 +355,11 @@ class Form {
 	 *
 	 * @param string $name
 	 * @param array $values
-	 * @param string $selected
+	 * @param string|array $selected
 	 * @param array $options
 	 * @return string
 	 */
-	public function drawMultipleListField(string $name, array $values, string $selected='', array $options=[]):string {
+	public function drawMultipleListField(string $name, array $values, string|array $selected='', array $options=[]):string {
 		$options['input_type']='multilist';
 
 		return $this->createListField($name, $values, $selected, $options);
@@ -625,11 +625,11 @@ class Form {
 	 *
 	 * @param string $name
 	 * @param array $values
-	 * @param string $selected
+	 * @param string|array $selected
 	 * @param array $options
 	 * @return string
 	 */
-	protected function createListField(string $name, array $values, string $selected, array $options):string {
+	protected function createListField(string $name, array $values, string|array $selected, array $options):string {
 		$field='';
 		if (count($values)==0) {
 			$values=[];
