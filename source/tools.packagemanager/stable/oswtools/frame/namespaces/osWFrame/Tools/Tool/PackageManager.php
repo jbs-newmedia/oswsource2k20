@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools\Tool;
@@ -32,7 +32,7 @@ class PackageManager extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,32 +43,27 @@ class PackageManager extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $packages_local=[];
+	protected array $packages_local=[];
 
 	/**
 	 * @var array
 	 */
-	private array $packages=[];
+	protected array $packages=[];
 
 	/**
 	 * @var array
 	 */
-	private array $server_list=[];
-
-	/**
-	 * @var array
-	 */
-	private array $htusers=[];
+	protected array $server_list=[];
 
 	/**
 	 * @var string
 	 */
-	private string $sl='';
+	protected string $sl='';
 
 	/**
 	 * @var object|Tools\Manager|null
 	 */
-	private ?object $Manager=null;
+	protected ?object $Manager=null;
 
 	/**
 	 * PackagesManager constructor.
@@ -83,9 +78,9 @@ class PackageManager extends CoreTool {
 	}
 
 	/**
-	 * @return object
+	 * @return $this
 	 */
-	public function scanLocalPackages():object {
+	public function scanLocalPackages():self {
 		if ($this->packages_local===[]) {
 			$path=Frame\Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR;
 			foreach (scandir($path) as $node) {
@@ -108,9 +103,9 @@ class PackageManager extends CoreTool {
 	}
 
 	/**
-	 * @return array
+	 * @return $this
 	 */
-	public function loadPackages():object {
+	public function loadPackages():self {
 		if ($this->packages==[]) {
 			$packages=self::getLocalPackages();
 			$this->Manager->setKeys(['core'])->getServerPackageList()->checkPackageList();
@@ -159,9 +154,9 @@ class PackageManager extends CoreTool {
 
 	/**
 	 * @param string $sl
-	 * @return object
+	 * @return $this
 	 */
-	public function setSL(string $sl):object {
+	public function setSL(string $sl):self {
 		if (!isset($this->server_list[$sl])) {
 			$sl='';
 		}

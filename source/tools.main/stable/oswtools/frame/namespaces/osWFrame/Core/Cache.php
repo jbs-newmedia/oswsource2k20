@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -29,7 +29,7 @@ class Cache {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -235,7 +235,7 @@ class Cache {
 	 * @param string $extension
 	 * @return string|null
 	 */
-	private static function readCache(string $module, string $file, int $expire=0, string $extension='.cache'):?string {
+	protected static function readCache(string $module, string $file, int $expire=0, string $extension='.cache'):?string {
 		$filename=self::getFileName($module, $file, $extension);
 		if (file_exists($filename)) {
 			if (($expire==0)||(filemtime($filename)>=(time()-$expire))) {

@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -29,7 +29,7 @@ class Database {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -319,7 +319,9 @@ class Database {
 				$this->checkSlowQuery(Debug::calcTimer(self::getNameAsString().'_query'), $query);
 				$this->result_all=$this->PDOStatement->fetchAll(\PDO::FETCH_ASSOC);
 				$this->result_count=$this->PDOStatement->rowCount();
-				Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				if ($expire>0) {
+					Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				}
 				if (!isset(self::$stats['query_count'])) {
 					self::$stats['query_count']=0;
 				}
@@ -358,7 +360,7 @@ class Database {
 	 * @return $this
 	 */
 	public function dump():self {
-		print_a(['query_number'=>$this->query_count, 'query_runtime'=>$this->query_runtime, 'query'=>$this->query, 'result_key'=>$this->result_key, 'result_count'=>$this->result_count]);
+		print_a(['query_number'=>$this->query_count, 'query_runtime'=>$this->query_runtime, 'query'=>$this->query, 'result_key'=>$this->result_key, 'result_count'=>$this->result_count, 'error'=>$this->error, 'error_message'=>$this->error_message]);
 
 		return $this;
 	}
@@ -401,7 +403,9 @@ class Database {
 					$this->result_all[$key]=$values;
 				}
 				$this->result_count=count($this->result_all);
-				Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				if ($expire>0) {
+					Cache::writeProtectedCacheArray(self::getNameAsString(), 'query-'.md5($query), $this->result_all);
+				}
 				if (!isset(self::$stats['query_count'])) {
 					self::$stats['query_count']=0;
 				}
@@ -476,6 +480,8 @@ class Database {
 		} elseif ($this->result_count>$this->result_key) {
 			$this->result_key++;
 		}
+
+		$this->result=$this->result_all[$this->result_key];
 
 		return true;
 	}
@@ -627,11 +633,11 @@ class Database {
 	}
 
 	/**
-	 * @param int $runtime
+	 * @param float $runtime
 	 * @param string $query
 	 * @return bool
 	 */
-	public function checkSlowQuery(int $runtime, string $query):bool {
+	public function checkSlowQuery(float $runtime, string $query):bool {
 		if ($runtime>Settings::getFloatVar('database_slowruntime')) {
 			MessageStack::addMessage(self::getNameAsString(), 'slowruntime', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'runtime'=>$runtime, 'query'=>$query]);
 

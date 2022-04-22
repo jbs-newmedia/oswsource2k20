@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Tools\Tool;
@@ -31,7 +31,7 @@ class CacheClear extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,7 +42,7 @@ class CacheClear extends CoreTool {
 	/**
 	 * @var array
 	 */
-	private array $dir_list=[];
+	protected array $dir_list=[];
 
 	/**
 	 * CacheClear constructor.
@@ -57,9 +57,9 @@ class CacheClear extends CoreTool {
 
 	/**
 	 * @param string $dir
-	 * @return array
+	 * @return $this
 	 */
-	public function readCacheList(string $dir):object {
+	public function readCacheList(string $dir):self {
 		$this->dir_list=[];
 		if (Frame\Filesystem::isDir($dir)) {
 			$dirs=Frame\Filesystem::scanDirsToArray($dir, true, 3, true);

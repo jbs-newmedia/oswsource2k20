@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -29,7 +29,7 @@ class Scripts {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,22 +40,22 @@ class Scripts {
 	/**
 	 * @var string
 	 */
-	private string $lock_dir='';
+	protected string $lock_dir='';
 
 	/**
 	 * @var string
 	 */
-	private string $lock_file='';
+	protected string $lock_file='';
 
 	/**
 	 * @var string
 	 */
-	private string $lock_file_global='';
+	protected string $lock_file_global='';
 
 	/**
 	 * @var int
 	 */
-	private int $lock_timeout=0;
+	protected int $lock_timeout=0;
 
 	/**
 	 * Scripts constructor.

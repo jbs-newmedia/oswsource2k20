@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -24,7 +24,7 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -193,11 +193,18 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 	 */
 	public function sendMail():bool {
 		$return=$this->Send();
-		if ($this->ErrorInfo!='') {
-			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$this->ErrorInfo, 'to'=>$this->addrAppend('To', $this->getToAddresses()), 'cc'=>$this->addrAppend('Cc', $this->getCcAddresses()), 'bcc'=>$this->addrAppend('Bcc', $this->getBccAddresses()), 'reply-to'=>$this->addrAppend('Reply-To', $this->getReplyToAddresses()), 'subject'=>$this->encodeHeader($this->secureHeader($this->Subject))]);
+		if ($this->getErrorInfo()!='') {
+			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$this->getErrorInfo(), 'to'=>$this->addrAppend('To', $this->getToAddresses()), 'cc'=>$this->addrAppend('Cc', $this->getCcAddresses()), 'bcc'=>$this->addrAppend('Bcc', $this->getBccAddresses()), 'reply-to'=>$this->addrAppend('Reply-To', $this->getReplyToAddresses()), 'subject'=>$this->encodeHeader($this->secureHeader($this->Subject))]);
 		}
 
 		return $return;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getErrorInfo():string {
+		return $this->ErrorInfo;
 	}
 
 	/**

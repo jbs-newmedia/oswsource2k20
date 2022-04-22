@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 $osW_Controller=new \osWFrame\Api\Controller(\osWFrame\Core\Settings::catchStringValue('api', '', 'gp'), \osWFrame\Core\Settings::catchStringValue('section', '', 'gp'), \osWFrame\Core\Settings::catchStringValue('function', '', 'gp'));
@@ -21,7 +21,7 @@ if (file_exists($file)) {
 	require_once $file;
 } else {
 	$osW_Result->setError(true);
-	$osW_Result->setErrorMessage('Api not found. ('.$osW_Controller->getApi().' - '.$osW_Controller->getSection().' - '.$osW_Controller->getFunction().')');
+	$osW_Result->setErrorMessage('Api not found. (- API: '.$osW_Controller->getApi('undefined').' -|- SECTION: '.$osW_Controller->getSection('undefined').' -|- FUNCTION: '.$osW_Controller->getFunction('undefined').' -)');
 }
 
 ?>

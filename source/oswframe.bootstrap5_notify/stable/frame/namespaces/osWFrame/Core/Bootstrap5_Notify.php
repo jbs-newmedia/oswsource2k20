@@ -6,7 +6,7 @@
  * @copyright Copyright (c), Juergen Schwind
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -29,7 +29,7 @@ class Bootstrap5_Notify {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,7 +42,7 @@ class Bootstrap5_Notify {
 	 *
 	 * @var string
 	 */
-	private const CURRENT_RESOURCE_VERSION='4.3.1';
+	protected const CURRENT_RESOURCE_VERSION='4.3.1';
 
 	/**
 	 * Bootstrap5_Notify constructor.

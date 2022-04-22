@@ -6,7 +6,7 @@
  * @copyright Copyright (c), Juergen Schwind
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -30,7 +30,7 @@ class DDM4 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=3;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -41,12 +41,12 @@ class DDM4 {
 	/**
 	 * @var string
 	 */
-	private string $name='';
+	protected string $name='';
 
 	/**
 	 * @var array
 	 */
-	public array $ddm=[];
+	protected array $ddm=[];
 
 	/**
 	 * DDM4 constructor.
@@ -327,9 +327,11 @@ class DDM4 {
 			if ($type=='data') {
 				$_data=['list', 'search', 'add', 'edit', 'delete'];
 				$default_options=[];
-				$file=Settings::getStringVar('settings_abspath').'frame/ddm4/defaultdata/'.$options['module'].'/php/content.inc.php';
-				if (file_exists($file)) {
-					include $file;
+				if ((isset($options['module']))&&($options['module']!='')) {
+					$file=Settings::getStringVar('settings_abspath').'frame/ddm4/defaultdata/'.$options['module'].'/php/content.inc.php';
+					if (file_exists($file)) {
+						include $file;
+					}
 				}
 				$options=array_replace_recursive($default_options, $options);
 				$_tmp=[];
@@ -356,9 +358,11 @@ class DDM4 {
 				}
 			} else {
 				$default_options=[];
-				$file=Settings::getStringVar('settings_abspath').'frame/ddm4/defaultdata/'.$options['module'].'/php/content.inc.php';
-				if (file_exists($file)) {
-					include $file;
+				if ((isset($options['module']))&&($options['module']!='')) {
+					$file=Settings::getStringVar('settings_abspath').'frame/ddm4/defaultdata/'.$options['module'].'/php/content.inc.php';
+					if (file_exists($file)) {
+						include $file;
+					}
 				}
 				$options=array_replace_recursive($default_options, $options);
 				if ($this->getGroupOption('disable_'.$type)!==true) {

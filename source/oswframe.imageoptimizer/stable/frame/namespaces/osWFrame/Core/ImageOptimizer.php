@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -29,7 +29,7 @@ class ImageOptimizer {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,12 +40,12 @@ class ImageOptimizer {
 	/**
 	 * @var array
 	 */
-	private array $options=[];
+	protected array $options=[];
 
 	/**
 	 * @var array
 	 */
-	private array $valid_options=[];
+	protected array $valid_options=[];
 
 	/**
 	 * ImageOptimizer constructor.
@@ -57,8 +57,8 @@ class ImageOptimizer {
 	/**
 	 * @return bool
 	 */
-	private function setValidOptions():bool {
-		$this->valid_options=['longest', 'width', 'height', 'quality', 'scale', 'cropr', 'croprr', 'crops', 'cropsr', 'ps', 'transparent', 'border'];
+	protected function setValidOptions():bool {
+		$this->valid_options=['longest', 'width', 'height', 'quality', 'scale', 'cropr', 'croprr', 'crops', 'cropsr', 'ps', 'transparent', 'border', 'ts'];
 
 		return true;
 	}
@@ -139,7 +139,7 @@ class ImageOptimizer {
 	 * @param array $options
 	 * @return string
 	 */
-	private function createOptionsAsString(array $options) {
+	protected function createOptionsAsString(array $options) {
 		$str=[];
 		foreach ($options as $key=>$value) {
 			$str[]=$key.'_'.$value;
@@ -169,7 +169,7 @@ class ImageOptimizer {
 	 * @param string $protection_salt
 	 * @return bool
 	 */
-	private function validatePS(string $filename, array $options, string $ps, string $protection_salt=''):bool {
+	protected function validatePS(string $filename, array $options, string $ps, string $protection_salt=''):bool {
 		if ($protection_salt=='') {
 			$protection_salt=Settings::getStringVar('settings_protection_salt');
 		}
@@ -189,7 +189,7 @@ class ImageOptimizer {
 	 * @param string $protection_salt
 	 * @return string
 	 */
-	private function createPS(string $filename, array $options, string $protection_salt):string {
+	protected function createPS(string $filename, array $options, string $protection_salt):string {
 		return substr(md5($filename.'#'.$this->createOptionsAsString($options).'#'.$protection_salt), 3, 6);
 	}
 
@@ -198,7 +198,7 @@ class ImageOptimizer {
 	 * @param array $options
 	 * @return string
 	 */
-	private function getImageContent(string $file, array $options):string {
+	protected function getImageContent(string $file, array $options):string {
 		$osW_ImageLib=new ImageLib($file);
 		if (isset($options['quality'])) {
 			$osW_ImageLib->setQuality($options['quality']);
@@ -247,7 +247,7 @@ class ImageOptimizer {
 		$count=count($fileparts);
 		if (($count!=2)&&($count!=3)) {
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'Unsupported file structure ('.$image.')']);
-			Settings::dieScript();
+			Settings::dieScript('Unsupported file structure');
 		}
 		$options=[];
 		if ($count==2) {
@@ -263,7 +263,7 @@ class ImageOptimizer {
 		$abs_file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$rel_file;
 		if (!file_exists($abs_file)) {
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'File not found ('.$rel_file.')']);
-			Settings::dieScript();
+			Settings::dieScript('File not found');
 		}
 		$allowed_dirs=[];
 		if ((Settings::getArrayVar('imageoptimizer_allowed_dirs')!=null)&&(Settings::getArrayVar('imageoptimizer_allowed_dirs')!=[])) {
@@ -279,25 +279,23 @@ class ImageOptimizer {
 		foreach ($allowed_dirs as $a_dir) {
 			if (strpos(realpath($abs_file), realpath(Settings::getStringVar('settings_abspath').$a_dir))===0) {
 				$allowed_check=true;
+				break;
 			}
 		}
 
 		if ($allowed_check!==true) {
-			$msg='File out of allowed dir ('.implode(',', $disallowed_files).')';
-			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'File out of allowed dir ('.implode(',', $disallowed_files).')']);
+			Settings::dieScript('File out of allowed dir');
 		}
 
 		if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 			if (!isset($options['ps'])) {
-				$msg='Checksum not matched ('.$rel_file.')';
-				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'Checksum not matched ('.$rel_file.')']);
+				Settings::dieScript('Checksum not matched');
 			}
 			if ($this->validatePS($rel_file, $options, $options['ps'])!==true) {
-				$msg='Checksum not matched ('.$rel_file.')';
-				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'Checksum not matched ('.$rel_file.')']);
+				Settings::dieScript('Checksum not matched');
 			}
 		}
 
@@ -317,9 +315,8 @@ class ImageOptimizer {
 				$image_type='png';
 				break;
 			default :
-				$msg='Unsupported file type ('.$image_type.')';
-				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'Unsupported file type ('.$image_type.')']);
+				Settings::dieScript('Unsupported file type');
 				break;
 		}
 
@@ -338,8 +335,13 @@ class ImageOptimizer {
 			$mtimestr=DateTime::convertTimeStamp2GM($mtime);
 		}
 
-		if ((Settings::getBoolVar('imageoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
-			if (Settings::getBoolVar('imageoptimizer_clientcache')===true) {
+		if ((isset($options['ts']))||(Settings::getBoolVar('imageoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
+			if (isset($options['ts'])) {
+				$ct=60*60*24*365;
+				Network::sendHeader('Pragma: public');
+				Network::sendHeader('Cache-Control: max-age='.$ct);
+				Network::sendHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time()+$ct));
+			} elseif (Settings::getBoolVar('imageoptimizer_clientcache')===true) {
 				Network::sendHeader("Last-Modified: ".$mtimestr);
 				Network::sendHeader("Cache-Control: must-revalidate");
 			} else {
@@ -356,7 +358,6 @@ class ImageOptimizer {
 			} else {
 				$content=Cache::readCacheAsString(self::getClassName(), $filenamecache, 0, '');
 				Network::sendHeader('Content-Length: '.strlen($content));
-				#Network::sendHeader('HTTP/1.0 304 Not Modified');
 				echo $content;
 			}
 		} else {

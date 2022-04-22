@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -38,19 +38,19 @@ class Navigation {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
+	 * Navigation constructor.
+	 */
+	private function __construct() {
+
+	}
+
+	/**
 	 *
 	 * @param string $name
 	 * @return string
 	 */
 	public static function getModuleByName(string $name):string {
 		return Language::getNameModule($name);
-	}
-
-	/**
-	 * Navigation constructor.
-	 */
-	private function __construct() {
-
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Navigation {
 		$acceptable_spider_parameters=[];
 		$acceptable_user_parameters=[Settings::getStringVar('session_name')];
 		$go_default=true;
-		$file=Settings::getStringVar('settings_abspath').'modules/'.$module.'/rewrite/rules.inc.php';
+		$file=Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR.$module.DIRECTORY_SEPARATOR.'rewrite'.DIRECTORY_SEPARATOR.'rules.inc.php';
 		if (file_exists($file)) {
 			include $file;
 		}

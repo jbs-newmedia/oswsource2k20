@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -35,20 +35,34 @@ trait BaseStaticTrait {
 	/**
 	 * Liefert den Klassennamen ohne Namespace.
 	 *
+	 * @param string $namespace
+	 * @param string $class
 	 * @return string
 	 */
-	public static function getClassName():string {
-		return str_replace(__NAMESPACE__.'\\', '', __CLASS__);
+	public static function getClassName(string $namespace='', string $class=''):string {
+		if ($namespace=='') {
+			$namespace=__NAMESPACE__;
+		}
+		if ($class=='') {
+			$class=__CLASS__;
+		}
+		return str_replace($namespace.'\\', '', $class);
 	}
 
 	/**
 	 * Liefert den Klassennamen mit Namespace als String mit _.
 	 *
+	 * @param string $class
 	 * @return string
 	 */
-	public static function getNameAsString():string {
-		return str_replace('\\', '_', __CLASS__);
+	public static function getNameAsString(string $class=''):string {
+		if ($class=='') {
+			$class=__CLASS__;
+		}
+		return str_replace('\\', '_', $class);
 	}
+
+
 
 }
 

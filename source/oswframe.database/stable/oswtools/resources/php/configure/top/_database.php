@@ -4,6 +4,8 @@ $this->settings=['page_title'=>'Datebase Settings'];
 
 $this->fields['database_server']=['default_name'=>'Server', 'default_type'=>'text', 'default_value'=>'localhost', 'valid_type'=>'string', 'valid_min_length'=>2, 'valid_max_length'=>32, 'configure_write'=>true];
 
+$this->fields['database_port']=['default_name'=>'Port', 'default_type'=>'text', 'default_value'=>3306, 'valid_type'=>'integer', 'valid_min_length'=>2, 'valid_max_length'=>5, 'configure_write'=>true];
+
 $this->fields['database_username']=['default_name'=>'Username', 'default_type'=>'text', 'default_value'=>'', 'valid_type'=>'string', 'valid_min_length'=>2, 'valid_max_length'=>32, 'configure_write'=>true];
 
 $this->fields['database_password']=['default_name'=>'Password', 'default_type'=>'text', 'default_value'=>'', 'valid_type'=>'string', 'valid_min_length'=>0, 'valid_max_length'=>32, 'configure_write'=>true];

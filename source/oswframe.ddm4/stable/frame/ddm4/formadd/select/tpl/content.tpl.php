@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 ?>
@@ -16,7 +16,7 @@
 
 	<?php /* label */ ?>
 
-	<label for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementValue($element, 'title')) ?><?php if ($this->getAddElementOption($element, 'required')===true): ?><?php echo $this->getGroupMessage('form_title_required_icon') ?><?php endif ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
+	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementValue($element, 'title')) ?><?php if ($this->getAddElementOption($element, 'required')===true): ?><?php echo $this->getGroupMessage('form_title_required_icon') ?><?php endif ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
 
 	<?php if ($this->getAddElementOption($element, 'read_only')===true): ?>
 
@@ -45,11 +45,11 @@
 
 			<?php if ($this->getAddElementValidation($element, 'module')=='integer'): ?>
 
-				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [0=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getAddElementOption($element, 'data_size').'" data-live-search="'.$this->getAddElementOption($element, 'live_search').'"']) ?>
+				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [0=>' ']+$this->getAddElementOption($element, 'data'), $this->getAddElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getAddElementOption($element, 'data_size').'" data-live-search="'.$this->getAddElementOption($element, 'live_search').'"']) ?>
 
 			<?php else: ?>
 
-				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [''=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getAddElementOption($element, 'data_size').'" data-live-search="'.$this->getAddElementOption($element, 'live_search').'"']) ?>
+				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [''=>' ']+$this->getAddElementOption($element, 'data'), $this->getAddElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getAddElementOption($element, 'data_size').'" data-live-search="'.$this->getAddElementOption($element, 'live_search').'"']) ?>
 
 			<?php endif ?>
 

@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -19,7 +19,7 @@ trait BaseVarStaticTrait {
 	 *
 	 * @var array|null
 	 */
-	private static ?array $vars=null;
+	protected static ?array $vars=null;
 
 	/**
 	 * @return bool

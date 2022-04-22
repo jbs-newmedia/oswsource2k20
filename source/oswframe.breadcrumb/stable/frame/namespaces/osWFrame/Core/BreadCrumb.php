@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -24,12 +24,12 @@ class BreadCrumb {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -42,14 +42,14 @@ class BreadCrumb {
 	 *
 	 * @var array
 	 */
-	private array $data=[];
+	protected array $data=[];
 
 	/**
 	 * Zähler
 	 *
 	 * @var int
 	 */
-	private int $count=0;
+	protected int $count=0;
 
 	/**
 	 * BreadCrumb constructor.
@@ -63,9 +63,9 @@ class BreadCrumb {
 	 * @param string $module
 	 * @param string $parameters
 	 * @param array $options
-	 * @return bool
+	 * @return void
 	 */
-	public function add(string $name='', string $module='', string $parameters='', array $options=[]):bool {
+	public function add(string $name='', string $module='', string $parameters='', array $options=[]):void {
 		if (($module=='')||($module=='default')) {
 			$module=Settings::getStringVar('project_default_module');
 		}
@@ -74,17 +74,13 @@ class BreadCrumb {
 		}
 		$this->data[]=['name'=>$name, 'module'=>$module, 'parameters'=>$parameters, 'options'=>$options];
 		$this->addCount();
-
-		return true;
 	}
 
 	/**
-	 * @return bool
+	 * @return void
 	 */
-	public function clear():bool {
+	public function clear():void {
 		$this->data=[];
-
-		return true;
 	}
 
 	/**
@@ -128,21 +124,17 @@ class BreadCrumb {
 	}
 
 	/**
-	 * @return bool
+	 * @return void
 	 */
-	private function addCount():bool {
+	protected function addCount():void {
 		$this->count++;
-
-		return true;
 	}
 
 	/**
-	 * @return bool
+	 * @return void
 	 */
-	private function clearCount():bool {
+	protected function clearCount():void {
 		$this->count=0;
-
-		return true;
 	}
 
 	/**

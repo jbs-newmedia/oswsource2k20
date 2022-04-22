@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -25,12 +25,12 @@ class Language {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,22 +43,32 @@ class Language {
 	 *
 	 * @var array
 	 */
-	private static array $languages_available=[];
+	protected static array $languages_available=[];
 
 	/**
 	 * @var array
 	 */
-	private static array $module2name=[];
+	protected static $language_vars=[];
 
 	/**
 	 * @var array
 	 */
-	private static array $name2module=[];
+	protected static array $module2name=[];
+
+	/**
+	 * @var array
+	 */
+	protected static array $name2module=[];
 
 	/**
 	 * @var string
 	 */
-	private static string $current_language='';
+	protected static string $current_language_full='';
+
+	/**
+	 * @var string
+	 */
+	protected static string $current_language_short='';
 
 	/**
 	 * Language constructor.
@@ -68,15 +78,20 @@ class Language {
 	}
 
 	/**
-	 * Setzt die verfügabren Sprachen.
+	 * Setzt die verfügbaren Sprachen.
 	 *
 	 * @param array $languages_available
-	 * @return bool
+	 * @return void
 	 */
-	public static function setAvailableLanguages(array $languages_available):bool {
+	public static function setAvailableLanguages(array $languages_available):void {
 		self::$languages_available=$languages_available;
+	}
 
-		return true;
+	/**
+	 * @return array
+	 */
+	public static function getAvailableLanguages():array {
+		return self::$languages_available;
 	}
 
 	/**
@@ -92,11 +107,55 @@ class Language {
 	}
 
 	/**
+	 * @param string $current_language_full
+	 */
+	public static function setCurrentLanguageFull(string $current_language_full):void {
+		self::$current_language_full=$current_language_full;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getCurrentLanguageFull():string {
+		return self::$current_language_full;
+	}
+
+	/**
+	 * @param string $current_language_short
+	 */
+	public static function setCurrentLanguageShort(string $current_language_short):void {
+		self::$current_language_short=$current_language_short;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getCurrentLanguageShort():string {
+		return self::$current_language_short;
+	}
+
+	/**
 	 * @param string $language
+	 * @param string $format
 	 * @return bool
 	 */
-	public static function setCurrentLanguage(string $language):bool {
-		self::$current_language=$language;
+	public static function setCurrentLanguage(string $language, string $format='full'):bool {
+		switch ($format) {
+			case 'short':
+				if (!isset(self::$languages_available[$language])) {
+					return false;
+				}
+				self::setCurrentLanguageShort($language);
+				self::setCurrentLanguageFull(self::$languages_available[$language]);
+				break;
+			case 'full':
+			default:
+				if (!in_array($language, self::$languages_available)) {
+					return false;
+				}
+				self::setCurrentLanguageShort(array_search($language, self::$languages_available));
+				self::setCurrentLanguageFull($language);
+		}
 
 		return true;
 	}
@@ -108,42 +167,38 @@ class Language {
 	public static function getCurrentLanguage(string $format='full'):string {
 		switch ($format) {
 			case 'short':
-				return substr(self::$current_language, 0, strpos(self::$current_language, '_'));
+				return self::getCurrentLanguageShort();
 				break;
 			case 'full':
 			default:
-				return self::$current_language;
+				return self::getCurrentLanguageFull();
 		}
-
 	}
 
 	/**
 	 * @param string $module
 	 * @param string $name
-	 * @param string $current_language
+	 * @param string $language
 	 * @return bool
 	 */
-	public static function setModuleName(string $module, string $name, string $current_language=''):bool {
-		if ($current_language=='') {
-			$current_language=self::getCurrentLanguage('short');
+	public static function setModuleName(string $module, string $name, string $language=''):bool {
+		if ($language=='') {
+			$language=self::getCurrentLanguage();
 		}
-		self::$module2name[$current_language][$module]=$name;
-		self::$name2module[$current_language][$name]=$module;
+		self::$module2name[$language][$module]=$name;
+		self::$name2module[$language][$name]=$module;
 
 		return true;
 	}
 
 	/**
 	 * @param array $module2name
-	 * @param string $current_language
+	 * @param string $language
 	 * @return bool
 	 */
-	public static function setModuleNames(array $module2name, string $current_language=''):bool {
-		if ($current_language=='') {
-			$current_language=self::getCurrentLanguage('short');
-		}
+	public static function setModuleNames(array $module2name, string $language=''):bool {
 		foreach ($module2name as $module=>$name) {
-			self::setModuleName($module, $name, $current_language);
+			self::setModuleName($module, $name, $language);
 		}
 
 		return true;
@@ -151,40 +206,133 @@ class Language {
 
 	/**
 	 * @param string $module
-	 * @param string $current_language
+	 * @param string $language
 	 * @return string
 	 */
-	public static function getModuleName(string $module, string $current_language=''):string {
-		if ($current_language=='') {
-			$current_language=self::getCurrentLanguage('short');
+	public static function getModuleName(string $module, string $language=''):string {
+		if ($language=='') {
+			$language=self::getCurrentLanguage();
 		}
-		if (!isset(self::$module2name[$current_language])) {
+		if (!isset(self::$module2name)) {
 			return $module;
 		}
-		if (!isset(self::$module2name[$current_language][$module])) {
+		if (!isset(self::$module2name[$language])) {
+			return $module;
+		}
+		if (!isset(self::$module2name[$language][$module])) {
 			return $module;
 		}
 
-		return self::$module2name[$current_language][$module];
+		return self::$module2name[$language][$module];
 	}
 
 	/**
 	 * @param string $name
-	 * @param string $current_language
+	 * @param string $language
 	 * @return string
 	 */
-	public static function getNameModule(string $name, string $current_language=''):string {
-		if ($current_language=='') {
-			$current_language=self::getCurrentLanguage('short');
+	public static function getNameModule(string $name, string $language=''):string {
+		if ($language=='') {
+			$language=self::getCurrentLanguage();
 		}
-		if (!isset(self::$name2module[$current_language])) {
+		if (!isset(self::$name2module)) {
 			return $name;
 		}
-		if (!isset(self::$name2module[$current_language][$name])) {
+		if (!isset(self::$name2module[$language])) {
+			return $name;
+		}
+		if (!isset(self::$name2module[$language][$name])) {
 			return $name;
 		}
 
-		return self::$name2module[$current_language][$name];
+		return self::$name2module[$language][$name];
+	}
+
+	/**
+	 * @param string $module
+	 * @return string
+	 */
+	protected static function getModuleByShort($module='project'):string {
+		if ($module=='project') {
+			return Settings::getStringVar('project_default_module');
+		} elseif ($module=='default') {
+			return Settings::getStringVar('frame_default_module');
+		} elseif ($module=='current') {
+			return Settings::getStringVar('frame_current_module');
+		} else {
+			return $module;
+		}
+	}
+
+	/**
+	 * @param string $file
+	 * @param $module
+	 * @param $dir
+	 * @param string $language
+	 * @return bool
+	 */
+	public static function loadLanguageFile(string $file, $module='project', $dir='modules', string $language=''):bool {
+		if ($language=='') {
+			$language=self::getCurrentLanguage();
+		}
+		$module=self::getModuleByShort($module);
+		$filename=Settings::getStringVar('settings_abspath');
+		if ($dir!='') {
+			$filename.=$dir.DIRECTORY_SEPARATOR;
+		}
+		if ($module!='') {
+			$filename.=$module.DIRECTORY_SEPARATOR;
+		}
+		$filename.='lng'.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$file.'.json';
+		if (Filesystem::existsFile($filename)) {
+			$json=json_decode(file_get_contents($filename), true);
+			if (isset($json['var'])) {
+				foreach ($json['var'] as $key=>$value) {
+					self::$language_vars[$language][$key]=$value;
+				}
+			}
+
+			if (isset($json['module'])) {
+				self::setModuleNames($json['module'], $language);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $var
+	 * @param string $language
+	 * @return string
+	 */
+	public static function getLanguageVar(string $var, string $language=''):string {
+		if ($language=='') {
+			$language=self::getCurrentLanguage();
+		}
+		if ((isset(self::$language_vars[$language]))&&(isset(self::$language_vars[$language][$var]))) {
+			return self::$language_vars[$language][$var];
+		}
+
+		return $var;
+	}
+
+	/**
+	 * @param string $url
+	 * @param string $language_value
+	 * @param string $language_var
+	 * @return string
+	 */
+	public static function addLanguage2Url(string $url, string $language_value, string $language_var='language'):string {
+		if (strpos($url, '?')==0) {
+			$url.='?';
+		} else {
+			$url.='&';
+		}
+		$url.=$language_var.'='.$language_value;
+
+		return $url;
 	}
 
 }

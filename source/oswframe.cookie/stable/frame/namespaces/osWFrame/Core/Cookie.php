@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -29,13 +29,18 @@ class Cookie {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
 	private const CLASS_EXTRA_VERSION='';
+
+	/**
+	 * @var bool|null
+	 */
+	protected static ?bool $cookies_enabled=null;
 
 	/**
 	 * Cookie constructor.
@@ -45,17 +50,36 @@ class Cookie {
 	}
 
 	/**
-	 * @param string $name
-	 * @param string|null $value
-	 * @param int|null $expires
-	 * @param string|null $path
-	 * @param string|null $domain
-	 * @param bool|null $secure
-	 * @param bool|null $httponly
 	 * @return bool
 	 */
-	public static function setCookie(string $name, string $value=null, int $expires=null, string $path=null, string $domain=null, bool $secure=null, bool $httponly=null):bool {
-		return setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
+	public static function isCookiesEnabled():bool {
+		if (self::$cookies_enabled==null) {
+			if ((defined('SID')===true)&&(strlen(SID)>0)) {
+				self::$cookies_enabled=false;
+			} else {
+				self::$cookies_enabled=true;
+			}
+		}
+
+		return self::$cookies_enabled;
+	}
+
+	/**
+	 * @param string $name
+	 * @param string $value
+	 * @param int $expires
+	 * @param string $path
+	 * @param string $domain
+	 * @param bool $secure
+	 * @param bool $httponly
+	 * @return bool
+	 */
+	public static function setCookie(string $name, string $value='', int $expires=0, string $path='', string $domain='', bool $secure=false, bool $httponly=false):bool {
+		if (self::isCookiesEnabled()===true) {
+			return setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
+		}
+
+		return false;
 	}
 
 }

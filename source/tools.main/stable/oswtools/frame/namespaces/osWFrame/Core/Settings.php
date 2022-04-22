@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -25,7 +25,7 @@ class Settings {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -43,14 +43,14 @@ class Settings {
 	 *
 	 * @var string
 	 */
-	private static string $action='';
+	protected static string $action='';
 
 	/**
 	 * Array zum Speichern der Config-Dateien.
 	 *
 	 * @var array
 	 */
-	private static array $config_files=[];
+	protected static array $config_files=[];
 
 	/**
 	 * Settings constructor.
@@ -65,21 +65,22 @@ class Settings {
 	 * @return bool
 	 */
 	public static function loadDefaultConfigure():bool {
-		self::setStringVar('settings_runmode', 'live');
-		if (file_exists(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.dev.php')) {
-			require_once(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.dev.php');
-			self::addConfigFile(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.dev.php');
-			self::setStringVar('settings_runmode', 'dev');
-
-			return true;
-		} elseif (file_exists(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.php')) {
+		self::setStringVar('settings_runmode', 'none');
+		$load=false;
+		if (file_exists(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.php')) {
 			require_once(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.php');
 			self::addConfigFile(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure.php');
-
-			return true;
+			self::setStringVar('settings_runmode', 'live');
+			$load=true;
+		}
+		if (file_exists(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure-dev.php')) {
+			require_once(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure-dev.php');
+			self::addConfigFile(self::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'configure-dev.php');
+			self::setStringVar('settings_runmode', 'dev');
+			$load=true;
 		}
 
-		return false;
+		return $load;
 	}
 
 	/**
@@ -94,22 +95,23 @@ class Settings {
 		if ($sub!='') {
 			$file.='.'.$sub;
 		}
-		$file_dev=$file.'-dev.php';
 		$file_prod=$file.'.php';
+		$file_dev=$file.'-dev.php';
+		$load=false;
+
+		if (file_exists($file_prod)) {
+			require_once $file_prod;
+			self::addConfigFile($file_prod);
+			$load=true;
+		}
 		if (file_exists($file_dev)) {
 			self::setStringVar('settings_runmode', 'dev');
 			require_once $file_dev;
 			self::addConfigFile($file_dev);
-
-			return true;
-		} elseif (file_exists($file_prod)) {
-			require_once $file_prod;
-			self::addConfigFile($file_prod);
-
-			return true;
+			$load=true;
 		}
 
-		return false;
+		return $load;
 	}
 
 	/**
@@ -167,13 +169,13 @@ class Settings {
 		$project_domain_full='';
 		if (self::getBoolVar('settings_ssl')===true) {
 			$project_domain_full.='https://'.$domain;
-			if (self::getIntVar('settings_ssl_port')!=443) {
-				$project_domain_full.':'.self::getIntVar('settings_ssl_port');
+			if (self::getIntVar('settings_ssl_port')!=self::getIntVar('project_ssl_port')) {
+				$project_domain_full.=':'.self::getIntVar('project_port');
 			}
 		} else {
 			$project_domain_full.='http://'.$domain;
-			if (self::getIntVar('settings_port')!=80) {
-				$project_domain_full.':'.self::getIntVar('settings_port');
+			if (self::getIntVar('settings_port')!=self::getIntVar('project_port')) {
+				$project_domain_full.=':'.self::getIntVar('project_port');
 			}
 		}
 		$project_domain_full.='/';
@@ -200,7 +202,7 @@ class Settings {
 	 * @param array $array
 	 * @return bool
 	 */
-	private static function stripMagicQuotes(array $array):bool {
+	protected static function stripMagicQuotes(array $array):bool {
 		if (!is_array($array)||(sizeof($array)<1)) {
 			return false;
 		}

@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 $fields=[];
@@ -15,7 +15,6 @@ $fields['element']=$element;
 $fields['element_title']=$this->getEditElementValue($element, 'title');
 $this->setFilterElementStorage($element, $fields);
 $this->setFilterErrorElementStorage($element, false);
-
 if (($this->getFilterErrorElementStorage($element)!==true)&&(($this->getEditElementValidation($element, 'length_min')!='')&&($this->getEditElementValidation($element, 'length_min')>0))) {
 	if ($this->getDoEditElementStorage($element)=='') {
 		$fields['length_min']=$this->getEditElementValidation($element, 'length_min');

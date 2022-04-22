@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 ?>
@@ -15,7 +15,7 @@
 <div class="form-group ddm_element_<?php echo $this->getDeleteElementValue($element, 'id') ?>">
 
 	<?php /* label */ ?>
-	<label for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
+	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
 
 	<?php /* read only */ ?>
 	<div class="form-control readonly"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementOption($element, 'text_hidden')) ?></div>

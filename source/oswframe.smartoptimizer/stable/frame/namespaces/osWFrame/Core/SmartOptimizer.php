@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -24,18 +24,23 @@ class SmartOptimizer {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
 	private const CLASS_EXTRA_VERSION='';
+
+	/**
+	 * @var int
+	 */
+	protected static int $ts=0;
 
 	/**
 	 * SmartOptimizer constructor.
@@ -62,12 +67,21 @@ class SmartOptimizer {
 	}
 
 	/**
+	 * @param int $ts
+	 * @return int
+	 */
+	public static function setTS(int $ts):int {
+		self::$ts=$ts;
+		return self::$ts;
+	}
+
+	/**
 	 * * Gibt den letzen Aktualisierungszeitpunkt alle Dateien der Liste zurück.
 	 *
 	 * @param array $files
 	 * @return int
 	 */
-	private static function getFilesModTime(array $files):int {
+	protected static function getFilesModTime(array $files):int {
 		foreach ($files as $key=>$value) {
 			$files[$key]=Settings::getStringVar('settings_abspath').$value;
 		}
@@ -87,9 +101,10 @@ class SmartOptimizer {
 		if (Cache::existsCache(self::getClassName(), $query_string, '')!==true) {
 			$msg='File not found ('.$query_string.')';
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		// Dateiliste aus Cachedatei erzeugen
+		$ctime=Filesystem::getFileModTime(Cache::getDirName('smartoptimizer').$query_string, false);
 		$files=explode(',', Cache::readCacheAsString(self::getClassName(), $query_string, 0, ''));
 		// Fehlende Dateien ermitteln
 		$missed_files=false;
@@ -108,7 +123,7 @@ class SmartOptimizer {
 				$msg='File not found ('.implode(',', $missing_files).')';
 			}
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		$allowed_dirs=[];
 		if ((Settings::getArrayVar('smartoptimizer_allowed_dirs')!=null)&&(Settings::getArrayVar('smartoptimizer_allowed_dirs')!=[])) {
@@ -125,6 +140,7 @@ class SmartOptimizer {
 			foreach ($allowed_dirs as $a_dir) {
 				if (strpos(realpath(Settings::getStringVar('settings_abspath').$file), realpath(Settings::getStringVar('settings_abspath').$a_dir))===0) {
 					$allowed_check=true;
+					break;
 				}
 			}
 			if ($allowed_check!==true) {
@@ -138,7 +154,7 @@ class SmartOptimizer {
 				$msg='File out of allowed dir ('.implode(',', $disallowed_files).')';
 			}
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		switch ($filetype) {
 			case 'css':
@@ -150,7 +166,7 @@ class SmartOptimizer {
 			default:
 				$msg='Unsupported file type ('.$filetype.')';
 				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				Settings::dieScript();
 				break;
 		}
 		if ((Settings::getBoolVar('smartoptimizer_gzipcompression')===true)&&(!headers_sent())&&(!connection_aborted())) {
@@ -172,8 +188,13 @@ class SmartOptimizer {
 			}
 			$mtimestr=DateTime::convertTimeStamp2GM($mtime);
 		}
-		if ((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
-			if (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
+		if ((self::$ts>0)||((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr))) {
+			if (self::$ts>0) {
+				$ct=60*60*24*365;
+				Network::sendHeader('Pragma: public');
+				Network::sendHeader('Cache-Control: max-age='.$ct);
+				Network::sendHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time()+$ct));
+			} elseif (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
 				Network::sendHeader("Last-Modified: ".$mtimestr);
 				Network::sendHeader("Cache-Control: must-revalidate");
 			} else {
@@ -183,11 +204,9 @@ class SmartOptimizer {
 			if ((defined('SID')===true)&&(strlen(SID)>0)) {
 				$session_parameter.='?'.SID;
 			}
-			$generateContent=true;
 			if ($generateContent===true) {
 				$content=[];
 				foreach ($files as $file) {
-					$__DIR__='../../';
 					$cfile=Settings::getStringVar('settings_abspath').$file;
 					if (file_exists($cfile)) {
 						switch ($filetype) {
@@ -259,7 +278,7 @@ class SmartOptimizer {
 		if (!file_exists($cfile)) {
 			$msg='File not found ('.$cfile.')';
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		$allowed_dirs=[];
 		if ((Settings::getArrayVar('smartoptimizer_allowed_dirs')!=null)&&(Settings::getArrayVar('smartoptimizer_allowed_dirs')!=[])) {
@@ -274,12 +293,13 @@ class SmartOptimizer {
 		foreach ($allowed_dirs as $a_dir) {
 			if (strpos(realpath(Settings::getStringVar('settings_abspath').$file), realpath(Settings::getStringVar('settings_abspath').$a_dir))===0) {
 				$allowed_check=true;
+				break;
 			}
 		}
 		if ($allowed_check!==true) {
 			$msg='File out of allowed dir ('.$file.')';
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-			Settings::dieScript($msg);
+			Settings::dieScript();
 		}
 		switch ($filetype) {
 			case 'css':
@@ -291,7 +311,7 @@ class SmartOptimizer {
 			default:
 				$msg='Unsupported file type ('.$filetype.')';
 				MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>$msg]);
-				Settings::dieScript($msg);
+				Settings::dieScript();
 				break;
 		}
 		if ((Settings::getBoolVar('smartoptimizer_gzipcompression')===true)&&(!headers_sent())&&(!connection_aborted())) {
@@ -313,8 +333,16 @@ class SmartOptimizer {
 			}
 			$mtimestr=DateTime::convertTimeStamp2GM($mtime);
 		}
-		if ((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr)) {
-			if (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
+		if ($mtime!=$ctime) {
+			Filesystem::setFileModTime(Cache::getDirName('smartoptimizer').$query_string, $mtime);
+		}
+		if ((self::$ts>0)||((Settings::getBoolVar('smartoptimizer_clientcache')!==true)||(Settings::catchValue('HTTP_IF_MODIFIED_SINCE', '', 'r')!=$mtimestr))) {
+			if (self::$ts>0) {
+				$ct=60*60*24*365;
+				Network::sendHeader('Pragma: public');
+				Network::sendHeader('Cache-Control: max-age='.$ct);
+				Network::sendHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time()+$ct));
+			} elseif (Settings::getBoolVar('smartoptimizer_clientcache')===true) {
 				Network::sendHeader("Last-Modified: ".$mtimestr);
 				Network::sendHeader("Cache-Control: must-revalidate");
 			} else {
@@ -324,7 +352,6 @@ class SmartOptimizer {
 			if ((defined('SID')===true)&&(strlen(SID)>0)) {
 				$session_parameter.='?'.SID;
 			}
-			$generateContent=true;
 			if ($generateContent===true) {
 				$content=[];
 				$__DIR__='../../';

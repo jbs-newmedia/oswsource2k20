@@ -3,6 +3,7 @@
 		"middle": {
 			"database_type": "mysql",
 			"database_server": "",
+			"database_port": 3306,
 			"database_username": "",
 			"database_password": "",
 			"database_db": "",

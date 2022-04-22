@@ -7,19 +7,19 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 ?>
 
-<div class="form-group ddm_element_<?php echo $this->getEditElementValue($element, 'id') ?>">
+<div class="form-group ddm_element_<?php echo $this->getAddElementValue($element, 'id') ?>">
 
 	<?php /* label */ ?>
-	<label for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementValue($element, 'title')) ?><?php if ($this->getEditElementOption($element, 'required')===true): ?><?php echo $this->getGroupMessage('form_title_required_icon') ?><?php endif ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
+	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementValue($element, 'title')) ?><?php if ($this->getAddElementOption($element, 'required')===true): ?><?php echo $this->getGroupMessage('form_title_required_icon') ?><?php endif ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
 
 	<?php /* read only */ ?>
 	<div class="form-control readonly">
-		<?php if ($this->getEditElementOption($element, 'ishtml')===true): ?><?php echo $this->getEditElementOption($element, 'label') ?><?php else: ?><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementOption($element, 'label')) ?><?php endif ?>
+		<?php if ($this->getAddElementOption($element, 'ishtml')===true): ?><?php echo $this->getAddElementOption($element, 'label') ?><?php else: ?><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementOption($element, 'label')) ?><?php endif ?>
 	</div>
 
 	<?php /* error */ ?>
@@ -28,14 +28,14 @@
 	<?php endif ?>
 
 	<?php /* notice */ ?>
-	<?php if ($this->getEditElementOption($element, 'notice')!=''): ?>
-		<div class="text-info"><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementOption($element, 'notice')) ?></div>
+	<?php if ($this->getAddElementOption($element, 'notice')!=''): ?>
+		<div class="text-info"><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementOption($element, 'notice')) ?></div>
 	<?php endif ?>
 
 	<?php /* buttons */ ?>
-	<?php if ($this->getEditElementOption($element, 'buttons')!=''): ?>
+	<?php if ($this->getAddElementOption($element, 'buttons')!=''): ?>
 		<div>
-			<?php echo implode(' ', $this->getEditElementOption($element, 'buttons')) ?>
+			<?php echo implode(' ', $this->getAddElementOption($element, 'buttons')) ?>
 		</div>
 	<?php endif ?>
 

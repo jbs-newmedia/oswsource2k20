@@ -6,8 +6,10 @@ $url=parse_url($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER
 
 if ($url['scheme']=='https') {
 	osW_setVar('settings_ssl', true);
+	osW_setVar('project_ssl_port', $_SERVER['SERVER_PORT']);
 } else {
 	osW_setVar('settings_ssl', false);
+	osW_setVar('project_port', $_SERVER['SERVER_PORT']);
 }
 
 $host=explode('.', $url['host']);
@@ -42,6 +44,9 @@ osW_setVar('project_timezone', 'Europe/Paris');
 osW_setVar('oswtools_default_tool', 'tools.main.stable');
 osW_setVar('session_name', 'oswtoolsid');
 
+osW_setVar('settings_slowruntime', 2.0);
+osW_setVar('database_slowruntime', 1.5);
+
 # osWFrame configure block end #
-osW_setVar('template_stripoutput', false);
+
 ?>

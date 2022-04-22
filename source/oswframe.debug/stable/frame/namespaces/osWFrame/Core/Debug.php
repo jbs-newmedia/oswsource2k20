@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 namespace osWFrame\Core;
@@ -29,7 +29,7 @@ class Debug {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -40,7 +40,7 @@ class Debug {
 	/**
 	 * @var array
 	 */
-	private static array $timer=[];
+	protected static array $timer=[];
 
 	/**
 	 * Debug constructor.
@@ -52,10 +52,10 @@ class Debug {
 	/**
 	 * Gibt die Microtime als Float zurück.
 	 *
-	 * @param int $microtime
+	 * @param float $microtime
 	 * @return float
 	 */
-	private static function getMicrotime(int $microtime=0):float {
+	protected static function getMicrotime(float $microtime=0):float {
 		if ($microtime==0) {
 			return microtime(true);
 		}
@@ -68,10 +68,10 @@ class Debug {
 	 * Bei "scriptload" als Name wird die Variable $_SERVER['REQUEST_TIME_FLOAT'] verwendet.
 	 *
 	 * @param string $name
-	 * @param int $microtime
+	 * @param float $microtime
 	 * @return bool
 	 */
-	public static function startTimer(string $name, int $microtime=0):bool {
+	public static function startTimer(string $name, float $microtime=0):bool {
 		$microtime=self::getMicrotime($microtime);
 		if ($name=='scriptload') {
 			self::$timer[$name]['start']=$_SERVER['REQUEST_TIME_FLOAT'];
@@ -79,7 +79,7 @@ class Debug {
 
 			return true;
 		}
-		self::$timer[$name]['start']=microtime(true);
+		self::$timer[$name]['start']=self::getMicrotime($microtime);
 
 		return true;
 	}
@@ -92,9 +92,9 @@ class Debug {
 	 * @param string $notice
 	 * @return bool
 	 */
-	public static function breakTimer(string $name, int $microtime=0, string $notice=''):bool {
+	public static function breakTimer(string $name, float $microtime=0, string $notice=''):bool {
 		$microtime=self::getMicrotime($microtime);
-		self::$timer[$name]['break'][]=['microtime'=>microtime(true), 'notice'=>$notice];
+		self::$timer[$name]['break'][]=['microtime'=>$microtime, 'notice'=>$notice];
 
 		return true;
 	}
@@ -103,12 +103,12 @@ class Debug {
 	 * Stopt den Timer.
 	 *
 	 * @param string $name
-	 * @param int $microtime
+	 * @param float $microtime
 	 * @return bool
 	 */
-	public static function stopTimer(string $name, int $microtime=0):bool {
+	public static function stopTimer(string $name, float $microtime=0):bool {
 		$microtime=self::getMicrotime($microtime);
-		self::$timer[$name]['end']=microtime(true);
+		self::$timer[$name]['end']=$microtime;
 
 		return true;
 	}

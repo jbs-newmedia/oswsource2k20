@@ -7,7 +7,7 @@
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
  * @package osWFrame
  * @link https://oswframe.com
- * @license https://www.gnu.org/licenses/gpl-3.0.html GNU General Public License 3
+ * @license MIT License
  */
 
 ?>
@@ -15,19 +15,19 @@
 <div class="form-group ddm_element_<?php echo $this->getDeleteElementValue($element, 'id') ?>">
 
 	<?php /* label */ ?>
-	<label for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
+	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
 
 	<?php /* read only */ ?>
 	<?php $bitmask=$this->getDeleteElementStorage($element); ?>
-	<?php if ($this->getEditElementOption($element, 'orientation')=='horizontal'): ?>
+	<?php if ($this->getDeleteElementOption($element, 'orientation')=='horizontal'): ?>
 	<div><?php endif ?>
 		<?php $i=0;
-		foreach ($this->getAddElementOption($element, 'data') as $key=>$value):$i++; ?><?php if ($this->getEditElementOption($element, 'orientation')=='horizontal'): ?><div class="form-check-inline"><?php endif ?>
+		foreach ($this->getDeleteElementOption($element, 'data') as $key=>$value):$i++; ?><?php if ($this->getDeleteElementOption($element, 'orientation')=='horizontal'): ?><div class="form-check-inline"><?php endif ?>
 			<div class="custom-checkbox">
 				<?php if (isset($bitmask[$key])&&($bitmask[$key]=='1')): ?><?php echo $this->getGroupMessage('log_char_true').' '.\osWFrame\Core\HTML::outputString($value) ?><?php else: ?><?php echo $this->getGroupMessage('log_char_false').' '.\osWFrame\Core\HTML::outputString($value) ?><?php endif ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_'.$key, (isset($bitmask[$key])?1:0)) ?>
 			</div>
-			<?php if ($this->getEditElementOption($element, 'orientation')=='horizontal'): ?></div><?php endif ?><?php endforeach ?>
-		<?php if ($this->getEditElementOption($element, 'orientation')=='horizontal'): ?></div><?php endif ?>
+			<?php if ($this->getDeleteElementOption($element, 'orientation')=='horizontal'): ?></div><?php endif ?><?php endforeach ?>
+		<?php if ($this->getDeleteElementOption($element, 'orientation')=='horizontal'): ?></div><?php endif ?>
 
 	<?php /* error */ ?>
 	<?php if ($this->getTemplate()->Form()->getErrorMessage($element)): ?>
