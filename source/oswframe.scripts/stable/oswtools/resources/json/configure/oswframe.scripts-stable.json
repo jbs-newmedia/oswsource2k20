@@ -4,5 +4,11 @@
       "scripts_lock_path": ".scripts/",
       "scripts_lock_timeout": 3600
     }
+  },
+  "htaccess": {
+    "topmiddle": [
+      "RewriteRule ^scripts/?$ ?module=scripts&%{QUERY_STRING} [L]",
+      "RewriteRule ^scripts/([a-zA-Z0-9-_]+)/?$ ?module=scripts&script=$1&%{QUERY_STRING} [L]"
+    ]
   }
 }
