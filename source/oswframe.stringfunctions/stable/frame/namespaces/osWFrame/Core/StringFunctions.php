@@ -84,14 +84,15 @@ class StringFunctions {
 	/**
 	 * @param string $password
 	 * @param string $algo
+	 * @param array $options
 	 * @return string
 	 */
-	public static function hashPassword(string $password, string $algo=PASSWORD_DEFAULT):string {
-		if (in_array($algo, [PASSWORD_ARGON2I, PASSWORD_ARGON2ID, PASSWORD_BCRYPT])) {
-			return password_hash($password, $algo);
+	public static function hashPassword(string $password, string $algo=PASSWORD_DEFAULT, array $options = []):string {
+		if (!in_array($algo, [PASSWORD_ARGON2I, PASSWORD_ARGON2ID, PASSWORD_BCRYPT], true)) {
+			$algo = PASSWORD_DEFAULT;
 		}
 
-		return password_hash($password, PASSWORD_DEFAULT);
+		return password_hash($password, $algo, $options);
 	}
 
 	/**
