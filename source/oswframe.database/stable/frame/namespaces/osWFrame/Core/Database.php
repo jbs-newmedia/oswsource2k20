@@ -24,7 +24,7 @@ class Database {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=3;
+	private const CLASS_MINOR_VERSION=4;
 
 	/**
 	 * Release-Version der Klasse.
@@ -160,6 +160,15 @@ class Database {
 		$this->setQuery(str_replace($name, $this->escapeString($value), $this->getQuery()));
 
 		return $this;
+	}
+
+	/**
+	 * @param string $name
+	 * @param array $values
+	 * @return $this
+	 */
+	public function bindArray(string $name, array $values):self {
+		return $this->setQuery(str_replace($name, implode(', ', array_map([$this, 'escapeString'], $values)), $this->getQuery()));
 	}
 
 	/**
