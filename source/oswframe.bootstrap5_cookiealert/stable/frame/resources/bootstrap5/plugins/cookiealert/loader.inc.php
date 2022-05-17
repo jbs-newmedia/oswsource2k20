@@ -27,6 +27,6 @@ $cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'cookiealert.css'];
 $jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'cookiealert.js'];
 
 $this->addTemplateCSSFiles('head', $cssfiles);
-$this->addTemplateJSFiles('head', $jsfiles);
+$this->addTemplateJSFiles('body', $jsfiles);
 
 ?>

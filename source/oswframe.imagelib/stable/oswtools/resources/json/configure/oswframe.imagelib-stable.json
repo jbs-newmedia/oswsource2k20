@@ -9,7 +9,7 @@
       "imagelib_allowed_dirs_custom": [],
       "imagelib_quality": 90,
       "imagelib_maxwidth": 3200,
-      "imagelib_maxhight": 3200
+      "imagelib_maxheight": 3200
     }
   }
 }

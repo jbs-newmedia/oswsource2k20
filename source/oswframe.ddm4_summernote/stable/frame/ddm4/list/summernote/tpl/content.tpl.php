@@ -10,6 +10,8 @@
  * @license MIT License
  */
 
+use osWFrame\Core\HTML;
+
 if ($this->getListElementOption($element, 'show_output')===true) {
 	$view_data[$this->getListElementValue($element, 'name')]=$view_data[$this->getListElementValue($element, 'name')];
 } else {
@@ -21,7 +23,7 @@ if ($this->getListElementOption($element, 'show_output')===true) {
 	}
 
 	if ($this->getListElementOption($element, 'show_dialog')===true) {
-		$view_data[$this->getListElementValue($element, 'name')]='<a style="cursor:pointer;" onclick="openDDM4Dialog_'.$this->getName().'(this);" pageTitle="'.$this->getListElementValue($element, 'title').'" pageName="'.$view_data[$this->getListElementValue($element, 'name')].'">'.$t.'</a>';
+		$view_data[$this->getListElementValue($element, 'name')]='<a style="cursor:pointer;" onclick="openDDM4Dialog_'.$this->getName().'(this);" pageTitle="'.$this->getListElementValue($element, 'title').'" pageName="'.HTML::outputString($view_data[$this->getListElementValue($element, 'name')]).'">'.$t.'</a>';
 	} else {
 		$view_data[$this->getListElementValue($element, 'name')]=$t;
 	}

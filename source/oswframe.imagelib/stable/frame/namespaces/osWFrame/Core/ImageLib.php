@@ -79,21 +79,24 @@ class ImageLib {
 		$this->options['options']['alphablending']=false;
 		$this->options['options']['savealpha']=true;
 
-		if ($this->options['image']['type']==IMAGETYPE_JPEG) {
-			$this->image=imagecreatefromjpeg($filename);
+		switch ($this->getType()){
+			case IMAGETYPE_JPEG:
+				$this->image=imagecreatefromjpeg($filename);
+				break;
 
-			return true;
-		} elseif ($this->options['image']['type']==IMAGETYPE_GIF) {
-			$this->image=imagecreatefromgif($filename);
+			case IMAGETYPE_GIF:
+				$this->image=imagecreatefromgif($filename);
+				break;
 
-			return true;
-		} elseif ($this->options['image']['type']==IMAGETYPE_PNG) {
-			$this->image=imagecreatefrompng($filename);
+			case IMAGETYPE_PNG:
+				$this->image=imagecreatefrompng($filename);
+				break;
 
-			return true;
+			default:
+				return false;
 		}
 
-		return false;
+		return (bool) $this->image;
 	}
 
 	/**
@@ -114,16 +117,16 @@ class ImageLib {
 		imagealphablending($this->image, $this->options['options']['alphablending']);
 		imagesavealpha($this->image, $this->options['options']['savealpha']);
 
-		if ($this->options['options']['type']==IMAGETYPE_JPEG) {
-			imagejpeg($this->image, $filename, $this->options['options']['quality']);
-		} elseif ($this->options['options']['type']==IMAGETYPE_GIF) {
-			imagegif($this->image, $filename);
-		} elseif ($this->options['options']['type']==IMAGETYPE_PNG) {
-			imagepng($this->image, $filename, 9);
-		}
+		$saved = match ($this->getType()){
+			IMAGETYPE_JPEG => imagejpeg($this->image, $filename, $this->options['options']['quality']),
+			IMAGETYPE_GIF => imagegif($this->image, $filename),
+			IMAGETYPE_PNG => imagepng($this->image, $filename, 9),
+			default => false
+		};
+
 		Filesystem::changeFilemode($filename);
 
-		return true;
+		return $saved;
 	}
 
 	/**
@@ -289,8 +292,7 @@ class ImageLib {
 	 * @return bool
 	 */
 	protected function checkSizeLimits():bool {
-		/* ToDo */
-		return true;
+		return Settings::getIntVar('imagelib_maxwidth') < $this->getWidth() || Settings::getIntVar('imagelib_maxheight') < $this->getHeight();
 	}
 
 	/**
@@ -392,6 +394,13 @@ class ImageLib {
 		} else {
 			return $this->resizeToLongest($height);
 		}
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getType(): int {
+		return $this->options['image']['type'];
 	}
 
 }
