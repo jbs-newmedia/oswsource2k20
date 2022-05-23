@@ -29,7 +29,7 @@ class Bootstrap5_Notify {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -38,20 +38,11 @@ class Bootstrap5_Notify {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
-	 * Bootstrap5 Version.
-	 *
-	 * @var string
-	 */
-	protected const CURRENT_RESOURCE_VERSION='4.3.1';
-
-	/**
 	 * Bootstrap5_Notify constructor.
 	 *
 	 * @param object $Template
-	 * @param string $version
-	 * @param bool $min
 	 */
-	public function __construct(object $Template, string $version='current', bool $min=true) {
+	public function __construct(object $Template) {
 		$this->setTemplate($Template);
 	}
 
