@@ -30,7 +30,7 @@ class FontAwesome5 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=3;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -136,9 +136,9 @@ class FontAwesome5 {
 				$path.=Settings::getStringVar('project_path').'/';
 			}
 			$filename=Resource::getAbsDir().'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'all.css';
-			file_put_contents($filename, str_replace('url("../webfonts/', 'url("'.$path.Settings::getStringVar('resource_path').'fontawesome5'.DIRECTORY_SEPARATOR.$version.'/webfonts/', file_get_contents($filename)));
+			file_put_contents($filename, str_replace('url("../webfonts/', 'url("'.$path.Settings::getStringVar('resource_path').'fontawesome5/'.$version.'/webfonts/', file_get_contents($filename)));
 			$filename=Resource::getAbsDir().'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'all.min.css';
-			file_put_contents($filename, str_replace('url(../webfonts/', 'url('.$path.Settings::getStringVar('resource_path').'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR.'/webfonts/', file_get_contents($filename)));
+			file_put_contents($filename, str_replace('url(../webfonts/', 'url('.$path.Settings::getStringVar('resource_path').'fontawesome5/'.$version.'/webfonts/', file_get_contents($filename)));
 			Resource::writeResource($this->getClassName(), $name, time());
 		}
 		$path=Resource::getRelDir().'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
