@@ -45,7 +45,7 @@
 					<td><?php echo \osWFrame\Core\HTML::outputString($package_data['release']); ?></td>
 					<td class="manager_release"><?php echo $package_data['installed']; ?></td>
 					<td><?php echo $package_data['available']; ?></td>
-					<td class="manager_options text-center"><?php echo $Tool->outputOption($this->buildhrefLink('current'),$package_name, $package_data); ?></td>
+					<td class="manager_options text-center"><?php echo $Tool->outputOption($this->buildhrefLink('current'), $package_name, $package_data); ?></td>
 				</tr>
 
 			<?php endforeach ?>
@@ -55,6 +55,8 @@
 		</tbody>
 	</table>
 
-	<a href="javascript:updateAll()" class="mt-3 btn btn-primary d-block">Update all packages</a>
+	<?php if ($Tool->getPackages()!=[]): ?>
+		<a href="javascript:updateAll()" class="mt-3 btn btn-primary d-block">Update all packages</a>
+	<?php endif ?>
 
 <?php endif ?>

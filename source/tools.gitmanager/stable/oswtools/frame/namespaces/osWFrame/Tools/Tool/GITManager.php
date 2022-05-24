@@ -30,7 +30,7 @@ class GITManager extends CoreTool {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -84,8 +84,62 @@ class GITManager extends CoreTool {
 
 			$ch=curl_init($host);
 			curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
+			if ((isset($conf['connection']))&&(isset($conf['connection']['ssl_verifyhost']))) {
+				if ($conf['connection']['ssl_verifyhost']===true) {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);
+				} else {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+				}
+			}
+			if ((isset($conf['connection']))&&(isset($conf['connection']['ssl_verifypeer']))) {
+				if ($conf['connection']['ssl_verifypeer']===true) {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+				} else {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				}
+			}
 			if (strlen($user)>0) {
 				curl_setopt($ch, CURLOPT_USERPWD, $user.":".$token);
+			}
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$return=curl_exec($ch);
+			curl_close($ch);
+			$json=json_decode($return, true);
+			if (($json==false)||($json==null)) {
+				return [];
+			}
+
+			return $json;
+		}
+
+		if (in_array($conf['info']['git'], ['gitlab'])) {
+			$host=$conf['info']['link'];
+			if ((isset($conf['info']['user']))&&(isset($conf['info']['token']))) {
+				$user=$conf['info']['user'];
+				$token=$conf['info']['token'];
+			}
+			$useragent='Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0';
+
+			$ch=curl_init($host);
+			curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
+			if ((isset($conf['connection']))&&(isset($conf['connection']['ssl_verifyhost']))) {
+				if ($conf['connection']['ssl_verifyhost']===true) {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);
+				} else {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+				}
+			}
+			if ((isset($conf['connection']))&&(isset($conf['connection']['ssl_verifypeer']))) {
+				if ($conf['connection']['ssl_verifypeer']===true) {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+				} else {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				}
+			}
+			if (strlen($token)>0) {
+				$headers=[];
+				$headers[]='PRIVATE-TOKEN: '.$token;
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			}
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			$return=curl_exec($ch);
@@ -102,21 +156,74 @@ class GITManager extends CoreTool {
 	}
 
 	/**
-	 * @param array $conf
-	 * @return array
+	 * @param string $git
+	 * @param string $host
+	 * @param string $user
+	 * @param string $token
+	 * @param array $connection
+	 * @return string
 	 */
-	public function downloadGITZip(string $git, string $host, string $user='', string $token=''):string {
+	public function downloadGITZip(string $git, string $host, string $user='', string $token='', array $connection=[]):string {
 		if (in_array($git, ['github'])) {
 			$useragent='Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0';
 
 			$ch=curl_init();
-			curl_setopt($ch, CURLOPT_URL, 'https://github.com');
+			curl_setopt($ch, CURLOPT_URL, $host);
 			curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			if ((isset($connection))&&(isset($connection['ssl_verifyhost']))) {
+				if ($connection['ssl_verifyhost']===true) {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);
+				} else {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+				}
+			}
+			if ((isset($connection))&&(isset($connection['ssl_verifypeer']))) {
+				if ($connection['ssl_verifypeer']===true) {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+				} else {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				}
+			}
 			if (strlen($user)>0) {
+				curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 				curl_setopt($ch, CURLOPT_USERPWD, $user.":".$token);
+			}
+
+			curl_setopt($ch, CURLOPT_URL, $host);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+			$return=curl_exec($ch);
+			curl_close($ch);
+
+			return $return;
+		}
+		if (in_array($git, ['gitlab'])) {
+			$useragent='Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0';
+
+			$ch=curl_init();
+			curl_setopt($ch, CURLOPT_URL, $host);
+			curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			if ((isset($connection))&&(isset($connection['ssl_verifyhost']))) {
+				if ($connection['ssl_verifyhost']===true) {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);
+				} else {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+				}
+			}
+			if ((isset($connection))&&(isset($connection['ssl_verifypeer']))) {
+				if ($connection['ssl_verifypeer']===true) {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+				} else {
+					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+				}
+			}
+			if (strlen($token)>0) {
+				$headers=[];
+				$headers[]='PRIVATE-TOKEN: '.$token;
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			}
 
 			curl_setopt($ch, CURLOPT_URL, $host);
@@ -198,7 +305,7 @@ class GITManager extends CoreTool {
 					}
 
 					$this->packages[$json['index']]['available']='-';
-					if ($this->packages[$json['index']]['git']!='-') {
+					if (in_array($this->packages[$json['index']]['git'], ['github'])) {
 						$git=$this->getGITDetails($json);
 
 						foreach ($git as $_git) {
@@ -213,6 +320,37 @@ class GITManager extends CoreTool {
 								if (($_git['draft']==false)&&($_git['prerelease']==true)) {
 									$this->packages[$json['index']]['available']=$_git['tag_name'];
 									$this->packages[$json['index']]['zip']=$_git['zipball_url'];
+									break;
+								}
+							}
+						}
+					}
+
+					if (in_array($this->packages[$json['index']]['git'], ['gitlab'])) {
+						$git=$this->getGITDetails($json);
+
+						foreach ($git as $_git) {
+							if ($this->packages[$json['index']]['release']=='stable') {
+								if ($_git['upcoming_release']==false) {
+									$this->packages[$json['index']]['available']=$_git['tag_name'];
+									foreach ($_git['assets']['sources'] as $source) {
+										if ($source['format']=='zip') {
+											$this->packages[$json['index']]['zip']=$source['url'];
+											break;
+										}
+									}
+									break;
+								}
+							}
+							if ($this->packages[$json['index']]['release']=='prerelease') {
+								if ($_git['upcoming_release']==true) {
+									$this->packages[$json['index']]['available']=$_git['tag_name'];
+									foreach ($_git['assets']['sources'] as $source) {
+										if ($source['format']=='zip') {
+											$this->packages[$json['index']]['zip']=$source['url'];
+											break;
+										}
+									}
 									break;
 								}
 							}
@@ -284,7 +422,50 @@ class GITManager extends CoreTool {
 			if (in_array($this->packages[$package]['git'], ['github'])) {
 				$cache_name=$package.'.zip';
 				$file=Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$cache_name;
-				file_put_contents($file, $this->downloadGITZip($this->packages[$package]['git'], $this->packages[$package]['zip'], $this->packages[$package]['json']['info']['user'], $this->packages[$package]['json']['info']['token']));
+				if (!isset($this->packages[$package]['json']['connection'])) {
+					$this->packages[$package]['json']['connection']=[];
+				}
+				file_put_contents($file, $this->downloadGITZip($this->packages[$package]['git'], $this->packages[$package]['zip'], $this->packages[$package]['json']['info']['user'], $this->packages[$package]['json']['info']['token'], $this->packages[$package]['json']['connection']));
+
+				$Zip=new Zip($file);
+				$Zip->unpackDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR, Configure::getFrameConfigInt('settings_chmod_dir'), Configure::getFrameConfigInt('settings_chmod_file'));
+				$remote_path=Filesystem::scanDirsToArray(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR);
+				if (count($remote_path)!=1) {
+					return false;
+				}
+				$remote_path=$remote_path[0];
+				if ($this->packages[$package]['json']['info']['remote_path']!='') {
+					$remote_path.=$this->packages[$package]['json']['info']['remote_path'].DIRECTORY_SEPARATOR;
+				}
+
+				$local_path=Settings::getStringVar('settings_framepath');
+				if ($this->packages[$package]['json']['info']['local_path']!='') {
+					$local_path.=$this->packages[$package]['json']['info']['local_path'].DIRECTORY_SEPARATOR;
+				}
+
+				Filesystem::makeDir($local_path);
+				Filesystem::renameFile($remote_path, $local_path);
+				Filesystem::changeFilemodeFromBase($remote_path);
+
+				Filesystem::delFile($file);
+				Filesystem::delDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR);
+
+				$json=['name'=>$this->packages[$package]['name'], 'version'=>$this->packages[$package]['available'], 'release'=>$this->packages[$package]['release']];
+
+				$dir=Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'sources'.DIRECTORY_SEPARATOR.'gitmanager'.DIRECTORY_SEPARATOR.'installed'.DIRECTORY_SEPARATOR;
+				Filesystem::makeDir($dir);
+				$file=$dir.$this->packages[$package]['json']['filename'];
+				file_put_contents($file, json_encode($json));
+
+				return true;
+			}
+			if (in_array($this->packages[$package]['git'], ['gitlab'])) {
+				$cache_name=$package.'.zip';
+				$file=Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$cache_name;
+				if (!isset($this->packages[$package]['json']['connection'])) {
+					$this->packages[$package]['json']['connection']=[];
+				}
+				file_put_contents($file, $this->downloadGITZip($this->packages[$package]['git'], $this->packages[$package]['zip'], $this->packages[$package]['json']['info']['user'], $this->packages[$package]['json']['info']['token'], $this->packages[$package]['json']['connection']));
 
 				$Zip=new Zip($file);
 				$Zip->unpackDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR, Configure::getFrameConfigInt('settings_chmod_dir'), Configure::getFrameConfigInt('settings_chmod_file'));
