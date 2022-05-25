@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=3;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -432,14 +432,16 @@ class Filesystem {
 	 * @return bool
 	 */
 	public static function delDir(string $dir):bool {
-		if (self::isDir($dir)) {
-			$files=array_diff(self::scanDir($dir), ['.', '..']);
-			foreach ($files as $file) {
-				if (self::isDir($dir.$file)) {
-					self::delDir($dir.$file.DIRECTORY_SEPARATOR);
-				} else {
-					self::delFile($dir.$file);
-				}
+		$result=self::scanDir($dir);
+		if ($result==null) {
+			$result=[];
+		}
+		$files=array_diff($result, ['.', '..']);
+		foreach ($files as $file) {
+			if (self::isDir($dir.$file)) {
+				self::delDir($dir.$file.DIRECTORY_SEPARATOR);
+			} else {
+				self::delFile($dir.$file);
 			}
 		}
 
