@@ -33,23 +33,13 @@ class ProjectVerify extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
 	private const CLASS_EXTRA_VERSION='';
-
-	/**
-	 * @var array
-	 */
-	protected array $ignore_files=[];
-
-	/**
-	 * @var array
-	 */
-	protected array $ignore_dirs=[];
 
 	/**
 	 * @var array
@@ -83,15 +73,12 @@ class ProjectVerify extends CoreTool {
 	 */
 	protected function setIgnoreDefaultList():self {
 		$this->settings['projectverify_dirs'][]='data'.DIRECTORY_SEPARATOR;
-		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'top'.DIRECTORY_SEPARATOR;
-		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'topmiddle'.DIRECTORY_SEPARATOR;
-		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'middle'.DIRECTORY_SEPARATOR;
-		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'middlebottom'.DIRECTORY_SEPARATOR;
-		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.'bottom'.DIRECTORY_SEPARATOR;
+		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'filelist'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'packagelist'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'serverlist'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR;
+		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'sources'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_files'][]='frame'.DIRECTORY_SEPARATOR.'configure.php';
 		$this->settings['projectverify_files'][]='modules'.DIRECTORY_SEPARATOR.'configure.project.php';
 		$this->settings['projectverify_files'][]='oswtools'.DIRECTORY_SEPARATOR.'frame.key';
