@@ -15,8 +15,7 @@ namespace osWFrame\Tools\Tool;
 use osWFrame\Core\BaseStaticTrait;
 use osWFrame\Core\Filesystem;
 use osWFrame\Core\Settings;
-use osWFrame\Core\Zip;
-use osWFrame\Tools\Configure;
+use osWFrame\Tools\ZipGITManager;
 
 class GITManager extends CoreTool {
 
@@ -35,7 +34,7 @@ class GITManager extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -427,8 +426,8 @@ class GITManager extends CoreTool {
 				}
 				file_put_contents($file, $this->downloadGITZip($this->packages[$package]['git'], $this->packages[$package]['zip'], $this->packages[$package]['json']['info']['user'], $this->packages[$package]['json']['info']['token'], $this->packages[$package]['json']['connection']));
 
-				$Zip=new Zip($file);
-				$Zip->unpackDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR, Configure::getFrameConfigInt('settings_chmod_dir'), Configure::getFrameConfigInt('settings_chmod_file'));
+				$Zip=new ZipGITManager($file);
+				$Zip->unpackGitDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR, $this->packages[$package]['json']['info']['remote_path']);
 				$remote_path=Filesystem::scanDirsToArray(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR);
 				if (count($remote_path)!=1) {
 					return false;
@@ -467,8 +466,8 @@ class GITManager extends CoreTool {
 				}
 				file_put_contents($file, $this->downloadGITZip($this->packages[$package]['git'], $this->packages[$package]['zip'], $this->packages[$package]['json']['info']['user'], $this->packages[$package]['json']['info']['token'], $this->packages[$package]['json']['connection']));
 
-				$Zip=new Zip($file);
-				$Zip->unpackDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR, Configure::getFrameConfigInt('settings_chmod_dir'), Configure::getFrameConfigInt('settings_chmod_file'));
+				$Zip=new ZipGITManager($file);
+				$Zip->unpackGitDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR, $this->packages[$package]['json']['info']['remote_path']);
 				$remote_path=Filesystem::scanDirsToArray(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR);
 				if (count($remote_path)!=1) {
 					return false;
@@ -513,8 +512,8 @@ class GITManager extends CoreTool {
 			$local_path=Settings::getStringVar('settings_framepath');
 			if ($this->packages[$package]['json']['info']['local_path']!='') {
 				$local_path.=$this->packages[$package]['json']['info']['local_path'].DIRECTORY_SEPARATOR;
+				Filesystem::delDir($local_path);
 			}
-			Filesystem::delDir($local_path);
 
 			$dir=Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'sources'.DIRECTORY_SEPARATOR.'gitmanager'.DIRECTORY_SEPARATOR;
 			Filesystem::delFile($dir.'installed'.DIRECTORY_SEPARATOR.$this->packages[$package]['json']['filename']);
