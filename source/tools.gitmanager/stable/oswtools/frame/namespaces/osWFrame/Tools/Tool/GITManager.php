@@ -29,12 +29,12 @@ class GITManager extends CoreTool {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -113,8 +113,7 @@ class GITManager extends CoreTool {
 
 		if (in_array($conf['info']['git'], ['gitlab'])) {
 			$host=$conf['info']['link'];
-			if ((isset($conf['info']['user']))&&(isset($conf['info']['token']))) {
-				$user=$conf['info']['user'];
+			if (isset($conf['info']['token'])) {
 				$token=$conf['info']['token'];
 			}
 			$useragent='Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0';
@@ -301,6 +300,19 @@ class GITManager extends CoreTool {
 						if (isset($_json['version'])) {
 							$this->packages[$json['index']]['installed']=$_json['version'];
 						}
+						if (isset($_json['files'])) {
+							$this->packages[$json['index']]['files']=$_json['files'];
+						} else {
+							$this->packages[$json['index']]['files']=[];
+						}
+						if (isset($_json['directories'])) {
+							$this->packages[$json['index']]['directories']=$_json['directories'];
+						} else {
+							$this->packages[$json['index']]['directories']=[];
+						}
+					} else {
+						$this->packages[$json['index']]['files']=[];
+						$this->packages[$json['index']]['directories']=[];
 					}
 
 					$this->packages[$json['index']]['available']='-';
@@ -427,29 +439,11 @@ class GITManager extends CoreTool {
 				file_put_contents($file, $this->downloadGITZip($this->packages[$package]['git'], $this->packages[$package]['zip'], $this->packages[$package]['json']['info']['user'], $this->packages[$package]['json']['info']['token'], $this->packages[$package]['json']['connection']));
 
 				$Zip=new ZipGITManager($file);
-				$Zip->unpackGitDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR, $this->packages[$package]['json']['info']['remote_path']);
-				$remote_path=Filesystem::scanDirsToArray(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR);
-				if (count($remote_path)!=1) {
-					return false;
-				}
-				$remote_path=$remote_path[0];
-				if ($this->packages[$package]['json']['info']['remote_path']!='') {
-					$remote_path.=$this->packages[$package]['json']['info']['remote_path'].DIRECTORY_SEPARATOR;
-				}
-
-				$local_path=Settings::getStringVar('settings_framepath');
-				if ($this->packages[$package]['json']['info']['local_path']!='') {
-					$local_path.=$this->packages[$package]['json']['info']['local_path'].DIRECTORY_SEPARATOR;
-				}
-
-				Filesystem::makeDir($local_path);
-				Filesystem::renameFile($remote_path, $local_path);
-				Filesystem::changeFilemodeFromBase($remote_path);
+				$Zip->unpackGitDir($this->packages[$package]['json']['info']['local_path'], $this->packages[$package]['json']['info']['remote_path'], $this->packages[$package]['files'], $this->packages[$package]['directories']);
 
 				Filesystem::delFile($file);
-				Filesystem::delDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR);
 
-				$json=['name'=>$this->packages[$package]['name'], 'version'=>$this->packages[$package]['available'], 'release'=>$this->packages[$package]['release']];
+				$json=['name'=>$this->packages[$package]['name'], 'version'=>$this->packages[$package]['available'], 'release'=>$this->packages[$package]['release'], 'files'=>$Zip->getFiles(), 'directories'=>$Zip->getDirectories()];
 
 				$dir=Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'sources'.DIRECTORY_SEPARATOR.'gitmanager'.DIRECTORY_SEPARATOR.'installed'.DIRECTORY_SEPARATOR;
 				Filesystem::makeDir($dir);
@@ -467,29 +461,11 @@ class GITManager extends CoreTool {
 				file_put_contents($file, $this->downloadGITZip($this->packages[$package]['git'], $this->packages[$package]['zip'], $this->packages[$package]['json']['info']['user'], $this->packages[$package]['json']['info']['token'], $this->packages[$package]['json']['connection']));
 
 				$Zip=new ZipGITManager($file);
-				$Zip->unpackGitDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR, $this->packages[$package]['json']['info']['remote_path']);
-				$remote_path=Filesystem::scanDirsToArray(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR);
-				if (count($remote_path)!=1) {
-					return false;
-				}
-				$remote_path=$remote_path[0];
-				if ($this->packages[$package]['json']['info']['remote_path']!='') {
-					$remote_path.=$this->packages[$package]['json']['info']['remote_path'].DIRECTORY_SEPARATOR;
-				}
-
-				$local_path=Settings::getStringVar('settings_framepath');
-				if ($this->packages[$package]['json']['info']['local_path']!='') {
-					$local_path.=$this->packages[$package]['json']['info']['local_path'].DIRECTORY_SEPARATOR;
-				}
-
-				Filesystem::makeDir($local_path);
-				Filesystem::renameFile($remote_path, $local_path);
-				Filesystem::changeFilemodeFromBase($remote_path);
+				$Zip->unpackGitDir($this->packages[$package]['json']['info']['local_path'], $this->packages[$package]['json']['info']['remote_path'], $this->packages[$package]['files'], $this->packages[$package]['directories']);
 
 				Filesystem::delFile($file);
-				Filesystem::delDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('cache_path').$package.DIRECTORY_SEPARATOR);
 
-				$json=['name'=>$this->packages[$package]['name'], 'version'=>$this->packages[$package]['available'], 'release'=>$this->packages[$package]['release']];
+				$json=['name'=>$this->packages[$package]['name'], 'version'=>$this->packages[$package]['available'], 'release'=>$this->packages[$package]['release'], 'files'=>$Zip->getFiles(), 'directories'=>$Zip->getDirectories()];
 
 				$dir=Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'sources'.DIRECTORY_SEPARATOR.'gitmanager'.DIRECTORY_SEPARATOR.'installed'.DIRECTORY_SEPARATOR;
 				Filesystem::makeDir($dir);
@@ -512,7 +488,21 @@ class GITManager extends CoreTool {
 			$local_path=Settings::getStringVar('settings_framepath');
 			if ($this->packages[$package]['json']['info']['local_path']!='') {
 				$local_path.=$this->packages[$package]['json']['info']['local_path'].DIRECTORY_SEPARATOR;
-				Filesystem::delDir($local_path);
+			}
+
+			if ((isset($this->packages[$package]['files']))&&($this->packages[$package]['files']!=[])) {
+				foreach ($this->packages[$package]['files'] as $file=>$foo) {
+					Filesystem::unlink($local_path.$file);
+				}
+			}
+			if ((isset($this->packages[$package]['directories']))&&($this->packages[$package]['directories']!=[])) {
+				krsort($this->packages[$package]['directories']);
+				foreach ($this->packages[$package]['directories'] as $directory=>$foo) {
+					$result=Filesystem::scanDir($local_path.$directory);
+					if (($result!=null)&&(count(Filesystem::scanDir($local_path.$directory))==2)) {
+						Filesystem::delEmptyDir($local_path.$directory);
+					}
+				}
 			}
 
 			$dir=Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'sources'.DIRECTORY_SEPARATOR.'gitmanager'.DIRECTORY_SEPARATOR;
