@@ -24,12 +24,12 @@ class Filesystem {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=4;
+	private const CLASS_MINOR_VERSION=5;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=4;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -443,6 +443,24 @@ class Filesystem {
 			} else {
 				self::delFile($dir.$file);
 			}
+		}
+
+		return rmdir($dir);
+	}
+
+	/**
+	 * Löscht ein leeres Verzeichnis.
+	 *
+	 * @param string $dir
+	 * @return bool
+	 */
+	public static function delEmptyDir(string $dir):bool {
+		$result=self::scanDir($dir);
+		if ($result==null) {
+			$result=[];
+		}
+		if (count($result)<=2) {
+			return false;
 		}
 
 		return rmdir($dir);
