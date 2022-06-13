@@ -34,7 +34,7 @@ class GITManager extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -286,6 +286,12 @@ class GITManager extends CoreTool {
 					if (!isset($json['info']['local_path'])) {
 						$json['info']['local_path']='';
 					}
+					if (!isset($json['info']['ignored_files'])) {
+						$json['info']['ignored_files']=[];
+					}
+					if (!isset($json['info']['ignored_directories'])) {
+						$json['info']['ignored_directories']=[];
+					}
 
 					$this->packages[$json['index']]['name']=$json['info']['name'];
 					$this->packages[$json['index']]['git']=$json['info']['git'];
@@ -439,7 +445,7 @@ class GITManager extends CoreTool {
 				file_put_contents($file, $this->downloadGITZip($this->packages[$package]['git'], $this->packages[$package]['zip'], $this->packages[$package]['json']['info']['user'], $this->packages[$package]['json']['info']['token'], $this->packages[$package]['json']['connection']));
 
 				$Zip=new ZipGITManager($file);
-				$Zip->unpackGitDir($this->packages[$package]['json']['info']['local_path'], $this->packages[$package]['json']['info']['remote_path'], $this->packages[$package]['files'], $this->packages[$package]['directories']);
+				$Zip->unpackGitDir($this->packages[$package]['json']['info']['local_path'], $this->packages[$package]['json']['info']['remote_path'], $this->packages[$package]['files'], $this->packages[$package]['directories'], $this->packages[$package]['json']['info']['ignored_files'], $this->packages[$package]['json']['info']['ignored_directories']);
 
 				Filesystem::delFile($file);
 
@@ -461,7 +467,7 @@ class GITManager extends CoreTool {
 				file_put_contents($file, $this->downloadGITZip($this->packages[$package]['git'], $this->packages[$package]['zip'], $this->packages[$package]['json']['info']['user'], $this->packages[$package]['json']['info']['token'], $this->packages[$package]['json']['connection']));
 
 				$Zip=new ZipGITManager($file);
-				$Zip->unpackGitDir($this->packages[$package]['json']['info']['local_path'], $this->packages[$package]['json']['info']['remote_path'], $this->packages[$package]['files'], $this->packages[$package]['directories']);
+				$Zip->unpackGitDir($this->packages[$package]['json']['info']['local_path'], $this->packages[$package]['json']['info']['remote_path'], $this->packages[$package]['files'], $this->packages[$package]['directories'], $this->packages[$package]['json']['info']['ignored_files'], $this->packages[$package]['json']['info']['ignored_directories']);
 
 				Filesystem::delFile($file);
 
