@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -459,7 +459,7 @@ class Filesystem {
 		if ($result==null) {
 			$result=[];
 		}
-		if (count($result)<=2) {
+		if (count($result)!=2) {
 			return false;
 		}
 
