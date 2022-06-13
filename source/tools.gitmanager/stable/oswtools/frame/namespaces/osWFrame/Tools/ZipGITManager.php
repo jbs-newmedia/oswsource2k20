@@ -35,7 +35,7 @@ class ZipGITManager extends Zip {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -113,9 +113,9 @@ class ZipGITManager extends Zip {
 						if (isset($old_files[$name])) {
 							unset($old_files[$name]);
 						}
-						$files[$name]='';
 						$data=$this->getFromIndex($i);
 						if (!in_array($name, $ignored_files)) {
+							$files[$name]='';
 							file_put_contents($dir.$name, $data);
 							Filesystem::changeFilemode($dir.$name, $chmod_file);
 						}
