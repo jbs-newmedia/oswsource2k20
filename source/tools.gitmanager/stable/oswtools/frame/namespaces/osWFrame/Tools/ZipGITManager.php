@@ -30,12 +30,12 @@ class ZipGITManager extends Zip {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -99,26 +99,32 @@ class ZipGITManager extends Zip {
 					}
 				}
 				$name=str_replace([$gitpath.DIRECTORY_SEPARATOR, $gitbase], ['', ''], $stat['name']);
-				if ((($gitpath=='')||(strpos($stat['name'], $gitpath)===0))&&($this->checkIgnoredDir($name, $ignored_directories)!==true)) {
+				if (($stat['crc']==0)&&($stat['size']==0)) {
+					$status='directory';
+				} else {
+					$status='file';
+				}
+				if ((strpos($stat['name'], $gitpath)===0)&&($this->checkIgnored($name, $status, $ignored_directories, $ignored_files)!==true)) {
 					if (($stat['crc']==0)&&($stat['size']==0)) {
-						if (isset($old_directories[$name])) {
-							unset($old_directories[$name]);
+						if ($status=='directory') {
+							if (Filesystem::isDir($dir.$name)!==true) {
+								Filesystem::makeDir($dir.$name, $chmod_dir);
+							}
+							Filesystem::changeDirmode($dir.$name, $chmod_dir);
+
+							if (isset($old_directories[$name])) {
+								unset($old_directories[$name]);
+							}
+							$directories[$name]='';
 						}
-						$directories[$name]='';
-						if (Filesystem::isDir($dir.$name)!==true) {
-							Filesystem::makeDir($dir.$name, $chmod_dir);
-						}
-						Filesystem::changeDirmode($dir.$name, $chmod_dir);
-					} else {
+					} elseif ($status=='file') {
+						$data=$this->getFromIndex($i);
+						file_put_contents($dir.$name, $data);
+						Filesystem::changeFilemode($dir.$name, $chmod_file);
 						if (isset($old_files[$name])) {
 							unset($old_files[$name]);
 						}
-						$data=$this->getFromIndex($i);
-						if (!in_array($name, $ignored_files)) {
-							$files[$name]='';
-							file_put_contents($dir.$name, $data);
-							Filesystem::changeFilemode($dir.$name, $chmod_file);
-						}
+						$files[$name]='';
 					}
 				}
 			}
@@ -174,16 +180,23 @@ class ZipGITManager extends Zip {
 	}
 
 	/**
-	 * @param string $dir
+	 * @param string $name
+	 * @param string $status
 	 * @param array $ignored_dirs
+	 * @param array $ignored_files
 	 * @return bool
 	 */
-	protected function checkIgnoredDir(string $dir, array $ignored_dirs):bool {
+	protected function checkIgnored(string $name, string $status, array $ignored_dirs,  array $ignored_files):bool {
 		foreach ($ignored_dirs as $ignored_dir) {
-			if (strpos($dir, $ignored_dir)===0) {
+			if (strpos($name, $ignored_dir)===0) {
 				return true;
 			}
 		}
+
+		if ($status=='file') {
+			return in_array($name, $ignored_files);
+		}
+
 		return false;
 	}
 
