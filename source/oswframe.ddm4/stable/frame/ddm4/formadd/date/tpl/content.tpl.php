@@ -30,7 +30,7 @@
 
 				<?php if ($this->getAddElementOption($element, 'month_asname')===true): ?>
 
-					<?php echo strftime(str_replace('%m.', ' %B ', $this->getAddElementOption($element, 'date_format')), mktime(12, 0, 0, substr($this->getAddElementStorage($element), 4, 2), substr($this->getAddElementStorage($element), 6, 2), substr($this->getAddElementStorage($element), 0, 4))) ?><?php else: ?><?php echo strftime($this->getAddElementOption($element, 'date_format'), mktime(12, 0, 0, substr($this->getAddElementStorage($element), 4, 2), substr($this->getAddElementStorage($element), 6, 2), substr($this->getAddElementStorage($element), 0, 4))) ?>
+					<?php echo \osWFrame\Core\DateTime::strftime(str_replace('%m.', ' %B ', $this->getAddElementOption($element, 'date_format')), mktime(12, 0, 0, substr($this->getAddElementStorage($element), 4, 2), substr($this->getAddElementStorage($element), 6, 2), substr($this->getAddElementStorage($element), 0, 4))) ?><?php else: ?><?php echo \osWFrame\Core\DateTime::strftime($this->getAddElementOption($element, 'date_format'), mktime(12, 0, 0, substr($this->getAddElementStorage($element), 4, 2), substr($this->getAddElementStorage($element), 6, 2), substr($this->getAddElementStorage($element), 0, 4))) ?>
 
 				<?php endif ?>
 

@@ -18,6 +18,11 @@
       "serverlist": "oswframe2k20",
       "package": "oswframe.bootstrap5_datepicker",
       "release": "stable"
+    },
+    {
+      "serverlist": "oswframe2k20",
+      "package": "oswframe.datetime",
+      "release": "stable"
     }
   ]
 }

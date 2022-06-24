@@ -1,6 +1,6 @@
 <?php
 
-$foo='Hello World @ '.strftime('%c');
+$foo='Hello World @ '.date('Y/m/d H/i/s');
 
 #$osW_TemplateLoader = new osWFrame\Core\TemplateLoader();
 #$osW_TemplateLoader->addTemplateCSSFile('head', 'data/resources/content/layout.css');
