@@ -51,6 +51,8 @@ class Filesystem {
 	 * @return bool
 	 */
 	public static function unlink(string $file):bool {
+		self::clearStatcache();
+		
 		if (!file_exists($file)) {
 			return true;
 		}
