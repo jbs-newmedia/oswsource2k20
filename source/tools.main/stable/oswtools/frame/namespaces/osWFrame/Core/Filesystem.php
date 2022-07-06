@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -179,7 +179,7 @@ class Filesystem {
 			return false;
 		}
 
-		if ((strpos($dirname, Settings::getStringVar('settings_abspath')))&&($dirname==Settings::getStringVar('settings_abspath'))) {
+		if ((strpos($dirname, Settings::getStringVar('settings_abspath'))>=0)||($dirname==Settings::getStringVar('settings_abspath'))) {
 			return true;
 		}
 
