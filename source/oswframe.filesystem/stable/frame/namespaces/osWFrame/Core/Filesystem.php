@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -177,6 +177,10 @@ class Filesystem {
 
 		if (self::isDir($dirname)!==true) {
 			return false;
+		}
+
+		if ((strpos($dirname, Settings::getStringVar('settings_abspath')))&&($dirname==Settings::getStringVar('settings_abspath'))) {
+			return true;
 		}
 
 		return chmod($dirname, $mod);
