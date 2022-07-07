@@ -70,12 +70,15 @@ class FavIcon {
 	 * @param object $Template
 	 */
 	public function __construct(string $file, object $Template) {
-		$this->setFile($file);
-		$this->setFavIcon(true);
-		$this->setTemplate($Template);
-		$this->setIcons();
-		$this->setAppleTouchIcons();
-		$this->setMSApplication();
+		$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getFile();
+		if (Filesystem::existsFile($file)) {
+			$this->setFile($file);
+			$this->setFavIcon(true);
+			$this->setTemplate($Template);
+			$this->setIcons();
+			$this->setAppleTouchIcons();
+			$this->setMSApplication();
+		}
 	}
 
 	/**
