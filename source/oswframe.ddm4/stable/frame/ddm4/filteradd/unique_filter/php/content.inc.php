@@ -27,7 +27,7 @@ if (strlen($this->getDoAddElementStorage($element))>0) {
 		$database_where_string.=' AND ('.implode(' OR ', $ddm_filter).')';
 	}
 
-	$QcheckData=self::getConnection();
+	$QcheckData=self::getConnection($this->getGroupOption('connection', 'database'));
 	$QcheckData->prepare('SELECT :formdata_name: FROM :table: AS :alias: WHERE :formdata_name: LIKE :value: :where:');
 	$QcheckData->bindTable(':table:', $this->getGroupOption('table', 'database'));
 	$QcheckData->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));

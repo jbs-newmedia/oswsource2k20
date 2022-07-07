@@ -34,7 +34,7 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 		$database_where_string.=' AND ('.$this->getSendElementValue($element, 'name').'>='.$this->getSendElementOption($element, 'default_value').')';
 	}
 
-	$QcheckData=self::getConnection();
+	$QcheckData=self::getConnection($this->getGroupOption('connection', 'database'));
 	$QcheckData->prepare('SELECT :formdata_name: FROM :table: AS :alias: WHERE 1 :where: ORDER BY :formdata_name: DESC LIMIT 1');
 	$QcheckData->bindTable(':table:', $this->getGroupOption('table', 'database'));
 	$QcheckData->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));

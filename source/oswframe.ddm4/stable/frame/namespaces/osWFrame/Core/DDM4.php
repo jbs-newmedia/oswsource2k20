@@ -25,12 +25,12 @@ class DDM4 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=4;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -2284,22 +2284,22 @@ class DDM4 {
 	}
 
 	/**
-	 *
 	 * @param string $key
 	 * @param string $value
 	 * @param int $user_id
+	 * @param string $connection
 	 * @return bool
 	 */
-	public function setLock(string $key, string $value, int $user_id):bool {
+	public function setLock(string $key, string $value, int $user_id, string $connection=''):bool {
 		$this->clearLock();
-		$Qgetlock=self::getConnection();
+		$Qgetlock=self::getConnection($connection);
 		$Qgetlock->prepare('SELECT * FROM :table_ddm4_lock: WHERE lock_group=:lock_group: AND lock_key=:lock_key: AND lock_value=:lock_value:');
 		$Qgetlock->bindTable(':table_ddm4_lock:', 'ddm4_lock');
 		$Qgetlock->bindString(':lock_group:', $this->getName());
 		$Qgetlock->bindString(':lock_key:', $key);
 		$Qgetlock->bindString(':lock_value:', $value);
 		if ($Qgetlock->exec()==1) {
-			$Qgetlock=self::getConnection();
+			$Qgetlock=self::getConnection($connection);
 			$Qgetlock->prepare('SELECT * FROM :table_ddm4_lock: WHERE lock_group=:lock_group: AND lock_key=:lock_key: AND lock_value=:lock_value: AND user_id=:user_id:');
 			$Qgetlock->bindTable(':table_ddm4_lock:', 'ddm4_lock');
 			$Qgetlock->bindString(':lock_group:', $this->getName());
@@ -2307,7 +2307,7 @@ class DDM4 {
 			$Qgetlock->bindString(':lock_value:', $value);
 			$Qgetlock->bindInt(':user_id:', $user_id);
 			if ($Qgetlock->exec()==1) {
-				$Qlock=self::getConnection();
+				$Qlock=self::getConnection($connection);
 				$Qlock->prepare('UPDATE :table_ddm4_lock: SET lock_time=:lock_time: WHERE lock_group=:lock_group: AND lock_key=:lock_key: AND lock_value=:lock_value: AND user_id=:user_id:');
 				$Qlock->bindTable(':table_ddm4_lock:', 'ddm4_lock');
 				$Qlock->bindString(':lock_group:', $this->getName());
@@ -2320,7 +2320,7 @@ class DDM4 {
 				return false;
 			}
 		} else {
-			$Qlock=self::getConnection();
+			$Qlock=self::getConnection($connection);
 			$Qlock->prepare('INSERT INTO :table_ddm4_lock: (lock_group, lock_key, lock_value, user_id, lock_time) VALUES (:lock_group:, :lock_key:, :lock_value:, :user_id:, :lock_time:)');
 			$Qlock->bindTable(':table_ddm4_lock:', 'ddm4_lock');
 			$Qlock->bindString(':lock_group:', $this->getName());
@@ -2335,13 +2335,13 @@ class DDM4 {
 	}
 
 	/**
-	 *
 	 * @param string $key
 	 * @param string $value
+	 * @param string $connection
 	 * @return int
 	 */
-	public function getLockUserId(string $key, string $value):int {
-		$Qgetlock=self::getConnection();
+	public function getLockUserId(string $key, string $value, string $connection=''):int {
+		$Qgetlock=self::getConnection($connection);
 		$Qgetlock->prepare('SELECT user_id FROM :table_ddm4_lock: WHERE lock_group=:lock_group: AND lock_key=:lock_key: AND lock_value=:lock_value:');
 		$Qgetlock->bindTable(':table_ddm4_lock:', 'ddm4_lock');
 		$Qgetlock->bindString(':lock_group:', $this->getName());
@@ -2357,11 +2357,11 @@ class DDM4 {
 	}
 
 	/**
-	 *
+	 * @param string $connection
 	 * @return bool
 	 */
-	public function clearLock():bool {
-		$Qclearlock=self::getConnection();
+	public function clearLock(string $connection=''):bool {
+		$Qclearlock=self::getConnection($connection);
 		$Qclearlock->prepare('DELETE FROM :table_ddm4_lock: WHERE lock_time<:lock_time:');
 		$Qclearlock->bindTable(':table_ddm4_lock:', 'ddm4_lock');
 		$Qclearlock->bindInt(':lock_time:', (time()-10));
