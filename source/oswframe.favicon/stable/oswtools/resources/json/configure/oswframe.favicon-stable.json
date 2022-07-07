@@ -36,8 +36,8 @@
     }
   },
   "htaccess": {
-    "bottom": [
-      "RewriteRule ^favicon.ico ?module=###$vars['favicon_module']"
+    "topmiddle": [
+      "RewriteRule ^favicon.ico ?module=###$vars['favicon_module'] [L]"
     ]
   }
 }
