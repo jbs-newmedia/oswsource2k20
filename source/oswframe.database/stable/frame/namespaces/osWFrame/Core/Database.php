@@ -29,7 +29,7 @@ class Database {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -116,6 +116,9 @@ class Database {
 	 * @param string $alias
 	 */
 	public function __construct(string $alias='default') {
+		if ($alias=='') {
+			$alias='default';
+		}
 		$this->PDO=DB::getConnection($alias);
 	}
 

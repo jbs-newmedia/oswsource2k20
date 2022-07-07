@@ -29,7 +29,7 @@ class DB {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -58,6 +58,9 @@ class DB {
 	 * @return bool|null
 	 */
 	public static function connect(string $alias='default'):?bool {
+		if ($alias=='') {
+			$alias='default';
+		}
 		if (!isset(self::$connections[$alias])) {
 			return null;
 		}
@@ -87,6 +90,9 @@ class DB {
 	 * @return bool
 	 */
 	public static function addConnectionMYSQL(string $host, string $user, string $password, string $dbname, string $charset='utf8', string $alias='default', int $port=3306):bool {
+		if ($alias=='') {
+			$alias='default';
+		}
 		return self::addConnection('mysql:host='.$host.';dbname='.$dbname.';charset='.$charset.';port='.$port, $user, $password, $alias);
 	}
 
@@ -100,6 +106,9 @@ class DB {
 	 * @return bool
 	 */
 	public static function addConnection(string $dns, string $user, string $password, string $alias='default'):bool {
+		if ($alias=='') {
+			$alias='default';
+		}
 		self::$connections[$alias]=['connected'=>false, 'dns'=>$dns, 'user'=>$user, 'password'=>$password, 'con'=>null];
 
 		return true;
@@ -112,6 +121,9 @@ class DB {
 	 * @return object|null
 	 */
 	public static function getConnection(string $alias='default'):?\PDO {
+		if ($alias=='') {
+			$alias='default';
+		}
 		if (!isset(self::$connections[$alias])) {
 			return null;
 		}
