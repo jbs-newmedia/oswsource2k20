@@ -30,7 +30,7 @@ class DDM4 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -86,6 +86,12 @@ class DDM4 {
 	public function addGroup(array $options):bool {
 		if (isset($this->ddm['options'])) {
 			return false;
+		}
+		if ((isset($options['database']))&&(isset($options['database']['connection']))&&(!isset($options['database']['connection_lock']))) {
+			$options['database']['connection_lock']=$options['database']['connection'];
+		}
+		if ((isset($options['database']))&&(isset($options['database']['connection']))&&(!isset($options['database']['connection_log']))) {
+			$options['database']['connection_log']=$options['database']['connection'];
 		}
 		if (!isset($options['messages'])) {
 			$options['messages']=[];
@@ -2291,7 +2297,7 @@ class DDM4 {
 	 * @return bool
 	 */
 	public function setLock(string $key, string $value, int $user_id, string $connection=''):bool {
-		$this->clearLock();
+		$this->clearLock($connection);
 		$Qgetlock=self::getConnection($connection);
 		$Qgetlock->prepare('SELECT * FROM :table_ddm4_lock: WHERE lock_group=:lock_group: AND lock_key=:lock_key: AND lock_value=:lock_value:');
 		$Qgetlock->bindTable(':table_ddm4_lock:', 'ddm4_lock');
