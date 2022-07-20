@@ -25,12 +25,12 @@ class Language {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -84,7 +84,7 @@ class Language {
 	 * @return void
 	 */
 	public static function setAvailableLanguages(array $languages_available):void {
-		self::$languages_available=$languages_available;
+		self::$languages_available=array_combine($languages_available, $languages_available);
 	}
 
 	/**
@@ -136,26 +136,16 @@ class Language {
 
 	/**
 	 * @param string $language
-	 * @param string $format
 	 * @return bool
 	 */
-	public static function setCurrentLanguage(string $language, string $format='full'):bool {
-		switch ($format) {
-			case 'short':
-				if (!isset(self::$languages_available[$language])) {
-					return false;
-				}
-				self::setCurrentLanguageShort($language);
-				self::setCurrentLanguageFull(self::$languages_available[$language]);
-				break;
-			case 'full':
-			default:
-				if (!in_array($language, self::$languages_available)) {
-					return false;
-				}
-				self::setCurrentLanguageShort(array_search($language, self::$languages_available));
-				self::setCurrentLanguageFull($language);
+	public static function setCurrentLanguage(string $language):bool {
+		if (!isset(self::$languages_available[$language])) {
+			return false;
 		}
+
+		$language_explode=explode('_', $language);
+		self::setCurrentLanguageShort($language_explode[0]);
+		self::setCurrentLanguageFull($language);
 
 		return true;
 	}
