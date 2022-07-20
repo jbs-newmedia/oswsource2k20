@@ -25,12 +25,12 @@ class DDM4 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -2023,10 +2023,10 @@ class DDM4 {
 
 	/**
 	 * @param string $name
-	 * @param string|int $value
+	 * @param string|int|array $value
 	 * @return $this
 	 */
-	public function setParameter(string $name, string|int $value):self {
+	public function setParameter(string $name, string|int|array $value):self {
 		return $this->addParameter($name, $value);
 	}
 
