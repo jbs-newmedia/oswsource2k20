@@ -58,13 +58,13 @@
 
 		<?php $date_format=str_replace(',', '', $date_format) ?>
 
-		<?php $date_format=str_replace('%osw_tmp_ddm3_%d', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_day', $data['day'], substr($this->getAddElementStorage($element), 6, 2), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="btn btn-outline-default"']).'</div>', $date_format) ?>
+		<?php $date_format=str_replace('%osw_tmp_ddm3_%d', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_day', $data['day'], substr($this->getAddElementStorage($element), 6, 2), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="custom-select"']).'</div>', $date_format) ?>
 
-		<?php $date_format=str_replace('%osw_tmp_ddm3_%m', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_month', $data['month'], substr($this->getAddElementStorage($element), 4, 2), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="btn btn-outline-default"']).'</div>', $date_format) ?>
+		<?php $date_format=str_replace('%osw_tmp_ddm3_%m', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_month', $data['month'], substr($this->getAddElementStorage($element), 4, 2), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="custom-select"']).'</div>', $date_format) ?>
 
-		<?php $date_format=str_replace('%osw_tmp_ddm3_%Y', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_year', $data['year'], substr($this->getAddElementStorage($element), 0, 4), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="btn btn-outline-default"']).'</div>', $date_format) ?>
+		<?php $date_format=str_replace('%osw_tmp_ddm3_%Y', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_year', $data['year'], substr($this->getAddElementStorage($element), 0, 4), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="custom-select"']).'</div>', $date_format) ?>
 
-		<?php $date_format=str_replace('%osw_tmp_ddm3_%y', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_year', $data['year'], substr($this->getAddElementStorage($element), 0, 4), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="btn btn-outline-default"']).'</div>', $date_format) ?>
+		<?php $date_format=str_replace('%osw_tmp_ddm3_%y', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_year', $data['year'], substr($this->getAddElementStorage($element), 0, 4), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="custom-select"']).'</div>', $date_format) ?>
 
 		<?php echo '<div class="form-group row">'.$date_format.'</div>'; ?>
 
