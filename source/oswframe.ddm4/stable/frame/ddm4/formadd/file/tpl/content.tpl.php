@@ -47,8 +47,8 @@
 	<?php /* misc */ ?>
 	<?php if (($this->getDoAddElementStorage($element.$this->getAddElementOption($element, 'temp_suffix'))!='')&&($this->getAddElementOption($element, 'read_only')!==true)): ?>
 		<div class="form-check">
-			<?php echo $this->getTemplate()->Form()->drawCheckBoxField($element.$this->getAddElementOption($element, 'temp_suffix').$this->getAddElementOption($element, 'delete_suffix'), 1, 0, ['input_parameter'=>'title="'.\osWFrame\Core\HTML::outputString($this->getAddElementOption($element, 'text_file_delete')).'"', 'input_class'=>'form-check-input']) ?>
-			<label class="form-check-label" for="<?php echo $element.$this->getAddElementOption($element, 'temp_suffix').$this->getAddElementOption($element, 'delete_suffix') ?>0"><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementOption($element, 'text_file_delete')) ?></label>
+			<?php echo $this->getTemplate()->Form()->drawCheckBoxField($element.$this->getAddElementOption($element, 'delete_suffix'), 1, 0, ['input_parameter'=>'title="'.\osWFrame\Core\HTML::outputString($this->getAddElementOption($element, 'text_file_delete')).'"', 'input_class'=>'form-check-input']) ?>
+			<label class="form-check-label" for="<?php echo $element.$this->getAddElementOption($element, 'delete_suffix') ?>0"><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementOption($element, 'text_file_delete')) ?></label>
 		</div>
 		<?php $this->getTemplate()->Form()->drawHiddenField($element.$this->getAddElementOption($element, 'temp_suffix'), $this->getDoAddElementStorage($element.$this->getAddElementOption($element, 'temp_suffix'))) ?><?php $this->getTemplate()->Form()->drawHiddenField($element, $this->getDoAddElementStorage($element)) ?><?php elseif (($this->getAddElementStorage($element)!='')&&($this->getAddElementOption($element, 'read_only')!==true)): ?>
 		<div class="form-check">

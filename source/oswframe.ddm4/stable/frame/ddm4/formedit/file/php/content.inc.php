@@ -171,7 +171,7 @@ if (\osWFrame\Core\Settings::getAction()=='doedit') {
 		}
 	}
 
-	if (\osWFrame\Core\Settings::catchValue($element.$this->getEditElementOption($element, 'temp_suffix').$this->getEditElementOption($element, 'delete_suffix'), '', 'p')==1) {
+	if (\osWFrame\Core\Settings::catchValue($element.$this->getEditElementOption($element, 'delete_suffix'), '', 'p')==1) {
 		if ($this->getDoEditElementStorage($element)!='') {
 			\osWFrame\Core\Filesystem::unlink(\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getDoEditElementStorage($element));
 			$this->setDoEditElementStorage($element, '');

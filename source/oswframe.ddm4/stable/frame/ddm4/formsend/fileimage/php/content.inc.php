@@ -101,7 +101,7 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 		$this->setFilterErrorElementStorage($element.'_upload_error', true);
 	}
 
-	if (\osWFrame\Core\Settings::catchValue($element.$this->getSendElementOption($element, 'temp_suffix').$this->getSendElementOption($element, 'delete_suffix'), '', 'p')==1) {
+	if (\osWFrame\Core\Settings::catchValue($element.$this->getSendElementOption($element, 'delete_suffix'), '', 'p')==1) {
 		if ($this->getDoSendElementStorage($element)!='') {
 			\osWFrame\Core\Filesystem::unlink(\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getDoSendElementStorage($element));
 			$this->setDoSendElementStorage($element, '');

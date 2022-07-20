@@ -103,7 +103,7 @@ if (\osWFrame\Core\Settings::getAction()=='doadd') {
 		}
 	}
 
-	if (\osWFrame\Core\Settings::catchValue($element.$this->getAddElementOption($element, 'temp_suffix').$this->getAddElementOption($element, 'delete_suffix'), '', 'p')==1) {
+	if (\osWFrame\Core\Settings::catchValue($element.$this->getAddElementOption($element, 'delete_suffix'), '', 'p')==1) {
 		if ($this->getDoAddElementStorage($element)!='') {
 			\osWFrame\Core\Filesystem::unlink(\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getDoAddElementStorage($element));
 			$this->setDoAddElementStorage($element, '');
