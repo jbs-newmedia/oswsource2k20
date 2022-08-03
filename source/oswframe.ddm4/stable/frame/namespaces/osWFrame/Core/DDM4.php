@@ -30,7 +30,7 @@ class DDM4 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -163,6 +163,7 @@ class DDM4 {
 		$default_messages['data_edit']='Bearbeiten';
 		$default_messages['data_delete']='Löschen';
 		$default_messages['data_log']='Log';
+		$default_messages['data_choose']='Bitte wählen ...';
 		$default_messages['form_title_required_icon']='*';
 		$default_messages['form_title_pages']='Seiten';
 		$default_messages['form_title_pages_single']='Seite';
@@ -2023,10 +2024,10 @@ class DDM4 {
 
 	/**
 	 * @param string $name
-	 * @param string|int|array $value
+	 * @param string|int $value
 	 * @return $this
 	 */
-	public function setParameter(string $name, string|int|array $value):self {
+	public function setParameter(string $name, string|int $value):self {
 		return $this->addParameter($name, $value);
 	}
 

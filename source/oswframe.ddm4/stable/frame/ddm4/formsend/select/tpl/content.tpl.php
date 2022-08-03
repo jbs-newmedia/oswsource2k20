@@ -45,17 +45,17 @@
 
 			<?php if ($this->getSendElementValidation($element, 'module')=='integer'): ?>
 
-				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [0=>' ']+$this->getSendElementOption($element, 'data'), $this->getSendElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getSendElementOption($element, 'data_size').'" data-live-search="'.$this->getSendElementOption($element, 'live_search').'"']) ?>
+				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [0=>' ']+$this->getSendElementOption($element, 'data'), $this->getSendElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getSendElementOption($element, 'data_size').'" data-live-search="'.$this->getSendElementOption($element, 'live_search').'" title="'.$this->getSendElementOption($element, 'data_choose').'"']) ?>
 
 			<?php else: ?>
 
-				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [''=>' ']+$this->getSendElementOption($element, 'data'), $this->getSendElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getSendElementOption($element, 'data_size').'" data-live-search="'.$this->getSendElementOption($element, 'live_search').'"']) ?>
+				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [''=>' ']+$this->getSendElementOption($element, 'data'), $this->getSendElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getSendElementOption($element, 'data_size').'" data-live-search="'.$this->getSendElementOption($element, 'live_search').'" title="'.$this->getSendElementOption($element, 'data_choose').'"']) ?>
 
 			<?php endif ?>
 
 		<?php else: ?>
 
-			<?php echo $this->getTemplate()->Form()->drawSelectField($element, $this->getSendElementOption($element, 'data'), $this->getSendElementStorage($element), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getSendElementOption($element, 'data_size').'" data-live-search="'.$this->getSendElementOption($element, 'live_search').'"']) ?>
+			<?php echo $this->getTemplate()->Form()->drawSelectField($element, $this->getSendElementOption($element, 'data'), $this->getSendElementStorage($element), ['input_class'=>'selectpicker form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getSendElementOption($element, 'data_size').'" data-live-search="'.$this->getSendElementOption($element, 'live_search').'" title="'.$this->getSendElementOption($element, 'data_choose').'"']) ?>
 
 		<?php endif ?>
 

@@ -19,6 +19,7 @@ $default_options['options']['default_value']='';
 $default_options['options']['blank_value']=true;
 $default_options['options']['data']=[];
 $default_options['options']['text_all']=$this->getGroupMessage('text_all');
+$default_options['options']['text_choose']=$this->getGroupMessage('data_choose');
 $default_options['options']['read_only']=false;
 $default_options['options']['data_size']=6;
 $default_options['options']['live_search']=true;

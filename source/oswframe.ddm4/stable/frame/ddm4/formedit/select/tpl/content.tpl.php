@@ -47,17 +47,17 @@
 
 			<?php if ($this->getEditElementValidation($element, 'module')=='integer'): ?>
 
-				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [0=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getEditElementOption($element, 'data_size').'" data-live-search="'.$this->getEditElementOption($element, 'live_search').'"']) ?>
+				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [0=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getEditElementOption($element, 'data_size').'" data-live-search="'.$this->getEditElementOption($element, 'live_search').'" title="'.$this->getEditElementOption($element, 'data_choose').'"']) ?>
 
 			<?php else: ?>
 
-				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [''=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getEditElementOption($element, 'data_size').'" data-live-search="'.$this->getEditElementOption($element, 'live_search').'"']) ?>
+				<?php echo $this->getTemplate()->Form()->drawSelectField($element, [''=>' ']+$this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getEditElementOption($element, 'data_size').'" data-live-search="'.$this->getEditElementOption($element, 'live_search').'" title="'.$this->getEditElementOption($element, 'data_choose').'"']) ?>
 
 			<?php endif ?>
 
 		<?php else: ?>
 
-			<?php echo $this->getTemplate()->Form()->drawSelectField($element, $this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getEditElementOption($element, 'data_size').'" data-live-search="'.$this->getEditElementOption($element, 'live_search').'"']) ?>
+			<?php echo $this->getTemplate()->Form()->drawSelectField($element, $this->getEditElementOption($element, 'data'), $this->getEditElementStorage($element), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' data-style="custom-select" data-size="'.$this->getEditElementOption($element, 'data_size').'" data-live-search="'.$this->getEditElementOption($element, 'live_search').'" title="'.$this->getEditElementOption($element, 'data_choose').'"']) ?>
 
 		<?php endif ?>
 
