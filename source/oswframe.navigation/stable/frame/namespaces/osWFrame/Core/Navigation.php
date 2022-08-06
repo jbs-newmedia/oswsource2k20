@@ -24,7 +24,7 @@ class Navigation {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -61,7 +61,7 @@ class Navigation {
 	 * @param bool $seowrite_inpage
 	 * @return string
 	 */
-	public static function buildUrl(string $module='', string $get_parameters='', bool $seowrite_inpage=false):string {
+	public static function buildUrl(string $module='', string $get_parameters='', bool $seowrite_inpage=false, bool $add_session=true):string {
 		if (($module=='')||($module=='default')) {
 			$module=Settings::getStringVar('project_default_module');
 		}
@@ -95,7 +95,11 @@ class Navigation {
 			}
 		}
 		$acceptable_spider_parameters=[];
-		$acceptable_user_parameters=[Settings::getStringVar('session_name')];
+		if ($add_session===true) {
+			$acceptable_user_parameters=[Settings::getStringVar('session_name')];
+		} else {
+			$acceptable_user_parameters=[];
+		}
 		$go_default=true;
 		$file=Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR.$module.DIRECTORY_SEPARATOR.'rewrite'.DIRECTORY_SEPARATOR.'rules.inc.php';
 		if (file_exists($file)) {
@@ -125,10 +129,12 @@ class Navigation {
 				foreach ($acceptable_parameters as $parameter) {
 					if (isset($ar_parameters[$parameter])) {
 						if ($parameter==Settings::getStringVar('session_name')) {
-							if ($ar_parameters[$parameter]==Session::getId()) {
-								$parameters[$parameter]=$ar_parameters[$parameter];
-							} else {
-								$parameters[$parameter]=Session::getId();
+							if ($add_session===true) {
+								if ($ar_parameters[$parameter]==Session::getId()) {
+									$parameters[$parameter]=$ar_parameters[$parameter];
+								} else {
+									$parameters[$parameter]=Session::getId();
+								}
 							}
 						} else {
 							$parameters[$parameter]=$ar_parameters[$parameter];
@@ -167,6 +173,18 @@ class Navigation {
 			$query_string=$_SERVER['QUERY_STRING'];
 		}
 
+		return self::buildUrl('current', $query_string, true, false);
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getCleanUrl():string {
+		$query_string='';
+		if (isset($_SERVER['QUERY_STRING'])) {
+			$query_string=$_SERVER['QUERY_STRING'];
+		}
+
 		return self::buildUrl('current', $query_string, true);
 	}
 
@@ -175,8 +193,8 @@ class Navigation {
 	 * @return bool
 	 */
 	public static function checkUrl():bool {
-		if (self::getCurrentUrl()!==self::getCanonicalUrl()) {
-			Network::directHeader(self::getCanonicalUrl(), 301);
+		if (self::getCurrentUrl()!==self::getCleanUrl()) {
+			Network::directHeader(self::getCleanUrl(), 301);
 		}
 
 		return true;
