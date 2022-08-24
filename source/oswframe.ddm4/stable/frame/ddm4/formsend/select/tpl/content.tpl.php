@@ -31,11 +31,17 @@
 
 		<?php endif ?>
 
-		<?php if (isset($data[$this->getSendElementStorage($element)])): ?>
+		<?php if ((isset($data[$this->getSendElementStorage($element)]))&&($data[$this->getSendElementStorage($element)]!='')): ?>
+
 			<div class="form-control readonly"><?php echo \osWFrame\Core\HTML::outputString($data[$this->getSendElementStorage($element)]) ?></div>
+
 		<?php else: ?>
+
 			<div class="form-control readonly">&nbsp;</div>
-		<?php endif ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element, $this->getSendElementStorage($element), []) ?>
+
+		<?php endif ?>
+
+		<?php echo $this->getTemplate()->Form()->drawHiddenField($element, $this->getSendElementStorage($element), []) ?>
 
 	<?php else: ?>
 

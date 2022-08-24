@@ -28,14 +28,21 @@
 
 		<?php else: ?>
 
-			<?php $data=$this->getAddElementOption($element, 'data'); ?><?php endif ?><?php if (isset($data[$this->getAddElementStorage($element)])): ?>
+			<?php $data=$this->getAddElementOption($element, 'data'); ?>
+
+		<?php endif ?>
+
+		<?php if ((isset($data[$this->getAddElementStorage($element)]))&&($data[$this->getAddElementStorage($element)]!='')): ?>
+
 			<div class="form-control readonly"><?php echo \osWFrame\Core\HTML::outputString($data[$this->getAddElementStorage($element)]) ?></div>
 
 		<?php else: ?>
 
 			<div class="form-control readonly">&nbsp;</div>
 
-		<?php endif ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element, $this->getAddElementStorage($element)) ?>
+		<?php endif ?>
+
+		<?php echo $this->getTemplate()->Form()->drawHiddenField($element, $this->getAddElementStorage($element)) ?>
 
 	<?php else: ?>
 
@@ -62,29 +69,20 @@
 	<?php endif ?>
 
 	<?php /* error */ ?>
-
 	<?php if ($this->getTemplate()->Form()->getErrorMessage($element)!==null): ?>
-
 		<div class="text-danger small"><?php echo $this->getTemplate()->Form()->getErrorMessage($element) ?></div>
-
 	<?php endif ?>
 
 	<?php /* notice */ ?>
-
 	<?php if ($this->getAddElementOption($element, 'notice')!=''): ?>
-
 		<div class="text-info"><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementOption($element, 'notice')) ?></div>
-
 	<?php endif ?>
 
 	<?php /* buttons */ ?>
-
 	<?php if ($this->getAddElementOption($element, 'buttons')!=''): ?>
-
 		<div>
 			<?php echo implode(' ', $this->getAddElementOption($element, 'buttons')) ?>
 		</div>
-
 	<?php endif ?>
 
 </div>
