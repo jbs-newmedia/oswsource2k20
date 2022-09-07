@@ -30,7 +30,7 @@ class FavIcon {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -70,8 +70,8 @@ class FavIcon {
 	 * @param object $Template
 	 */
 	public function __construct(string $file, object $Template) {
-		$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getFile();
-		if (Filesystem::existsFile($file)) {
+		$abs_file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$file;
+		if (Filesystem::existsFile($abs_file)) {
 			$this->setFile($file);
 			$this->setFavIcon(true);
 			$this->setTemplate($Template);
