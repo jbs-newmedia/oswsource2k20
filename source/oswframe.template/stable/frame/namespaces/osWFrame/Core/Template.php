@@ -30,7 +30,7 @@ class Template {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -750,9 +750,9 @@ class Template {
 
 	/**
 	 * @param string $alias
-	 * @return object
+	 * @return Form
 	 */
-	public function Form(string $alias='default'):object {
+	public function Form(string $alias='default'):Form {
 		if (!isset($this->forms[$alias])) {
 			$this->setForm($alias);
 		}
