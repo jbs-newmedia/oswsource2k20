@@ -25,7 +25,7 @@ class Language {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=3;
+	private const CLASS_MINOR_VERSION=4;
 
 	/**
 	 * Release-Version der Klasse.
@@ -44,6 +44,11 @@ class Language {
 	 * @var array
 	 */
 	protected static array $languages_available=[];
+
+	/**
+	 * @var array
+	 */
+	protected static array $languages_short_available=[];
 
 	/**
 	 * @var array
@@ -84,6 +89,7 @@ class Language {
 	 * @return void
 	 */
 	public static function setAvailableLanguages(array $languages_available):void {
+		self::$languages_short_available=$languages_available;
 		self::$languages_available=array_combine($languages_available, $languages_available);
 	}
 
@@ -92,6 +98,13 @@ class Language {
 	 */
 	public static function getAvailableLanguages():array {
 		return self::$languages_available;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getAvailableLanguagesShort():array {
+		return self::$languages_short_available;
 	}
 
 	/**
