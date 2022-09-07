@@ -10,6 +10,12 @@
  * @license MIT License
  */
 
-$view_data[$this->getListElementValue($element, 'name')]=$view_data[$this->getListElementValue($element, 'name')];
+$list_display_length=intval($this->getListElementOption($element, 'list_display_length'));
+
+if ($list_display_length!=0) {
+	$view_data[$this->getListElementValue($element, 'name')]=\osWFrame\Core\StringFunctions::truncateString($view_data[$this->getListElementValue($element, 'name')], $list_display_length, '...');
+} else {
+	$view_data[$this->getListElementValue($element, 'name')]=$view_data[$this->getListElementValue($element, 'name')];
+}
 
 ?>
