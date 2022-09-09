@@ -29,7 +29,7 @@ class ImageLib {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -220,11 +220,13 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int $width
-	 * @param int $height
+	 * @param int|float $width
+	 * @param int|float $height
 	 * @return bool
 	 */
-	public function resize(int $width, int $height):bool {
+	public function resize(int|float $width, int|float $height):bool {
+		$width=intval($width);
+		$height=intval($height);
 		$this->options['options']['width']=intval($width);
 		$this->options['options']['height']=intval($height);
 		if ($this->checkSizeLimits()===true) {
@@ -244,10 +246,10 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int $height
+	 * @param int|float  $height
 	 * @return bool
 	 */
-	public function resizeToHeight(int $height):bool {
+	public function resizeToHeight(int|float $height):bool {
 		$height=intval($height);
 		$ratio=$height/$this->getImageHeight();
 		$width=intval(round($this->getImageWidth()*$ratio));
@@ -256,10 +258,10 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int $width
+	 * @param int|float $width
 	 * @return bool
 	 */
-	public function resizeToWidth(int $width):bool {
+	public function resizeToWidth(int|float $width):bool {
 		$width=intval($width);
 		$ratio=$width/$this->getImageWidth();
 		$height=intval(round($this->getImageHeight()*$ratio));
@@ -268,12 +270,13 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int $size
+	 * @param int|float $size
 	 * @return bool
 	 */
-	public function resizeToLongest(int $size):bool {
-		$ratio_w=$size/$this->getImageWidth();
-		$ratio_h=$size/$this->getImageHeight();
+	public function resizeToLongest(int|float $size):bool {
+		$size=intval($size);
+		$ratio_w=bcdiv($size, $this->getImageWidth());
+		$ratio_h=bcdiv($size, $this->getImageHeight());
 		if ($ratio_h>$ratio_w) {
 			$width=$this->getImageWidth()*$ratio_w;
 			$height=$this->getImageHeight()*$ratio_w;
@@ -294,12 +297,13 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int $scale
+	 * @param int|float $scale
 	 * @return bool
 	 */
-	public function scale(int $scale):bool {
-		$width=$this->getWidth()*$scale/100;
-		$height=$this->getheight()*$scale/100;
+	public function scale(int|float $scale):bool {
+		$scale=floatval($scale);
+		$width=round($this->getWidth()*$scale/100);
+		$height=round($this->getheight()*$scale/100);
 
 		return $this->resize($width, $height);
 	}
@@ -343,10 +347,11 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int $size
+	 * @param int|float $size
 	 * @return bool
 	 */
-	public function cropSquareResized(int $size):bool {
+	public function cropSquareResized(int|float $size):bool {
+		$size=intval($size);
 		$this->cropSquare();
 
 		return $this->resize($size, $size);
@@ -377,11 +382,13 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int $width
-	 * @param int $height
+	 * @param int|float $width
+	 * @param int|float $height
 	 * @return bool
 	 */
-	public function cropRectangleResized(int $width, int $height):bool {
+	public function cropRectangleResized(int|float $width, int|float $height):bool {
+		$width=intval($width);
+		$height=intval($height);
 		if ($width==$height) {
 			return $this->cropSquareResized($height);
 		}
