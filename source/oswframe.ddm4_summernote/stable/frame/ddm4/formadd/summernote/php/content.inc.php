@@ -25,6 +25,16 @@ if (!isset($options['lang'])) {
 $this->getTemplate()->addJSCodeHead('
 $(function () {
 	$(\'#'.$element.'\').summernote({
+		callbacks: {
+			onPaste: function (e) {
+				var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData(\'Text\');
+				e.preventDefault();
+				document.execCommand(\'insertText\', false, bufferText);
+				bufferText=$(\'#'.$element.'\').summernote("code");
+				bufferText = bufferText.replace(/(\<\/\p>\<p\>)/g, \'<br/>\');
+				$(\'#'.$element.'\').summernote("code", bufferText)
+			}
+		},
 '.substr(json_encode($options), 1, -1).'
 	});
 });

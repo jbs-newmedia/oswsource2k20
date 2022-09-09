@@ -22,14 +22,24 @@ if (!isset($options['lang'])) {
 	$options['lang']=str_replace('_', '-', \osWFrame\Core\Language::getCurrentLanguage());
 }
 
+
 $this->getTemplate()->addJSCodeHead('
 $(function () {
 	$(\'#'.$element.'\').summernote({
+		callbacks: {
+			onPaste: function (e) {
+				var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData(\'Text\');
+				e.preventDefault();
+				document.execCommand(\'insertText\', false, bufferText);
+				bufferText=$(\'#'.$element.'\').summernote("code");
+				bufferText = bufferText.replace(/(\<\/\p>\<p\>)/g, \'<br/>\');
+				$(\'#'.$element.'\').summernote("code", bufferText)
+			}
+		},
 '.substr(json_encode($options), 1, -1).'
 	});
 });
 ');
-
 
 $this->incCounter('form_elements');
 $this->incCounter('form_elements_required');
