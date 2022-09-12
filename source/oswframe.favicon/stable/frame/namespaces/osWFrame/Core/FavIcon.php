@@ -70,7 +70,7 @@ class FavIcon {
 	 * @param object $Template
 	 */
 	public function __construct(string $file, object $Template) {
-		$abs_file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$file;
+		$abs_file=Settings::getStringVar('settings_abspath').$file;
 		if (Filesystem::existsFile($abs_file)) {
 			$this->setFile($file);
 			$this->setFavIcon(true);
@@ -85,7 +85,7 @@ class FavIcon {
 	 * @return bool
 	 */
 	public function setIcons2Template():bool {
-		$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getFile();
+		$file=Settings::getStringVar('settings_abspath').$this->getFile();
 		if (Filesystem::existsFile($file)) {
 			$path=dirname($this->getFile());
 			$path_filename=pathinfo($file, PATHINFO_FILENAME);
