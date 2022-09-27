@@ -29,7 +29,7 @@ class Form {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -406,6 +406,9 @@ class Form {
 		if (!isset($options['input_type'])) {
 			$options['input_type']='text';
 		}
+		if (!isset($options['input_defaultclass'])) {
+			$options['input_defaultclass']='';
+		}
 		if (!isset($options['input_errorclass'])) {
 			$options['input_errorclass']='oswerror';
 		}
@@ -430,14 +433,16 @@ class Form {
 				if ($this->getErrorMessage($name)!==null) {
 					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_errorclass'].'"';
 				} else {
-					$field.=' class="'.HTML::outputString($options['input_class']).'"';
+					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 				}
 			} else {
-				$field.=' class="'.HTML::outputString($options['input_class']).'"';
+				$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 			}
 		} else {
 			if ($this->getErrorMessage($name)!==null) {
 				$field.=' class="'.$options['input_errorclass'].'"';
+			} else {
+				$field.=' class="'.$options['input_defaultclass'].'"';
 			}
 		}
 		if ($options['reinsert_value']===true) {
@@ -479,6 +484,10 @@ class Form {
 					$options['input_type']='textarea';
 			}
 		}
+
+		if (!isset($options['input_defaultclass'])) {
+			$options['input_defaultclass']='';
+		}
 		if (!isset($options['input_errorclass'])) {
 			$options['input_errorclass']='oswerror';
 		}
@@ -506,14 +515,16 @@ class Form {
 				if ($this->getErrorMessage($name)!==null) {
 					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_errorclass'].'"';
 				} else {
-					$field.=' class="'.HTML::outputString($options['input_class']).'"';
+					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 				}
 			} else {
-				$field.=' class="'.HTML::outputString($options['input_class']).'"';
+				$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 			}
 		} else {
 			if ($this->getErrorMessage($name)!==null) {
 				$field.=' class="'.$options['input_errorclass'].'"';
+			} else {
+				$field.=' class="'.$options['input_defaultclass'].'"';
 			}
 		}
 		$field.=' rows="'.$options['input_rows'].'"';
@@ -564,6 +575,9 @@ class Form {
 		} else {
 			$this->count[$name]++;
 		}
+		if (!isset($options['input_defaultclass'])) {
+			$options['input_defaultclass']='';
+		}
 		if (!isset($options['input_errorclass'])) {
 			$options['input_errorclass']='oswerror';
 		}
@@ -588,14 +602,16 @@ class Form {
 				if ($this->getErrorMessage($name)!==null) {
 					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_errorclass'].'"';
 				} else {
-					$field.=' class="'.HTML::outputString($options['input_class']).'"';
+					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 				}
 			} else {
-				$field.=' class="'.HTML::outputString($options['input_class']).'"';
+				$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 			}
 		} else {
 			if ($this->getErrorMessage($name)!==null) {
 				$field.=' class="'.$options['input_errorclass'].'"';
+			} else {
+				$field.=' class="'.$options['input_defaultclass'].'"';
 			}
 		}
 		if ($options['reinsert_value']===true) {
@@ -660,6 +676,10 @@ class Form {
 					$options['input_type']='select';
 			}
 		}
+
+		if (!isset($options['input_defaultclass'])) {
+			$options['input_defaultclass']='';
+		}
 		if (!isset($options['input_errorclass'])) {
 			$options['input_errorclass']='oswerror';
 		}
@@ -701,14 +721,16 @@ class Form {
 				if ($this->getErrorMessage($name)!==null) {
 					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_errorclass'].'"';
 				} else {
-					$field.=' class="'.HTML::outputString($options['input_class']).'"';
+					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 				}
 			} else {
-				$field.=' class="'.HTML::outputString($options['input_class']).'"';
+				$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 			}
 		} else {
 			if ($this->getErrorMessage($name)!==null) {
 				$field.=' class="'.$options['input_errorclass'].'"';
+			} else {
+				$field.=' class="'.$options['input_defaultclass'].'"';
 			}
 		}
 		if ($options['reinsert_value']===true) {
@@ -811,6 +833,10 @@ class Form {
 					$options['input_type']='submit';
 			}
 		}
+
+		if (!isset($options['input_defaultclass'])) {
+			$options['input_defaultclass']='';
+		}
 		if (!isset($options['input_errorclass'])) {
 			$options['input_errorclass']='oswerror';
 		}
@@ -832,14 +858,16 @@ class Form {
 				if ($this->getErrorMessage($name)!==null) {
 					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_errorclass'].'"';
 				} else {
-					$field.=' class="'.HTML::outputString($options['input_class']).'"';
+					$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 				}
 			} else {
-				$field.=' class="'.HTML::outputString($options['input_class']).'"';
+				$field.=' class="'.HTML::outputString($options['input_class']).' '.$options['input_defaultclass'].'"';
 			}
 		} else {
 			if ($this->getErrorMessage($name)!==null) {
 				$field.=' class="'.$options['input_errorclass'].'"';
+			} else {
+				$field.=' class="'.$options['input_defaultclass'].'"';
 			}
 		}
 		if ($options['input_type']!='image') {
