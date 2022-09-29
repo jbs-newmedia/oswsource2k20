@@ -29,7 +29,7 @@ class ImageLib {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -220,11 +220,11 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int|float $width
-	 * @param int|float $height
+	 * @param int|float|string $width
+	 * @param int|float|string $height
 	 * @return bool
 	 */
-	public function resize(int|float $width, int|float $height):bool {
+	public function resize(int|float|string $width, int|float|string $height):bool {
 		$width=intval($width);
 		$height=intval($height);
 		$this->options['options']['width']=intval($width);
@@ -246,10 +246,10 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int|float  $height
+	 * @param int|float|string $height
 	 * @return bool
 	 */
-	public function resizeToHeight(int|float $height):bool {
+	public function resizeToHeight(int|float|string $height):bool {
 		$height=intval($height);
 		$ratio=$height/$this->getImageHeight();
 		$width=intval(round($this->getImageWidth()*$ratio));
@@ -258,10 +258,10 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int|float $width
+	 * @param int|float|string $width
 	 * @return bool
 	 */
-	public function resizeToWidth(int|float $width):bool {
+	public function resizeToWidth(int|float|string $width):bool {
 		$width=intval($width);
 		$ratio=$width/$this->getImageWidth();
 		$height=intval(round($this->getImageHeight()*$ratio));
@@ -270,13 +270,13 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int|float $size
+	 * @param int|float|string $size
 	 * @return bool
 	 */
-	public function resizeToLongest(int|float $size):bool {
+	public function resizeToLongest(int|float|string $size):bool {
 		$size=intval($size);
-		$ratio_w=bcdiv($size, $this->getImageWidth());
-		$ratio_h=bcdiv($size, $this->getImageHeight());
+		$ratio_w=bcdiv($size, $this->getImageWidth(), 5);
+		$ratio_h=bcdiv($size, $this->getImageHeight(), 5);
 		if ($ratio_h>$ratio_w) {
 			$width=$this->getImageWidth()*$ratio_w;
 			$height=$this->getImageHeight()*$ratio_w;
@@ -297,10 +297,10 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int|float $scale
+	 * @param int|float|string $scale
 	 * @return bool
 	 */
-	public function scale(int|float $scale):bool {
+	public function scale(int|float|string $scale):bool {
 		$scale=floatval($scale);
 		$width=round($this->getWidth()*$scale/100);
 		$height=round($this->getheight()*$scale/100);
@@ -334,11 +334,11 @@ class ImageLib {
 		$img_width=$this->getWidth();
 		$img_height=$this->getheight();
 		if ($img_width>$img_height) {
-			$div=bcdiv(($img_width-$img_height), 2);
+			$div=bcdiv(($img_width-$img_height), 2, 5);
 
 			return $this->cut($div, 0, $img_height, $img_height);
 		} elseif ($img_height>$img_width) {
-			$div=bcdiv(($img_height-$img_width), 2);
+			$div=bcdiv(($img_height-$img_width), 2, 5);
 
 			return $this->cut(0, $div, $img_width, $img_width);
 		} else {
@@ -347,10 +347,10 @@ class ImageLib {
 	}
 
 	/**
-	 * @param int|float $size
+	 * @param int|float|string $size
 	 * @return bool
 	 */
-	public function cropSquareResized(int|float $size):bool {
+	public function cropSquareResized(int|float|string $size):bool {
 		$size=intval($size);
 		$this->cropSquare();
 
@@ -372,21 +372,21 @@ class ImageLib {
 			$width_new=$img_width;
 			$height_new=round($width_new/$ratio);
 
-			return $this->cut(0, bcdiv(($img_height-$height_new), 2), $width_new, $height_new);
+			return $this->cut(0, bcdiv(($img_height-$height_new), 2, 5), $width_new, $height_new);
 		} else {
 			$height_new=$img_height;
 			$width_new=round($height_new*$ratio);
 
-			return $this->cut(bcdiv(($img_width-$width_new), 2), 0, $width_new, $height_new);
+			return $this->cut(bcdiv(($img_width-$width_new), 2, 5), 0, $width_new, $height_new);
 		}
 	}
 
 	/**
-	 * @param int|float $width
-	 * @param int|float $height
+	 * @param int|float|string $width
+	 * @param int|float|string $height
 	 * @return bool
 	 */
-	public function cropRectangleResized(int|float $width, int|float $height):bool {
+	public function cropRectangleResized(int|float|string $width, int|float|string $height):bool {
 		$width=intval($width);
 		$height=intval($height);
 		if ($width==$height) {
