@@ -30,7 +30,7 @@ class Bootstrap5 {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -43,7 +43,7 @@ class Bootstrap5 {
 	 *
 	 * @var string
 	 */
-	protected const CURRENT_RESOURCE_VERSION='5.1.1';
+	protected const CURRENT_RESOURCE_VERSION='5.2.1';
 
 	/**
 	 * Verwaltet die geladenen Plugins.
