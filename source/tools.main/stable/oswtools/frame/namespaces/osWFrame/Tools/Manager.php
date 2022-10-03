@@ -32,7 +32,7 @@ class Manager {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -217,6 +217,8 @@ class Manager {
 				$file=Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').DIRECTORY_SEPARATOR.$cache_name;
 				file_put_contents($file, $package_data);
 
+				Frame\Filesystem::makeDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').DIRECTORY_SEPARATOR);
+				Frame\Filesystem::protectDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').DIRECTORY_SEPARATOR);
 				$Zip=new Frame\Zip($file);
 				$Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'), Tools\Configure::getFrameConfigInt('settings_chmod_dir'), Tools\Configure::getFrameConfigInt('settings_chmod_file'));
 				Frame\Filesystem::delFile($file);
