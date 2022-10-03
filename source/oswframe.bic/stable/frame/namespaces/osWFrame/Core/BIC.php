@@ -38,7 +38,7 @@ class BIC {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	protected string $bic='';
 
