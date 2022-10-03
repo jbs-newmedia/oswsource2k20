@@ -10,6 +10,8 @@
  * @license MIT License
  */
 
+\osWFrame\Core\Settings::setStringVar('frame_current_module', \osWFrame\Core\Settings::getStringVar('frame_default_module'));
+
 $osW_Template=new \osWFrame\Core\Template();
 
 $osW_jQuery3=new \osWFrame\Core\jQuery3($osW_Template);
