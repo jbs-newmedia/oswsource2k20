@@ -58,6 +58,7 @@ select.selectpicker {
           justify-content: space-between;
 }
 .bootstrap-select > .dropdown-toggle:after {
+  display: none;
   margin-top: -1px;
 }
 .bootstrap-select > .dropdown-toggle.bs-placeholder,
@@ -126,12 +127,6 @@ select.selectpicker {
 }
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
   width: 220px;
-}
-.bootstrap-select > select.mobile-device:focus + .dropdown-toggle,
-.bootstrap-select .dropdown-toggle:focus {
-  outline: thin dotted #333333 !important;
-  outline: 5px auto -webkit-focus-ring-color !important;
-  outline-offset: -2px;
 }
 .bootstrap-select.form-control {
   margin-bottom: 0;

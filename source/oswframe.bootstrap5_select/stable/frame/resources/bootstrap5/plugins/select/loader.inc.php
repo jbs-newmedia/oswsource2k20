@@ -20,7 +20,7 @@ if (!isset($options['language'])) {
 	$options['language']=Language::getCurrentLanguage();
 }
 
-$version='1.14.0-beta3';
+$version='1.14.0-beta3-oswframe-rc1';
 $dir=strtolower($this->getClassName().DIRECTORY_SEPARATOR.$plugin_name);
 $name=$plugin_name.DIRECTORY_SEPARATOR.$version.'.resource';
 if (Resource::existsResource($this->getClassName(), $name)!==true) {
