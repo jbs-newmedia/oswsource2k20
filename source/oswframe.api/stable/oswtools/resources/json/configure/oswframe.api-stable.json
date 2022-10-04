@@ -7,7 +7,10 @@
   },
   "htaccess": {
     "topmiddle": [
-      "RewriteRule ^api/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?$ ?module=api&api=$1&section=$2&function=$3&%{QUERY_STRING} [L]"
+      "RewriteRule ^api/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?$ ?module=api&api=$1&section=$2&function=$3&%{QUERY_STRING} [L]",
+      "RewriteRule ^api/([a-zA-Z0-9-_]+)/([a-zA-Z0-9-_]+)/?$ ?module=api&api=$1&section=$2&%{QUERY_STRING} [L]",
+      "RewriteRule ^api/([a-zA-Z0-9-_]+)/?$ ?module=api&api=$1&%{QUERY_STRING} [L]",
+      "RewriteRule ^api/?$ ?module=api&api=$1&%{QUERY_STRING} [L]"
     ]
   }
 }
