@@ -128,10 +128,8 @@
 	<?php echo $osW_Form->startForm('oswtools_framekey_form', 'current', '', ['input_addid'=>true]); ?>
 
 	<label class="font-weight-bold" for="frame_key">Frame-Key:</label>
-	<div class="input-group mb-3">
-		<div class="input-group-prepend">
-			<span class="input-group-text"><i class="fas fa-key fa-fw"></i></span>
-		</div>
+	<div class="input-group mb-3 has-validation">
+		<span class="input-group-text"><i class="fas fa-key fa-fw"></i></span>
 		<?php echo $osW_Form->drawTextField('frame_key', \osWFrame\Tools\Server::getFrameKey(), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
 		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('frame_key') ?></div>
 	</div>
