@@ -13,5 +13,11 @@
 			"database_collation": "utf8mb4_general_ci",
 			"database_slowruntime": 0.5
 		}
+	},
+	"htaccess": {
+		"topmiddle": [
+			"RewriteRule ^_ckeditor5_simple_upload$ ?module=_ckeditor5_simple_upload&%{QUERY_STRING} [L]"
+		]
 	}
 }
+

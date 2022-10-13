@@ -10,7 +10,7 @@
  * @license MIT License
  */
 
-if ((!isset($_FILES['upload']))&&($_FILES['upload']['error']!=0)) {
+if ((!isset($_FILES['upload']))||($_FILES['upload']['error']!=0)) {
 	\osWFrame\Core\Network::dieJSON(['error'=>['message'=>'Hochladen fehlgeschlagen!']]);
 }
 
@@ -21,8 +21,7 @@ if (!isset($conf['file_dir'])) {
 	$conf['file_dir']='data'.DIRECTORY_SEPARATOR;
 }
 if (!isset($conf['file_name'])) {
-	$conf['file_name']='shared_sha1';
-	#$conf['file_name']='original';
+	$conf['file_name']='original';
 }
 
 $getimagesize=getimagesize($_FILES['upload']['tmp_name']);
