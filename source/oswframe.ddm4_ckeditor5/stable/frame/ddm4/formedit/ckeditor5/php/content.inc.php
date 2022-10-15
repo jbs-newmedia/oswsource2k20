@@ -86,11 +86,20 @@ foreach ($file as $key=>$value) {
 		case 'file_height_max':
 			$CKEditor5->setFileHeightMax($value);
 			break;
+		default:
+			if (is_string($value)) {
+				$CKEditor5->setFileStringValue($key, $value);
+			}
+			if (is_int($value)) {
+				$CKEditor5->setFileIntValue($key, $value);
+			}
 	}
 }
 
 if ((!isset($options['upload']))||(!isset($options['upload']['url']))) {
 	$CKEditor5->setSimpleUploadUrl($this->getTemplate()->buildhrefLink('_ckeditor5_simple_upload', 'var='.md5($element.\osWFrame\Core\Settings::getStringVar('settings_protection_salt'))));
+} else {
+	$CKEditor5->setSimpleUploadUrl($options['upload']['url']);
 }
 
 $this->getTemplate()->addJSCodeHead('
