@@ -140,7 +140,7 @@ trait BaseVarStaticTrait {
 	 */
 	public static function getBoolVar(string $name):?bool {
 		if ((strlen($name)>0)&&(isset(self::$vars[$name]))) {
-			return self::$vars[$name];
+			return boolval(self::$vars[$name]);
 		}
 
 		return null;
@@ -155,7 +155,7 @@ trait BaseVarStaticTrait {
 	 */
 	public static function getStringVar(string $name):?string {
 		if ((strlen($name)>0)&&(isset(self::$vars[$name]))) {
-			return self::$vars[$name];
+			return strval(self::$vars[$name]);
 		}
 
 		return null;
@@ -170,7 +170,7 @@ trait BaseVarStaticTrait {
 	 */
 	public static function getIntVar(string $name):?int {
 		if ((strlen($name)>0)&&(isset(self::$vars[$name]))) {
-			return self::$vars[$name];
+			return intval(self::$vars[$name]);
 		}
 
 		return null;
@@ -185,7 +185,7 @@ trait BaseVarStaticTrait {
 	 */
 	public static function getFloatVar(string $name):?float {
 		if ((strlen($name)>0)&&(isset(self::$vars[$name]))) {
-			return self::$vars[$name];
+			return floatval(self::$vars[$name]);
 		}
 
 		return null;
@@ -199,7 +199,7 @@ trait BaseVarStaticTrait {
 	 * @return array|null
 	 */
 	public static function getArrayVar(string $name):?array {
-		if ((strlen($name)>0)&&(isset(self::$vars[$name]))) {
+		if ((strlen($name)>0)&&(isset(self::$vars[$name]))&&(is_array(self::$vars[$name]))) {
 			return self::$vars[$name];
 		}
 
