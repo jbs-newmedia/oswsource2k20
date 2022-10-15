@@ -24,7 +24,7 @@ class CKEditor5 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -454,6 +454,48 @@ class CKEditor5 {
 		}
 
 		return 0;
+	}
+
+	/**
+	 * @param string $key
+	 * @param int $value
+	 * @return void
+	 */
+	public function setFileIntValue(string $key, int $value):void {
+		$this->file[$key]=$value;
+	}
+
+	/**
+	 * @param string $key
+	 * @return int
+	 */
+	public function getFileIntValue(string $key):int {
+		if (isset($this->file[$key])) {
+			return $this->file[$key];
+		}
+
+		return 0;
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 * @return void
+	 */
+	public function setFileStringValue(string $key, string $value):void {
+		$this->file[$key]=$value;
+	}
+
+	/**
+	 * @param string $key
+	 * @return string
+	 */
+	public function getFileStringValue(string $key):string {
+		if (isset($this->file[$key])) {
+			return $this->file[$key];
+		}
+
+		return '';
 	}
 
 }
