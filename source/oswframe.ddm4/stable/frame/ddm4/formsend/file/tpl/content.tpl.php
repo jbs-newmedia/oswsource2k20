@@ -30,7 +30,7 @@
 
 		<?php /* input */ ?>
 
-		<?php echo $this->getTemplate()->Form()->drawFileField($element, $this->getSendElementStorage($element), ['input_class'=>'form-control-input', 'input_errorclass'=>'is-invalid']) ?>
+		<?php echo $this->getTemplate()->Form()->drawFileField($element, $this->getSendElementStorage($element), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
 
 	<?php endif ?>
 
@@ -67,9 +67,6 @@
 			<?php elseif ($this->getSendElementStorage($element)!=''): ?>
 				<a target="_blank" class="btn btn-secondary btn-sm" href="<?php echo $this->getSendElementStorage($element) ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_view')) ?></a>
 				<?php $this->getTemplate()->Form()->drawHiddenField($element, $this->getSendElementStorage($element)) ?><?php endif ?>
-			<?php if ($this->getSendElementOption($element, 'edit_enabled')): ?>
-				<a class="btn btn-secondary btn-sm" target="_blank" id="ddm_element_<?php echo $this->getName() ?>_<?php echo $element ?>_crop_link" href="<?php echo $this->getTemplate()->buildhrefLink('current', 'vistool='.$this->getGroupOption('tool', 'data').'&vispage=vis_api&action=ddm4_popup&function=ddm4_fileimage_edit&ddm_element='.$ddm_group.'_'.$element) ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'text_file_edit')) ?></a>
-			<?php endif ?>
 			<?php if ($this->getSendElementOption($element, 'buttons')!=''): ?>
 
 				<?php echo implode(' ', $this->getSendElementOption($element, 'buttons')) ?>

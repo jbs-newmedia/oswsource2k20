@@ -30,7 +30,7 @@
 
 		<?php /* input */ ?>
 
-		<?php echo $this->getTemplate()->Form()->drawFileField($element, $this->getSendElementStorage($element), ['input_class'=>'form-control-input', 'input_errorclass'=>'is-invalid']) ?>
+		<?php echo $this->getTemplate()->Form()->drawFileField($element, $this->getSendElementStorage($element), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
 
 	<?php endif ?>
 
