@@ -30,7 +30,7 @@ class Template {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=3;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -769,7 +769,7 @@ class Template {
 		if (!isset($options['module'])) {
 			$options['module']='';
 		}
-		if (!isset($options['path'])) {
+		if ((!isset($options['path']))||($options['path']=='')) {
 			if (($options['module']=='')||($options['module']=='default')) {
 				$options['module']=Settings::getStringVar('project_default_module');
 			}
