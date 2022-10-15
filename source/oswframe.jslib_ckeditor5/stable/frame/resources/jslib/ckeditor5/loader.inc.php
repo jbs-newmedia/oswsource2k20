@@ -32,7 +32,7 @@ if (Resource::existsResource($this->getClassName(), $name)!==true) {
 
 $path=Resource::getRelDir().$dir.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
 
-$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'ckeditor'.$options['build'].'.js'];
+$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'ckeditor'.$options['build'].'.min.js'];
 $filename=$path.'js'.DIRECTORY_SEPARATOR.'translations'.DIRECTORY_SEPARATOR.$options['language'].'.js';
 if (file_exists(Settings::getStringVar('settings_abspath').$filename)===true) {
 	$jsfiles[]=$filename;
