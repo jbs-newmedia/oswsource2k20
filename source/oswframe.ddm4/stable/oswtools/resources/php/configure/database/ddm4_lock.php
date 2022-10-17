@@ -47,6 +47,8 @@ if (count($avb_tbl)==1) {
  */
 if (($av_tbl==0)&&($ab_tbl==0)) {
 	$__datatable_create=true;
+	$av_tbl=1;
+	$ab_tbl=0;
 
 	$QwriteData=new \osWFrame\Core\Database();
 	$QwriteData->prepare('
@@ -71,8 +73,7 @@ CREATE TABLE :table: (
 	if ($QwriteData->hasError()===true) {
 		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
 		$db_error[]=$QwriteData->getErrorMessage();
-	} else {
-		$av_tbl=1;
+		$av_tbl=0;
 		$ab_tbl=0;
 	}
 }
@@ -80,17 +81,18 @@ CREATE TABLE :table: (
 /*
  * update table DBV-1.1
  */
- /*
-if (($av_tbl==1)&&($ab_tbl==0)) {
+/*
+if (($av_tbl==1)&&($ab_tbl==1)) {
 	$__datatable_do=true;
+	$av_tbl=1;
+	$ab_tbl=1;
 
 	... query ...
 	if ($QupdateData->hasError()===true) {
 		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
 		$db_error[]=$QupdateData->getErrorMessage();
-	} else {
 		$av_tbl=1;
-		$ab_tbl=1;
+		$ab_tbl=0;
 	}
 }
 */
