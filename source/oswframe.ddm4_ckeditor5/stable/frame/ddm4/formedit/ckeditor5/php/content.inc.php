@@ -18,13 +18,23 @@ $file=$this->getEditElementOption($element, 'file');
 if ($file=='') {
 	$file=[];
 }
+$internallink=$this->getEditElementOption($element, 'internallink');
+if ($internallink=='') {
+	$internallink=[];
+}
 $options=$this->getEditElementOption($element, 'ckeditor5');
 if ($options=='') {
 	$options=[];
 }
 
+$default_conf=\osWFrame\Core\CKEditor5::getDefaultConf();
 if (!isset($options['conf'])) {
-	$options['conf']=\osWFrame\Core\CKEditor5::getDefaultConf();
+	$options['conf']=$default_conf;
+} else {
+	if (isset($options['conf']['toolbar']))	{
+		unset($default_conf['toolbar']);
+	}
+	$options['conf']=array_merge_recursive($default_conf, $options['conf']);
 }
 if (!isset($options['then'])) {
 	$options['then']=[];
@@ -37,6 +47,14 @@ if (!isset($options['file'])) {
 }
 if (!isset($options['conf']['language'])) {
 	$options['conf']['language']=\osWFrame\Core\Language::getCurrentLanguageShort();
+}
+
+if (($internallink!=[])&&(isset($internallink['loader']))) {
+	$options['conf']['internallink']=[];
+	$options['conf']['internallink']['testmode']=false;
+	$options['conf']['internallink']['autocompleteurl']=$this->getTemplate()->buildhrefLink('scripts', 'script=_ckeditor5_internallink&action=autocompleteurl&loader='.$internallink['loader'].'&s={searchTerm}', false);
+	$options['conf']['internallink']['titleurl']=$this->getTemplate()->buildhrefLink('scripts', 'script=_ckeditor5_internallink&action=titleurl&loader='.$internallink['loader'].'&s={internalLinkId}', false);
+	$options['conf']['internallink']['previewurl']=$this->getTemplate()->buildhrefLink('scripts', 'script=_ckeditor5_internallink&action=previewurl&loader='.$internallink['loader'].'&s={internalLinkId}', false);
 }
 
 $this->getTemplate()->addCSSCodeHead('
@@ -97,7 +115,7 @@ foreach ($file as $key=>$value) {
 }
 
 if ((!isset($options['upload']))||(!isset($options['upload']['url']))) {
-	$CKEditor5->setSimpleUploadUrl($this->getTemplate()->buildhrefLink('_ckeditor5_simple_upload', 'var='.md5($element.\osWFrame\Core\Settings::getStringVar('settings_protection_salt'))));
+	$CKEditor5->setSimpleUploadUrl($this->getTemplate()->buildhrefLink('scripts', 'script=_ckeditor5_simple_upload&session_enabled=1&var='.md5('_ckeditor5_simple_upload#'.$element.'#'.\osWFrame\Core\Settings::getStringVar('settings_protection_salt')), false));
 } else {
 	$CKEditor5->setSimpleUploadUrl($options['upload']['url']);
 }
