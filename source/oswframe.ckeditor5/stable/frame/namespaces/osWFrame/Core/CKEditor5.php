@@ -229,7 +229,7 @@ class CKEditor5 {
 	public function getJS():string {
 		$conf=$this->getConf();
 		if ($this->getSimpleUpload()!==[]) {
-			Session::setArrayVar('ck5editor_'.md5($this->getSelector().Settings::getStringVar('settings_protection_salt')), $this->getFile());
+			Session::setArrayVar('ck5editor_'.md5('_ckeditor5_simple_upload#'.$this->getSelector().'#'.Settings::getStringVar('settings_protection_salt')), $this->getFile());
 			$conf['simpleUpload']=$this->getSimpleUpload();
 		}
 
