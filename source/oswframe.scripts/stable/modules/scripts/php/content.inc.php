@@ -12,7 +12,7 @@
 
 $osW_Scripts=new \osWFrame\Core\Scripts();
 if ($osW_Scripts->checkGlobalLock()===true) {
-	$script=\osWFrame\Core\Settings::catchStringValue('script', '', 'gp');
+	$script=basename(\osWFrame\Core\Settings::catchStringValue('script', '', 'gp'));
 
 	$search_dirs=[];
 
