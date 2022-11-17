@@ -12,7 +12,7 @@
 
 namespace osWFrame\Core;
 
-$version='35.2.1';
+$version='35.3.1';
 
 if(!isset($options['build'])) {
 	$options['build']='';
