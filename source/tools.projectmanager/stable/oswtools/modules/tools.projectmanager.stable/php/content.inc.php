@@ -47,7 +47,7 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 	}
 	if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['install', 'update'])) {
 		if (in_array(\osWFrame\Tools\Helper::getDoAction(), ['update'])) {
-			$Tool->removePackage($manager_serverlist, $manager_package, $manager_release);
+			$Tool->removePackage($manager_serverlist, $manager_package, $manager_release, true);
 		}
 		$Manager->installPackage($manager_serverlist, $manager_package, $manager_release);
 		\osWFrame\Core\Network::dieJSON($Manager->getCheckList());

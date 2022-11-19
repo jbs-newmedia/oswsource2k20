@@ -32,7 +32,7 @@ class Manager {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=3;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -251,9 +251,10 @@ class Manager {
 	 * @param string $serverlist
 	 * @param string $package
 	 * @param string $release
+	 * @param bool $skip_create_files
 	 * @return bool
 	 */
-	public function removePackage(string $serverlist, string $package, string $release):bool {
+	public function removePackage(string $serverlist, string $package, string $release, bool $skip_create_files=false):bool {
 		$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'filelist'.DIRECTORY_SEPARATOR.$package.'-'.$release.'.json';
 		if (Frame\Filesystem::existsFile($file)) {
 			$filelist=json_decode(file_get_contents($file), true);
@@ -270,8 +271,10 @@ class Manager {
 				}
 			}
 
-			$this->createConfigureFile();
-			$this->createHtAccessFile();
+			if ($skip_create_files!==true) {
+				$this->createConfigureFile();
+				$this->createHtAccessFile();
+			}
 
 			if (count($filelist)>0) {
 				foreach ($filelist as $entry=>$foo) {

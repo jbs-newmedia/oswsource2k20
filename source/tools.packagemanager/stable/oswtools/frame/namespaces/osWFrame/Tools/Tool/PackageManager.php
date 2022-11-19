@@ -32,7 +32,7 @@ class PackageManager extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -229,10 +229,11 @@ class PackageManager extends CoreTool {
 	 * @param string $serverlist
 	 * @param string $package
 	 * @param string $release
+	 * @param bool $skip_create_files
 	 * @return bool
 	 */
-	public function removePackage(string $serverlist, string $package, string $release):bool {
-		$status=$this->Manager->removePackage($serverlist, $package, $release);
+	public function removePackage(string $serverlist, string $package, string $release, bool $skip_create_files=false):bool {
+		$status=$this->Manager->removePackage($serverlist, $package, $release, $skip_create_files);
 		$this->Manager->checkPackageList();
 
 		return $status;
