@@ -109,6 +109,11 @@ class CKEditor5 {
 		$conf['list']['properties']=['styles'=>true, 'startIndex'=>true, 'reversed'=>true];
 		$conf['table']=[];
 		$conf['table']['contentToolbar']=['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties'];
+		$conf['link']=[];
+		$conf['link']['decorators']['openInNewTab']['mode']='manual';
+		$conf['link']['decorators']['openInNewTab']['label']='Open in a new tab';
+		$conf['link']['decorators']['openInNewTab']['attributes']['target']='_blank';
+		$conf['link']['decorators']['openInNewTab']['attributes']['rel']='noopener noreferrer';
 
 		return $conf;
 	}
