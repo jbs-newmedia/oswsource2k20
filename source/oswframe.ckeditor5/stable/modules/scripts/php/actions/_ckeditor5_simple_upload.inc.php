@@ -16,6 +16,9 @@ if ((!isset($_FILES['upload']))||($_FILES['upload']['error']!=0)) {
 
 $var=\osWFrame\Core\Settings::catchStringGetValue('var');
 $conf=\osWFrame\Core\Settings::catchArraySessionValue('ck5editor_'.$var);
+if ($conf==[]) {
+	\osWFrame\Core\Network::dieJSON(['error'=>['message'=>'Hochladen fehlgeschlagen!']]);
+}
 
 if (!isset($conf['file_dir'])) {
 	$conf['file_dir']='data'.DIRECTORY_SEPARATOR;
