@@ -114,7 +114,7 @@ if (($av_tbl==1)&&($ab_tbl==1)) {
 if ($__datatable_do===true) {
 	$QwriteData=new \osWFrame\Core\Database();
 	$QwriteData->prepare('ALTER TABLE :table: COMMENT = :version:;');
-	$QwriteData->bindString(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
+	$QwriteData->bindRaw(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
 	$QwriteData->bindString(':version:', $av_tbl.'.'.$ab_tbl);
 	$QwriteData->execute();
 	if ($QwriteData->hasError()===true) {
