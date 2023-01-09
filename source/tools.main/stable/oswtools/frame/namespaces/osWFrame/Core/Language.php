@@ -25,7 +25,7 @@ class Language {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=4;
+	private const CLASS_MINOR_VERSION=5;
 
 	/**
 	 * Release-Version der Klasse.
@@ -59,6 +59,11 @@ class Language {
 	 * @var array
 	 */
 	protected static array $module2name=[];
+
+	/**
+	 * @var array
+	 */
+	protected static array $name2module_lower=[];
 
 	/**
 	 * @var array
@@ -190,6 +195,7 @@ class Language {
 		}
 		self::$module2name[$language][$module]=$name;
 		self::$name2module[$language][$name]=$module;
+		self::$name2module_lower[$language][$name]=strtolower($module);
 
 		return true;
 	}
@@ -249,6 +255,28 @@ class Language {
 		}
 
 		return self::$name2module[$language][$name];
+	}
+
+	/**
+	 * @param string $name
+	 * @param string $language
+	 * @return string
+	 */
+	public static function getNameModuleLower(string $name, string $language=''):string {
+		if ($language=='') {
+			$language=self::getCurrentLanguage();
+		}
+		if (!isset(self::$name2module_lower)) {
+			return $name;
+		}
+		if (!isset(self::$name2module_lower[$language])) {
+			return $name;
+		}
+		if (!isset(self::$name2module_lower[$language][$name])) {
+			return $name;
+		}
+
+		return self::$name2module_lower[$language][$name];
 	}
 
 	/**
