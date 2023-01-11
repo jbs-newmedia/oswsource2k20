@@ -478,6 +478,9 @@ class SmartOptimizer {
 	 * @return string
 	 */
 	public static function stripJS(string $str):string {
+		$str = str_replace("\r\n", "\n", $str);
+		$str = str_replace('/**/', '', $str);
+		$str .= PHP_EOL;
 		$res='';
 		$maybe_regex=true;
 		$i=0;
@@ -494,12 +497,14 @@ class SmartOptimizer {
 							if ($str[$i]=='\\') {
 								$res.=$str[$i++];
 							}
-							$res.=$str[$i++];
+							$res.=$i<strlen($str)?$str[$i]:'';
+							$i++;
 						} while ($i<strlen($str)&&$str[$i]!=']');
 					}
 					$res.=$str[$i++];
 				} while ($i<strlen($str)&&$str[$i]!='/');
-				$res.=$str[$i++];
+				$res.=$i<strlen($str)?$str[$i]:'';
+				$i++;
 				$maybe_regex=false;
 				continue;
 			} elseif ($str[$i]=='"'||$str[$i]=="'") { // quoted string detected
@@ -543,22 +548,47 @@ class SmartOptimizer {
 				break;
 			$current_char=$str[$i];
 			if ($LF_needed)
-				$current_char="\n"; elseif ($current_char=="\t")
+				$current_char="\n";
+			elseif ($current_char=="\t")
 				$current_char=" ";
 			elseif ($current_char=="\r")
 				$current_char="\n";
 			// detect unnecessary white spaces
 			if ($current_char==" ") {
-				if (strlen($res)&&(preg_match('/^[^(){}[\]=+\-*\/%&|!><?:~^,;"\']{2}$/', $res[strlen($res)-1].$str[$i+1])||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // for example i+ ++j;
+				if (strlen($res)&&(preg_match('/^[^(){}\[\]=+\-*\/%&|!><?:~^,;"\']{2}$/', $res[strlen($res)-1].$str[$i+1])||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // for example i+ ++j;
 					$res.=$current_char;
 			} elseif ($current_char=="\n") {
-				if (strlen($res)&&(preg_match('/^[^({[=+\-*%&|!><?:~^,;\/][^)}\]=+\-*%&|><?:,;\/]$/', $res[strlen($res)-1].$str[$i+1])||(strlen($res)>1&&preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-2].$res[strlen($res)-1]))||(strlen($str)>$i+2&&preg_match('/^(\+\+)|(--)$/', $str[$i+1].$str[$i+2]))||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // || // for example i+ ++j;
+				if (strlen($res)&&(preg_match('/^[^({\[=+\-*%&|!><?:~^,;\/][^)}\]=+\-*%&|><?:,;\/]$/', $res[strlen($res)-1].$str[$i+1])||(strlen($res)>1&&preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-2].$res[strlen($res)-1]))||(strlen($str)>$i+2&&preg_match('/^(\+\+)|(--)$/', $str[$i+1].$str[$i+2]))||preg_match('/^(\+\+)|(--)$/', $res[strlen($res)-1].$str[$i+1]))) // || // for example i+ ++j;
+					$res.=$current_char;
+			} elseif($current_char=="}") {  //insert semicolon after block (means less newlines and prevents some syntax-errors)
+				$j=1;
+				while(($i+$j)<strlen($str)&&preg_match('/[\n\r\t ]/', $str[$i+$j])){
+					$j++;
+					if(($i+$j+1)<strlen($str)&&$str[$i+$j].$str[$i+$j+1]=='//') { // single-line comment detected
+						$j+=2;
+						while ($i+$j<strlen($str)&&$str[$i+$j]!="\n"&&$str[$i+$j]!="\r")
+							$j++;
+					} elseif (($i+$j+2)<strlen($str)&&$str[$i+$j].$str[$i+$j+1]=='/*'&&$str[$i+$j+2]!='@') { // multi-line comment detected
+						$j+=3;
+						while ($i+$j<strlen($str)&&$str[$i+$j-1].$str[$i+$j]!='*/')
+							$j++;
+						$j++;
+					}
+				}
+				//Next token should not be one of the following
+				if((($i+$j)<strlen($str)&&strpos('(){}[]=*%&|><?:,;.', $str[$i+$j])===false) &&
+					(($i+$j+3)<strlen($str)&&strpos('else', substr($str,$i+$j,4))===false) &&
+					(($i+$j+4)<strlen($str)&&strpos('while&catch', substr($str,$i+$j,5))===false) &&
+					(($i+$j+6)<strlen($str)&&strpos('finally', substr($str,$i+$j,7))===false))
+					$res.=$current_char.';';
+				else
 					$res.=$current_char;
 			} else
 				$res.=$current_char;
-			// if the next character be a slash, detects if it is a divide operator or start of a regex
-			if (preg_match('/[({[=+\-*\/%&|!><?:~^,;]/', $current_char))
-				$maybe_regex=true; elseif (!preg_match('/[\n ]/', $current_char))
+			// if the next character is a slash, detect if it is a divide operator or the start of a regex
+			if (strpos('({[=+-*/%&|!><?:~^,;', $current_char)!==false)
+				$maybe_regex=true;
+			elseif (!preg_match('/[\n ]/', $current_char))
 				$maybe_regex=false;
 			$i++;
 		}
