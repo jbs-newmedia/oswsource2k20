@@ -12,14 +12,17 @@
 
 namespace osWFrame\Api\Database;
 
-use osWFrame\Core as osWFrame;
-use osWFrame\Api as Api;
+
+use osWFrame\Api\BaseReturnTrait;
+use osWFrame\Core\BaseConnectionTrait;
+use osWFrame\Core\BaseStaticTrait;
+use osWFrame\Core\Settings;
 
 class DBStruct {
 
-	use osWFrame\BaseStaticTrait;
-	use osWFrame\BaseConnectionTrait;
-	use Api\BaseReturnTrait;
+	use BaseStaticTrait;
+	use BaseConnectionTrait;
+	use BaseReturnTrait;
 
 	/**
 	 * Major-Version der Klasse.
@@ -29,7 +32,7 @@ class DBStruct {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -95,7 +98,7 @@ class DBStruct {
 	 * @return string
 	 */
 	public function cleanName(string $name):string {
-		return $name;
+		return preg_replace('/[^a-z0-9-_]/', '', strtolower($name));
 	}
 
 	/**
@@ -137,7 +140,7 @@ class DBStruct {
 	public function correctStorageEngine(string $storage_engine=''):string {
 		switch ($storage_engine) {
 			default:
-				return osWFrame\Settings::getStringVar('database_engine');
+				return Settings::getStringVar('database_engine');
 		}
 	}
 
@@ -148,7 +151,7 @@ class DBStruct {
 	public function correctCollation(string $collation=''):string {
 		switch ($collation) {
 			default:
-				return osWFrame\Settings::getStringVar('database_collation');
+				return Settings::getStringVar('database_collation');
 		}
 	}
 
@@ -237,6 +240,23 @@ class DBStruct {
 	public function checkColumnCollation(string $type, string $collation):bool {
 		if (in_array($type, ['int', 'tinyint', 'float', 'double'])) {
 			if (in_array($collation, ['unsigned', ''])) {
+				return true;
+			}
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param string $type
+	 * @param string $convert
+	 * @return bool
+	 */
+	public function checkColumnConvert(string $type, string $convert):bool {
+		if (in_array($type, ['int', 'tinyint', 'float', 'double'])) {
+			if (in_array($convert, ['date8', 'time4', 'minute', 'timestamp', ''])) {
 				return true;
 			}
 
@@ -375,11 +395,12 @@ class DBStruct {
 	 * @param int $position
 	 * @param string $collation
 	 * @param string $options
+	 * @param string $convert
 	 * @param int $setnull
 	 * @param int $autoincrement
 	 * @return bool
 	 */
-	public function createColumn(string $table_name, string $name, string $type, int $length, int $position=0, string $collation='', string $options='', int $setnull=0, int $autoincrement=0):bool {
+	public function createColumn(string $table_name, string $name, string $type, int $length, int $position=0, string $collation='', string $options='', string $convert='', int $setnull=0, int $autoincrement=0):bool {
 		if ($this->checkTableName($table_name)!==true) {
 			return false;
 		}
@@ -409,8 +430,15 @@ class DBStruct {
 					return false;
 				}
 
+				if ($this->checkColumnConvert($type, $convert)!==true) {
+					$this->setError(true);
+					$this->setErrorMessage('table "'.$table_name.', column "'.$name.'": convert error.');
+
+					return false;
+				}
+
 				$QinsertData=self::getConnection();
-				$QinsertData->prepare('INSERT INTO :table_api_database_column: (table_name, column_name, column_position, column_type, column_length, column_collation, column_options, column_setnull, column_autoincrement, column_create_time, column_create_user_id, column_update_time, column_update_user_id) VALUES (:table_name:, :column_name:, :column_position:, :column_type:, :column_length:, :column_collation:, :column_options:, :column_setnull:, :column_autoincrement:, :column_create_time:, :column_create_user_id:, :column_update_time:, :column_update_user_id:)');
+				$QinsertData->prepare('INSERT INTO :table_api_database_column: (table_name, column_name, column_position, column_type, column_length, column_collation, column_options, column_convert, column_setnull, column_autoincrement, column_create_time, column_create_user_id, column_update_time, column_update_user_id) VALUES (:table_name:, :column_name:, :column_position:, :column_type:, :column_length:, :column_collation:, :column_options:, :column_convert:, :column_setnull:, :column_autoincrement:, :column_create_time:, :column_create_user_id:, :column_update_time:, :column_update_user_id:)');
 				$QinsertData->bindTable(':table_api_database_column:', 'api_database_column');
 				$QinsertData->bindString(':table_name:', $table_name);
 				$QinsertData->bindString(':column_name:', $name);
@@ -423,6 +451,7 @@ class DBStruct {
 					$QinsertData->bindString(':column_collation:', $collation);
 				}
 				$QinsertData->bindString(':column_options:', $options);
+				$QinsertData->bindString(':column_convert:', $convert);
 				$QinsertData->bindInt(':column_setnull:', $setnull);
 				$QinsertData->bindInt(':column_autoincrement:', $autoincrement);
 				$QinsertData->bindInt(':column_create_time:', $this->getTime());
@@ -456,11 +485,12 @@ class DBStruct {
 	 * @param int $position
 	 * @param string $collation
 	 * @param string $options
+	 * @param string $convert
 	 * @param int $setnull
 	 * @param int $autoincrement
 	 * @return bool
 	 */
-	public function updateColumn(string $table_name, string $name, string $type, int $length, int $position=0, string $collation='', string $options='', int $setnull=0, int $autoincrement=0):bool {
+	public function updateColumn(string $table_name, string $name, string $type, int $length, int $position=0, string $collation='', string $options='', string $convert='', int $setnull=0, int $autoincrement=0):bool {
 		if ($this->checkTableName($table_name)!==true) {
 			return false;
 		}
@@ -490,10 +520,17 @@ class DBStruct {
 					return false;
 				}
 
+				if ($this->checkColumnConvert($type, $convert)!==true) {
+					$this->setError(true);
+					$this->setErrorMessage('table "'.$table_name.', column "'.$name.'": convert error.');
+
+					return false;
+				}
+
 				$length=$this->getLength($table_name, $name, $length);
 
 				$QupdateData=self::getConnection();
-				$QupdateData->prepare('UPDATE :table_api_database_column: SET column_position=:column_position:, column_type=:column_type:, column_length=:column_length:, column_collation=:column_collation:, column_options=:column_options:, column_setnull=:column_setnull:, column_autoincrement=:column_autoincrement:, column_update_time=:column_update_time:, column_update_user_id=:column_update_user_id: WHERE table_name=:table_name: AND column_name=:column_name:');
+				$QupdateData->prepare('UPDATE :table_api_database_column: SET column_position=:column_position:, column_type=:column_type:, column_length=:column_length:, column_collation=:column_collation:, column_options=:column_options:, column_convert=:column_convert:, column_setnull=:column_setnull:, column_autoincrement=:column_autoincrement:, column_update_time=:column_update_time:, column_update_user_id=:column_update_user_id: WHERE table_name=:table_name: AND column_name=:column_name:');
 				$QupdateData->bindTable(':table_api_database_column:', 'api_database_column');
 				$QupdateData->bindString(':table_name:', $table_name);
 				$QupdateData->bindString(':column_name:', $name);
@@ -506,6 +543,7 @@ class DBStruct {
 					$QupdateData->bindString(':column_collation:', $collation);
 				}
 				$QupdateData->bindString(':column_options:', $options);
+				$QupdateData->bindString(':column_convert:', $convert);
 				$QupdateData->bindInt(':column_setnull:', $setnull);
 				$QupdateData->bindInt(':column_autoincrement:', $autoincrement);
 				$QupdateData->bindInt(':column_update_time:', $this->getTime());

@@ -30,7 +30,7 @@ class JSON {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -103,6 +103,27 @@ class JSON {
 		return $this->table_struct;
 	}
 
+
+	/**
+	 * @param string $table
+	 * @return $this
+	 */
+	public function loadTableStruct(string $table):self {
+		if (!isset($this->table_struct[$table])) {
+			$this->table_struct[$table]=[];
+		}
+
+		$QgetData=self::getConnection();
+		$QgetData->prepare('SELECT * FROM :table_api_database_column: WHERE table_name=:table_name: ORDER BY column_position ASC');
+		$QgetData->bindTable(':table_api_database_column:', 'api_database_column');
+		$QgetData->bindString(':table_name:', $table);
+		foreach ($QgetData->query() as $column) {
+			$this->table_struct[$table][$column['column_name']]=$column;
+		}
+
+		return $this;
+	}
+
 	/**
 	 * @param string $table
 	 * @param array $fields
@@ -150,7 +171,7 @@ class JSON {
 	 * @param int $length
 	 * @return string
 	 */
-	private function getType(string $value, int $length):string {
+	protected function getType(string $value, int $length):string {
 		if (strval(intval($value))==$value) {
 			if ($length==1) {
 				return 'tinyint';
@@ -179,10 +200,7 @@ class JSON {
 	 * @param int $length
 	 * @return int
 	 */
-	private function optimizeLength(string $type, int $length):int {
-		return $length;
-
-		/*
+	protected function optimizeLength(string $type, int $length):int {
 		if ($type=='tinyint') {
 			return 1;
 		}
@@ -225,7 +243,6 @@ class JSON {
 				return 400000;
 			}
 		}
-		*/
 
 		return 0;
 	}
@@ -234,11 +251,8 @@ class JSON {
 	 * @param string $value
 	 * @return string
 	 */
-	private function checkFieldName(string $value):string {
-		return $value;
-
-		return str_replace(['ß'], ['ss'], $value);
-		#return str_replace(['ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß'], ['ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', 'ss'], $value);
+	protected function checkFieldName(string $value):string {
+		return str_replace(['ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß'], ['ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', 'ss'], $value);
 	}
 
 	/**
@@ -250,7 +264,7 @@ class JSON {
 			if (isset($struct[$table])) {
 				$QclearData=self::getConnection();
 				$QclearData->prepare('DELETE FROM :table: WHERE 1');
-				$QclearData->bindTable(':table:', 'pluss_'.$table);
+				$QclearData->bindTable(':table:', $table);
 				$QclearData->execute();
 			}
 		}
@@ -276,7 +290,7 @@ class JSON {
 					$row_fields=array_keys($row_elements);
 					$QinsertData=self::getConnection();
 					$QinsertData->prepare('INSERT INTO :table: (:fields:) VALUE (:values:)');
-					$QinsertData->bindTable(':table:', 'pluss_'.$table);
+					$QinsertData->bindTable(':table:', $table);
 					$QinsertData->bindRaw(':fields:', implode(', ', $row_fields));
 					$QinsertData->bindRaw(':values:', ':'.implode(':, :', $row_fields).':');
 					foreach ($row_elements as $row_key=>$row_value) {
@@ -319,7 +333,7 @@ class JSON {
 
 					$QcheckData=self::getConnection();
 					$QcheckData->prepare('SELECT * FROM :table: WHERE :index_row_key:=:index_row_value:');
-					$QcheckData->bindTable(':table:', 'pluss_'.$table);
+					$QcheckData->bindTable(':table:', $table);
 					$QcheckData->bindRaw(':index_row_key:', $index_row_key);
 					switch ($struct[$table]['columns'][$index_row_key]['column_type']) {
 						case 'int':
@@ -342,7 +356,7 @@ class JSON {
 						}
 						$QupdateData=self::getConnection();
 						$QupdateData->prepare('UPDATE :table: SET :fields_values: WHERE :index_row_key:=:index_row_value:');
-						$QupdateData->bindTable(':table:', 'pluss_'.$table);
+						$QupdateData->bindTable(':table:', $table);
 						$QupdateData->bindRaw(':index_row_key:', $index_row_key);
 						switch ($struct[$table]['columns'][$index_row_key]['column_type']) {
 							case 'int':
@@ -380,7 +394,7 @@ class JSON {
 					} else {
 						$QinsertData=self::getConnection();
 						$QinsertData->prepare('INSERT INTO :table: (:fields:) VALUE (:values:)');
-						$QinsertData->bindTable(':table:', 'pluss_'.$table);
+						$QinsertData->bindTable(':table:', $table);
 						$QinsertData->bindRaw(':fields:', implode(', ', $row_fields));
 						$QinsertData->bindRaw(':values:', ':'.implode(':, :', $row_fields).':');
 						foreach ($row_elements as $row_key=>$row_value) {
@@ -424,7 +438,7 @@ class JSON {
 
 					$QdeleteData=self::getConnection();
 					$QdeleteData->prepare('DELETE FROM :table: WHERE :index_row_key:=:index_row_value:');
-					$QdeleteData->bindTable(':table:', 'pluss_'.$table);
+					$QdeleteData->bindTable(':table:', $table);
 					$QdeleteData->bindRaw(':index_row_key:', $index_row_key);
 					switch ($struct[$table]['columns'][$index_row_key]['column_type']) {
 						case 'int':
