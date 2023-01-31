@@ -1,13 +1,13 @@
 <?php
 
 /**
- * This file is part of the VIS2:Manager package
+ * This file is part of the osWFrame package
  *
  * @author Juergen Schwind
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
- * @package VIS2:Manager
+ * @package osWFrame
  * @link https://oswframe.com
- * @license http://www.gnu.org/licenses/gpl.html GNU General Public License
+ * @license MIT License
  */
 
 namespace osWFrame\Api\Importer;

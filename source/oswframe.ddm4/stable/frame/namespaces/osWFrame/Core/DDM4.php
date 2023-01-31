@@ -114,7 +114,7 @@ class DDM4 {
 				Resource::copyResourcePath('frame'.DIRECTORY_SEPARATOR.'ddm4'.DIRECTORY_SEPARATOR.'layout'.DIRECTORY_SEPARATOR.$this->ddm['options']['layout'].DIRECTORY_SEPARATOR, $dir.DIRECTORY_SEPARATOR.$version.'-'.$this->ddm['options']['layout'].DIRECTORY_SEPARATOR, $files);
 				$path=Resource::getRelDir().$dir.DIRECTORY_SEPARATOR.$version.'-'.$this->ddm['options']['layout'].DIRECTORY_SEPARATOR;
 				$content=file_get_contents($path.DIRECTORY_SEPARATOR.'default.css');
-				$content=str_replace('url("/modules/vis2/img/loader.gif")', 'url("/'.$path.'loader.gif")', $content);
+				$content=str_replace('url("/__imageloader__/loader.gif")', 'url("/'.$path.'loader.gif")', $content);
 				file_put_contents($path.DIRECTORY_SEPARATOR.'default.css', $content);
 				Resource::writeResource($dir, $name, time());
 			}

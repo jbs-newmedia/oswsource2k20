@@ -59,12 +59,12 @@ class QRCodeStatic {
 
 		$options=new QROptions(['version'=>4, 'outputType'=>QRCode::OUTPUT_MARKUP_SVG, 'imageBase64'=>false, 'eccLevel'=>QRCode::ECC_L, 'addQuietzone'=>true, 'cssClass'=>'my-css-class', 'svgOpacity'=>1.0, 'svgDefs'=>'
 		<linearGradient id="g2">
-			<stop offset="0%" stop-color="'.Settings::getStringVar('vis2_theme_color').'" />
-			<stop offset="100%" stop-color="'.Settings::getStringVar('vis2_theme_color').'" />
+			<stop offset="0%" stop-color="'.Settings::getStringVar('project_theme_color').'" />
+			<stop offset="100%" stop-color="'.Settings::getStringVar('project_theme_color').'" />
 		</linearGradient>
 		<linearGradient id="g1">
-			<stop offset="0%" stop-color="'.Settings::getStringVar('vis2_theme_color').'" />
-			<stop offset="100%" stop-color="'.Settings::getStringVar('vis2_theme_color').'" />
+			<stop offset="0%" stop-color="'.Settings::getStringVar('project_theme_color').'" />
+			<stop offset="100%" stop-color="'.Settings::getStringVar('project_theme_color').'" />
 		</linearGradient>
 		<style>rect{shape-rendering:crispEdges}</style>', 'moduleValues'=>[// finder
 			1536=>'url(#g1)', // dark (true)
