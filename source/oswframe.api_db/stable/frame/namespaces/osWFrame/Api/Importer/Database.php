@@ -35,7 +35,7 @@ class Database {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -166,9 +166,6 @@ class Database {
 	 * @return int
 	 */
 	private function optimizeLength(string $type, int $length):int {
-		return $length;
-
-		/*
 		if ($type=='tinyint') {
 			return 1;
 		}
@@ -211,7 +208,6 @@ class Database {
 				return 400000;
 			}
 		}
-		*/
 
 		return 0;
 	}
@@ -220,9 +216,8 @@ class Database {
 	 * @param string $value
 	 * @return string
 	 */
-	private function checkFieldName(string $value):string {
-		return str_replace(['ß'], ['ss'], $value);
-		#return str_replace(['ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß'], ['ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', 'ss'], $value);
+	protected function checkFieldName(string $value):string {
+		return str_replace(['ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß'], ['ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', 'ss'], $value);
 	}
 
 }
