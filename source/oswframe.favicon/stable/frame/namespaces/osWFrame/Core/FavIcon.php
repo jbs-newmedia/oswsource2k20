@@ -96,7 +96,7 @@ class FavIcon {
 			}
 			foreach ($this->getIcons() as $icon) {
 				$osW_ImageOptimizer=new ImageOptimizer();
-				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
+				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
 				if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 					$osW_ImageOptimizer->setPS($this->getFile());
 				}
@@ -105,7 +105,7 @@ class FavIcon {
 			}
 			foreach ($this->getAppleTouchIcons() as $icon) {
 				$osW_ImageOptimizer=new ImageOptimizer();
-				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
+				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
 				if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 					$osW_ImageOptimizer->setPS($this->getFile());
 				}
@@ -114,7 +114,7 @@ class FavIcon {
 			}
 			foreach ($this->getMSApplication() as $icon) {
 				$osW_ImageOptimizer=new ImageOptimizer();
-				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
+				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
 				if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 					$osW_ImageOptimizer->setPS($this->getFile());
 				}
