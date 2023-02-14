@@ -15,7 +15,7 @@
   },
   "required": [
     {
-      "serverlist": "oswframe",
+      "serverlist": "oswframe2k20",
       "package": "oswframe.jslib",
       "release": "stable"
     }

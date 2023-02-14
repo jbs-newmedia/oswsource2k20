@@ -15,12 +15,12 @@
   },
   "required": [
     {
-      "serverlist": "oswframe",
+      "serverlist": "oswframe2k20",
       "package": "oswframe.ckeditor5",
       "release": "stable"
     },
     {
-      "serverlist": "oswframe",
+      "serverlist": "oswframe2k20",
       "package": "oswframe.jslib_ckeditor5",
       "release": "stable"
     }
