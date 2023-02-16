@@ -30,7 +30,7 @@ class Template {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -750,9 +750,9 @@ class Template {
 
 	/**
 	 * @param string $alias
-	 * @return object
+	 * @return Form
 	 */
-	public function Form(string $alias='default'):object {
+	public function Form(string $alias='default'):Form {
 		if (!isset($this->forms[$alias])) {
 			$this->setForm($alias);
 		}
@@ -769,7 +769,7 @@ class Template {
 		if (!isset($options['module'])) {
 			$options['module']='';
 		}
-		if (!isset($options['path'])) {
+		if ((!isset($options['path']))||($options['path']=='')) {
 			if (($options['module']=='')||($options['module']=='default')) {
 				$options['module']=Settings::getStringVar('project_default_module');
 			}

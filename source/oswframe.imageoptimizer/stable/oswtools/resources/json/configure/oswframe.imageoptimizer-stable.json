@@ -16,7 +16,7 @@
   },
   "htaccess": {
     "topmiddle": [
-      "RewriteRule ^static\/([a-zA-Z0-9-_]+)\/(([0-9a-zA-Z-_\/].+)\\.(jpg|gif|png|bmp))$ ?module=$1&file_name=$2&%{QUERY_STRING}"
+      "RewriteRule ^static\/([a-zA-Z0-9-_]+)\/(([0-9a-zA-Z-_\/].+)\\.(jpg|gif|png|bmp))$ ?module=$1&file_name=$2&%{QUERY_STRING} [L]"
     ]
   }
 }

@@ -11,7 +11,7 @@
  */
 
 if (strlen($this->getDoEditElementStorage($element))>0) {
-	$QcheckData=self::getConnection();
+	$QcheckData=self::getConnection($this->getGroupOption('connection', 'database'));
 	$QcheckData->prepare('SELECT :formdata_name: FROM :table: AS :alias: WHERE :formdata_name: LIKE :value: AND :name_index:!=:value_index:');
 	$QcheckData->bindTable(':table:', $this->getGroupOption('table', 'database'));
 	$QcheckData->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));

@@ -17,6 +17,7 @@ $default_options['options']['search']=false;
 $default_options['options']['order']=false;
 $default_options['options']['default_value']='';
 $default_options['options']['read_only']=false;
+$default_options['options']['list_display_length']=0;
 $default_options['validation']['module']='string';
 
 ?>

@@ -21,7 +21,7 @@ $server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.05', 'server_
 # Funktionen
 ######################################################################################################################################################
 function logUpdateServer($server, $package, $release, $version, $version_requested, $option) {
-	$url='http://oswframe.com/updatelogger?server='.urlencode($server).'&package='.$package.'&release='.$release.'&version='.$version.'&version_requested='.$version_requested.'&option='.$option;
+	$url='https://oswframe.com/updatelogger?server='.urlencode($server).'&package='.$package.'&release='.$release.'&version='.$version.'&version_requested='.$version_requested.'&option='.$option;
 	@file_get_contents($url);
 }
 

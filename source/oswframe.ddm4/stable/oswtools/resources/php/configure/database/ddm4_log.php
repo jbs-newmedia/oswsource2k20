@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This file is part of the VIS2 package
+ * This file is part of the osWFrame package
  *
  * @author Juergen Schwind
  * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)
- * @package VIS2
+ * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
  */
@@ -46,9 +46,9 @@ if (count($avb_tbl)==1) {
  * create table
  */
 if (($av_tbl==0)&&($ab_tbl==0)) {
+	$__datatable_create=true;
 	$av_tbl=1;
 	$ab_tbl=0;
-	$__datatable_create=true;
 
 	$QwriteData=new \osWFrame\Core\Database();
 	$QwriteData->prepare('
@@ -84,26 +84,37 @@ CREATE TABLE :table: (
 	if ($QwriteData->hasError()===true) {
 		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
 		$db_error[]=$QwriteData->getErrorMessage();
+		$av_tbl=0;
+		$ab_tbl=0;
 	}
 }
 
 /*
- * update table
+ * update table DBV-1.1
  */
 /*
-if (($av_tbl<=1)&&($ab_tbl<1)) {
+if (($av_tbl==1)&&($ab_tbl==1)) {
+	$__datatable_do=true;
 	$av_tbl=1;
 	$ab_tbl=1;
-	$__datatable_do=true;
 
-	... code ...
+	... query ...
+	if ($QupdateData->hasError()===true) {
+		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
+		$db_error[]=$QupdateData->getErrorMessage();
+		$av_tbl=1;
+		$ab_tbl=0;
+	}
 }
 */
 
+/*
+ * update version
+ */
 if ($__datatable_do===true) {
 	$QwriteData=new \osWFrame\Core\Database();
 	$QwriteData->prepare('ALTER TABLE :table: COMMENT = :version:;');
-	$QwriteData->bindString(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
+	$QwriteData->bindRaw(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
 	$QwriteData->bindString(':version:', $av_tbl.'.'.$ab_tbl);
 	$QwriteData->execute();
 	if ($QwriteData->hasError()===true) {

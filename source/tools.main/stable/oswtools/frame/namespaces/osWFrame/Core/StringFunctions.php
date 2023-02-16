@@ -24,7 +24,7 @@ class StringFunctions {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
@@ -120,6 +120,31 @@ class StringFunctions {
 		$text=str_replace('<br/>', "\n", $text);
 
 		return strip_tags($text);
+	}
+
+	/**
+	 * @param string $string
+	 * @param int $length
+	 * @param string $dots
+	 * @return string
+	 */
+	public static function truncateString(string $string, int $length, string $dots='...') {
+		return (strlen($string)>$length)?substr($string, 0, $length-strlen($dots)).$dots:$string;
+	}
+
+	/**
+	 * @param string $string
+	 * @param int $count
+	 * @param string $dots
+	 * @return string
+	 */
+	public static function truncateStringByWordCount(string $string, int $count, string $dots=' ...') {
+		$words=explode(' ', $string);
+		if (count($words)>$count) {
+			return implode(' ', array_slice($words, 0, $count)).$dots;
+		}
+
+		return $string;
 	}
 
 }

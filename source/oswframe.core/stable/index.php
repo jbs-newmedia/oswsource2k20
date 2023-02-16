@@ -38,12 +38,12 @@ require_once OSWFRAME_CORE_ABSPATH.'frame'.DIRECTORY_SEPARATOR.'namespaces'.DIRE
 \osWFrame\Core\Errorhandler::setHandler();
 
 /**
- * Shutdownhanlder wird erstellt.
+ * Shutdown-handler wird erstellt.
  */
 \osWFrame\Core\Shutdownhandler::setHandler();
 
 /**
- * scriptload Start setzen, wird mit $_SERVER['REQUEST_TIME_FLOAT'] intern überschrieben und ein neuer Breakpoint gesetzt.
+ * script-load Start setzen, wird mit $_SERVER['REQUEST_TIME_FLOAT'] intern überschrieben und ein neuer Breakpoint gesetzt.
  */
 \osWFrame\Core\Debug::startTimer('scriptload');
 
@@ -128,7 +128,7 @@ if (file_exists($file)) {
 
 if (\osWFrame\Core\Settings::getBoolVar('session_enabled')===true) {
 	/**
-	 * Sessionumgebung einstellen.
+	 * Session-Umgebung einstellen.
 	 */
 	\osWFrame\Core\Session::setEnvironment();
 
@@ -158,7 +158,7 @@ if ((\osWFrame\Core\Settings::getStringVar('project_protection_user')!='')&&(\os
 }
 
 /**
- * Engine ausführen bei Projekt sofern noch keine Engine ausgeführt wurde.
+ * Engine ausführen bei Projekt so fern noch keine Engine ausgeführt wurde.
  */
 if ((\osWFrame\Core\Settings::getBoolVar('frame_engine_loaded')!==true)&&(\osWFrame\Core\Settings::getStringVar('project_default_engine')!==null)) {
 	$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'engines'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('project_default_engine').'.inc.php';
@@ -196,7 +196,7 @@ if (file_exists($file)) {
 }
 
 /**
- * scriptload Ende setzen.
+ * script-load Ende setzen.
  */
 \osWFrame\Core\Debug::stopTimer('scriptload');
 
@@ -211,7 +211,7 @@ if (file_exists($file)) {
 \osWFrame\Core\Settings::checkHighMemoryUsage();
 
 /**
- * Output ausführen bei Projekt sofern noch keine Output ausgeführt wurde.
+ * Output ausführen bei Projekt so fern noch kein Output ausgeführt wurde.
  */
 if ((\osWFrame\Core\Settings::getBoolVar('frame_output_loaded')!==true)&&(\osWFrame\Core\Settings::getStringVar('project_default_output')!==null)) {
 	$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'outputs'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('project_default_output').'.inc.php';
@@ -222,7 +222,7 @@ if ((\osWFrame\Core\Settings::getBoolVar('frame_output_loaded')!==true)&&(\osWFr
 }
 
 /**
- * Output ausführen bei Frame sofern noch keine Output ausgeführt wurde.
+ * Output ausführen bei Frame so fern noch kein Output ausgeführt wurde.
  */
 if ((\osWFrame\Core\Settings::getBoolVar('frame_output_loaded')!==true)&&(\osWFrame\Core\Settings::getStringVar('frame_default_output')!==null)) {
 	$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'outputs'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('frame_default_output').'.inc.php';

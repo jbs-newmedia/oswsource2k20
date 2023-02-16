@@ -16,7 +16,7 @@ if (!isset($options['min'])) {
 	$options['min']=true;
 }
 
-$version='2.2.7';
+$version='2.3.0';
 $dir=strtolower($this->getClassName().DIRECTORY_SEPARATOR.$plugin_name);
 $name=$plugin_name.DIRECTORY_SEPARATOR.$version.'.resource';
 if (Resource::existsResource($this->getClassName(), $name)!==true) {

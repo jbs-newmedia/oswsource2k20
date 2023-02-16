@@ -24,12 +24,12 @@ class Filesystem {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=4;
+	private const CLASS_MINOR_VERSION=5;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -177,6 +177,10 @@ class Filesystem {
 
 		if (self::isDir($dirname)!==true) {
 			return false;
+		}
+
+		if ((strpos($dirname, Settings::getStringVar('settings_abspath'))>=0)||($dirname==Settings::getStringVar('settings_abspath'))) {
+			return true;
 		}
 
 		return chmod($dirname, $mod);
@@ -432,13 +436,35 @@ class Filesystem {
 	 * @return bool
 	 */
 	public static function delDir(string $dir):bool {
-		$files=array_diff(self::scanDir($dir), ['.', '..']);
+		$result=self::scanDir($dir);
+		if ($result==null) {
+			$result=[];
+		}
+		$files=array_diff($result, ['.', '..']);
 		foreach ($files as $file) {
 			if (self::isDir($dir.$file)) {
 				self::delDir($dir.$file.DIRECTORY_SEPARATOR);
 			} else {
 				self::delFile($dir.$file);
 			}
+		}
+
+		return rmdir($dir);
+	}
+
+	/**
+	 * Löscht ein leeres Verzeichnis.
+	 *
+	 * @param string $dir
+	 * @return bool
+	 */
+	public static function delEmptyDir(string $dir):bool {
+		$result=self::scanDir($dir);
+		if ($result==null) {
+			$result=[];
+		}
+		if (count($result)!=2) {
+			return false;
 		}
 
 		return rmdir($dir);

@@ -17,12 +17,70 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 	$this->setDoSendElementStorage($element, osWFrame\Core\Settings::catchValue($element, '', 'p'));
 	$this->setDoSendElementStorage($element.$this->getSendElementOption($element, 'temp_suffix'), osWFrame\Core\Settings::catchValue($element.$this->getSendElementOption($element, 'temp_suffix'), '', 'p'));
 
-	if ((isset($_FILES[$element]))&&($_FILES[$element]['error']==0)) {
-		if ($this->getDoSendElementStorage($element)!='') {
-			\osWFrame\Core\Filesystem::unlink(\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getDoSendElementStorage($element));
+	if ($this->getSendElementValue($element, 'name')!='') {
+		if (($this->getSendElementOption($element, 'store_name')===true)||($this->getSendElementOption($element, 'store_type')===true)||($this->getSendElementOption($element, 'store_size')===true)||($this->getSendElementOption($element, 'store_md5')===true)||($this->getSendElementOption($element, 'store_sha1')===true)) {
+			$Qselect=self::getConnection($this->getGroupOption('connection', 'database'));
+			$Qselect->prepare('SELECT :elements: FROM :table: AS :alias: WHERE :name_index:=:value_index:');
+			$Qselect->bindRaw(':elements:', implode(', ', [$this->getGroupOption('alias', 'database').'.'.$element.'_name', $this->getGroupOption('alias', 'database').'.'.$element.'_type', $this->getGroupOption('alias', 'database').'.'.$element.'_size', $this->getGroupOption('alias', 'database').'.'.$element.'_md5', $this->getGroupOption('alias', 'database').'.'.$element.'_sha1']));
+			$Qselect->bindTable(':table:', $this->getGroupOption('table', 'database'));
+			$Qselect->bindRaw(':alias:', $this->getGroupOption('alias', 'database'));
+			$Qselect->bindRaw(':name_index:', $this->getGroupOption('alias', 'database').'.'.$this->getGroupOption('index', 'database'));
+			if ($this->getGroupOption('db_index_type', 'database')=='string') {
+				$Qselect->bindString(':value_index:', $this->getIndexElementStorage());
+			} else {
+				$Qselect->bindInt(':value_index:', $this->getIndexElementStorage());
+			}
+			if ($Qselect->exec()==1) {
+				$data_old=$Qselect->fetch();
+			} else {
+				$data_old=[];
+				$data_old[$element.'_name']='';
+				$data_old[$element.'_type']='';
+				$data_old[$element.'_size']=0;
+				$data_old[$element.'_md5']='';
+				$data_old[$element.'_sha1']='';
+			}
 		}
-		if ($this->getDoSendElementStorage($element.$this->getSendElementOption($element, 'temp_suffix'))!='') {
-			\osWFrame\Core\Filesystem::unlink(\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getDoSendElementStorage($element.$this->getSendElementOption($element, 'temp_suffix')));
+	}
+
+	if ($this->getSendElementOption($element, 'store_name')===true) {
+		if ($this->getSendElementStorage($element)!='') {
+			$this->setSendElementStorage($element.'_name', $data_old[$element.'_name']);
+		}
+	}
+
+	if ($this->getSendElementOption($element, 'store_type')===true) {
+		if ($this->getSendElementStorage($element)!='') {
+			$this->setSendElementStorage($element.'_type', $data_old[$element.'_type']);
+		}
+	}
+
+	if ($this->getSendElementOption($element, 'store_size')===true) {
+		if ($this->getSendElementStorage($element)!='') {
+			$this->setSendElementStorage($element.'_size', $data_old[$element.'_size']);
+		}
+	}
+
+	if ($this->getSendElementOption($element, 'store_md5')===true) {
+		if ($this->getSendElementStorage($element)!='') {
+			$this->setSendElementStorage($element.'_md5', $data_old[$element.'_md5']);
+		}
+	}
+
+	if ($this->getSendElementOption($element, 'store_sha1')===true) {
+		if ($this->getSendElementStorage($element)!='') {
+			$this->setSendElementStorage($element.'_sha1', $data_old[$element.'_sha1']);
+		}
+	}
+
+	if ((isset($_FILES[$element]))&&($_FILES[$element]['error']==0)) {
+		if ($this->getSendElementStorage($element)=='') {
+			if ($this->getDoSendElementStorage($element)!='') {
+				\osWFrame\Core\Filesystem::unlink(\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getDoSendElementStorage($element));
+			}
+			if ($this->getDoSendElementStorage($element.$this->getSendElementOption($element, 'temp_suffix'))!='') {
+				\osWFrame\Core\Filesystem::unlink(\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getDoSendElementStorage($element.$this->getSendElementOption($element, 'temp_suffix')));
+			}
 		}
 
 		$dir=str_replace('//', '/', osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getSendElementOption($element, 'file_dir').'/');
@@ -32,27 +90,37 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 
 		if ($this->getSendElementOption($element, 'store_name')===true) {
 			$this->setDoSendElementStorage($element.'_name', ($_FILES[$element]['name']));
-			$this->addSendElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_name',]);
+			if ($this->getSendElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_name',]);
+			}
 		}
 
 		if ($this->getSendElementOption($element, 'store_type')===true) {
 			$this->setDoSendElementStorage($element.'_type', ($_FILES[$element]['type']));
-			$this->addSendElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_type',]);
+			if ($this->getSendElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_type',]);
+			}
 		}
 
 		if ($this->getSendElementOption($element, 'store_size')===true) {
 			$this->setDoSendElementStorage($element.'_size', ($_FILES[$element]['size']));
-			$this->addSendElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_size',]);
+			if ($this->getSendElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_size',]);
+			}
 		}
 
 		if ($this->getSendElementOption($element, 'store_md5')===true) {
 			$this->setDoSendElementStorage($element.'_md5', hash_file('md5', $_FILES[$element]['tmp_name']));
-			$this->addSendElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_md5',]);
+			if ($this->getSendElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_md5',]);
+			}
 		}
 
 		if ($this->getSendElementOption($element, 'store_sha1')===true) {
 			$this->setDoSendElementStorage($element.'_sha1', hash_file('sha1', $_FILES[$element]['tmp_name']));
-			$this->addSendElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_sha1',]);
+			if ($this->getSendElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_sha1',]);
+			}
 		}
 
 		$file_name='';
@@ -98,10 +166,12 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 		$this->setDoSendElementStorage($element.$this->getSendElementOption($element, 'temp_suffix'), str_replace(\osWFrame\Core\Settings::getStringVar('settings_abspath'), '', $file_tmp));
 	} elseif ((isset($_FILES[$element]))&&($_FILES[$element]['error']==4)) {
 	} else {
-		$this->setFilterErrorElementStorage($element.'_upload_error', true);
+		if ($this->getSendElementOption($element, 'read_only')!==true) {
+			$this->setFilterErrorElementStorage($element.'_upload_error', true);
+		}
 	}
 
-	if (\osWFrame\Core\Settings::catchValue($element.$this->getSendElementOption($element, 'temp_suffix').$this->getSendElementOption($element, 'delete_suffix'), '', 'p')==1) {
+	if (\osWFrame\Core\Settings::catchValue($element.$this->getSendElementOption($element, 'delete_suffix'), '', 'p')==1) {
 		if ($this->getDoSendElementStorage($element)!='') {
 			\osWFrame\Core\Filesystem::unlink(\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getDoSendElementStorage($element));
 			$this->setDoSendElementStorage($element, '');

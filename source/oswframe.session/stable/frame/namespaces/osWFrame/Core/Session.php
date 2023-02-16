@@ -24,12 +24,12 @@ class Session {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -196,6 +196,7 @@ class Session {
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -365,6 +366,86 @@ class Session {
 	 */
 	public static function isVar(string $name):bool {
 		if ((self::getSessionStarted()===true)&&(isset($_SESSION[$name]))) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public static function initBoolVar(string $name):bool {
+		if (self::getSessionStarted()===true) {
+			if (!isset($_SESSION[$name])) {
+				$_SESSION[$name]=false;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public static function initStringVar(string $name):bool {
+		if (self::getSessionStarted()===true) {
+			if (!isset($_SESSION[$name])) {
+				$_SESSION[$name]='';
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public static function initIntVar(string $name):bool {
+		if (self::getSessionStarted()===true) {
+			if (!isset($_SESSION[$name])) {
+				$_SESSION[$name]=0;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public static function initFloatVar(string $name):bool {
+		if (self::getSessionStarted()===true) {
+			if (!isset($_SESSION[$name])) {
+				$_SESSION[$name]=0.0;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public static function initArrayVar(string $name):bool {
+		if (self::getSessionStarted()===true) {
+			if (!isset($_SESSION[$name])) {
+				$_SESSION[$name]=[];
+			}
+
 			return true;
 		}
 

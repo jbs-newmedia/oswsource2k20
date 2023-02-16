@@ -260,7 +260,7 @@ class ImageOptimizer {
 			$filename=$parts['dirname'].'/'.$fileparts[0].'.'.$fileparts[2];
 		}
 		$rel_file=$filename;
-		$abs_file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$rel_file;
+		$abs_file=Settings::getStringVar('settings_abspath').$rel_file;
 		if (!file_exists($abs_file)) {
 			MessageStack::addMessage(self::getNameAsString(), 'error', ['time'=>time(), 'line'=>__LINE__, 'function'=>__FUNCTION__, 'error'=>'File not found ('.$rel_file.')']);
 			Settings::dieScript('File not found');

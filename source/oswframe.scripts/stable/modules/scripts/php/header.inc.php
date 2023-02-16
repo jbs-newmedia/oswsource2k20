@@ -12,6 +12,8 @@
 
 \osWFrame\Core\Settings::setStringVar('frame_default_engine', 'scripts');
 \osWFrame\Core\Settings::setStringVar('frame_default_output', 'scripts');
-\osWFrame\Core\Settings::setBoolVar('session_enabled', false);
+if (\osWFrame\Core\Settings::catchIntValue('session_enabled', 0, 'pg')==0) {
+	\osWFrame\Core\Settings::setBoolVar('session_enabled', false);
+}
 
 ?>

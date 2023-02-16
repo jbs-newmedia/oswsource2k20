@@ -16,7 +16,7 @@
   "required": [
     {
       "serverlist": "oswframe2k20",
-      "package": "oswframe.core",
+      "package": "oswproject.core",
       "release": "stable"
     },
     {

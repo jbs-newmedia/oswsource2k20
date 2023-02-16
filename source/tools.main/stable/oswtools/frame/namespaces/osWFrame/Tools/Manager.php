@@ -32,7 +32,7 @@ class Manager {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -214,9 +214,13 @@ class Manager {
 			$package_data=Server::getUrlData($server_data['server_url'].'?action=get_content&package='.$package.'&release='.$release.'&version=0');
 			if ($package_checksum==sha1($package_data)) {
 				$cache_name=md5($serverlist.'#'.$package.'#'.$release).'.zip';
-				$file=Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').DIRECTORY_SEPARATOR.$cache_name;
+				$file=Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').$cache_name;
+				Frame\Filesystem::makeDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path'));
+				Frame\Filesystem::protectDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path'));
 				file_put_contents($file, $package_data);
 
+				Frame\Filesystem::makeDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path'));
+				Frame\Filesystem::protectDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path'));
 				$Zip=new Frame\Zip($file);
 				$Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'), Tools\Configure::getFrameConfigInt('settings_chmod_dir'), Tools\Configure::getFrameConfigInt('settings_chmod_file'));
 				Frame\Filesystem::delFile($file);
@@ -247,9 +251,10 @@ class Manager {
 	 * @param string $serverlist
 	 * @param string $package
 	 * @param string $release
+	 * @param bool $skip_create_files
 	 * @return bool
 	 */
-	public function removePackage(string $serverlist, string $package, string $release):bool {
+	public function removePackage(string $serverlist, string $package, string $release, bool $skip_create_files=false):bool {
 		$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'filelist'.DIRECTORY_SEPARATOR.$package.'-'.$release.'.json';
 		if (Frame\Filesystem::existsFile($file)) {
 			$filelist=json_decode(file_get_contents($file), true);
@@ -266,8 +271,10 @@ class Manager {
 				}
 			}
 
-			$this->createConfigureFile();
-			$this->createHtAccessFile();
+			if ($skip_create_files!==true) {
+				$this->createConfigureFile();
+				$this->createHtAccessFile();
+			}
 
 			if (count($filelist)>0) {
 				foreach ($filelist as $entry=>$foo) {

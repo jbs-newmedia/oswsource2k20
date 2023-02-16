@@ -1,0 +1,8 @@
+{
+	"htaccess": {
+		"topmiddle": [
+			"RewriteRule ^_ckeditor5_simple_upload$ ?module=_ckeditor5_simple_upload&%{QUERY_STRING} [L]"
+		]
+	}
+}
+

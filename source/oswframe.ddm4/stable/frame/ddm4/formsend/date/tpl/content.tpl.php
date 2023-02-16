@@ -12,27 +12,80 @@
 
 ?>
 
-	<tr class="table_ddm_row table_ddm_row_data <?php echo osW_Template::getInstance()->getColorClass('table_ddm_rows', ['table_ddm_row_cella', 'table_ddm_row_cellb']) ?> <?php if ($this->getTemplate()->Form()->getErrorMessage($element)===true): ?>table_ddm_row_error<?php endif ?> ddm_element_<?php echo $this->getSendElementValue($element, 'id') ?> ">
-		<td <?php if ($this->getSendElementOption($element, 'notice')!=''): ?>rowspan="2"<?php endif ?> class="table_ddm_col table_ddm_col_data table_ddm_col_title"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementValue($element, 'title')) ?><?php if ($this->getSendElementOption($element, 'required')===true): ?><?php echo $this->getGroupMessage('form_title_required_icon') ?><?php endif ?><?php echo $this->getGroupMessage('form_title_closer') ?></td>
-		<td class="table_ddm_col table_ddm_col_data table_ddm_col_form">
-			<?php if ($this->getSendElementOption($element, 'read_only')===true): ?><?php if (($this->getSendElementStorage($element)=='')||($this->getSendElementStorage($element)=='00000000')): ?>
+<div class="form-group ddm_element_<?php echo $this->getSendElementValue($element, 'id') ?>">
+
+	<?php /* label */ ?>
+
+	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementValue($element, 'title')) ?><?php if ($this->getSendElementOption($element, 'required')===true): ?><?php echo $this->getGroupMessage('form_title_required_icon') ?><?php endif ?><?php echo $this->getGroupMessage('form_title_closer') ?></label><?php if ($this->getSendElementOption($element, 'read_only')===true): ?>
+
+		<?php /* read only */ ?>
+
+		<div class="form-control readonly">
+
+			<?php if (($this->getSendElementStorage($element)=='')||($this->getSendElementStorage($element)=='00000000')): ?>
 				---
-			<?php else: ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_day', substr($this->getSendElementStorage($element), 6, 2)) ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_month', substr($this->getSendElementStorage($element), 4, 2)) ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_year', substr($this->getSendElementStorage($element), 0, 4)) ?>
+			<?php else: ?>
 
-				<?php if ($this->getSendElementOption($element, 'month_asname')===true): ?><?php echo strftime(str_replace('%m.', ' %B ', $this->getSendElementOption($element, 'date_format')), mktime(12, 0, 0, substr($this->getSendElementStorage($element), 4, 2), substr($this->getSendElementStorage($element), 6, 2), substr($this->getSendElementStorage($element), 0, 4))) ?><?php else: ?><?php echo strftime($this->getSendElementOption($element, 'date_format'), mktime(12, 0, 0, substr($this->getSendElementStorage($element), 4, 2), substr($this->getSendElementStorage($element), 6, 2), substr($this->getSendElementStorage($element), 0, 4))) ?><?php endif ?><?php endif ?><?php else: ?><?php $data=$this->getSendElementOption($element, 'data') ?>
+				<?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_day', substr($this->getSendElementStorage($element), 6, 2)) ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_month', substr($this->getSendElementStorage($element), 4, 2)) ?><?php echo $this->getTemplate()->Form()->drawHiddenField($element.'_year', substr($this->getSendElementStorage($element), 0, 4)) ?>
 
-				<?php $date_format=$this->getSendElementOption($element, 'date_format') ?><?php $date_format=str_replace('%', '%osw_tmp_ddm3_%', $date_format) ?>
+				<?php if ($this->getSendElementOption($element, 'month_asname')===true): ?>
 
-				<?php $date_format=str_replace('%osw_tmp_ddm3_%d', $this->getTemplate()->Form()->drawSelectField($element.'_day', $data['day'], substr($this->getSendElementStorage($element), 6, 2)), $date_format) ?><?php $date_format=str_replace('%osw_tmp_ddm3_%m', $this->getTemplate()->Form()->drawSelectField($element.'_month', $data['month'], substr($this->getSendElementStorage($element), 4, 2)), $date_format) ?><?php $date_format=str_replace('%osw_tmp_ddm3_%Y', $this->getTemplate()->Form()->drawSelectField($element.'_year', $data['year'], substr($this->getSendElementStorage($element), 0, 4)), $date_format) ?><?php $date_format=str_replace('%osw_tmp_ddm3_%y', $this->getTemplate()->Form()->drawSelectField($element.'_year', $data['year'], substr($this->getSendElementStorage($element), 0, 4)), $date_format) ?>
+					<?php echo \osWFrame\Core\DateTime::strftime(str_replace('%m.', ' %B ', $this->getSendElementOption($element, 'date_format')), mktime(12, 0, 0, substr($this->getSendElementStorage($element), 4, 2), substr($this->getSendElementStorage($element), 6, 2), substr($this->getSendElementStorage($element), 0, 4))) ?><?php else: ?><?php echo \osWFrame\Core\DateTime::strftime($this->getSendElementOption($element, 'date_format'), mktime(12, 0, 0, substr($this->getSendElementStorage($element), 4, 2), substr($this->getSendElementStorage($element), 6, 2), substr($this->getSendElementStorage($element), 0, 4))) ?>
 
-				<?php echo $date_format; ?><?php endif ?>
-		</td>
-	</tr>
+				<?php endif ?>
 
-<?php if ($this->getSendElementOption($element, 'notice')!=''): ?>
-	<tr class="table_ddm_row table_ddm_row_data <?php if ($this->getTemplate()->Form()->getErrorMessage($element)===true): ?>table_ddm_row_error<?php endif ?> ddm_element_<?php echo $this->getSendElementValue($element, 'id') ?> ">
-		<td class="table_ddm_col table_ddm_col_data table_ddm_col_notice">
-			<?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'notice')) ?>
-		</td>
-	</tr>
-<?php endif ?>
+			<?php endif ?>
+
+		</div>
+
+	<?php else: ?>
+
+		<?php /* input */ ?>
+
+		<?php $data=$this->getSendElementOption($element, 'data') ?>
+
+		<?php $date_format=$this->getSendElementOption($element, 'date_format') ?>
+
+		<?php $c=substr_count($date_format, '%') ?>
+
+		<?php $d=bcdiv(12, $c) ?>
+
+		<?php $date_format=str_replace('%', '%osw_tmp_ddm3_%', $date_format) ?>
+
+		<?php $date_format=str_replace('-', '', $date_format) ?>
+
+		<?php $date_format=str_replace('.', '', $date_format) ?>
+
+		<?php $date_format=str_replace(',', '', $date_format) ?>
+
+		<?php $date_format=str_replace('%osw_tmp_ddm3_%d', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_day', $data['day'], substr($this->getSendElementStorage($element), 6, 2), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="custom-select"']).'</div>', $date_format) ?>
+
+		<?php $date_format=str_replace('%osw_tmp_ddm3_%m', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_month', $data['month'], substr($this->getSendElementStorage($element), 4, 2), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="custom-select"']).'</div>', $date_format) ?>
+
+		<?php $date_format=str_replace('%osw_tmp_ddm3_%Y', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_year', $data['year'], substr($this->getSendElementStorage($element), 0, 4), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="custom-select"']).'</div>', $date_format) ?>
+
+		<?php $date_format=str_replace('%osw_tmp_ddm3_%y', '<div class="col-sm-'.$d.'">'.$this->getTemplate()->Form()->drawSelectField($element.'_year', $data['year'], substr($this->getSendElementStorage($element), 0, 4), ['input_class'=>'selectpicker select-ellipsis-fix form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>' style="width:20%;" data-style="custom-select"']).'</div>', $date_format) ?>
+
+		<?php echo '<div class="form-group row">'.$date_format.'</div>'; ?>
+
+	<?php endif ?>
+
+	<?php /* error */ ?>
+
+	<?php if ($this->getTemplate()->Form()->getErrorMessage($element)!==null): ?>
+		<div class="text-danger small"><?php echo $this->getTemplate()->Form()->getErrorMessage($element) ?></div>
+	<?php endif ?>
+
+	<?php /* notice */ ?>
+
+	<?php if ($this->getSendElementOption($element, 'notice')!=''): ?>
+		<div class="text-info"><?php echo \osWFrame\Core\HTML::outputString($this->getSendElementOption($element, 'notice')) ?></div>
+	<?php endif ?>
+
+	<?php /* buttons */ ?>
+
+	<?php if ($this->getSendElementOption($element, 'buttons')!=''): ?>
+		<div><?php echo implode(' ', $this->getSendElementOption($element, 'buttons')) ?></div>
+	<?php endif ?>
+
+</div>

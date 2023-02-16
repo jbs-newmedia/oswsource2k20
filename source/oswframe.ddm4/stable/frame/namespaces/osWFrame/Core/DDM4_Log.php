@@ -24,12 +24,12 @@ class DDM4_Log {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -103,15 +103,16 @@ class DDM4_Log {
 	 * @param string $group
 	 * @param string $index
 	 * @param string $value
+	 * @param string $connection
 	 * @return bool|null
 	 */
-	public static function writeValues(string $group, string $index, string $value):?bool {
+	public static function writeValues(string $group, string $index, string $value, string $connection=''):?bool {
 		if (!isset(self::$elements[$group])) {
 			return null;
 		}
 
 		foreach (self::$elements[$group] as $key=>$values) {
-			$QsaveData=self::getConnection();
+			$QsaveData=self::getConnection($connection);
 			$QsaveData->prepare('INSERT INTO :table_ddm4_log: (log_group, name_index, value_index, log_key, log_module, log_value_new, log_value_old, log_value_user_id_new, log_value_user_id_old, log_value_time_new, log_value_time_old) VALUES (:log_group:, :name_index:, :value_index:, :log_key:, :log_module:, :log_value_new:, :log_value_old:, :log_value_user_id_new:, :log_value_user_id_old:, :log_value_time_new:, :log_value_time_old:)');
 			$QsaveData->bindTable(':table_ddm4_log:', 'ddm4_log');
 			$QsaveData->bindString(':log_group:', $group);

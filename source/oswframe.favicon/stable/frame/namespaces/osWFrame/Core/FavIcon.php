@@ -30,7 +30,7 @@ class FavIcon {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=3;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -70,19 +70,22 @@ class FavIcon {
 	 * @param object $Template
 	 */
 	public function __construct(string $file, object $Template) {
-		$this->setFile($file);
-		$this->setFavIcon(true);
-		$this->setTemplate($Template);
-		$this->setIcons();
-		$this->setAppleTouchIcons();
-		$this->setMSApplication();
+		$abs_file=Settings::getStringVar('settings_abspath').$file;
+		if (Filesystem::existsFile($abs_file)) {
+			$this->setFile($file);
+			$this->setFavIcon(true);
+			$this->setTemplate($Template);
+			$this->setIcons();
+			$this->setAppleTouchIcons();
+			$this->setMSApplication();
+		}
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function setIcons2Template():bool {
-		$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getFile();
+		$file=Settings::getStringVar('settings_abspath').$this->getFile();
 		if (Filesystem::existsFile($file)) {
 			$path=dirname($this->getFile());
 			$path_filename=pathinfo($file, PATHINFO_FILENAME);
@@ -93,7 +96,7 @@ class FavIcon {
 			}
 			foreach ($this->getIcons() as $icon) {
 				$osW_ImageOptimizer=new ImageOptimizer();
-				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
+				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
 				if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 					$osW_ImageOptimizer->setPS($this->getFile());
 				}
@@ -102,7 +105,7 @@ class FavIcon {
 			}
 			foreach ($this->getAppleTouchIcons() as $icon) {
 				$osW_ImageOptimizer=new ImageOptimizer();
-				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
+				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
 				if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 					$osW_ImageOptimizer->setPS($this->getFile());
 				}
@@ -111,7 +114,7 @@ class FavIcon {
 			}
 			foreach ($this->getMSApplication() as $icon) {
 				$osW_ImageOptimizer=new ImageOptimizer();
-				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y']]);
+				$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
 				if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
 					$osW_ImageOptimizer->setPS($this->getFile());
 				}

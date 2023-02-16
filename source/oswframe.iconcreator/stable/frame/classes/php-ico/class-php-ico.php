@@ -187,7 +187,7 @@ class PHP_ICO {
 				$color = imagecolorat( $im, $x, $y );
 
 				$alpha = ( $color & 0x7F000000 ) >> 24;
-				$alpha = ( 1 - ( $alpha / 127 ) ) * 255;
+				$alpha = round( ( 1 - ( $alpha / 127 ) ) * 255);
 
 				$color &= 0xFFFFFF;
 				$color |= 0xFF000000 & ( $alpha << 24 );
@@ -216,7 +216,7 @@ class PHP_ICO {
 
 		$image_header_size = 40;
 		$color_mask_size = $width * $height * 4;
-		$opacity_mask_size = ( ceil( $width / 32 ) * 4 ) * $height;
+		$opacity_mask_size =  ( ceil( $width / 32 ) * 4 ) * $height;
 
 
 		$data = pack( 'VVVvvVVVVVV', 40, $width, ( $height * 2 ), 1, 32, 0, 0, 0, 0, 0, 0 );

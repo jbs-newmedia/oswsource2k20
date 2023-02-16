@@ -86,6 +86,10 @@ class IconCreator extends \PHP_ICO {
 	public static function readCache(string $file, array $sizes):string {
 		$filenamecache=md5($file.'#'.serialize($sizes));
 
+		if (Cache::existsCache(self::getClassName(), $filenamecache)!==true) {
+			return '';
+		}
+
 		return Cache::readCacheAsString(self::getClassName(), $filenamecache);
 	}
 

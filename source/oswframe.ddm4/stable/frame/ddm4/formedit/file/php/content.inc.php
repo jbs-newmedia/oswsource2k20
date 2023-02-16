@@ -19,7 +19,7 @@ if (\osWFrame\Core\Settings::getAction()=='doedit') {
 
 	if ($this->getEditElementValue($element, 'name')!='') {
 		if (($this->getEditElementOption($element, 'store_name')===true)||($this->getEditElementOption($element, 'store_type')===true)||($this->getEditElementOption($element, 'store_size')===true)||($this->getEditElementOption($element, 'store_md5')===true)||($this->getEditElementOption($element, 'store_sha1')===true)) {
-			$Qselect=self::getConnection();
+			$Qselect=self::getConnection($this->getGroupOption('connection', 'database'));
 			$Qselect->prepare('SELECT :elements: FROM :table: AS :alias: WHERE :name_index:=:value_index:');
 			$Qselect->bindRaw(':elements:', implode(', ', [$this->getGroupOption('alias', 'database').'.'.$element.'_name', $this->getGroupOption('alias', 'database').'.'.$element.'_type', $this->getGroupOption('alias', 'database').'.'.$element.'_size', $this->getGroupOption('alias', 'database').'.'.$element.'_md5', $this->getGroupOption('alias', 'database').'.'.$element.'_sha1']));
 			$Qselect->bindTable(':table:', $this->getGroupOption('table', 'database'));
@@ -171,7 +171,7 @@ if (\osWFrame\Core\Settings::getAction()=='doedit') {
 		}
 	}
 
-	if (\osWFrame\Core\Settings::catchValue($element.$this->getEditElementOption($element, 'temp_suffix').$this->getEditElementOption($element, 'delete_suffix'), '', 'p')==1) {
+	if (\osWFrame\Core\Settings::catchValue($element.$this->getEditElementOption($element, 'delete_suffix'), '', 'p')==1) {
 		if ($this->getDoEditElementStorage($element)!='') {
 			\osWFrame\Core\Filesystem::unlink(\osWFrame\Core\Settings::getStringVar('settings_abspath').$this->getDoEditElementStorage($element));
 			$this->setDoEditElementStorage($element, '');

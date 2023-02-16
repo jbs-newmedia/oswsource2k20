@@ -10,6 +10,8 @@
  * @license MIT License
  */
 
+\osWFrame\Core\Settings::setStringVar('frame_current_module', \osWFrame\Core\Settings::getStringVar('frame_default_module'));
+
 if (\osWFrame\Core\Settings::getStringVar('database_server')!==null) {
 	\osWFrame\Core\DB::addConnectionMYSQL(\osWFrame\Core\Settings::getStringVar('database_server'), \osWFrame\Core\Settings::getStringVar('database_username'), \osWFrame\Core\Settings::getStringVar('database_password'), \osWFrame\Core\Settings::getStringVar('database_db'), \osWFrame\Core\Settings::getStringVar('database_character'), 'default', \osWFrame\Core\Settings::getIntVar('database_port'));
 	\osWFrame\Core\DB::connect();

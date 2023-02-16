@@ -21,7 +21,7 @@ $date['month']=[];
 $date['month']['00']='';
 for ($i=1; $i<=12; $i++) {
 	if ($this->getAddElementOption($element, 'month_asname')===true) {
-		$date['month'][sprintf('%02d', $i)]=strftime('%B', mktime(12, 0, 0, $i, 01, 2000));
+		$date['month'][sprintf('%02d', $i)]=\osWFrame\Core\DateTime::strftime('%B', mktime(12, 0, 0, $i, 01, 2000));
 	} else {
 		$date['month'][sprintf('%02d', $i)]=sprintf('%02d', $i);
 	}

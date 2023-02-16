@@ -29,7 +29,7 @@ class Zip extends \ZipArchive {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -112,12 +112,12 @@ class Zip extends \ZipArchive {
 	 * @param int $chmod_file
 	 * @return bool
 	 */
-	public function unpackDir(string $dir, int $chmod_dir=0755, int $chmod_file=0644):bool {
+	public function unpackDir(string $dir, int $chmod_dir=0, int $chmod_file=0):bool {
 		if ($chmod_dir==0) {
-			$chmod_dir=0755;
+			$chmod_dir=Settings::getIntVar('settings_chmod_dir');
 		}
 		if ($chmod_file==0) {
-			$chmod_file=0644;
+			$chmod_file=Settings::getIntVar('settings_chmod_file');
 		}
 		$this->openFile();
 		if ($this->count()>0) {

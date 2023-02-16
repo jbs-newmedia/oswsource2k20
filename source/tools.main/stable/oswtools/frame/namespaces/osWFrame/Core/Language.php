@@ -25,12 +25,12 @@ class Language {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=5;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -48,12 +48,22 @@ class Language {
 	/**
 	 * @var array
 	 */
+	protected static array $languages_short_available=[];
+
+	/**
+	 * @var array
+	 */
 	protected static $language_vars=[];
 
 	/**
 	 * @var array
 	 */
 	protected static array $module2name=[];
+
+	/**
+	 * @var array
+	 */
+	protected static array $name2module_lower=[];
 
 	/**
 	 * @var array
@@ -84,7 +94,8 @@ class Language {
 	 * @return void
 	 */
 	public static function setAvailableLanguages(array $languages_available):void {
-		self::$languages_available=$languages_available;
+		self::$languages_short_available=$languages_available;
+		self::$languages_available=array_combine($languages_available, $languages_available);
 	}
 
 	/**
@@ -92,6 +103,13 @@ class Language {
 	 */
 	public static function getAvailableLanguages():array {
 		return self::$languages_available;
+	}
+
+	/**
+	 * @return array
+	 */
+	public static function getAvailableLanguagesShort():array {
+		return self::$languages_short_available;
 	}
 
 	/**
@@ -136,26 +154,16 @@ class Language {
 
 	/**
 	 * @param string $language
-	 * @param string $format
 	 * @return bool
 	 */
-	public static function setCurrentLanguage(string $language, string $format='full'):bool {
-		switch ($format) {
-			case 'short':
-				if (!isset(self::$languages_available[$language])) {
-					return false;
-				}
-				self::setCurrentLanguageShort($language);
-				self::setCurrentLanguageFull(self::$languages_available[$language]);
-				break;
-			case 'full':
-			default:
-				if (!in_array($language, self::$languages_available)) {
-					return false;
-				}
-				self::setCurrentLanguageShort(array_search($language, self::$languages_available));
-				self::setCurrentLanguageFull($language);
+	public static function setCurrentLanguage(string $language):bool {
+		if (!isset(self::$languages_available[$language])) {
+			return false;
 		}
+
+		$language_explode=explode('_', $language);
+		self::setCurrentLanguageShort($language_explode[0]);
+		self::setCurrentLanguageFull($language);
 
 		return true;
 	}
@@ -187,6 +195,7 @@ class Language {
 		}
 		self::$module2name[$language][$module]=$name;
 		self::$name2module[$language][$name]=$module;
+		self::$name2module_lower[$language][$name]=strtolower($module);
 
 		return true;
 	}
@@ -246,6 +255,28 @@ class Language {
 		}
 
 		return self::$name2module[$language][$name];
+	}
+
+	/**
+	 * @param string $name
+	 * @param string $language
+	 * @return string
+	 */
+	public static function getNameModuleLower(string $name, string $language=''):string {
+		if ($language=='') {
+			$language=self::getCurrentLanguage();
+		}
+		if (!isset(self::$name2module_lower)) {
+			return $name;
+		}
+		if (!isset(self::$name2module_lower[$language])) {
+			return $name;
+		}
+		if (!isset(self::$name2module_lower[$language][$name])) {
+			return $name;
+		}
+
+		return self::$name2module_lower[$language][$name];
 	}
 
 	/**
