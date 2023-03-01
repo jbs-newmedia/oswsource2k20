@@ -27,12 +27,12 @@ class CoreTool {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -113,6 +113,9 @@ class CoreTool {
 		Frame\MessageWriter::addIgnore('configure');
 		if ($this->checkProtection()!==true) {
 			\osWFrame\Core\MessageStack::addMessage('result', 'danger', ['msg'=>'Please protect your tools. Check "osWTools:Main" ➜ "More" ➜ "Protect tools"']);
+		}
+		if ($this->checkSSL()!==true) {
+			\osWFrame\Core\MessageStack::addMessage('result', 'danger', ['msg'=>'Please use secure connection via SSL.']);
 		}
 	}
 
@@ -485,6 +488,25 @@ class CoreTool {
 		}
 
 		return $this->hasProtection();
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasSSL():bool {
+		return Tools\Configure::getFrameConfigBool('settings_ssl');
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function checkSSL():bool {
+		$file_dev=\osWFrame\Core\Settings::getStringVar('settings_framepath').'modules'.DIRECTORY_SEPARATOR.'configure.project-dev.php';
+		if (Frame\Filesystem::existsFile($file_dev)===true) {
+			return true;
+		}
+
+		return $this->hasSSL();
 	}
 
 	/**
