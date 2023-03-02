@@ -12,11 +12,12 @@
 
 namespace osWFrame\Core;
 
+$version='3.1.5';
+
 if (!isset($options['min'])) {
 	$options['min']=true;
 }
 
-$version='3.1.5';
 $dir=strtolower($this->getClassName().DIRECTORY_SEPARATOR.$plugin_name);
 $name=$plugin_name.DIRECTORY_SEPARATOR.$version.'.resource';
 if (Resource::existsResource($this->getClassName(), $name)!==true) {
@@ -29,8 +30,7 @@ $path=Resource::getRelDir().$dir.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATO
 
 if ($options['min']===true) {
 	$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'bootstrap-notify.min.js'];
-}
-else {
+} else {
 	$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'bootstrap-notify.js'];
 }
 

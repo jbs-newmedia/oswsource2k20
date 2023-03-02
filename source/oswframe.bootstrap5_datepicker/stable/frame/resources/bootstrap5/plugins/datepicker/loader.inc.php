@@ -12,6 +12,8 @@
 
 namespace osWFrame\Core;
 
+$version='1.9.0';
+
 if (!isset($options['min'])) {
 	$options['min']=true;
 }
@@ -20,7 +22,6 @@ if (!isset($options['language'])) {
 	$options['language']=Language::getCurrentLanguage('short');
 }
 
-$version='1.9.0';
 $dir=strtolower($this->getClassName().DIRECTORY_SEPARATOR.$plugin_name);
 $name=$plugin_name.DIRECTORY_SEPARATOR.$version.'.resource';
 if (Resource::existsResource($this->getClassName(), $name)!==true) {

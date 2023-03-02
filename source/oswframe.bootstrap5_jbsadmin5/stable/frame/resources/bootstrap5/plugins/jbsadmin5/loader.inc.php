@@ -13,6 +13,7 @@
 namespace osWFrame\Core;
 
 $version='5.0.3';
+
 $dir=strtolower($this->getClassName().DIRECTORY_SEPARATOR.$plugin_name);
 
 $name=$plugin_name.DIRECTORY_SEPARATOR.$version.'.resource';
