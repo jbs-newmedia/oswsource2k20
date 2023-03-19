@@ -28,5 +28,6 @@ $cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'aos.min.css'];
 
 $this->addTemplateJSFiles('head', $jsfiles);
 $this->addTemplateCSSFiles('head', $cssfiles);
+$this->addTemplateJSCode('head', '$(function () { AOS.init(); });');
 
 ?>
