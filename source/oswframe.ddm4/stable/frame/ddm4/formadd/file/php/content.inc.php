@@ -32,27 +32,37 @@ if (\osWFrame\Core\Settings::getAction()=='doadd') {
 
 		if ($this->getAddElementOption($element, 'store_name')===true) {
 			$this->setDoAddElementStorage($element.'_name', ($_FILES[$element]['name']));
-			$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_name',]);
+			if ($this->getAddElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_name']);
+			}
 		}
 
 		if ($this->getAddElementOption($element, 'store_type')===true) {
 			$this->setDoAddElementStorage($element.'_type', ($_FILES[$element]['type']));
-			$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_type',]);
+			if ($this->getAddElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_type']);
+			}
 		}
 
 		if ($this->getAddElementOption($element, 'store_size')===true) {
 			$this->setDoAddElementStorage($element.'_size', ($_FILES[$element]['size']));
-			$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_size',]);
+			if ($this->getAddElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_size']);
+			}
 		}
 
 		if ($this->getAddElementOption($element, 'store_md5')===true) {
 			$this->setDoAddElementStorage($element.'_md5', hash_file('md5', $_FILES[$element]['tmp_name']));
-			$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_md5',]);
+			if ($this->getAddElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_md5']);
+			}
 		}
 
 		if ($this->getAddElementOption($element, 'store_sha1')===true) {
 			$this->setDoAddElementStorage($element.'_sha1', hash_file('sha1', $_FILES[$element]['tmp_name']));
-			$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_sha1',]);
+			if ($this->getAddElementValue($element, 'name')!='') {
+				$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getAddElementValue($element, 'name').'_sha1']);
+			}
 		}
 
 		$file_name='';

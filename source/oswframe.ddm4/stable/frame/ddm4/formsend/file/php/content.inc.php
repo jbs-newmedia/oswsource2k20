@@ -91,35 +91,35 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 		if ($this->getSendElementOption($element, 'store_name')===true) {
 			$this->setDoSendElementStorage($element.'_name', ($_FILES[$element]['name']));
 			if ($this->getSendElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_name',]);
+				$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_name']);
 			}
 		}
 
 		if ($this->getSendElementOption($element, 'store_type')===true) {
 			$this->setDoSendElementStorage($element.'_type', ($_FILES[$element]['type']));
 			if ($this->getSendElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_type',]);
+				$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_type']);
 			}
 		}
 
 		if ($this->getSendElementOption($element, 'store_size')===true) {
 			$this->setDoSendElementStorage($element.'_size', ($_FILES[$element]['size']));
 			if ($this->getSendElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_size',]);
+				$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_size']);
 			}
 		}
 
 		if ($this->getSendElementOption($element, 'store_md5')===true) {
 			$this->setDoSendElementStorage($element.'_md5', hash_file('md5', $_FILES[$element]['tmp_name']));
 			if ($this->getSendElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_md5',]);
+				$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_md5']);
 			}
 		}
 
 		if ($this->getSendElementOption($element, 'store_sha1')===true) {
 			$this->setDoSendElementStorage($element.'_sha1', hash_file('sha1', $_FILES[$element]['tmp_name']));
 			if ($this->getSendElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_sha1',]);
+				$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getSendElementValue($element, 'name').'_sha1']);
 			}
 		}
 

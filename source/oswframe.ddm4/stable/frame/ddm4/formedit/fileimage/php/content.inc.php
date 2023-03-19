@@ -91,35 +91,35 @@ if (\osWFrame\Core\Settings::getAction()=='doedit') {
 		if ($this->getEditElementOption($element, 'store_name')===true) {
 			$this->setDoEditElementStorage($element.'_name', ($_FILES[$element]['name']));
 			if ($this->getEditElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_name',]);
+				$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_name']);
 			}
 		}
 
 		if ($this->getEditElementOption($element, 'store_type')===true) {
 			$this->setDoEditElementStorage($element.'_type', ($_FILES[$element]['type']));
 			if ($this->getEditElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_type',]);
+				$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_type']);
 			}
 		}
 
 		if ($this->getEditElementOption($element, 'store_size')===true) {
 			$this->setDoEditElementStorage($element.'_size', ($_FILES[$element]['size']));
 			if ($this->getEditElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_size',]);
+				$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_size']);
 			}
 		}
 
 		if ($this->getEditElementOption($element, 'store_md5')===true) {
 			$this->setDoEditElementStorage($element.'_md5', hash_file('md5', $_FILES[$element]['tmp_name']));
 			if ($this->getEditElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_md5',]);
+				$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_md5']);
 			}
 		}
 
 		if ($this->getEditElementOption($element, 'store_sha1')===true) {
 			$this->setDoEditElementStorage($element.'_sha1', hash_file('sha1', $_FILES[$element]['tmp_name']));
 			if ($this->getEditElementValue($element, 'name')!='') {
-				$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_sha1',]);
+				$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getEditElementValue($element, 'name').'_sha1']);
 			}
 		}
 

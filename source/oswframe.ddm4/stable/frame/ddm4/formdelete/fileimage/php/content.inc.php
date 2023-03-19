@@ -73,27 +73,27 @@ if (\osWFrame\Core\Settings::getAction()=='dodelete') {
 
 	if ($this->getDeleteElementOption($element, 'store_name')===true) {
 		$this->setDoDeleteElementStorage($element.'_name', $data_old[$element.'_name']);
-		$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_name',]);
+		$this->addDataElement($element.'_name', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_name']);
 	}
 
 	if ($this->getDeleteElementOption($element, 'store_type')===true) {
 		$this->setDoDeleteElementStorage($element.'_type', $data_old[$element.'_type']);
-		$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_type',]);
+		$this->addDataElement($element.'_type', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_type']);
 	}
 
 	if ($this->getDeleteElementOption($element, 'store_size')===true) {
 		$this->setDoDeleteElementStorage($element.'_size', $data_old[$element.'_size']);
-		$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_size',]);
+		$this->addDataElement($element.'_size', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_size']);
 	}
 
 	if ($this->getDeleteElementOption($element, 'store_md5')===true) {
 		$this->setDoDeleteElementStorage($element.'_md5', $data_old[$element.'_md5']);
-		$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_md5',]);
+		$this->addDataElement($element.'_md5', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_md5']);
 	}
 
 	if ($this->getDeleteElementOption($element, 'store_sha1')===true) {
 		$this->setDoDeleteElementStorage($element.'_sha1', $data_old[$element.'_sha1']);
-		$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_sha1',]);
+		$this->addDataElement($element.'_sha1', ['module'=>'hidden', 'name'=>$this->getDeleteElementValue($element, 'name').'_sha1']);
 	}
 }
 
