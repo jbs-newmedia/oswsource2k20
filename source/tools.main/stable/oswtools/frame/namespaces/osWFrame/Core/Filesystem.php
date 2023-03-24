@@ -81,8 +81,11 @@ class Filesystem {
 	 * @return bool
 	 */
 	public static function isEmptyDir(string $dirname):bool {
-		if (count(self::scanDir($dirname))==2) {
-			return true;
+		$result=self::scanDir($dirname);
+		if ($result!==null) {
+			if (count(self::scanDir($dirname))==2) {
+				return true;
+			}
 		}
 
 		return false;
@@ -438,7 +441,7 @@ class Filesystem {
 	public static function delDir(string $dir):bool {
 		$result=self::scanDir($dir);
 		if ($result==null) {
-			$result=[];
+			return true;
 		}
 		$files=array_diff($result, ['.', '..']);
 		foreach ($files as $file) {

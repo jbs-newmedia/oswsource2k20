@@ -24,7 +24,7 @@ class Session {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -374,12 +374,13 @@ class Session {
 
 	/**
 	 * @param string $name
+	 * @param bool $value
 	 * @return bool
 	 */
-	public static function initBoolVar(string $name):bool {
+	public static function initBoolVar(string $name, bool $value=false):bool {
 		if (self::getSessionStarted()===true) {
 			if (!isset($_SESSION[$name])) {
-				$_SESSION[$name]=false;
+				$_SESSION[$name]=$value;
 			}
 
 			return true;
@@ -390,12 +391,13 @@ class Session {
 
 	/**
 	 * @param string $name
+	 * @param string $value
 	 * @return bool
 	 */
-	public static function initStringVar(string $name):bool {
+	public static function initStringVar(string $name, string $value=''):bool {
 		if (self::getSessionStarted()===true) {
 			if (!isset($_SESSION[$name])) {
-				$_SESSION[$name]='';
+				$_SESSION[$name]=$value;
 			}
 
 			return true;
@@ -406,12 +408,13 @@ class Session {
 
 	/**
 	 * @param string $name
+	 * @param int $value
 	 * @return bool
 	 */
-	public static function initIntVar(string $name):bool {
+	public static function initIntVar(string $name, int $value=0):bool {
 		if (self::getSessionStarted()===true) {
 			if (!isset($_SESSION[$name])) {
-				$_SESSION[$name]=0;
+				$_SESSION[$name]=$value;
 			}
 
 			return true;
@@ -422,12 +425,13 @@ class Session {
 
 	/**
 	 * @param string $name
+	 * @param float $value
 	 * @return bool
 	 */
-	public static function initFloatVar(string $name):bool {
+	public static function initFloatVar(string $name, float $value=0.0):bool {
 		if (self::getSessionStarted()===true) {
 			if (!isset($_SESSION[$name])) {
-				$_SESSION[$name]=0.0;
+				$_SESSION[$name]=$value;
 			}
 
 			return true;
@@ -438,12 +442,13 @@ class Session {
 
 	/**
 	 * @param string $name
+	 * @param array $value
 	 * @return bool
 	 */
-	public static function initArrayVar(string $name):bool {
+	public static function initArrayVar(string $name, array $value=[]):bool {
 		if (self::getSessionStarted()===true) {
 			if (!isset($_SESSION[$name])) {
-				$_SESSION[$name]=[];
+				$_SESSION[$name]=$value;
 			}
 
 			return true;
