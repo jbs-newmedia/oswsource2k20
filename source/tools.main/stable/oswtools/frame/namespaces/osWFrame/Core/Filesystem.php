@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=3;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
