@@ -24,12 +24,12 @@ class Network {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -224,23 +224,61 @@ class Network {
 
 	/**
 	 * @param array $json
+	 * @return void
 	 */
-	public static function dieJSON(array $json=[]) {
+	public static function dieJSON(string|array $json=[]) {
 		self::sendHeader('Content-Type: application/json');
-		Settings::dieScript(json_encode($json));
+		if (is_array($json)) {
+			$json=json_encode($json);
+		}
+		Settings::dieScript($json);
+	}
+
+	/**
+	 * @param array $js
+	 * @return void
+	 */
+	public static function dieJS(string $js='') {
+		self::sendHeader('Content-Type: application/javascript');
+		Settings::dieScript($js);
+	}
+
+	/**
+	 * @param array $css
+	 * @return void
+	 */
+	public static function dieCSS(string $css='') {
+		self::sendHeader('Content-Type: text/css');
+		Settings::dieScript($css);
+	}
+
+	/**
+	 * @param array $css
+	 * @return void
+	 */
+	public static function diePNG(string $filename) {
+		self::sendHeader('Content-Type: image/png');
+		self::sendHeader('Content-Length: '.filesize($filename));
+		self::sendHeader('Content-disposition: inline; filename="'.basename($filename).'"');
+		self::sendHeader('Cache-Control: public, must-revalidate, max-age=0');
+		self::sendHeader('Pragma: public');
+		self::sendHeader('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+		self::sendHeader('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+		Settings::dieScript(file_get_contents($filename));
 	}
 
 	/**
 	 * @param string $filename
+	 * @return void
 	 */
 	public static function diePDF(string $filename) {
-		header('Content-Type: application/pdf');
-		header('Content-Length: '.filesize($filename));
-		header('Content-disposition: inline; filename="'.basename($filename).'"');
-		header('Cache-Control: public, must-revalidate, max-age=0');
-		header('Pragma: public');
-		header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-		header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+		self::sendHeader('Content-Type: application/pdf');
+		self::sendHeader('Content-Length: '.filesize($filename));
+		self::sendHeader('Content-disposition: inline; filename="'.basename($filename).'"');
+		self::sendHeader('Cache-Control: public, must-revalidate, max-age=0');
+		self::sendHeader('Pragma: public');
+		self::sendHeader('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+		self::sendHeader('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 		Settings::dieScript(file_get_contents($filename));
 	}
 
