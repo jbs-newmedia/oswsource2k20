@@ -14,7 +14,6 @@ $file=\osWFrame\Core\Settings::getStringVar('favicon_file');
 $sizes=\osWFrame\Core\Settings::getArrayVar('favicon_sizes');
 $filename=\osWFrame\Core\Settings::getStringVar('settings_abspath').$file;
 if (\osWFrame\Core\Filesystem::existsFile($filename)) {
-
 	if (\osWFrame\Core\IconCreator::existsCache($file, $sizes)!==true) {
 		$osW_IconCreator=new \osWFrame\Core\IconCreator($file, $sizes);
 		$osW_IconCreator->writeCache($file, $sizes);
