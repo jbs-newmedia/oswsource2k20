@@ -176,9 +176,9 @@ trait BaseTemplateTrait {
 
 	/**
 	 *
-	 * @return array
+	 * @return void
 	 */
-	public function clearTemplateFiles():array {
+	public function clearTemplateFiles():void {
 		$this->template_files=[];
 	}
 
@@ -282,9 +282,9 @@ trait BaseTemplateTrait {
 
 	/**
 	 *
-	 * @return array
+	 * @return void
 	 */
-	public function clearTemplateCodes():array {
+	public function clearTemplateCodes():void {
 		$this->template_codes=[];
 	}
 
