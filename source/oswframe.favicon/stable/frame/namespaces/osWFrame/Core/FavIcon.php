@@ -25,12 +25,12 @@ class FavIcon {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=4;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -64,17 +64,17 @@ class FavIcon {
 	protected array $msapplication=[];
 
 	/**
-	 * FavIcon constructor.
-	 *
 	 * @param string $file
-	 * @param object $Template
+	 * @param object|null $Template
 	 */
-	public function __construct(string $file, object $Template) {
+	public function __construct(string $file, ?object $Template=null) {
 		$abs_file=Settings::getStringVar('settings_abspath').$file;
 		if (Filesystem::existsFile($abs_file)) {
 			$this->setFile($file);
 			$this->setFavIcon(true);
-			$this->setTemplate($Template);
+			if ($Template!==null) {
+				$this->setTemplate($Template);
+			}
 			$this->setIcons();
 			$this->setAppleTouchIcons();
 			$this->setMSApplication();
@@ -133,6 +133,61 @@ class FavIcon {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getIconsAsArray(bool $icons=true, bool $apple=false, bool $ms=false):array {
+		$result=[];
+		if ($this->getFile()!='') {
+			$file=Settings::getStringVar('settings_abspath').$this->getFile();
+			if (Filesystem::existsFile($file)) {
+				$path=dirname($this->getFile());
+				$path_filename=pathinfo($file, PATHINFO_FILENAME);
+				$path_extension=pathinfo($file, PATHINFO_EXTENSION);
+				$options=getimagesize($file);
+				if ($icons==true) {
+					foreach ($this->getIcons() as $icon) {
+						$osW_ImageOptimizer=new ImageOptimizer();
+						$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
+						if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+							$osW_ImageOptimizer->setPS($this->getFile());
+						}
+						$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
+						$result[$icon['x'].'x'.$icon['y']]=['rel'=>'icon', 'type'=>$options['mime'], 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']];
+					}
+				}
+				if ($apple==true) {
+					foreach ($this->getAppleTouchIcons() as $icon) {
+						$osW_ImageOptimizer=new ImageOptimizer();
+						$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
+						if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+							$osW_ImageOptimizer->setPS($this->getFile());
+						}
+						$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
+						$result[$icon['x'].'x'.$icon['y']]=['rel'=>'apple-touch-icon', 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']];
+					}
+				}
+				if ($ms==true) {
+					foreach ($this->getMSApplication() as $icon) {
+						$osW_ImageOptimizer=new ImageOptimizer();
+						$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
+						if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+							$osW_ImageOptimizer->setPS($this->getFile());
+						}
+						$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
+						$result[$icon['x'].'x'.$icon['y']]=['name'=>'msapplication-square'.$icon['x'].'x'.$icon['y'].'logo', 'content'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename];
+					}
+				}
+
+				return $result;
+			} else {
+				return [];
+			}
+		} else {
+			return [];
+		}
+	}
+
+	/**
 	 * @param string $file
 	 * @return $this
 	 */
@@ -167,21 +222,17 @@ class FavIcon {
 	}
 
 	/**
-	 * @param array|null $icons
+	 * @param array $icons
 	 * @return $this
 	 */
-	public function setIcons(?array $icons=null):self {
-		if ($icons!==null) {
-			$this->icons=[];
-		} elseif ($icons!=[]) {
+	public function setIcons(array $icons=[]):self {
+		if ($icons!=[]) {
 			$this->icons=$icons;
 		} else {
-			$this->icons=[];
-			$this->icons[]=['x'=>16, 'y'=>16];
-			$this->icons[]=['x'=>32, 'y'=>32];
-			$this->icons[]=['x'=>96, 'y'=>96];
-			$this->icons[]=['x'=>128, 'y'=>128];
-			$this->icons[]=['x'=>196, 'y'=>196];
+			$this->icons=Settings::getArrayVar('favicon_sizes');
+			foreach (Settings::getArrayVar('favicon_sizes') as $item) {
+				$this->icons[]=['x'=>$item[0], 'y'=>$item[1]];
+			}
 		}
 
 		return $this;
