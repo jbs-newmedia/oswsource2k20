@@ -29,7 +29,7 @@ class KtoSepaSimple extends \KtoSepaSimple {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -50,7 +50,7 @@ class KtoSepaSimple extends \KtoSepaSimple {
 	 * @param int $FAnzahl
 	 * @param float $FSumme
 	 */
-	public function __construct(string $FVersion='3', array $FPmtInf=[], int $FAnzahl=0, float $FSumme=0.00) {
+	public function __construct(string $FVersion='1', array $FPmtInf=[], int $FAnzahl=0, float $FSumme=0.00) {
 		parent::__construct($FVersion, $FPmtInf, $FAnzahl, $FSumme);
 	}
 
