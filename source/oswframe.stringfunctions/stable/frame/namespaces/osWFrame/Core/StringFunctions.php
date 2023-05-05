@@ -29,7 +29,7 @@ class StringFunctions {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -129,7 +129,7 @@ class StringFunctions {
 	 * @return string
 	 */
 	public static function truncateString(string $string, int $length, string $dots='...') {
-		return (strlen($string)>$length)?substr($string, 0, $length-strlen($dots)).$dots:$string;
+		return (mb_strlen($string)>$length)?mb_substr($string, 0, $length-mb_strlen($dots)).$dots:$string;
 	}
 
 	/**
