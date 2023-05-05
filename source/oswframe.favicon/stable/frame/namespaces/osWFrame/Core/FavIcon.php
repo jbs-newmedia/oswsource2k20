@@ -30,7 +30,7 @@ class FavIcon {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -96,31 +96,37 @@ class FavIcon {
 					$this->getTemplate()->addVoidTag('link', ['rel'=>'shortcut icon', 'type'=>'image/ico', 'href'=>'favicon.ico']);
 				}
 				foreach ($this->getIcons() as $icon) {
-					$osW_ImageOptimizer=new ImageOptimizer();
-					$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
-					if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
-						$osW_ImageOptimizer->setPS($this->getFile());
+					if ((isset($icon['x']))&&(isset($icon['y']))) {
+						$osW_ImageOptimizer=new ImageOptimizer();
+						$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
+						if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+							$osW_ImageOptimizer->setPS($this->getFile());
+						}
+						$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
+						$this->getTemplate()->addVoidTag('link', ['rel'=>'icon', 'type'=>$options['mime'], 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']]);
 					}
-					$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
-					$this->getTemplate()->addVoidTag('link', ['rel'=>'icon', 'type'=>$options['mime'], 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']]);
 				}
 				foreach ($this->getAppleTouchIcons() as $icon) {
-					$osW_ImageOptimizer=new ImageOptimizer();
-					$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
-					if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
-						$osW_ImageOptimizer->setPS($this->getFile());
+					if ((isset($icon['x']))&&(isset($icon['y']))) {
+						$osW_ImageOptimizer=new ImageOptimizer();
+						$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
+						if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+							$osW_ImageOptimizer->setPS($this->getFile());
+						}
+						$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
+						$this->getTemplate()->addVoidTag('link', ['rel'=>'apple-touch-icon', 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']]);
 					}
-					$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
-					$this->getTemplate()->addVoidTag('link', ['rel'=>'apple-touch-icon', 'href'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename, 'sizes'=>$icon['x'].'x'.$icon['y']]);
 				}
 				foreach ($this->getMSApplication() as $icon) {
-					$osW_ImageOptimizer=new ImageOptimizer();
-					$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
-					if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
-						$osW_ImageOptimizer->setPS($this->getFile());
+					if ((isset($icon['x']))&&(isset($icon['y']))) {
+						$osW_ImageOptimizer=new ImageOptimizer();
+						$osW_ImageOptimizer->setOptionsByArray(['width'=>$icon['x'], 'height'=>$icon['y'], 'quality'=>100]);
+						if (Settings::getBoolVar('imageoptimizer_protect_files')===true) {
+							$osW_ImageOptimizer->setPS($this->getFile());
+						}
+						$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
+						$this->getTemplate()->addVoidTag('meta', ['name'=>'msapplication-square'.$icon['x'].'x'.$icon['y'].'logo', 'content'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename]);
 					}
-					$new_filename=$path_filename.'.'.$osW_ImageOptimizer->getOptionsAsString().'.'.$path_extension;
-					$this->getTemplate()->addVoidTag('meta', ['name'=>'msapplication-square'.$icon['x'].'x'.$icon['y'].'logo', 'content'=>'static/'.Settings::getStringVar('imageoptimizer_module').'/'.$path.'/'.$new_filename]);
 				}
 
 				return true;
