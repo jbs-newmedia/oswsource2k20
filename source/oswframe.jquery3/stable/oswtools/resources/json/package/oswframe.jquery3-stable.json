@@ -13,5 +13,11 @@
     "unique": false,
     "serverlist": "oswframe2k20"
   },
-  "required": []
+  "required": [
+    {
+      "serverlist": "vendor",
+      "package": "vendorlib.jquery_latest",
+      "release": "stable"
+    }
+  ]
 }
