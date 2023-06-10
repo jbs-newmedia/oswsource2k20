@@ -33,7 +33,7 @@ class ProjectClear extends CoreTool {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=3;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -79,6 +79,7 @@ class ProjectClear extends CoreTool {
 		$this->settings['projectclear_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'serverlist'.DIRECTORY_SEPARATOR;
 		$this->settings['projectclear_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR;
 		$this->settings['projectclear_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'sources'.DIRECTORY_SEPARATOR;
+		$this->settings['projectclear_dirs'][]='vendor'.DIRECTORY_SEPARATOR;
 		$this->settings['projectclear_files'][]='frame'.DIRECTORY_SEPARATOR.'configure.php';
 		$this->settings['projectclear_files'][]='modules'.DIRECTORY_SEPARATOR.'configure.project.php';
 		$this->settings['projectclear_files'][]='oswtools'.DIRECTORY_SEPARATOR.'frame.key';

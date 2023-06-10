@@ -25,25 +25,18 @@ class FontAwesome5 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=5;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
 	private const CLASS_EXTRA_VERSION='';
-
-	/**
-	 * Bootstrap4 Version.
-	 *
-	 * @var string
-	 */
-	protected const CURRENT_RESOURCE_VERSION='5.15.4';
 
 	/**
 	 * Verwaltet die geladenen Plugins.
@@ -70,8 +63,6 @@ class FontAwesome5 {
 	protected $min=true;
 
 	/**
-	 * FontAwesome5 constructor.
-	 *
 	 * @param object $Template
 	 */
 	public function __construct(object $Template) {
@@ -130,7 +121,7 @@ class FontAwesome5 {
 
 		$name=$version.'.resource';
 		if (Resource::existsResource($this->getClassName(), $name)!==true) {
-			Resource::copyResourcePath('frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR);
+			Resource::copyResourcePath('vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'fontawesome5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR);
 			$path='/';
 			if (strlen(Settings::getStringVar('project_path'))>0) {
 				$path.=Settings::getStringVar('project_path').'/';
@@ -158,7 +149,7 @@ class FontAwesome5 {
 	 * @return string
 	 */
 	public function getCurrentVersion():string {
-		return self::CURRENT_RESOURCE_VERSION;
+		return (string)Settings::getStringVar('vendor_lib_fontawesome5_version');
 	}
 
 	/**
@@ -168,7 +159,7 @@ class FontAwesome5 {
 	 */
 	public function getVersions():array {
 		if ($this->versions==[]) {
-			$this->versions=Filesystem::trimPathInArray(Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'bootstrap4'.DIRECTORY_SEPARATOR, Filesystem::scanDirsToArray(Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'bootstrap4'.DIRECTORY_SEPARATOR, false));
+			$this->versions=explode(';', (string)Settings::getStringVar('vendor_lib_fontawesome5_versions'));
 		}
 
 		return $this->versions;

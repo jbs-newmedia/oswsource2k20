@@ -261,7 +261,7 @@ class Configure extends CoreTool {
 			$values=json_decode(file_get_contents($filename), true);
 			foreach ($values as $key=>$value) {
 				if (isset($this->fields[$key]['default_type'])) {
-					if ($this->fields[$key]['default_type']!='password') {
+					if (($this->fields[$key]['default_type']!='password')&&($this->fields[$key]['default_type']!='hidden')) {
 						if (isset($this->fields[$key])) {
 							$this->fields[$key]['default_value']=$value['value'];
 						}
@@ -323,6 +323,7 @@ class Configure extends CoreTool {
 	 */
 	public function writeValuesToJSON():self {
 		if ($this->fields!=[]) {
+			#print_a($this->fields);
 			foreach ($this->fields as $key=>$value) {
 				if ($value['default_type']=='password') {
 					if (strlen($this->values_post[$key]['value'])>0) {
@@ -332,9 +333,12 @@ class Configure extends CoreTool {
 					}
 				}
 			}
+			#print_a($this->values_post);
 			foreach ($this->values_post as $key=>$value) {
 				$this->values_json[$key]=$value['value'];
 			}
+
+			#print_a($this->values_json);
 			$page=$this->page-1;
 			$dir=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR.$this->files[$page]['dir'].DIRECTORY_SEPARATOR;
 			if (Frame\Filesystem::isDir($dir)!==true) {
@@ -367,7 +371,9 @@ class Configure extends CoreTool {
 					} else {
 						$this->values_post[$config_element]['value']='';
 					}
-					$this->fields[$config_element]['default_value']=$this->values_post[$config_element]['value'];
+					if ($config_data['default_type']!='hidden') {
+						$this->fields[$config_element]['default_value']=$this->values_post[$config_element]['value'];
+					}
 				}
 
 				if (in_array($config_data['default_type'], ['function'])) {
@@ -393,7 +399,7 @@ class Configure extends CoreTool {
 						if (Frame\Filesystem::existsFile($function)) {
 							include $function;
 						} else {
-							$this->getForm()->addErrorMessage('conf_'.$config_element, 'validation file '.$config_data['valid_function'].'.inc.php is missing');
+							$this->getForm()->addErrorMessage('conf_'.$config_element, 'validation file '.$config_data['valid_type'].'.inc.php is missing');
 						}
 
 						if (isset($config_data['valid_function'])) {
@@ -495,6 +501,14 @@ class Configure extends CoreTool {
 									$configure_output[]='osW_setVar(\''.$key.'\', true);';
 								} else {
 									$configure_output[]='osW_setVar(\''.$key.'\', false);';
+								}
+								break;
+							case 'vendor':
+								if ($values[$key]['value']==0) {
+									$v=explode(';', $values[$key.'s']['value']);
+									$configure_output[]='osW_setVar(\''.$key.'\', \''.$v[0].'\');';
+								} else {
+									$configure_output[]='osW_setVar(\''.$key.'\', \''.$value['value'].'\');';
 								}
 								break;
 							case 'string':

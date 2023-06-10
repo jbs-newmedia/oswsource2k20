@@ -25,25 +25,18 @@ class jQuery3 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=4;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
 	 * Zum Beispiel alpha, beta, rc1, rc2 ...
 	 */
 	private const CLASS_EXTRA_VERSION='';
-
-	/**
-	 * jQuery3 Version.
-	 *
-	 * @var string
-	 */
-	protected const CURRENT_RESOURCE_VERSION='3.6.1';
 
 	/**
 	 * Verwaltet die geladenen Plugins.
@@ -70,8 +63,6 @@ class jQuery3 {
 	protected $min=true;
 
 	/**
-	 * jQuery3 constructor.
-	 *
 	 * @param object $Template
 	 */
 	public function __construct(object $Template) {
@@ -131,7 +122,7 @@ class jQuery3 {
 		$name=$version.'.resource';
 		if (Resource::existsResource($this->getClassName(), $name)!==true) {
 			$files=['js'.DIRECTORY_SEPARATOR.'jquery.js', 'js'.DIRECTORY_SEPARATOR.'jquery.min.js', 'js'.DIRECTORY_SEPARATOR.'jquery.min.map'];
-			Resource::copyResourcePath('frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'jquery3'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'jquery3'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, $files);
+			Resource::copyResourcePath('vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'jquery3'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'jquery3'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, $files);
 			Resource::writeResource($this->getClassName(), $name, time());
 		}
 		$path=Resource::getRelDir().'jquery3'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
@@ -151,7 +142,7 @@ class jQuery3 {
 	 * @return string
 	 */
 	public function getCurrentVersion() {
-		return self::CURRENT_RESOURCE_VERSION;
+		return (string)Settings::getStringVar('vendor_lib_jquery3_version');
 	}
 
 	/**
@@ -161,7 +152,7 @@ class jQuery3 {
 	 */
 	public function getVersions():array {
 		if ($this->versions==[]) {
-			$this->versions=Filesystem::trimPathInArray(Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'jquery3'.DIRECTORY_SEPARATOR, Filesystem::scanDirsToArray(Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'jquery3'.DIRECTORY_SEPARATOR, false));
+			$this->versions=explode(';', (string)Settings::getStringVar('vendor_lib_jquery3_versions'));
 		}
 
 		return $this->versions;
@@ -180,7 +171,7 @@ class jQuery3 {
 			return true;
 		}
 
-		$loader=Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'jquery3'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'loader.inc.php';
+		$loader=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'jquery3'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'loader.inc.php';
 		if (file_exists($loader)) {
 			include $loader;
 			$this->loaded_plugins[$plugin_name]=true;

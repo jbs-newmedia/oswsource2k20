@@ -25,12 +25,12 @@ class JSLib {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -67,7 +67,7 @@ class JSLib {
 			return true;
 		}
 
-		$loader=Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'jslib'.DIRECTORY_SEPARATOR.$lib_name.DIRECTORY_SEPARATOR.'loader.inc.php';
+		$loader=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'jslib'.DIRECTORY_SEPARATOR.$lib_name.DIRECTORY_SEPARATOR.'loader.inc.php';
 		if (file_exists($loader)) {
 			include $loader;
 			$this->loaded_libs[$lib_name]=true;

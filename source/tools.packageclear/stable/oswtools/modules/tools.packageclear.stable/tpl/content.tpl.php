@@ -62,7 +62,7 @@
 		<?php else: ?>
 
 			<tr>
-				<td colspan="4">Nothing to do.</td>
+				<td colspan="6">Nothing to do.</td>
 			</tr>
 
 		<?php endif ?>

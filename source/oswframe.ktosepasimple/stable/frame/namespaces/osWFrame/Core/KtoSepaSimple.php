@@ -12,11 +12,6 @@
 
 namespace osWFrame\Core;
 
-$file=Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'KtoSepaSimple'.DIRECTORY_SEPARATOR.'KtoSepaSimple.php';
-if ((file_exists($file))&&(class_exists('KtoSepaSimple')!==true)) {
-	require_once $file;
-}
-
 class KtoSepaSimple extends \KtoSepaSimple {
 
 	use BaseStaticTrait;
@@ -29,7 +24,7 @@ class KtoSepaSimple extends \KtoSepaSimple {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.

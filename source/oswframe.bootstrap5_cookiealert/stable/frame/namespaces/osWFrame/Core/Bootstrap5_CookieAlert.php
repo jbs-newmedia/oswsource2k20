@@ -23,7 +23,7 @@ class Bootstrap5_CookieAlert {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
@@ -37,14 +37,7 @@ class Bootstrap5_CookieAlert {
 	private const CLASS_EXTRA_VERSION='';
 
 	/**
-	 * Bootstrap5 Version.
 	 *
-	 * @var string
-	 */
-	protected const CURRENT_RESOURCE_VERSION='1.0.0';
-
-	/**
-	 * Bootstrap5_CookieAlert constructor.
 	 */
 	private function __construct() {
 	}

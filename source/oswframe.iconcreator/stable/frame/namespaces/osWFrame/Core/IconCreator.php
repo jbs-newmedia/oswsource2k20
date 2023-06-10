@@ -12,10 +12,10 @@
 
 namespace osWFrame\Core;
 
-$file=Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'php-ico'.DIRECTORY_SEPARATOR.'class-php-ico.php';
-if ((file_exists($file))&&(class_exists('PHP_ICO')!==true)) {
-	require_once $file;
-}
+#$file=Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'php-ico'.DIRECTORY_SEPARATOR.'class-php-ico.php';
+#if ((file_exists($file))&&(class_exists('PHP_ICO')!==true)) {
+	#require_once $file;
+#}
 
 class IconCreator extends \PHP_ICO {
 
@@ -29,7 +29,7 @@ class IconCreator extends \PHP_ICO {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.

@@ -43,8 +43,6 @@ class BIC {
 	protected string $bic='';
 
 	/**
-	 * BIC constructor.
-	 *
 	 * @param string $bic
 	 */
 	public function __construct(string $bic='') {

@@ -11,11 +11,6 @@
 
 namespace osWFrame\Core;
 
-$file=Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'tcpdf'.DIRECTORY_SEPARATOR.'tcpdf.php';
-if ((file_exists($file))&&(class_exists('TCPDF')!==true)) {
-	require_once $file;
-}
-
 class TCPDF extends \TCPDF {
 
 	use BaseStaticTrait;
@@ -28,7 +23,7 @@ class TCPDF extends \TCPDF {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
