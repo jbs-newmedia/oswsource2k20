@@ -25,7 +25,7 @@ class jQuery3 {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
@@ -120,12 +120,12 @@ class jQuery3 {
 		$min=$this->getMin();
 
 		$name=$version.'.resource';
-		if (Resource::existsResource($this->getClassName(), $name)!==true) {
+		if (Resource::existsResource('jquery', $name)!==true) {
 			$files=['js'.DIRECTORY_SEPARATOR.'jquery.js', 'js'.DIRECTORY_SEPARATOR.'jquery.min.js', 'js'.DIRECTORY_SEPARATOR.'jquery.min.map'];
-			Resource::copyResourcePath('vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'jquery3'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'jquery3'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, $files);
-			Resource::writeResource($this->getClassName(), $name, time());
+			Resource::copyResourcePath('vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'jquery'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'jquery'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, $files);
+			Resource::writeResource('jquery', $name, time());
 		}
-		$path=Resource::getRelDir().'jquery3'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
+		$path=Resource::getRelDir().'jquery'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
 		if ($min===true) {
 			$jsfiles=[$path.'js'.DIRECTORY_SEPARATOR.'jquery.min.js'];
 		} else {
@@ -142,7 +142,7 @@ class jQuery3 {
 	 * @return string
 	 */
 	public function getCurrentVersion() {
-		return (string)Settings::getStringVar('vendor_lib_jquery3_version');
+		return (string)Settings::getStringVar('vendor_lib_jquery_version');
 	}
 
 	/**
@@ -152,7 +152,7 @@ class jQuery3 {
 	 */
 	public function getVersions():array {
 		if ($this->versions==[]) {
-			$this->versions=explode(';', (string)Settings::getStringVar('vendor_lib_jquery3_versions'));
+			$this->versions=explode(';', (string)Settings::getStringVar('vendor_lib_jquery_versions'));
 		}
 
 		return $this->versions;
@@ -171,7 +171,7 @@ class jQuery3 {
 			return true;
 		}
 
-		$loader=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'jquery3'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'loader.inc.php';
+		$loader=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'jquery'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'loader.inc.php';
 		if (file_exists($loader)) {
 			include $loader;
 			$this->loaded_plugins[$plugin_name]=true;
