@@ -12,7 +12,8 @@
 	"protectdir": {
 		"path": [
 			"frame",
-			"modules"
+			"modules",
+			"vendor"
 		]
 	}
 }
