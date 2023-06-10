@@ -13,5 +13,16 @@
     "unique": false,
     "serverlist": "oswframe2k20"
   },
-  "required": []
+  "required": [
+    {
+      "serverlist": "vendor",
+      "package": "vendornamespace.chillerlan_phpqrcode_latest",
+      "release": "stable"
+    },
+    {
+      "serverlist": "vendor",
+      "package": "vendornamespace.chillerlan_phpsettingscontainer_latest",
+      "release": "stable"
+    }
+  ]
 }

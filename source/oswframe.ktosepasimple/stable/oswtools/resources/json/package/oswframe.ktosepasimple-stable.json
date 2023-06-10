@@ -16,5 +16,11 @@
     "unique": false,
     "serverlist": "oswframe2k20"
   },
-  "required": []
+  "required": [
+    {
+      "serverlist": "vendor",
+      "package": "vendorclass.ktosepasimple_latest",
+      "release": "stable"
+    }
+  ]
 }

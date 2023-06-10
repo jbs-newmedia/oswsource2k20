@@ -121,18 +121,18 @@ class FontAwesome6 {
 
 		$name=$version.'.resource';
 		if (Resource::existsResource($this->getClassName(), $name)!==true) {
-			Resource::copyResourcePath('vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'fontawesome6'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'fontawesome6'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR);
+			Resource::copyResourcePath('vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'fontawesome'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'fontawesome'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR);
 			$path='/';
 			if (strlen(Settings::getStringVar('project_path'))>0) {
 				$path.=Settings::getStringVar('project_path').'/';
 			}
-			$filename=Resource::getAbsDir().'fontawesome6'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'all.css';
-			file_put_contents($filename, str_replace('url("../webfonts/', 'url("'.$path.Settings::getStringVar('resource_path').'fontawesome6/'.$version.'/webfonts/', file_get_contents($filename)));
-			$filename=Resource::getAbsDir().'fontawesome6'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'all.min.css';
-			file_put_contents($filename, str_replace('url(../webfonts/', 'url('.$path.Settings::getStringVar('resource_path').'fontawesome6/'.$version.'/webfonts/', file_get_contents($filename)));
+			$filename=Resource::getAbsDir().'fontawesome'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'all.css';
+			file_put_contents($filename, str_replace('url("../webfonts/', 'url("'.$path.Settings::getStringVar('resource_path').'fontawesome/'.$version.'/webfonts/', file_get_contents($filename)));
+			$filename=Resource::getAbsDir().'fontawesome'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'all.min.css';
+			file_put_contents($filename, str_replace('url(../webfonts/', 'url('.$path.Settings::getStringVar('resource_path').'fontawesome/'.$version.'/webfonts/', file_get_contents($filename)));
 			Resource::writeResource($this->getClassName(), $name, time());
 		}
-		$path=Resource::getRelDir().'fontawesome6'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
+		$path=Resource::getRelDir().'fontawesome'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
 		if ($min===true) {
 			$cssfiles=[$path.'css'.DIRECTORY_SEPARATOR.'all.min.css'];
 		} else {
@@ -149,7 +149,7 @@ class FontAwesome6 {
 	 * @return string
 	 */
 	public function getCurrentVersion():string {
-		return (string)Settings::getStringVar('vendor_lib_fontawesome6_version');
+		return (string)Settings::getStringVar('vendor_lib_fontawesome_version');
 	}
 
 	/**
@@ -159,7 +159,7 @@ class FontAwesome6 {
 	 */
 	public function getVersions():array {
 		if ($this->versions==[]) {
-			$this->versions=explode(';', (string)Settings::getStringVar('vendor_lib_fontawesome6_versions'));
+			$this->versions=explode(';', (string)Settings::getStringVar('vendor_lib_fontawesome_versions'));
 		}
 
 		return $this->versions;

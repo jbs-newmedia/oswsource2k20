@@ -153,7 +153,7 @@ class Bootstrap5 {
 		$theme=strtolower($this->getTheme());
 		$min=$this->getMin();
 
-		$path=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
+		$path=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR;
 		if ((Filesystem::existsFile($path.'css'.DIRECTORY_SEPARATOR.'bootstrap-'.$theme.'.css')===true)&&(Filesystem::existsFile($path.'css'.DIRECTORY_SEPARATOR.'bootstrap-'.$theme.'.min.css')===true)) {
 			$theme='-'.$theme;
 		} else {
@@ -163,12 +163,12 @@ class Bootstrap5 {
 		$name=$version.$theme.'.resource';
 		if (Resource::existsResource($this->getClassName(), $name)!==true) {
 			$files=['js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.js', 'js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.js.map', 'js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.min.js', 'js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.min.js.map', 'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.css', 'css'.DIRECTORY_SEPARATOR.'bootstrap.css.map', 'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.min.css', 'css'.DIRECTORY_SEPARATOR.'bootstrap.min.css.map'];
-			Resource::copyResourcePath('vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap5'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'bootstrap5'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR, $files);
-			Filesystem::renameFile(Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap5'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.css', Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap5'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap.css');
-			Filesystem::renameFile(Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap5'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.min.css', Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap5'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap.min.css');
+			Resource::copyResourcePath('vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR, $files);
+			Filesystem::renameFile(Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.css', Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap.css');
+			Filesystem::renameFile(Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.min.css', Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap.min.css');
 			Resource::writeResource($this->getClassName(), $name, time());
 		}
-		$path=Resource::getRelDir().'bootstrap5'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR;
+		$path=Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR;
 
 		$custom=$this->getCustoms();
 		ksort($custom);
@@ -185,7 +185,7 @@ class Bootstrap5 {
 
 			if (($custom_string_check!=='')&&(Filesystem::existsFile(Settings::getStringVar('settings_abspath').$path.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$custom_string_check.'.min.css')!==true)) {
 				$scss=new SCSSCompiler();
-				$scss->setImportPaths(Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap5'.DIRECTORY_SEPARATOR.$this->getCurrentVersion().DIRECTORY_SEPARATOR.'scss'.DIRECTORY_SEPARATOR);
+				$scss->setImportPaths(Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR.$this->getCurrentVersion().DIRECTORY_SEPARATOR.'scss'.DIRECTORY_SEPARATOR);
 				file_put_contents(Settings::getStringVar('settings_abspath').$path.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$custom_string_check.'.css', $scss->getExpanded($custom_string.'@import "bootstrap";'));
 				file_put_contents(Settings::getStringVar('settings_abspath').$path.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$custom_string_check.'.min.css', $scss->getCompressed($custom_string.'@import "bootstrap";'));
 			}
@@ -214,7 +214,7 @@ class Bootstrap5 {
 	 * @return string
 	 */
 	public function getCurrentVersion():string {
-		return (string)Settings::getStringVar('vendor_lib_bootstrap5_version');
+		return (string)Settings::getStringVar('vendor_lib_bootstrap_version');
 	}
 
 	/**
@@ -224,7 +224,7 @@ class Bootstrap5 {
 	 */
 	public function getVersions():array {
 		if ($this->versions==[]) {
-			$this->versions=explode(';', (string)Settings::getStringVar('vendor_lib_bootstrap5_versions'));
+			$this->versions=explode(';', (string)Settings::getStringVar('vendor_lib_bootstrap_versions'));
 		}
 
 		return $this->versions;
@@ -243,7 +243,7 @@ class Bootstrap5 {
 			return true;
 		}
 
-		$loader=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap5'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'loader.inc.php';
+		$loader=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'loader.inc.php';
 		if (file_exists($loader)) {
 			include $loader;
 			$this->loaded_plugins[$plugin_name]=true;
