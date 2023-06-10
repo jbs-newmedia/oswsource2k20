@@ -161,12 +161,12 @@ class Bootstrap5 {
 		}
 
 		$name=$version.$theme.'.resource';
-		if (Resource::existsResource($this->getClassName(), $name)!==true) {
+		if (Resource::existsResource('bootstrap', $name)!==true) {
 			$files=['js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.js', 'js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.js.map', 'js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.min.js', 'js'.DIRECTORY_SEPARATOR.'bootstrap.bundle.min.js.map', 'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.css', 'css'.DIRECTORY_SEPARATOR.'bootstrap.css.map', 'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.min.css', 'css'.DIRECTORY_SEPARATOR.'bootstrap.min.css.map'];
 			Resource::copyResourcePath('vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR.$version.DIRECTORY_SEPARATOR, 'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR, $files);
 			Filesystem::renameFile(Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.css', Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap.css');
 			Filesystem::renameFile(Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap'.$theme.'.min.css', Settings::getStringVar('settings_abspath').Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR.'css'.DIRECTORY_SEPARATOR.'bootstrap.min.css');
-			Resource::writeResource($this->getClassName(), $name, time());
+			Resource::writeResource('bootstrap', $name, time());
 		}
 		$path=Resource::getRelDir().'bootstrap'.DIRECTORY_SEPARATOR.$version.$theme.DIRECTORY_SEPARATOR;
 
