@@ -18,6 +18,11 @@
       "serverlist": "oswframe2k20",
       "package": "oswframe.jslib",
       "release": "stable"
+    },
+    {
+      "serverlist": "vendor",
+      "package": "vendorlib.jslib_ckeditor_latest",
+      "release": "stable"
     }
   ]
 }

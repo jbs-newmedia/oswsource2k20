@@ -18,6 +18,11 @@
       "serverlist": "oswframe2k20",
       "package": "oswframe.bootstrap5",
       "release": "stable"
+    },
+    {
+        "serverlist": "vendor",
+        "package": "vendorlib.bootstrap_cookiealert_latest",
+        "release": "stable"
     }
   ]
 }
