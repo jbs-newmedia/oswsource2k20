@@ -29,7 +29,7 @@ class Form {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=3;
+	private const CLASS_RELEASE_VERSION=4;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -896,6 +896,8 @@ class Form {
 			switch ($options['form_method']) {
 				case 'get':
 					break;
+				case 'none':
+					break;
 				case 'post':
 				default:
 					$options['form_method']='post';
@@ -919,7 +921,9 @@ class Form {
 		} else {
 			$form.=' action="'.Navigation::buildUrl($module, $parameters).'"';
 		}
-		$form.=' method="'.HTML::outputString($options['form_method']).'"';
+		if ($options['form_method']!='none') {
+			$form.=' method="'.HTML::outputString($options['form_method']).'"';
+		}
 		$form.=' '.$options['form_parameter'];
 		if (isset($options['input_class'])) {
 			$form.=' class="'.HTML::outputString($options['input_class']).'"';
