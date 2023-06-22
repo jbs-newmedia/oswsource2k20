@@ -30,7 +30,7 @@ class Language {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -338,14 +338,20 @@ class Language {
 	 * @param string $language
 	 * @return string
 	 */
-	public static function getLanguageVar(string $var, string $language=''):string {
+	public static function getLanguageVar(string $var, string $language='', bool $ucfirst=true):string {
 		if ($language=='') {
 			$language=self::getCurrentLanguage();
 		}
 		if ((isset(self::$language_vars[$language]))&&(isset(self::$language_vars[$language][$var]))) {
+            if ($ucfirst===true) {
+                return ucfirst(self::$language_vars[$language][$var]);
+            }
 			return self::$language_vars[$language][$var];
 		}
 
+        if ($ucfirst===true) {
+            return ucfirst($var);
+        }
 		return $var;
 	}
 
