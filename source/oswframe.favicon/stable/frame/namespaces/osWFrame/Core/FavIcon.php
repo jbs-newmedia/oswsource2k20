@@ -30,7 +30,7 @@ class FavIcon {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=2;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -87,7 +87,7 @@ class FavIcon {
 	public function setIcons2Template():bool {
 		if ($this->getFile()!='') {
 			$file=Settings::getStringVar('settings_abspath').$this->getFile();
-			if (Filesystem::existsFile($file)) {
+			if ((Filesystem::existsFile($file))&&(Filesystem::isFile($file))) {
 				$path=dirname($this->getFile());
 				$path_filename=pathinfo($file, PATHINFO_FILENAME);
 				$path_extension=pathinfo($file, PATHINFO_EXTENSION);
