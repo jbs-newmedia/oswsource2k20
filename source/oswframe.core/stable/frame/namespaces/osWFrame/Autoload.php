@@ -40,7 +40,8 @@ spl_autoload_register(function($className) {
 		$ca=explode('\\', $className);
 		switch (count($fa)) {
 			case 1:
-				$filename_namespace='';
+				$filename_namespace='nothintodo.txt2';
+				break;
 			case 2:
 				$filename_namespace=$fa[0].DIRECTORY_SEPARATOR.$ca[1].DIRECTORY_SEPARATOR.(string)\osWFrame\Core\Settings::getStringVar('vendor_namespace_'.strtolower($fa[0]).'_'.strtolower($ca[1]).'_version').DIRECTORY_SEPARATOR.$fa[1];
 				break;
@@ -65,4 +66,5 @@ spl_autoload_register(function($className) {
 		}
 	}
 });
+
 ?>

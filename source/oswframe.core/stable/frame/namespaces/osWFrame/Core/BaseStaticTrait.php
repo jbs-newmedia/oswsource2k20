@@ -62,8 +62,6 @@ trait BaseStaticTrait {
 		return str_replace('\\', '_', $class);
 	}
 
-
-
 }
 
 ?>
