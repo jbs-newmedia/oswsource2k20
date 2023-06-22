@@ -24,12 +24,12 @@ class Cookie {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -77,6 +77,22 @@ class Cookie {
 	public static function setCookie(string $name, string $value='', int $expires=0, string $path='', string $domain='', bool $secure=false, bool $httponly=false):bool {
 		if (self::isCookiesEnabled()===true) {
 			return setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $name
+	 * @param string $path
+	 * @param string $domain
+	 * @param bool $secure
+	 * @param bool $httponly
+	 * @return bool
+	 */
+	public static function deleteCookie(string $name, string $path='', string $domain='', bool $secure=false, bool $httponly=false):bool {
+		if (self::isCookiesEnabled()===true) {
+			return setcookie($name, '', time()-3600, $path, $domain, $secure, $httponly);
 		}
 
 		return false;
