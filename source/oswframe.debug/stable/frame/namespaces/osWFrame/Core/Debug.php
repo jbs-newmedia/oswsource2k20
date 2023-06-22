@@ -24,12 +24,12 @@ class Debug {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=0;
+	private const CLASS_MINOR_VERSION=1;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=2;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -159,6 +159,25 @@ class Debug {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param string $text
+	 * @return void
+	 */
+	public static function d(string $text, string $prefix=''):void {
+		$date = new \DateTimeImmutable();
+		$filename=Settings::getStringVar('settings_abspath').Settings::getStringVar('debug_path').self::getNameAsString().DIRECTORY_SEPARATOR.date('Ymd', time()).'_debug.log';
+		Filesystem::makeDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('debug_path').self::getNameAsString().DIRECTORY_SEPARATOR);
+		if ($prefix!='') {
+			$prefix.=': ';
+		}
+		if (Filesystem::existsFile($filename)!==true) {
+			file_put_contents($filename, $date->format('Y-m-d H:i:s').' - '.$prefix.$text."\n");
+			Filesystem::changeFilemode($filename);
+		} else {
+			file_put_contents($filename, $date->format('Y-m-d H:i:s').' - '.$prefix.$text."\n", FILE_APPEND);
+		}
 	}
 
 }
