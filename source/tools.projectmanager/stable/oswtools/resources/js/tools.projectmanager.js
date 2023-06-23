@@ -65,3 +65,9 @@ function updateAll() {
 		eval(decodeURI(this));
 	});
 }
+
+function removeAll() {
+	oTable.$('.manager_options').find('.remove').not('.disabled').each(function() {
+		eval(decodeURI(this));
+	});
+}

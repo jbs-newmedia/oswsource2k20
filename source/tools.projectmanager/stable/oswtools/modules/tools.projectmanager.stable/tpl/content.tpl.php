@@ -102,4 +102,6 @@
 
 	<a href="javascript:updateAll()" class="mt-3 btn btn-primary d-block">Update all projects</a>
 
+	<a href="javascript:removeAll()" class="mt-3 btn btn-danger d-block">Remove all projects</a>
+
 <?php endif ?>
