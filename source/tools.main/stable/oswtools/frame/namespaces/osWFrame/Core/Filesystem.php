@@ -29,7 +29,7 @@ class Filesystem {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=4;
+	private const CLASS_RELEASE_VERSION=5;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -233,7 +233,7 @@ class Filesystem {
 	public static function existsFile(string $filename):bool {
 		self::clearStatcache();
 
-		return file_exists($filename);
+		return ((file_exists($filename))&&(self::isFile($filename)));
 	}
 
 	/**
