@@ -42,7 +42,7 @@ class IBAN extends \PHP_IBAN\IBAN {
 	 *
 	 * @param string $iban
 	 */
-	public function __construct(string $iban = '') {
+	public function __construct(string $iban='') {
 		parent::__construct();
 		$this->setIBAN($iban);
 	}

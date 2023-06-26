@@ -58,7 +58,6 @@ for ($i=0; $i<32; $i++) {
 	$salt.=$chars[rand(0, $chars_length-1)];
 }
 
-
 $default_module='';
 $ar_default_module=[];
 $dir_list=scandir(\osWFrame\Core\Settings::getStringVar('settings_framepath').'modules'.DIRECTORY_SEPARATOR);
@@ -108,7 +107,6 @@ $tzlist=DateTimeZone::listIdentifiers(DateTimeZone::ALL);
 foreach ($tzlist as $timezone) {
 	$ar_timezone[$timezone]=$timezone;
 }
-
 
 $this->settings=['page_title'=>'Project Settings'];
 

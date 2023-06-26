@@ -41,7 +41,7 @@ if (\osWFrame\Core\Settings::getAction()=='dodelete') {
 			$_rule=false;
 			foreach ($rule_values as $rule_value) {
 				$ajax['logic'][$group]['jsrule'][$rule_key][]=$rule_value;
-				if ((string) $this->getDoDeleteElementStorage($rule_key)==(string) $rule_value) {
+				if ((string)$this->getDoDeleteElementStorage($rule_key)==(string)$rule_value) {
 					$_rule=true;
 				}
 			}
@@ -75,7 +75,7 @@ if (\osWFrame\Core\Settings::getAction()=='dodelete') {
 			$_rule=false;
 			foreach ($rule_values as $rule_value) {
 				$ajax['logic'][$group]['jsrule'][$rule_key][]=$rule_value;
-				if ((string) $this->getDeleteElementStorage($rule_key)==(string) $rule_value) {
+				if ((string)$this->getDeleteElementStorage($rule_key)==(string)$rule_value) {
 					$_rule=true;
 				}
 			}

@@ -186,7 +186,7 @@ class ZipGITManager extends Zip {
 	 * @param array $ignored_files
 	 * @return bool
 	 */
-	protected function checkIgnored(string $name, string $status, array $ignored_dirs,  array $ignored_files):bool {
+	protected function checkIgnored(string $name, string $status, array $ignored_dirs, array $ignored_files):bool {
 		foreach ($ignored_dirs as $ignored_dir) {
 			if (strpos($name, $ignored_dir)===0) {
 				return true;

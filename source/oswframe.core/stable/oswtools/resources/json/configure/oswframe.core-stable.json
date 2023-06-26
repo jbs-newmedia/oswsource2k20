@@ -1,19 +1,19 @@
 {
-	"configure": {
-		"middle": {
-			"frame_engine_loaded": false,
-			"frame_output_loaded": false,
-			"project_protection_user": "",
-			"project_protection_password": "",
-			"frame_default_engine": "",
-			"frame_default_output": ""
-		}
-	},
-	"protectdir": {
-		"path": [
-			"frame",
-			"modules",
-			"vendor"
-		]
-	}
+  "configure": {
+    "middle": {
+      "frame_engine_loaded": false,
+      "frame_output_loaded": false,
+      "project_protection_user": "",
+      "project_protection_password": "",
+      "frame_default_engine": "",
+      "frame_default_output": ""
+    }
+  },
+  "protectdir": {
+    "path": [
+      "frame",
+      "modules",
+      "vendor"
+    ]
+  }
 }

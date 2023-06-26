@@ -31,7 +31,7 @@ $default_conf=\osWFrame\Core\CKEditor5::getDefaultConf();
 if (!isset($options['conf'])) {
 	$options['conf']=$default_conf;
 } else {
-	if (isset($options['conf']['toolbar']))	{
+	if (isset($options['conf']['toolbar'])) {
 		unset($default_conf['toolbar']);
 	}
 	$options['conf']=array_merge_recursive($default_conf, $options['conf']);

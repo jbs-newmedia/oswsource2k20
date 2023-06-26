@@ -89,6 +89,7 @@ class Controller {
 		if ($this->api=='') {
 			return $default;
 		}
+
 		return $this->api;
 	}
 
@@ -110,6 +111,7 @@ class Controller {
 		if ($this->section=='') {
 			return $default;
 		}
+
 		return $this->section;
 	}
 

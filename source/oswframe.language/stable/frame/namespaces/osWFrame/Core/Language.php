@@ -343,15 +343,17 @@ class Language {
 			$language=self::getCurrentLanguage();
 		}
 		if ((isset(self::$language_vars[$language]))&&(isset(self::$language_vars[$language][$var]))) {
-            if ($ucfirst===true) {
-                return ucfirst(self::$language_vars[$language][$var]);
-            }
+			if ($ucfirst===true) {
+				return ucfirst(self::$language_vars[$language][$var]);
+			}
+
 			return self::$language_vars[$language][$var];
 		}
 
-        if ($ucfirst===true) {
-            return ucfirst($var);
-        }
+		if ($ucfirst===true) {
+			return ucfirst($var);
+		}
+
 		return $var;
 	}
 

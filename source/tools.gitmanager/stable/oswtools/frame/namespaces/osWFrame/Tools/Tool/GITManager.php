@@ -514,6 +514,7 @@ class GITManager extends CoreTool {
 			$dir=Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'sources'.DIRECTORY_SEPARATOR.'gitmanager'.DIRECTORY_SEPARATOR;
 			Filesystem::delFile($dir.'installed'.DIRECTORY_SEPARATOR.$this->packages[$package]['json']['filename']);
 			Filesystem::delFile($dir.'cache'.DIRECTORY_SEPARATOR.$this->packages[$package]['json']['filename']);
+
 			#Filesystem::delFile($dir.$this->packages[$package]['json']['filename']);
 
 			return true;

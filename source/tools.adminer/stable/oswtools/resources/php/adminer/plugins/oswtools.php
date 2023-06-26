@@ -1,4 +1,5 @@
 <?php
+
 class AdmineroswTools {
 
 	function name() {
@@ -7,8 +8,10 @@ class AdmineroswTools {
 	}
 
 	function css() {
-		$return = array();
-		$return[] = '../resources/php/adminer/designs/hever/adminer.css';
+		$return=[];
+		$return[]='../resources/php/adminer/designs/hever/adminer.css';
+
 		return $return;
 	}
+
 }

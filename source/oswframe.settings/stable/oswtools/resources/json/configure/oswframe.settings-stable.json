@@ -1,14 +1,14 @@
 {
-	"configure": {
-		"middle": {
-			"settings_port": 80,
-			"settings_ssl_port": 443,
-			"settings_ssl": true,
-			"settings_slowruntime": 0.5,
-			"settings_ramlimit": 8388608,
-			"settings_chmod_file": "0644",
-			"settings_chmod_dir": "0755",
-			"settings_protection_salt": ""
-		}
-	}
+  "configure": {
+    "middle": {
+      "settings_port": 80,
+      "settings_ssl_port": 443,
+      "settings_ssl": true,
+      "settings_slowruntime": 0.5,
+      "settings_ramlimit": 8388608,
+      "settings_chmod_file": "0644",
+      "settings_chmod_dir": "0755",
+      "settings_protection_salt": ""
+    }
+  }
 }

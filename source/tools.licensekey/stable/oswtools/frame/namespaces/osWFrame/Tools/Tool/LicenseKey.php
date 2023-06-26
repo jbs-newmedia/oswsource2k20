@@ -62,8 +62,6 @@ class LicenseKey extends CoreTool {
 		$name='licenseinfo_';
 		$name_list='serverlist';
 
-
-
 		return $this->data[$name];
 	}
 

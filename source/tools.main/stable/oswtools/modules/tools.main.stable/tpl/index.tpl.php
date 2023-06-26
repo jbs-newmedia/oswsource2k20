@@ -44,12 +44,14 @@
 				<?php else: ?>
 					<li class="nav-item dropdown<?php if ($element_details['active']===true): ?> active<?php endif ?>">
 						<a class="nav-link dropdown-toggle" href="#" id="dropdown_<?php echo $element_name ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<?php if (isset($element_details['icon'])): ?><i class="<?php echo $element_details['icon']; ?>"></i> <?php endif ?><?php echo $element_details['title']; ?>
+							<?php if (isset($element_details['icon'])): ?>
+								<i class="<?php echo $element_details['icon']; ?>"></i> <?php endif ?><?php echo $element_details['title']; ?>
 						</a>
 						<div class="dropdown-menu<?php if ($Tool->getFluidNavigation()===true): ?> dropdown-menu-end<?php endif ?>" aria-labelledby="dropdown_<?php echo $element_name ?>">
 							<?php foreach ($element_details['links'] as $element_link_name=>$element_link_details): ?>
 								<a class="dropdown-item<?php if ($element_link_details['active']===true): ?> active<?php endif ?>" href="<?php echo $this->buildhrefLink('current', 'action='.$element_link_details['action']) ?>">
-									<?php if (isset($element_link_details['icon'])): ?><i class="<?php echo $element_link_details['icon']; ?>"></i> <?php endif ?><?php echo $element_link_details['title']; ?>
+									<?php if (isset($element_link_details['icon'])): ?>
+										<i class="<?php echo $element_link_details['icon']; ?>"></i> <?php endif ?><?php echo $element_link_details['title']; ?>
 								</a>
 							<?php endforeach; ?>
 						</div>

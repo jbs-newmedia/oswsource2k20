@@ -18,7 +18,7 @@
 	<label class="form-label" for="<?php echo $element ?>"><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementValue($element, 'title')) ?><?php echo $this->getGroupMessage('form_title_closer') ?></label>
 
 	<?php /* read only */ ?>
-	<div class="form-control readonly"><?php if($this->getDeleteElementStorage($element)==''):?>&nbsp;<?php else:?><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementStorage($element)); ?><?php endif?></div>
+	<div class="form-control readonly"><?php if ($this->getDeleteElementStorage($element)==''): ?>&nbsp;<?php else: ?><?php echo \osWFrame\Core\HTML::outputString($this->getDeleteElementStorage($element)); ?><?php endif ?></div>
 	<?php echo $this->getTemplate()->Form()->drawHiddenField($element, $this->getDeleteElementStorage($element)) ?>
 
 	<?php /* error */ ?>

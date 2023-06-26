@@ -22,6 +22,6 @@
 
 <?php else: ?>
 
-	<?php echo $Tool->getContent()?>
+	<?php echo $Tool->getContent() ?>
 
 <?php endif ?>

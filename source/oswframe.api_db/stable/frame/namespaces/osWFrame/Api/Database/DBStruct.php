@@ -12,7 +12,6 @@
 
 namespace osWFrame\Api\Database;
 
-
 use osWFrame\Api\BaseReturnTrait;
 use osWFrame\Core\BaseConnectionTrait;
 use osWFrame\Core\BaseStaticTrait;

@@ -27,6 +27,7 @@ trait BaseConnectionTrait {
 		if ($alias=='') {
 			$alias='default';
 		}
+
 		return new \osWFrame\Core\Database($alias);
 	}
 

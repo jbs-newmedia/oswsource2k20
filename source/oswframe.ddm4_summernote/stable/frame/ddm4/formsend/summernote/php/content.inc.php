@@ -22,7 +22,6 @@ if (!isset($options['lang'])) {
 	$options['lang']=str_replace('_', '-', \osWFrame\Core\Language::getCurrentLanguage());
 }
 
-
 $this->getTemplate()->addJSCodeHead('
 $(function () {
 	$(\'#'.$element.'\').summernote({

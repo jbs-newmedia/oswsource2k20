@@ -93,6 +93,7 @@ class DB {
 		if ($alias=='') {
 			$alias='default';
 		}
+
 		return self::addConnection('mysql:host='.$host.';dbname='.$dbname.';charset='.$charset.';port='.$port, $user, $password, $alias);
 	}
 

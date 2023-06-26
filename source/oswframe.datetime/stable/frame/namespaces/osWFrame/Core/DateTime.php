@@ -139,7 +139,7 @@ class DateTime {
 			throw new \InvalidArgumentException('$timestamp argument is neither a valid UNIX timestamp, a valid date-time string or a DateTime object.');
 		}
 
-		$locale=substr((string) $locale, 0, 5);
+		$locale=substr((string)$locale, 0, 5);
 
 		$intl_formats=['%a'=>'EEE',    // An abbreviated textual representation of the day	Sun through Sat
 			'%A'=>'EEEE',    // A full textual representation of the day	Sunday through Saturday

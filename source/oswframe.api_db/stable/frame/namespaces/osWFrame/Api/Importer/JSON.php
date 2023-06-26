@@ -103,7 +103,6 @@ class JSON {
 		return $this->table_struct;
 	}
 
-
 	/**
 	 * @param string $table
 	 * @return $this

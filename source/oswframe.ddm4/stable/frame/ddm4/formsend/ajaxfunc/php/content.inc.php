@@ -41,7 +41,7 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 			$_rule=false;
 			foreach ($rule_values as $rule_value) {
 				$ajax['logic'][$group]['jsrule'][$rule_key][]=$rule_value;
-				if ((string) $this->getDoSendElementStorage($rule_key)==(string) $rule_value) {
+				if ((string)$this->getDoSendElementStorage($rule_key)==(string)$rule_value) {
 					$_rule=true;
 				}
 			}
@@ -75,7 +75,7 @@ if (\osWFrame\Core\Settings::getAction()=='dosend') {
 			$_rule=false;
 			foreach ($rule_values as $rule_value) {
 				$ajax['logic'][$group]['jsrule'][$rule_key][]=$rule_value;
-				if ((string) $this->getSendElementStorage($rule_key)==(string) $rule_value) {
+				if ((string)$this->getSendElementStorage($rule_key)==(string)$rule_value) {
 					$_rule=true;
 				}
 			}

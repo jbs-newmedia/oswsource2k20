@@ -92,10 +92,10 @@ main a:hover {
 }
 
 .bootbox-close-button {
-    display:none;
+    display: none;
 }
 
 iframe.iframe {
-    height: calc(100vh - 20rem)!important;
-    width:100%;
+    height: calc(100vh - 20rem) !important;
+    width: 100%;
 }

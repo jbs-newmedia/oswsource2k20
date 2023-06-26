@@ -166,7 +166,7 @@ class Debug {
 	 * @return void
 	 */
 	public static function d(string $text, string $prefix=''):void {
-		$date = new \DateTimeImmutable();
+		$date=new \DateTimeImmutable();
 		$filename=Settings::getStringVar('settings_abspath').Settings::getStringVar('debug_path').self::getNameAsString().DIRECTORY_SEPARATOR.date('Ymd', time()).'_debug.log';
 		Filesystem::makeDir(Settings::getStringVar('settings_abspath').Settings::getStringVar('debug_path').self::getNameAsString().DIRECTORY_SEPARATOR);
 		if ($prefix!='') {

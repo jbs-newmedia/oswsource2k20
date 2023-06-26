@@ -41,7 +41,7 @@ if (\osWFrame\Core\Settings::getAction()=='doedit') {
 			$_rule=false;
 			foreach ($rule_values as $rule_value) {
 				$ajax['logic'][$group]['jsrule'][$rule_key][]=$rule_value;
-				if ((string) $this->getDoEditElementStorage($rule_key)==(string) $rule_value) {
+				if ((string)$this->getDoEditElementStorage($rule_key)==(string)$rule_value) {
 					$_rule=true;
 				}
 			}
@@ -75,7 +75,7 @@ if (\osWFrame\Core\Settings::getAction()=='doedit') {
 			$_rule=false;
 			foreach ($rule_values as $rule_value) {
 				$ajax['logic'][$group]['jsrule'][$rule_key][]=$rule_value;
-				if ((string) $this->getEditElementStorage($rule_key)==(string) $rule_value) {
+				if ((string)$this->getEditElementStorage($rule_key)==(string)$rule_value) {
 					$_rule=true;
 				}
 			}

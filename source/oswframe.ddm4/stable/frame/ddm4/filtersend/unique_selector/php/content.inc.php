@@ -15,7 +15,7 @@ if (strlen($this->getDoSendElementStorage($element))>0) {
 	$ddm_selector_array=$this->getGroupOption('selector', 'database');
 	if (!empty($ddm_selector_array)) {
 		$ar_values=[];
-		foreach ($ddm_selector_array as $key => $value) {
+		foreach ($ddm_selector_array as $key=>$value) {
 			if (is_int($value)==true) {
 				$ar_values[]=$this->getGroupOption('alias', 'database').'.'.$key.'='.$value;
 			} else {

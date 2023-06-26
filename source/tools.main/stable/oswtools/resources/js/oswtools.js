@@ -18,11 +18,11 @@ $(function () {
 		e.preventDefault();
 	});
 
-	$(document).ready(function() {
+	$(document).ready(function () {
 		$('.datatables').DataTable({
 			"iDisplayLength": 50
 		});
-	} );
+	});
 });
 
 function osWTools_confirmUpdate(message, url_yes, url_no) {
@@ -37,27 +37,27 @@ function osWTools_confirmUpdate(message, url_yes, url_no) {
 			}
 		},
 		callback: function (result) {
-			if (result===true) {
-				window.location=url_yes;
+			if (result === true) {
+				window.location = url_yes;
 			} else {
-				window.location=url_no;
+				window.location = url_no;
 			}
 		}
 	});
 };
 
 function osWTools_selectAll(seletor) {
-	$(seletor+" input[type='checkbox']").prop('checked', true);
+	$(seletor + " input[type='checkbox']").prop('checked', true);
 	return true;
 }
 
 function osWTools_selectNone(seletor) {
-	$(seletor+" input[type='checkbox']").prop('checked', false);
+	$(seletor + " input[type='checkbox']").prop('checked', false);
 	return true;
 }
 
 function osWTools_selectInvert(seletor) {
-	$(seletor+" input[type='checkbox']").each(function () {
+	$(seletor + " input[type='checkbox']").each(function () {
 		$(this).prop('checked', !$(this).prop('checked'));
 	});
 	return true;

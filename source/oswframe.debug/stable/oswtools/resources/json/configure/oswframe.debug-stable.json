@@ -1,21 +1,21 @@
 {
-	"configure": {
-		"middle": {
-			"debug_write_logs": true,
-			"debug_apachelevel": "###$vars['error_reporting_E_ALL']",
-			"debug_lib": true,
-			"debug_lib_lvl": 99,
-			"debug_lib_max_y": 50,
-			"debug_path": ".logs/",
-			"debug_maxsize": 1048576,
-			"debug_maxdays": 30,
-			"debug_gc_probability": true,
-			"debug_gc_divisor": 100
-		}
-	},
-	"protectdir": {
-		"var": [
-			"debug_path"
-		]
-	}
+  "configure": {
+    "middle": {
+      "debug_write_logs": true,
+      "debug_apachelevel": "###$vars['error_reporting_E_ALL']",
+      "debug_lib": true,
+      "debug_lib_lvl": 99,
+      "debug_lib_max_y": 50,
+      "debug_path": ".logs/",
+      "debug_maxsize": 1048576,
+      "debug_maxdays": 30,
+      "debug_gc_probability": true,
+      "debug_gc_divisor": 100
+    }
+  },
+  "protectdir": {
+    "var": [
+      "debug_path"
+    ]
+  }
 }

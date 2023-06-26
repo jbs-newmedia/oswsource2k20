@@ -53,10 +53,11 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer {
 	 * @param $lang_path
 	 * @return bool
 	 */
-	public function setLanguage($langcode = 'en', $lang_path = ''):bool {
+	public function setLanguage($langcode='en', $lang_path=''):bool {
 		if ($lang_path==='') {
 			$lang_path=Settings::getStringVar('settings_abspath').DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'namespaces'.DIRECTORY_SEPARATOR.'PHPMailer'.DIRECTORY_SEPARATOR.'PHPMailer'.DIRECTORY_SEPARATOR.Settings::getStringVar('vendor_namespace_phpmailer_phpmailer').DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR;
 		}
+
 		return parent::setLanguage($langcode, $lang_path);
 	}
 

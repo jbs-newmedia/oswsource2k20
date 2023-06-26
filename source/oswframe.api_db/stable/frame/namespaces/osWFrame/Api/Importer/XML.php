@@ -57,9 +57,7 @@ class XML {
 
 	public function createStruct() {
 
-
 	}
-
 
 }
 

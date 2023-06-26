@@ -24,7 +24,7 @@
 
 	<?php echo $osW_Form->startForm('oswtools_configure_form', 'current', '', ['input_addid'=>true]); ?>
 
-	<h3>Step <?php echo $Tool->getPage() ?>/<?php echo $Tool->getPages() ?>: <?php if ($Tool->isLastPage()===true): ?>Finished<?php else:?><?php echo \osWFrame\Core\HTML::outputString($Tool->getSettingAsString('page_title')) ?><?php endif?></h3>
+	<h3>Step <?php echo $Tool->getPage() ?>/<?php echo $Tool->getPages() ?>: <?php if ($Tool->isLastPage()===true): ?>Finished<?php else: ?><?php echo \osWFrame\Core\HTML::outputString($Tool->getSettingAsString('page_title')) ?><?php endif ?></h3>
 
 	<hr/>
 

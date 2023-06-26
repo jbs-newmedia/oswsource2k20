@@ -22,7 +22,8 @@
 
 <?php else: ?>
 
-	<p>Please enter the requested url from your serverlist and confirm your input by pressing the button "Install serverlist". The current list of available servers is available at <a href="https://oswframe.com/serverlist" target="_blank">oswframe.com/serverlist</a>.</p>
+	<p>Please enter the requested url from your serverlist and confirm your input by pressing the button "Install serverlist". The current list of available servers is available at
+		<a href="https://oswframe.com/serverlist" target="_blank">oswframe.com/serverlist</a>.</p>
 
 	<hr/>
 

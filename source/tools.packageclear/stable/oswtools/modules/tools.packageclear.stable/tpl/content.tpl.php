@@ -52,10 +52,10 @@
 					</td>
 					</td>
 					<td><?php echo $element ?></td>
-					<td class="text-center"><?php if ($status['changelog']===true):?>X<?php else:?>-<?php endif?></td>
-					<td class="text-center"><?php if ($status['configure']===true):?>X<?php else:?>-<?php endif?></td>
-					<td class="text-center"><?php if ($status['filelist']===true):?>X<?php else:?>-<?php endif?></td>
-					<td class="text-center"><?php if ($status['package']===true):?>X<?php else:?>-<?php endif?></td>
+					<td class="text-center"><?php if ($status['changelog']===true): ?>X<?php else: ?>-<?php endif ?></td>
+					<td class="text-center"><?php if ($status['configure']===true): ?>X<?php else: ?>-<?php endif ?></td>
+					<td class="text-center"><?php if ($status['filelist']===true): ?>X<?php else: ?>-<?php endif ?></td>
+					<td class="text-center"><?php if ($status['package']===true): ?>X<?php else: ?>-<?php endif ?></td>
 				</tr>
 			<?php endforeach ?>
 

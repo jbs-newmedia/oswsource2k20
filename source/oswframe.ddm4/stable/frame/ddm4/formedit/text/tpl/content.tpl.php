@@ -20,13 +20,12 @@
 	<?php if ($this->getEditElementOption($element, 'read_only')===true): ?>
 
 		<?php /* read only */ ?>
-		<div class="form-control readonly"><?php if($this->getEditElementStorage($element)==''):?>&nbsp;<?php else:?><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementStorage($element)); ?><?php endif?></div>
+		<div class="form-control readonly"><?php if ($this->getEditElementStorage($element)==''): ?>&nbsp;<?php else: ?><?php echo \osWFrame\Core\HTML::outputString($this->getEditElementStorage($element)); ?><?php endif ?></div>
 		<?php echo $this->getTemplate()->Form()->drawHiddenField($element, $this->getEditElementStorage($element)) ?>
 
 	<?php else: ?>
 
-		<?php /* input */ ?>
-		<?php echo $this->getTemplate()->Form()->drawTextField($element, $this->getEditElementStorage($element), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']); ?>
+		<?php /* input */ ?><?php echo $this->getTemplate()->Form()->drawTextField($element, $this->getEditElementStorage($element), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']); ?>
 
 	<?php endif ?>
 

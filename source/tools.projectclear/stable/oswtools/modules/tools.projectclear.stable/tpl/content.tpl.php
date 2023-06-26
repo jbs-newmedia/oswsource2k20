@@ -52,7 +52,7 @@
 
 	<hr/>
 
-	<?php echo $osW_Form->startForm('oswtools_projectclear_form', 'current', '', ['input_addid'=>true]);?>
+	<?php echo $osW_Form->startForm('oswtools_projectclear_form', 'current', '', ['input_addid'=>true]); ?>
 
 	<table id="oswtools_projectclear" class="table table-striped table-bordered">
 		<thead>
@@ -70,9 +70,8 @@
 			<?php foreach ($Tool->getList() as $element=>$status): ?>
 				<tr>
 					<td class="text-center">
-			<?php if ($status['t']=='f'): ?><?php echo $osW_Form->drawCheckboxField('file['.$element.']', 1, 0);?><?php endif ?>
-			<?php if ($status['t']=='d'): ?><?php echo $osW_Form->drawCheckboxField('dir['.$element.']', 1, 0);?><?php endif ?>
-				</td>
+						<?php if ($status['t']=='f'): ?><?php echo $osW_Form->drawCheckboxField('file['.$element.']', 1, 0); ?><?php endif ?><?php if ($status['t']=='d'): ?><?php echo $osW_Form->drawCheckboxField('dir['.$element.']', 1, 0); ?><?php endif ?>
+					</td>
 					</td>
 					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['t']=='f'): ?>
 								<i class="fas fa-file fa-fw"></i><?php elseif ($status['t']='d'): ?>
@@ -102,10 +101,9 @@
 
 		<a href="javascript:$('#oswtools_projectclear_form').submit()" class="btn btn-primary d-block">Clear selected files/directories from project</a>
 
-		<?php echo $osW_Form->drawHiddenField('doaction', 'doclear');?>
-	<?php endif?>
+		<?php echo $osW_Form->drawHiddenField('doaction', 'doclear'); ?><?php endif ?>
 
-	<?php echo $osW_Form->endForm();?>
+	<?php echo $osW_Form->endForm(); ?>
 
 
 <?php endif ?>

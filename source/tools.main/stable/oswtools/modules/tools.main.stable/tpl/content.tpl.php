@@ -144,7 +144,7 @@
 
 	<hr>
 
-	<a href="<?php echo $this->buildHrefLink('current', 'action=framekey&doaction=donew')?>" class="float-right text-danger">Create new Frame-Key</a>
+	<a href="<?php echo $this->buildHrefLink('current', 'action=framekey&doaction=donew') ?>" class="float-right text-danger">Create new Frame-Key</a>
 
 <?php else: ?>
 

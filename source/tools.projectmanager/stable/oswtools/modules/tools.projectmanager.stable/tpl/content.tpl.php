@@ -30,13 +30,13 @@
 		<?php endforeach ?>
 	</ul>
 
-	<?php if ($Tool->getSL()==''):?>
-		<script>var unsorted=5;</script>
-	<?php elseif($Tool->getSL()=='custom'):?>
-		<script>var unsorted=1;</script>
-	<?php else:?>
-		<script>var unsorted=4;</script>
-	<?php endif?>
+	<?php if ($Tool->getSL()==''): ?>
+		<script>var unsorted = 5;</script>
+	<?php elseif ($Tool->getSL()=='custom'): ?>
+		<script>var unsorted = 1;</script>
+	<?php else: ?>
+		<script>var unsorted = 4;</script>
+	<?php endif ?>
 
 	<table id="oswtools_projectmanager" class="table table-striped table-bordered">
 		<thead>
@@ -70,7 +70,7 @@
 								<td><?php if (!isset($package_data['version'])): ?>-----<?php else: ?><?php echo $package_data['version']; ?><?php endif ?></td>
 								<?php if ($Tool->getSL()==''): ?>
 									<td><?php echo $Tool->getList()[$serverlist]['info']['name'] ?></td>
-								<?php endif?>
+								<?php endif ?>
 								<td class="manager_options text-center"></td>
 							</tr>
 
@@ -83,8 +83,8 @@
 								<td><?php echo $package_data['version']; ?></td>
 								<?php if ($Tool->getSL()==''): ?>
 									<td><?php echo $Tool->getList()[$serverlist]['info']['name'] ?></td>
-								<?php endif?>
-								<td class="manager_options text-center"><?php echo $Tool->outputOption($this->buildhrefLink('current'), md5($serverlist.'#'.$package_data['package'].'#'.$package_data['release']), $package_data, $serverlist);?></td>
+								<?php endif ?>
+								<td class="manager_options text-center"><?php echo $Tool->outputOption($this->buildhrefLink('current'), md5($serverlist.'#'.$package_data['package'].'#'.$package_data['release']), $package_data, $serverlist); ?></td>
 							</tr>
 
 						<?php endif ?>

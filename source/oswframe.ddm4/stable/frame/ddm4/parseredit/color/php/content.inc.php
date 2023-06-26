@@ -29,7 +29,7 @@ if (($this->getFilterErrorElementStorage($element)!==true)&&($this->getDoEditEle
 	$hex_color=$this->getDoEditElementStorage($element);
 
 	if (preg_match('/^#[a-f0-9]{3}$/i', $hex_color)) {
-		$this->setDoEditElementStorage($element, '#'.substr($hex_color, 1,1).substr($hex_color, 1,1).substr($hex_color, 2,1).substr($hex_color, 2,1).substr($hex_color, 3,1).substr($hex_color, 3,1));
+		$this->setDoEditElementStorage($element, '#'.substr($hex_color, 1, 1).substr($hex_color, 1, 1).substr($hex_color, 2, 1).substr($hex_color, 2, 1).substr($hex_color, 3, 1).substr($hex_color, 3, 1));
 		$hex_color=$this->getDoEditElementStorage($element);
 	}
 

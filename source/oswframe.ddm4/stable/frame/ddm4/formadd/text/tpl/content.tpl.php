@@ -20,7 +20,7 @@
 	<?php if ($this->getAddElementOption($element, 'read_only')===true): ?>
 
 		<?php /* read only */ ?>
-		<div class="form-control readonly"><?php if($this->getAddElementStorage($element)==''):?>&nbsp;<?php else:?><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementStorage($element)); ?><?php endif?></div>
+		<div class="form-control readonly"><?php if ($this->getAddElementStorage($element)==''): ?>&nbsp;<?php else: ?><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementStorage($element)); ?><?php endif ?></div>
 		<?php echo $this->getTemplate()->Form()->drawHiddenField($element, $this->getAddElementStorage($element)) ?>
 
 	<?php else: ?>

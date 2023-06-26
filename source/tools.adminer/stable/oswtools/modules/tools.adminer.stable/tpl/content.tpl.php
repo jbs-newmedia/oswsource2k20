@@ -22,6 +22,6 @@
 
 <?php else: ?>
 
-	<iframe src="<?php echo $this->buildhrefLink('current', 'action=adminer')?>" class="iframe" name="info" seamless="" frameBorder="0"></iframe>
+	<iframe src="<?php echo $this->buildhrefLink('current', 'action=adminer') ?>" class="iframe" name="info" seamless="" frameBorder="0"></iframe>
 
 <?php endif ?>

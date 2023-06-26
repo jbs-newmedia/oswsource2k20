@@ -74,6 +74,7 @@ class JSLib {
 
 			return true;
 		}
+
 		return false;
 	}
 

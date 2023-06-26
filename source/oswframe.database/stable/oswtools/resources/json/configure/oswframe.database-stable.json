@@ -1,17 +1,17 @@
 {
-	"configure": {
-		"middle": {
-			"database_type": "mysql",
-			"database_server": "",
-			"database_port": 3306,
-			"database_username": "",
-			"database_password": "",
-			"database_db": "",
-			"database_prefix": "osw_",
-			"database_engine": "InnoDB",
-			"database_character": "utf8mb4",
-			"database_collation": "utf8mb4_general_ci",
-			"database_slowruntime": 0.5
-		}
-	}
+  "configure": {
+    "middle": {
+      "database_type": "mysql",
+      "database_server": "",
+      "database_port": 3306,
+      "database_username": "",
+      "database_password": "",
+      "database_db": "",
+      "database_prefix": "osw_",
+      "database_engine": "InnoDB",
+      "database_character": "utf8mb4",
+      "database_collation": "utf8mb4_general_ci",
+      "database_slowruntime": 0.5
+    }
+  }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Adminer Table header scroll plugin.
  *
@@ -18,58 +19,58 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-class AdminerTableHeaderScroll
-{
-    public function head()
-    {
-        ?>
+class AdminerTableHeaderScroll {
 
-<script<?php echo nonce(); ?>>
-function tableHeaderPositionUpdate(){
-    // If your theme has a fixed position header, change these for compatibility
-    var offset = -1;
-    var zindex = 10000;
+	public function head() {
+		?>
 
-    // Find tables in the content
-    var tables = document.getElementById('content').getElementsByTagName('table');
-    for (var i = 0; i < tables.length; i++) {
-        var table = tables[i];
+		<script<?php echo nonce(); ?>>
+			function tableHeaderPositionUpdate() {
+				// If your theme has a fixed position header, change these for compatibility
+				var offset = -1;
+				var zindex = 10000;
 
-        // Find the table header
-        var tableHeader = table.getElementsByTagName('thead');
-        if (tableHeader.length) {
-            tableHeader = tableHeader[0];
-        } else {
-            continue;
-        }
+				// Find tables in the content
+				var tables = document.getElementById('content').getElementsByTagName('table');
+				for (var i = 0; i < tables.length; i++) {
+					var table = tables[i];
 
-        // Calculate the distance from the top and bottom
-        var tableTop = table.getBoundingClientRect().top - offset;
-        var tableBottom = table.getBoundingClientRect().bottom - offset - tableHeader.offsetHeight;
+					// Find the table header
+					var tableHeader = table.getElementsByTagName('thead');
+					if (tableHeader.length) {
+						tableHeader = tableHeader[0];
+					} else {
+						continue;
+					}
 
-        // Set the relative position based on the distance
-        if (tableTop < 0 && tableBottom > 0){
-            tableHeader.style['z-index'] = zindex;
-            tableHeader.style.position = 'relative';
+					// Calculate the distance from the top and bottom
+					var tableTop = table.getBoundingClientRect().top - offset;
+					var tableBottom = table.getBoundingClientRect().bottom - offset - tableHeader.offsetHeight;
 
-            if (typeof tableHeader.style.transform === 'undefined') {
-                tableHeader.style.top = -tableTop + 'px';
-            } else {
-                tableHeader.style.transform = 'translateY(' + -tableTop + 'px)';
-            }
-        } else {
-            tableHeader.style.position = 'static';
-            tableHeader.style.transform = 'none';
-        }
-    }
-}
+					// Set the relative position based on the distance
+					if (tableTop < 0 && tableBottom > 0) {
+						tableHeader.style['z-index'] = zindex;
+						tableHeader.style.position = 'relative';
 
-if (window.addEventListener) {
-    window.addEventListener('scroll', tableHeaderPositionUpdate);
-}
-</script>
+						if (typeof tableHeader.style.transform === 'undefined') {
+							tableHeader.style.top = -tableTop + 'px';
+						} else {
+							tableHeader.style.transform = 'translateY(' + -tableTop + 'px)';
+						}
+					} else {
+						tableHeader.style.position = 'static';
+						tableHeader.style.transform = 'none';
+					}
+				}
+			}
 
-    <?php
-        return true;
-    }
+			if (window.addEventListener) {
+				window.addEventListener('scroll', tableHeaderPositionUpdate);
+			}
+		</script>
+
+		<?php
+		return true;
+	}
+
 }

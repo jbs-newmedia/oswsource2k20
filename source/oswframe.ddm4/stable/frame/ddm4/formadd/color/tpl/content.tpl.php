@@ -20,12 +20,11 @@
 	<?php if ($this->getAddElementOption($element, 'read_only')===true): ?>
 
 		<?php /* read only */ ?>
-		<div class="form-control readonly"><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementStorage($element)); ?></div>
-		<?php echo $this->getTemplate()->Form()->drawHiddenField($element, $this->getAddElementStorage($element)) ?>
+		<div class="form-control readonly"><?php echo \osWFrame\Core\HTML::outputString($this->getAddElementStorage($element)); ?></div>		<?php echo $this->getTemplate()->Form()->drawHiddenField($element, $this->getAddElementStorage($element)) ?>
 
 	<?php else: ?>
 
-		<?php /* input */ ?>
+	<?php /* input */ ?>
 
 		<div class="input-group">
 			<?php echo $this->getTemplate()->Form()->drawInputField($element.'_helper', $this->getAddElementStorage($element), ['input_class'=>'form-control form-control-color w-25', 'input_errorclass'=>'is-invalid'], 'color'); ?>

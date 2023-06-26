@@ -566,6 +566,7 @@ class CoreTool {
 		if (preg_match('/^([0-9a-zA-Z]{64,64})$/Uis', $frame_key)) {
 			return true;
 		}
+
 		return false;
 	}
 

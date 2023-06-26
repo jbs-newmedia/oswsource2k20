@@ -16,26 +16,26 @@
 
 <?php if ($changelog!=[]): ?>
 	<div class="accordion" id="accordionChangelog">
-<?php foreach ($changelog as $version=>$changes): ?>
-		<div class="accordion-item">
-			<h2 class="accordion-header" id="heading<?php echo md5($version) ?>">
-				<button class="accordion-button<?php if ($version!=array_key_first($changelog)): ?> collapsed<?php endif ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo md5($version) ?>" aria-expanded="true" aria-controls="collapse<?php echo md5($version) ?>">
-					<?php echo $version ?>
-				</button>
-			</h2>
+		<?php foreach ($changelog as $version=>$changes): ?>
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="heading<?php echo md5($version) ?>">
+					<button class="accordion-button<?php if ($version!=array_key_first($changelog)): ?> collapsed<?php endif ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo md5($version) ?>" aria-expanded="true" aria-controls="collapse<?php echo md5($version) ?>">
+						<?php echo $version ?>
+					</button>
+				</h2>
 
-			<div id="collapse<?php echo md5($version) ?>" class="accordion-collapse collapse<?php if ($version==array_key_first($changelog)): ?> show<?php endif ?>" aria-labelledby="heading<?php echo md5($version) ?>" data-bs-parent="#accordionChangelog">
-				<div class="accordion-body">
-					<?php $changes=explode("\n", $changes); ?>
-					<ul>
-						<?php foreach ($changes as $change): ?>
-							<li><?php echo trim(substr($change, 2)) ?></li>
-						<?php endforeach ?>
-					</ul>
+				<div id="collapse<?php echo md5($version) ?>" class="accordion-collapse collapse<?php if ($version==array_key_first($changelog)): ?> show<?php endif ?>" aria-labelledby="heading<?php echo md5($version) ?>" data-bs-parent="#accordionChangelog">
+					<div class="accordion-body">
+						<?php $changes=explode("\n", $changes); ?>
+						<ul>
+							<?php foreach ($changes as $change): ?>
+								<li><?php echo trim(substr($change, 2)) ?></li>
+							<?php endforeach ?>
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
-<?php endforeach;?>
+		<?php endforeach; ?>
 	</div>
 <?php else: ?>
 	<div class="card mb-2">

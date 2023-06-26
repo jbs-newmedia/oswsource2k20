@@ -20,9 +20,9 @@
       "release": "stable"
     },
     {
-        "serverlist": "vendor",
-        "package": "vendorlib.bootstrap_cookiealert_latest",
-        "release": "stable"
+      "serverlist": "vendor",
+      "package": "vendorlib.bootstrap_cookiealert_latest",
+      "release": "stable"
     }
   ]
 }

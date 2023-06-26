@@ -33,38 +33,36 @@
 	<hr/>
 
 
-	<?php echo $osW_Form->startForm('oswtools_resourceclear_form', 'current', '', ['input_addid'=>true]);?>
+	<?php echo $osW_Form->startForm('oswtools_resourceclear_form', 'current', '', ['input_addid'=>true]); ?>
 
-		<table id="oswtools_resourceclear" class="table table-striped table-bordered">
-			<thead>
-			<tr>
-				<th style="width:3rem;" class="text-center">Clear</th>
-				<th>Directory</th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php if(count($Tool->getResourceList())>0):?>
-				<?php $i=0;foreach ($Tool->getResourceList() as $dir):$i++;?>
-					<tr>
-						<td class="text-center"><?php echo $osW_Form->drawCheckboxField('dir['.$dir.']', 1, 0);?></td>
-						<td><?php echo $dir?></td>
-					</tr>
-				<?php endforeach?>
-			<?php endif?>
-			</tbody>
-		</table>
+	<table id="oswtools_resourceclear" class="table table-striped table-bordered">
+		<thead>
+		<tr>
+			<th style="width:3rem;" class="text-center">Clear</th>
+			<th>Directory</th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php if (count($Tool->getResourceList())>0): ?><?php $i=0;
+			foreach ($Tool->getResourceList() as $dir):$i++; ?>
+				<tr>
+					<td class="text-center"><?php echo $osW_Form->drawCheckboxField('dir['.$dir.']', 1, 0); ?></td>
+					<td><?php echo $dir ?></td>
+				</tr>
+			<?php endforeach ?><?php endif ?>
+		</tbody>
+	</table>
 
 
-		<?php if(count($Tool->getResourceList())>0):?>
+	<?php if (count($Tool->getResourceList())>0): ?>
 
-			<hr/>
+		<hr/>
 
-			<a href="javascript:$('#oswtools_resourceclear_form').submit()" class="btn btn-primary d-block">Clear selected directories from resource</a>
+		<a href="javascript:$('#oswtools_resourceclear_form').submit()" class="btn btn-primary d-block">Clear selected directories from resource</a>
 
-			<?php echo $osW_Form->drawHiddenField('doaction', 'doclear');?>
-		<?php endif?>
+		<?php echo $osW_Form->drawHiddenField('doaction', 'doclear'); ?><?php endif ?>
 
-	<?php echo $osW_Form->endForm();?>
+	<?php echo $osW_Form->endForm(); ?>
 
 
 <?php endif ?>

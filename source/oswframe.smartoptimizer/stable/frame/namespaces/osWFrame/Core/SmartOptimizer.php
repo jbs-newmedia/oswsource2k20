@@ -72,6 +72,7 @@ class SmartOptimizer {
 	 */
 	public static function setTS(int $ts):int {
 		self::$ts=$ts;
+
 		return self::$ts;
 	}
 
