@@ -38,21 +38,22 @@ spl_autoload_register(function($className) {
 
 		$fa=explode(DIRECTORY_SEPARATOR, $filename);
 		$ca=explode('\\', $className);
+
 		switch (count($fa)) {
 			case 1:
-				$filename_namespace='nothintodo.txt2';
+				$filename_namespace='nothing_todo.txt2';
 				break;
 			case 2:
-				$filename_namespace=$fa[0].DIRECTORY_SEPARATOR.$ca[1].DIRECTORY_SEPARATOR.(string)\osWFrame\Core\Settings::getStringVar('vendor_namespace_'.strtolower($fa[0]).'_'.strtolower($ca[1]).'_version').DIRECTORY_SEPARATOR.$fa[1];
+				$filename_namespace=$ca[0].DIRECTORY_SEPARATOR.(string) \osWFrame\Core\Settings::getStringVar('vendor_namespace_'.strtolower($ca[0]).'_version').DIRECTORY_SEPARATOR.$fa[1];
 				break;
 			default:
 				$fa2=$fa;
 				unset($fa2[0]);
 				unset($fa2[1]);
-				$filename_namespace=$fa[0].DIRECTORY_SEPARATOR.$ca[1].DIRECTORY_SEPARATOR.(string)\osWFrame\Core\Settings::getStringVar('vendor_namespace_'.strtolower($fa[0]).'_'.strtolower($ca[1]).'_version').DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $fa2);
+				$filename_namespace=$ca[0].DIRECTORY_SEPARATOR.$ca[1].DIRECTORY_SEPARATOR.(string) \osWFrame\Core\Settings::getStringVar('vendor_namespace_'.strtolower($ca[0]).'_'.strtolower($ca[1]).'_version').DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $fa2);
 				break;
 		}
-		$filename_class=$ca[0].DIRECTORY_SEPARATOR.(string)\osWFrame\Core\Settings::getStringVar('vendor_class_'.strtolower($ca[0]).'_version').DIRECTORY_SEPARATOR.$fa[0];
+		$filename_class=$ca[0].DIRECTORY_SEPARATOR.(string) \osWFrame\Core\Settings::getStringVar('vendor_class_'.strtolower($ca[0]).'_version').DIRECTORY_SEPARATOR.$fa[0];
 
 		$full_path_vendor_namespace=$oswframe_core_vendor_namespace_path.$filename_namespace;
 		$full_path_vendor_class=$oswframe_core_vendor_class_path.$filename_class;
