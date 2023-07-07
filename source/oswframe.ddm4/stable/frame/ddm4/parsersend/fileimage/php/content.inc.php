@@ -17,9 +17,10 @@ $this->setFilterElementStorage($element, $fields);
 $this->setFilterErrorElementStorage($element, false);
 
 $file_name=$this->getDoSendElementStorage($element.$this->getSendElementOption($element, 'temp_suffix'));
-
+$file_name_old=$this->getDoSendElementStorage($element);
+$file_name_delete=intval(\osWFrame\Core\Settings::catchValue($element.$this->getSendElementOption($element, 'delete_suffix'), '', 'p'));
 if ($this->getSendElementOption($element, 'required')===true) {
-	if ((strlen($file_name)==0)||(filesize(\osWFrame\Core\Settings::getStringVar('settings_abspath').$file_name)==0)) {
+	if ((((strlen($file_name)==0)||(filesize(\osWFrame\Core\Settings::getStringVar('settings_abspath').$file_name)==0))&&(strlen($file_name_old)==0))||($file_name_delete==1)) {
 		$this->getTemplate()->Form()->addErrorMessage($element, osWFrame\Core\StringFunctions::parseTextWithVars($this->getGroupMessage('validation_image_miss'), $this->getFilterElementStorage($element)));
 		$this->setFilterErrorElementStorage($element, true);
 	}
