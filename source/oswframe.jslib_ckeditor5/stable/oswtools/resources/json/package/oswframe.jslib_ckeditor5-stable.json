@@ -21,7 +21,7 @@
     },
     {
       "serverlist": "vendor",
-      "package": "vendorlib.jslib_ckeditor_latest",
+      "package": "vendorlib.jslib_ckeditor5_latest",
       "release": "stable"
     }
   ]
