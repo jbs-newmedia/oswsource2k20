@@ -98,6 +98,9 @@ class DDM4 {
 		}
 		$options['messages']=$this->loadDefaultMessages($options['messages']);
 		$this->ddm['options']=$options;
+		if (!isset($this->ddm['options']['theme'])) {
+			$this->ddm['options']['theme']='default';
+		}
 		if ((!isset($this->ddm['options']['layout_loaded']))||($this->ddm['options']['layout_loaded']!==true)) {
 			if (!isset($this->ddm['options']['layout'])) {
 				$this->ddm['options']['layout']='default';
@@ -2474,9 +2477,21 @@ class DDM4 {
 		}
 		if ($script==='tpl') {
 			ob_start();
-			$file=Settings::getStringVar('settings_abspath').'frame/ddm4/'.$type.'/'.$values['module'].'/tpl/content.tpl.php';
-			if (file_exists($file)) {
-				include $file;
+			if ($this->ddm['options']['theme']!='default') {
+				$file=Settings::getStringVar('settings_abspath').'frame/ddm4/'.$type.'/'.$values['module'].'/tpl/'.$this->ddm['options']['theme'].'/content.tpl.php';
+				if (file_exists($file)) {
+					include $file;
+				} else {
+					$file=Settings::getStringVar('settings_abspath').'frame/ddm4/'.$type.'/'.$values['module'].'/tpl/content.tpl.php';
+					if (file_exists($file)) {
+						include $file;
+					}
+				}
+			} else {
+				$file=Settings::getStringVar('settings_abspath').'frame/ddm4/'.$type.'/'.$values['module'].'/tpl/content.tpl.php';
+				if (file_exists($file)) {
+					include $file;
+				}
 			}
 			$contents=ob_get_contents();
 			ob_end_clean();
@@ -2514,10 +2529,23 @@ class DDM4 {
 	 */
 	public function runDDMTPL():string {
 		$engine=$this->getGroupOption('engine');
-		$file=Settings::getStringVar('settings_abspath').'frame/ddm4/engine/'.$engine.'/tpl/content.tpl.php';
+
 		ob_start();
-		if (file_exists($file)) {
-			include $file;
+		if ($this->ddm['options']['theme']!='default') {
+			$file=Settings::getStringVar('settings_abspath').'frame/ddm4/engine/'.$engine.'/tpl/'.$this->ddm['options']['theme'].'/content.tpl.php';
+			if (file_exists($file)) {
+				include $file;
+			} else {
+				$file=Settings::getStringVar('settings_abspath').'frame/ddm4/engine/'.$engine.'/tpl/content.tpl.php';
+				if (file_exists($file)) {
+					include $file;
+				}
+			}
+		} else {
+			$file=Settings::getStringVar('settings_abspath').'frame/ddm4/engine/'.$engine.'/tpl/content.tpl.php';
+			if (file_exists($file)) {
+				include $file;
+			}
 		}
 		$contents=ob_get_contents();
 		ob_end_clean();
