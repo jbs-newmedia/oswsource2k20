@@ -243,12 +243,20 @@ class Bootstrap5 {
 			return true;
 		}
 
-		$loader=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'loader.inc.php';
+		$loader=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'loader-'.$version=Settings::getStringVar('vendor_lib_bootstrap_'.$plugin_name.'_version').'.inc.php';
 		if (file_exists($loader)) {
 			include $loader;
 			$this->loaded_plugins[$plugin_name]=true;
 
 			return true;
+		} else {
+			$loader=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'libs'.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$plugin_name.DIRECTORY_SEPARATOR.'loader.inc.php';
+			if (file_exists($loader)) {
+				include $loader;
+				$this->loaded_plugins[$plugin_name]=true;
+
+				return true;
+			}
 		}
 
 		return false;
