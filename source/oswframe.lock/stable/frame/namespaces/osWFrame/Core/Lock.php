@@ -69,12 +69,24 @@ class Lock {
 			Filesystem::makeDir($dir);
 		}
 
-		$this->locks[$module.'_'.$lock]=fopen($dir.$lock.'.lock', "w+");
-		if (flock($this->locks[$module.'_'.$lock], LOCK_EX|LOCK_NB)) {
-			return true;
-		} else {
-			return false;
+		$this->locks[$module.'_'.$lock]=$dir.$lock.'.lock';
+		if (file_exists($this->locks[$module.'_'.$lock])) {
+			$pid=intval(file_get_contents($this->locks[$module.'_'.$lock]));
+			$isRunning=false;
+
+			if (($pid!==false)&&(posix_kill($pid, 0))) {
+				$isRunning=true;
+			}
+
+			if ($isRunning===true) {
+				return false;
+			}
 		}
+
+		$currentPID=getmypid();
+		file_put_contents($this->locks[$module.'_'.$lock], $currentPID);
+
+		return true;
 	}
 
 	/**
@@ -84,14 +96,9 @@ class Lock {
 	 */
 	public function unlock(string $module, string $lock):bool {
 		$module=strtolower($module);
-		$result=flock($this->locks[$module.'_'.$lock], LOCK_UN);
-		fclose($this->locks[$module.'_'.$lock]);
-
-		$module=strtolower($module);
 		$filename=Settings::getStringVar('settings_abspath').Settings::getStringVar('lock_path').$module.DIRECTORY_SEPARATOR.$lock.'.lock';
-		Filesystem::unlink($filename);
 
-		return $result;
+		return Filesystem::unlink($filename);
 	}
 
 	/**
