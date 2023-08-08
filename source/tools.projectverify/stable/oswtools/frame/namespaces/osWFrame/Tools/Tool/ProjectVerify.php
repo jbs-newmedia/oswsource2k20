@@ -79,7 +79,7 @@ class ProjectVerify extends CoreTool {
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'serverlist'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'settings'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_dirs'][]='oswtools'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'sources'.DIRECTORY_SEPARATOR;
-		$this->settings['projectverify_dirs'][]='vendor'.DIRECTORY_SEPARATOR;
+		$this->settings['projectverify_dirs'][]='oswvendor'.DIRECTORY_SEPARATOR;
 		$this->settings['projectverify_files'][]='frame'.DIRECTORY_SEPARATOR.'configure.php';
 		$this->settings['projectverify_files'][]='modules'.DIRECTORY_SEPARATOR.'configure.project.php';
 		$this->settings['projectverify_files'][]='oswtools'.DIRECTORY_SEPARATOR.'frame.key';

@@ -11,7 +11,7 @@
 
 namespace osWFrame\Core;
 
-#$file=Settings::getStringVar('settings_abspath').'vendor'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'tcpdf'.DIRECTORY_SEPARATOR.(string)Settings::getStringVar('vendor_class_tcpdf_version').DIRECTORY_SEPARATOR.'tcpdf.php';
+#$file=Settings::getStringVar('settings_abspath').'oswvendor'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'tcpdf'.DIRECTORY_SEPARATOR.(string)Settings::getStringVar('vendor_class_tcpdf_version').DIRECTORY_SEPARATOR.'tcpdf.php';
 #if ((file_exists($file))&&(class_exists('TCPDF')!==true)) {
 #require_once $file;
 #}

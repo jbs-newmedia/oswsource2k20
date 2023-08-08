@@ -503,7 +503,7 @@ class Configure extends CoreTool {
 									$configure_output[]='osW_setVar(\''.$key.'\', false);';
 								}
 								break;
-							case 'vendor':
+							case 'oswvendor':
 								if ($values[$key]['value']==0) {
 									$v=explode(';', $values[$key.'s']['value']);
 									$configure_output[]='osW_setVar(\''.$key.'\', \''.$v[0].'\');';

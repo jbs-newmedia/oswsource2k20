@@ -29,11 +29,11 @@ spl_autoload_register(function($className) {
 		require_once $full_path_namespace;
 	} else {
 		if ($oswframe_core_vendor_namespace_path===null) {
-			$oswframe_core_vendor_namespace_path=realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'namespaces'.DIRECTORY_SEPARATOR;
+			$oswframe_core_vendor_namespace_path=realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'oswvendor'.DIRECTORY_SEPARATOR.'namespaces'.DIRECTORY_SEPARATOR;
 		}
 
 		if ($oswframe_core_vendor_class_path===null) {
-			$oswframe_core_vendor_class_path=realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR;
+			$oswframe_core_vendor_class_path=realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'oswvendor'.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR;
 		}
 
 		$fa=explode(DIRECTORY_SEPARATOR, $filename);
