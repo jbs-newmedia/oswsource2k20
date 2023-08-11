@@ -26,12 +26,12 @@ class Server {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=1;
+	private const CLASS_RELEASE_VERSION=0;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -68,6 +68,12 @@ class Server {
 	 * @var string
 	 */
 	protected static string $frame_key='';
+
+
+	/**
+	 * @var string
+	 */
+	protected static string $account_email='';
 
 	/**
 	 * Server constructor.
@@ -160,11 +166,11 @@ class Server {
 	 */
 	public static function getUrlData($file):string {
 		if (!strpos($file, '?')) {
-			$file.='?server_name='.urlencode(self::getServerName());
+			$file.='?frame_key='.urlencode(self::getFrameKey());
 		} else {
-			$file.='&server_name='.urlencode(self::getServerName());
+			$file.='&frame_key='.urlencode(self::getFrameKey());
 		}
-		$file.='&frame_key='.urlencode(self::getFrameKey());
+		$file.='&account_email='.sha1(self::getFrameKey().'#'.self::getAccountEMail());
 		if (function_exists('curl_init')) {
 			$res=curl_init();
 			curl_setopt($res, CURLOPT_URL, $file);
@@ -213,6 +219,23 @@ class Server {
 		}
 
 		return self::$frame_key;
+	}
+
+	/**
+	 * @param bool $force
+	 * @return string
+	 */
+	public static function getAccountEMail(bool $force=false):string {
+		if ((self::$account_email=='')||($force===true)) {
+			$file=Frame\Settings::getStringVar('settings_abspath').'account.email';
+			if (Frame\Filesystem::existsFile($file)===true) {
+				self::$account_email=trim(file_get_contents($file));
+			} else {
+				self::$account_email='unset';
+			}
+		}
+
+		return self::$account_email;
 	}
 
 	/**
@@ -285,14 +308,10 @@ class Server {
 				self::$licenselist[$current_serverlist]=[];
 				$server_data=Server::getConnectedServer($current_serverlist);
 				if ((isset($server_data['connected']))&&($server_data['connected']===true)) {
-					$server_addr=Server::getUrlData($server_data['server_url'].'?action=license_server_addr');
-					$server_name=$_SERVER['SERVER_NAME'];
 					self::$licenselist[$current_serverlist]['server_list']=$serverlist_details['info']['name'];
-					self::$licenselist[$current_serverlist]['server_addr']=$server_addr;
-					self::$licenselist[$current_serverlist]['server_name']=$server_name;
 					self::$licenselist[$current_serverlist]['frame_key']=self::getFrameKey();
-					self::$licenselist[$current_serverlist]['licensekey']=sha1($current_serverlist.'#'.self::$licenselist[$current_serverlist]['server_name'].'#'.self::$licenselist[$current_serverlist]['server_addr'].'#'.self::$licenselist[$current_serverlist]['frame_key']);
-					self::$licenselist[$current_serverlist]['licensekeydev']=sha1($current_serverlist.'#'.self::$licenselist[$current_serverlist]['server_name'].'#'.self::$licenselist[$current_serverlist]['frame_key']);
+					self::$licenselist[$current_serverlist]['account_email']=self::getAccountEMail();
+					self::$licenselist[$current_serverlist]['license_key']=sha1($current_serverlist.'#'.self::$licenselist[$current_serverlist]['frame_key'].'#'.self::$licenselist[$current_serverlist]['account_email']);
 				}
 			}
 			ksort(self::$licenselist[$current_serverlist]);

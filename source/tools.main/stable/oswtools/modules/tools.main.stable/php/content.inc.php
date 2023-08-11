@@ -91,14 +91,17 @@ if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])) {
 		$Tool->createNewFrameKey();
 		\osWFrame\Tools\Server::getFrameKey(true);
 	}
-
 	if (\osWFrame\Tools\Helper::getDoAction()=='dochange') {
 		$frame_key=\osWFrame\Core\Settings::catchStringPostValue('frame_key');
+		$account_email=\osWFrame\Core\Settings::catchStringPostValue('account_email');
 		if ($Tool->validateFrameKey($frame_key)!==true) {
 			$osW_Form->addErrorMessage('frame_key', 'Frame-Key is not correct. 64 chars, 0-9a-zA-Z.');
+		} elseif (filter_var($account_email, FILTER_VALIDATE_EMAIL)===false) {
+			$osW_Form->addErrorMessage('account_email', 'Email is not correct.');
 		} else {
 			$Tool->writeFrameKey($frame_key);
-			\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'Frame-Key changed successfully.']);
+			$Tool->writeAccountEmail($account_email);
+			\osWFrame\Core\MessageStack::addMessage('result', 'success', ['msg'=>'Frame-Key/Account-Email changed successfully.']);
 		}
 	}
 

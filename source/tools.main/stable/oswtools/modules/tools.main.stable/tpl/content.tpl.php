@@ -134,6 +134,13 @@
 		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('frame_key') ?></div>
 	</div>
 
+	<label class="font-weight-bold" for="account_email">Account-Email:</label>
+	<div class="input-group mb-3 has-validation">
+		<span class="input-group-text"><i class="fas fa-at fa-fw"></i></span>
+		<?php echo $osW_Form->drawTextField('account_email', \osWFrame\Tools\Server::getAccountEMail(), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
+		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('account_email') ?></div>
+	</div>
+
 	<hr/>
 
 	<a href="javascript:$('#oswtools_framekey_form').submit()" class="btn btn-primary d-block">Change Frame-Key</a>

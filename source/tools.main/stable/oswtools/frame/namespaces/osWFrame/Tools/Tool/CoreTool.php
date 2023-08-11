@@ -27,7 +27,7 @@ class CoreTool {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=1;
+	private const CLASS_MINOR_VERSION=2;
 
 	/**
 	 * Release-Version der Klasse.
@@ -540,6 +540,18 @@ class CoreTool {
 		$file_framekey=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame.key';
 		file_put_contents($file_framekey, $frame_key);
 		Frame\Filesystem::changeFilemode($file_framekey, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
+
+		return $this;
+	}
+
+	/**
+	 * @param string $account_email
+	 * @return $this
+	 */
+	public function writeAccountEMail(string $account_email):self {
+		$file_account_email=\osWFrame\Core\Settings::getStringVar('settings_abspath').'account.email';
+		file_put_contents($file_account_email, $account_email);
+		Frame\Filesystem::changeFilemode($file_account_email, Tools\Configure::getFrameConfigInt('settings_chmod_file'));
 
 		return $this;
 	}

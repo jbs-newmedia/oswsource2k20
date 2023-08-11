@@ -32,24 +32,16 @@
 			</thead>
 			<tbody>
 			<tr>
-				<td>Server-Name</td>
-				<td><?php echo \osWFrame\Core\HTML::outputString($details['server_name']) ?></td>
-			</tr>
-			<tr>
-				<td>Server-Addr</td>
-				<td><?php echo $details['server_addr'] ?></td>
-			</tr>
-			<tr>
 				<td>Frame-Key</td>
 				<td><code><?php echo $details['frame_key'] ?></code></td>
 			</tr>
 			<tr>
-				<td>License-Key</td>
-				<td><code><?php echo $details['licensekey'] ?></code></td>
+				<td>Account-Email</td>
+				<td><code><?php echo $details['account_email'] ?></code></td>
 			</tr>
 			<tr>
-				<td>Dev-Key</td>
-				<td><code><?php echo $details['licensekeydev'] ?></code></td>
+				<td>License-Key</td>
+				<td><code><?php echo $details['license_key'] ?></code></td>
 			</tr>
 			</tbody>
 		</table>
