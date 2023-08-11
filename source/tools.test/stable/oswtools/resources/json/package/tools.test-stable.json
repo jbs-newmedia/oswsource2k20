@@ -1,12 +1,12 @@
 {
   "info": {
-    "name": "Colors",
+    "name": "Test",
     "author": "Juergen Schwind",
     "copyright": "JBS New Media GmbH",
-    "year": 2022,
+    "year": 2023,
     "link": "https:\/\/oswframe.com",
     "license": "MIT License",
-    "package": "tools.colors",
+    "package": "tools.test",
     "version": "",
     "release": "stable",
     "group": "tool",
