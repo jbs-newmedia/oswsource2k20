@@ -1,0 +1,17 @@
+{
+  "info": {
+    "name": "Colors",
+    "author": "Juergen Schwind",
+    "copyright": "JBS New Media GmbH",
+    "year": 2022,
+    "link": "https:\/\/oswframe.com",
+    "license": "MIT License",
+    "package": "tools.colors",
+    "version": "",
+    "release": "stable",
+    "group": "tool",
+    "unique": false,
+    "serverlist": "oswframe2k20"
+  },
+  "required": []
+}
