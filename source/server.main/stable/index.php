@@ -15,7 +15,7 @@
 ######################################################################################################################################################
 error_reporting(0);
 
-$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.11', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1, 'mensch_token'=>'$MENSCH_TOKEN$'];
+$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.12', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1, 'mensch_token'=>'$MENSCH_TOKEN$'];
 
 ######################################################################################################################################################
 # Funktionen
