@@ -83,6 +83,7 @@ class ProjectVerify extends CoreTool {
 		$this->settings['projectverify_files'][]='frame'.DIRECTORY_SEPARATOR.'configure.php';
 		$this->settings['projectverify_files'][]='modules'.DIRECTORY_SEPARATOR.'configure.project.php';
 		$this->settings['projectverify_files'][]='oswtools'.DIRECTORY_SEPARATOR.'frame.key';
+		$this->settings['projectverify_files'][]='oswtools'.DIRECTORY_SEPARATOR.'account.email';
 
 		return $this;
 	}
