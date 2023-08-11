@@ -15,7 +15,7 @@
 ######################################################################################################################################################
 error_reporting(0);
 
-$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.05', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
+$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.10', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
 
 ######################################################################################################################################################
 # Funktionen
@@ -26,6 +26,7 @@ function logUpdateServer($server, $package, $release, $version, $version_request
 }
 
 function _mc_encrypt($var_1, $var_2) {
+	$l=strlen($var_2);
 	if ($l<16) {
 		$var_2=str_repeat($var_2, ceil(16/$l));
 	}
@@ -124,8 +125,13 @@ if (!isset($_GET['frame_key'])) {
 	$frame_key=$_GET['frame_key'];
 }
 
-$license=sha1($server_data['server_list_name'].'#'.$server_name.'#'.$remote_addr.'#'.$frame_key);
-$licensedev=sha1($server_data['server_list_name'].'#'.$server_name.'#'.$frame_key);
+if (!isset($_GET['account_email'])) {
+	$account_email='';
+} else {
+	$account_email=$_GET['account_email'];
+}
+
+$license=sha1($server_data['server_token'].'#'.$account_email.'#'.$frame_key.'#'.$server_data['server_secure']);
 
 $abs_path=dirname(__FILE__).'/';
 
@@ -133,11 +139,15 @@ switch ($action) {
 	# Gibt Infos zum Lizenzkey
 	case 'license_server_name' :
 	case 'license_server_addr' :
+	case 'license_server_key' :
 		if ($action=='license_server_name') {
 			echo $server_name;
 		}
 		if ($action=='license_server_addr') {
 			echo $remote_addr;
+		}
+		if ($action=='license_server_key') {
+			echo sha1($server_data['server_token'].'#'.$account_email.'#'.$frame_key.'#'.$server_data['server_secure']);
 		}
 		die();
 		break;
@@ -170,7 +180,7 @@ switch ($action) {
 			$handle=fopen($file, 'r');
 			$valid=false;
 			while (($buffer=fgets($handle))!==false) {
-				if ((strpos($buffer, $license)!==false)||(strpos($buffer, $licensedev)!==false)) {
+				if (strpos($buffer, $license)!==false) {
 					$valid=true;
 					break;
 				}
@@ -378,7 +388,7 @@ switch ($action) {
 
 				if ($license!=[]) {
 					file_put_contents($file_packer_license, implode("\n", $license));
-					chmod($file_packer_checksum, 0664);
+					chmod($file_packer_license, 0664);
 				} else {
 					unlink($file_packer_license);
 				}
@@ -406,7 +416,7 @@ switch ($action) {
 									$handle=fopen($file, 'r');
 									$valid=false;
 									while (($buffer=fgets($handle))!==false) {
-										if ((strpos($buffer, $license)!==false)||(strpos($buffer, $licensedev)!==false)) {
+										if (strpos($buffer, $license)!==false) {
 											$valid=true;
 											break;
 										}

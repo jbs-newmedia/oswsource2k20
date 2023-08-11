@@ -31,7 +31,7 @@ class Server {
 	/**
 	 * Release-Version der Klasse.
 	 */
-	private const CLASS_RELEASE_VERSION=0;
+	private const CLASS_RELEASE_VERSION=1;
 
 	/**
 	 * Extra-Version der Klasse.
@@ -311,7 +311,7 @@ class Server {
 					self::$licenselist[$current_serverlist]['server_list']=$serverlist_details['info']['name'];
 					self::$licenselist[$current_serverlist]['frame_key']=self::getFrameKey();
 					self::$licenselist[$current_serverlist]['account_email']=self::getAccountEMail();
-					self::$licenselist[$current_serverlist]['license_key']=sha1($current_serverlist.'#'.self::$licenselist[$current_serverlist]['frame_key'].'#'.self::$licenselist[$current_serverlist]['account_email']);
+					self::$licenselist[$current_serverlist]['license_key']=Server::getUrlData($server_data['server_url'].'?action=license_server_key&account_email='.md5(self::$licenselist[$current_serverlist]['frame_key'].self::$licenselist[$current_serverlist]['account_email']).'&frame_key='.self::$licenselist[$current_serverlist]['frame_key']);
 				}
 			}
 			ksort(self::$licenselist[$current_serverlist]);
