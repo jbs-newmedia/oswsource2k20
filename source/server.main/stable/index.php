@@ -15,7 +15,7 @@
 ######################################################################################################################################################
 error_reporting(0);
 
-$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.10', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1,];
+$server_data=['server_name'=>'$SERVER_NAME$', 'server_version'=>'6.11', 'server_url'=>'$SERVER_URL$', 'server_file'=>'$SERVER_FILE$', 'server_list_name'=>'$SERVER_LIST_NAME$', 'server_list'=>'$SERVER_LIST$', 'server_secure'=>'$SERVER_SECURE$', 'server_token'=>'$SERVER_TOKEN$', 'server_status'=>1, 'mensch_token'=>'$MENSCH_TOKEN$'];
 
 ######################################################################################################################################################
 # Funktionen
@@ -131,7 +131,7 @@ if (!isset($_GET['account_email'])) {
 	$account_email=$_GET['account_email'];
 }
 
-$license=sha1($server_data['server_token'].'#'.$account_email.'#'.$frame_key.'#'.$server_data['server_secure']);
+$license=sha1($server_data['mensch_token'].'#'.$account_email.'#'.$frame_key);
 
 $abs_path=dirname(__FILE__).'/';
 
@@ -147,7 +147,7 @@ switch ($action) {
 			echo $remote_addr;
 		}
 		if ($action=='license_server_key') {
-			echo sha1($server_data['server_token'].'#'.$account_email.'#'.$frame_key.'#'.$server_data['server_secure']);
+			echo sha1($server_data['mensch_token'].'#'.$account_email.'#'.$frame_key);
 		}
 		die();
 		break;
