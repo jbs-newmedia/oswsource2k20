@@ -74,7 +74,10 @@ class Cookie {
 	 * @param bool $httponly
 	 * @return bool
 	 */
-	public static function setCookie(string $name, string $value='', int $expires=0, string $path='', string $domain='', bool $secure=false, bool $httponly=false):bool {
+	public static function setCookie(string $name, string $value='', int $expires=0, string $path='', string $domain='', ?bool $secure=null, bool $httponly=false):bool {
+    if(is_null($secure)){
+        $secure = !empty($_SERVER['HTTPS']);
+    }
 		if (self::isCookiesEnabled()===true) {
 			return setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
 		}
