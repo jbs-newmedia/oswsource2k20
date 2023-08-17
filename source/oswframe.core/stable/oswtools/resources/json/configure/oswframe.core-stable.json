@@ -13,7 +13,7 @@
     "path": [
       "frame",
       "modules",
-      "vendor"
+      "oswvendor"
     ]
   }
 }
