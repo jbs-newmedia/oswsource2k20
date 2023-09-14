@@ -24,7 +24,7 @@ class DateTime {
 	/**
 	 * Minor-Version der Klasse.
 	 */
-	private const CLASS_MINOR_VERSION=2;
+	private const CLASS_MINOR_VERSION=3;
 
 	/**
 	 * Release-Version der Klasse.
@@ -250,6 +250,21 @@ class DateTime {
 		$out=str_replace('%%', '%', $out);
 
 		return $out;
+	}
+
+	/**
+	 * @param int $date
+	 * @param int $days
+	 * @return int
+	 */
+	public static function addDays(int $date, int $days):int {
+		$day=substr($date, 6, 2);
+		$month=substr($date, 4, 2);
+		$year=substr($date, 0, 4);
+
+		$timestamp=mktime(0, 0, 0, $month, $day+$days, $year);
+
+		return (int)date('Ymd', $timestamp);
 	}
 
 }
