@@ -10,6 +10,7 @@
  * @license MIT License
  */
 
+namespace osWFrame\Tools\Tool;
 
 use osWFrame\Core as Frame;
 use osWFrame\Tools as Tools;
