@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,17 +8,20 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Tools\Tool\PHPInfo $Tool
+ *
  */
 
 ?>
 
-<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])): ?>
+<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'about.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'about.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'changelog.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'changelog.tpl.php'; ?>
 
 <?php else: ?>
 

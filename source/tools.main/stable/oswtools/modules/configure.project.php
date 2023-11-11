@@ -1,39 +1,39 @@
-<?php
+<?php declare(strict_types=0);
 
 # osWFrame configure block begin #
 
-$url=parse_url($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
+$url = parse_url($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']);
 
-if ($url['scheme']=='https') {
-	osW_setVar('settings_ssl', true);
-	osW_setVar('project_ssl_port', $_SERVER['SERVER_PORT']);
+if ($url['scheme'] === 'https') {
+    osW_setVar('settings_ssl', true);
+    osW_setVar('project_ssl_port', $_SERVER['SERVER_PORT']);
 } else {
-	osW_setVar('settings_ssl', false);
-	osW_setVar('project_port', $_SERVER['SERVER_PORT']);
+    osW_setVar('settings_ssl', false);
+    osW_setVar('project_port', $_SERVER['SERVER_PORT']);
 }
 
-$host=explode('.', $url['host']);
-if (count($host)==1) {
-	osW_setVar('project_subdomain', '');
-	osW_setVar('project_domain', $host[0]);
-} elseif (count($host)==2) {
-	osW_setVar('project_subdomain', '');
-	osW_setVar('project_domain', $host[0].'.'.$host[1]);
-} elseif (count($host)==3) {
-	osW_setVar('project_subdomain', $host[0]);
-	osW_setVar('project_domain', $host[1].'.'.$host[2]);
-} elseif (count($host)==4) {
-	osW_setVar('project_subdomain', $host[0].'.'.$host[1]);
-	osW_setVar('project_domain', $host[2].'.'.$host[3]);
+$host = explode('.', $url['host']);
+if (count($host) === 1) {
+    osW_setVar('project_subdomain', '');
+    osW_setVar('project_domain', $host[0]);
+} elseif (count($host) === 2) {
+    osW_setVar('project_subdomain', '');
+    osW_setVar('project_domain', $host[0] . '.' . $host[1]);
+} elseif (count($host) === 3) {
+    osW_setVar('project_subdomain', $host[0]);
+    osW_setVar('project_domain', $host[1] . '.' . $host[2]);
+} elseif (count($host) === 4) {
+    osW_setVar('project_subdomain', $host[0] . '.' . $host[1]);
+    osW_setVar('project_domain', $host[2] . '.' . $host[3]);
 }
 
-$path=explode('/', $url['path']);
-if ($path[1]=='oswtools') {
-	osW_setVar('project_path', 'oswtools');
-} elseif ($path[2]=='oswtools') {
-	osW_setVar('project_path', $path[1].'/oswtools');
-} elseif ($path[3]=='oswtools') {
-	osW_setVar('project_path', $path[1].'/'.$path[2].'/oswtools');
+$path = explode('/', $url['path']);
+if ($path[1] === 'oswtools') {
+    osW_setVar('project_path', 'oswtools');
+} elseif ($path[2] === 'oswtools') {
+    osW_setVar('project_path', $path[1] . '/oswtools');
+} elseif ($path[3] === 'oswtools') {
+    osW_setVar('project_path', $path[1] . '/' . $path[2] . '/oswtools');
 }
 
 osW_setVar('project_name', 'osWTools');
@@ -48,5 +48,3 @@ osW_setVar('settings_slowruntime', 2.0);
 osW_setVar('database_slowruntime', 1.5);
 
 # osWFrame configure block end #
-
-?>

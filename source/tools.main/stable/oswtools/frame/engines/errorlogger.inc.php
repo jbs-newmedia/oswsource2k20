@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -10,9 +10,7 @@
  * @license MIT License
  */
 
-$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'modules/'.\osWFrame\Core\Settings::getStringVar('frame_default_module').'/php/content.inc.php';
+$file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'modules/' . \osWFrame\Core\Settings::getStringVar('frame_default_module') . '/php/content.inc.php';
 if (file_exists($file)) {
-	include_once $file;
+    include_once $file;
 }
-
-?>

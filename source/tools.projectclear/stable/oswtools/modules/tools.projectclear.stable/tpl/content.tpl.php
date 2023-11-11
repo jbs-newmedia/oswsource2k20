@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,32 +8,38 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Core\Template $this
+ * @var \osWFrame\Tools\Manager $Manager
+ * @var \osWFrame\Tools\Tool\ProjectClear $Tool
+ * @var \osWFrame\Core\Form $osW_Form
+ *
  */
 
 ?>
 
-<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])): ?>
+<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'about.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'about.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'changelog.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'changelog.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['settings'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['settings'], true)): ?>
 
-	<?php echo $osW_Form->startForm('oswtools_projectclear_form', 'current', '', ['input_addid'=>true]); ?>
+	<?php echo $osW_Form->startForm('oswtools_projectclear_form', 'current', '', ['input_addid' => true]); ?>
 
 	<label class="font-weight-bold" for="projectclear_dirs">Ignored directories:</label>
 	<div class="input-group mb-3">
 		<span class="input-group-text"><i class="fas fa-folder fa-fw"></i></span>
-		<?php echo $osW_Form->drawTextareaField('projectclear_dirs', implode("\n", ($Tool->getArraySetting('projectclear_dirs')==null)?[]:$Tool->getArraySetting('projectclear_dirs')), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>'rows="8"']) ?>
+		<?php echo $osW_Form->drawTextareaField('projectclear_dirs', implode("\n", ($Tool->getArraySetting('projectclear_dirs') === null) ? [] : $Tool->getArraySetting('projectclear_dirs')), ['input_class' => 'form-control', 'input_errorclass' => 'is-invalid', 'input_parameter' => 'rows="8"']) ?>
 	</div>
 
 	<label class="font-weight-bold" for="projectclear_files">Ignored files:</label>
 	<div class="input-group mb-3">
 		<span class="input-group-text"><i class="fas fa-file fa-fw"></i></span>
-		<?php echo $osW_Form->drawTextareaField('projectclear_files', implode("\n", ($Tool->getArraySetting('projectclear_files')==null)?[]:$Tool->getArraySetting('projectclear_files')), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>'rows="8"']) ?>
+		<?php echo $osW_Form->drawTextareaField('projectclear_files', implode("\n", ($Tool->getArraySetting('projectclear_files') === null) ? [] : $Tool->getArraySetting('projectclear_files')), ['input_class' => 'form-control', 'input_errorclass' => 'is-invalid', 'input_parameter' => 'rows="8"']) ?>
 	</div>
 
 	<hr/>
@@ -52,7 +58,7 @@
 
 	<hr/>
 
-	<?php echo $osW_Form->startForm('oswtools_projectclear_form', 'current', '', ['input_addid'=>true]); ?>
+	<?php echo $osW_Form->startForm('oswtools_projectclear_form', 'current', '', ['input_addid' => true]); ?>
 
 	<table id="oswtools_projectclear" class="table table-striped table-bordered">
 		<thead>
@@ -65,16 +71,16 @@
 		</thead>
 		<tbody>
 
-		<?php if ($Tool->getList()!=[]): ?>
+		<?php if ($Tool->getList() !== []): ?>
 
-			<?php foreach ($Tool->getList() as $element=>$status): ?>
+			<?php foreach ($Tool->getList() as $element => $status): ?>
 				<tr>
 					<td class="text-center">
-						<?php if ($status['t']=='f'): ?><?php echo $osW_Form->drawCheckboxField('file['.$element.']', 1, 0); ?><?php endif ?><?php if ($status['t']=='d'): ?><?php echo $osW_Form->drawCheckboxField('dir['.$element.']', 1, 0); ?><?php endif ?>
+						<?php if ($status['t'] === 'f'): ?><?php echo $osW_Form->drawCheckboxField('file[' . $element . ']', 1, 0); ?><?php endif ?><?php if ($status['t'] === 'd'): ?><?php echo $osW_Form->drawCheckboxField('dir[' . $element . ']', 1, 0); ?><?php endif ?>
 					</td>
 					</td>
-					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['t']=='f'): ?>
-								<i class="fas fa-file fa-fw"></i><?php elseif ($status['t']='d'): ?>
+					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['t'] === 'f'): ?>
+								<i class="fas fa-file fa-fw"></i><?php elseif ($status['t'] = 'd'): ?>
 								<i class="fas fa-folder fa-fw"></i><?php else: ?>
 								<i class="fas fa-bug"></i><?php endif ?></span></td>
 					<td><?php echo $element ?></td>
@@ -95,7 +101,7 @@
 		</tbody>
 	</table>
 
-	<?php if ($Tool->getList()!=[]): ?>
+	<?php if ($Tool->getList() !== []): ?>
 
 		<hr/>
 

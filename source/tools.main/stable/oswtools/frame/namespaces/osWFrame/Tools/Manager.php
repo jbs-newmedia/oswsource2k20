@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -15,550 +15,537 @@ namespace osWFrame\Tools;
 use osWFrame\Core as Frame;
 use osWFrame\Tools as Tools;
 
-class Manager {
+class Manager
+{
+    use Frame\BaseStaticTrait;
 
-	use Frame\BaseStaticTrait;
+    /**
+     * Major-Version der Klasse.
+     */
+    private const CLASS_MAJOR_VERSION = 1;
 
-	/**
-	 * Major-Version der Klasse.
-	 */
-	private const CLASS_MAJOR_VERSION=1;
+    /**
+     * Minor-Version der Klasse.
+     */
+    private const CLASS_MINOR_VERSION = 0;
 
-	/**
-	 * Minor-Version der Klasse.
-	 */
-	private const CLASS_MINOR_VERSION=0;
+    /**
+     * Release-Version der Klasse.
+     */
+    private const CLASS_RELEASE_VERSION = 4;
 
-	/**
-	 * Release-Version der Klasse.
-	 */
-	private const CLASS_RELEASE_VERSION=4;
+    /**
+     * Extra-Version der Klasse.
+     * Zum Beispiel alpha, beta, rc1, rc2 ...
+     */
+    private const CLASS_EXTRA_VERSION = '';
 
-	/**
-	 * Extra-Version der Klasse.
-	 * Zum Beispiel alpha, beta, rc1, rc2 ...
-	 */
-	private const CLASS_EXTRA_VERSION='';
+    /**
+     */
+    protected array $packagelist = [];
 
-	/**
-	 * @var array
-	 */
-	protected array $packagelist=[];
+    /**
+     */
+    protected array $installed_packages = [];
 
-	/**
-	 * @var array
-	 */
-	protected array $installed_packages=[];
+    /**
+     */
+    protected array $keys = [];
 
-	/**
-	 * @var array
-	 */
-	protected array $keys=[];
+    /**
+     */
+    public function __construct()
+    {
+    }
 
-	/**
-	 * Server constructor.
-	 */
-	public function __construct() {
+    /**
+     * @return $this
+     */
+    public function setKeys(array $keys): self
+    {
+        $this->keys = $keys;
 
-	}
+        return $this;
+    }
 
-	/**
-	 * @param array $keys
-	 * @return $this
-	 */
-	public function setKeys(array $keys):self {
-		$this->keys=$keys;
+    /**
+     */
+    public function getKeys(): array
+    {
+        return $this->keys;
+    }
 
-		return $this;
-	}
+    /**
+     * @return $this
+     */
+    public function getServerPackageList(): self
+    {
+        $this->packagelist = Server::getPackageList();
 
-	/**
-	 * @return array
-	 */
-	public function getKeys():array {
-		return $this->keys;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return $this
-	 */
-	public function getServerPackageList():self {
-		$this->packagelist=Server::getPackageList();
+    /**
+     */
+    public function getPackageList(): array
+    {
+        return $this->packagelist;
+    }
 
-		return $this;
-	}
+    /**
+     * @return $this
+     */
+    public function checkPackageList(): self
+    {
+        foreach ($this->packagelist as $current_serverlist => $server_packages) {
+            $installed = [];
+            foreach ($this->packagelist[$current_serverlist] as $key => $package) {
+                $file = Frame\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'package' . \DIRECTORY_SEPARATOR . $package['package'] . '-' . $package['release'] . '.json';
+                if (isset($package['info']['name'])) {
+                    $this->packagelist[$current_serverlist][$key]['key'] = $package['info']['name'] . '-' . $key;
+                } else {
+                    $this->packagelist[$current_serverlist][$key]['key'] = $key;
+                }
 
-	/**
-	 * @return array
-	 */
-	public function getPackageList():array {
-		return $this->packagelist;
-	}
+                if (Frame\Filesystem::existsFile($file)) {
+                    $info = json_decode(file_get_contents($file), true);
+                    $this->packagelist[$current_serverlist][$key]['version_installed'] = $info['info']['version'];
+                    $installed[$info['info']['package']] = true;
+                } else {
+                    $this->packagelist[$current_serverlist][$key]['version_installed'] = '0.0';
+                }
 
-	/**
-	 * @return $this
-	 */
-	public function checkPackageList():self {
-		foreach ($this->packagelist as $current_serverlist=>$server_packages) {
-			$installed=[];
-			foreach ($this->packagelist[$current_serverlist] as $key=>$package) {
-				$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$package['package'].'-'.$package['release'].'.json';
-				if (isset($package['info']['name'])) {
-					$this->packagelist[$current_serverlist][$key]['key']=$package['info']['name'].'-'.$key;
-				} else {
-					$this->packagelist[$current_serverlist][$key]['key']=$key;
-				}
+                if ($this->getKeys() !== []) {
+                    if (!isset($package['info']['group']) || (!\in_array($package['info']['group'], $this->getKeys(), true)) || ($package['package'] === 'tools.main')) {
+                        unset($this->packagelist[$current_serverlist][$key]);
+                    }
+                }
+            }
+            foreach ($this->packagelist[$current_serverlist] as $key => $package) {
+                $this->packagelist[$current_serverlist][$key]['options'] = [];
+                $this->packagelist[$current_serverlist][$key]['options']['install'] = false;
+                $this->packagelist[$current_serverlist][$key]['options']['update'] = false;
+                $this->packagelist[$current_serverlist][$key]['options']['remove'] = false;
+                $this->packagelist[$current_serverlist][$key]['options']['blocked'] = false;
+                if ($this->packagelist[$current_serverlist][$key]['version_installed'] === '0.0') {
+                    if (!isset($installed[$this->packagelist[$current_serverlist][$key]['package']])) {
+                        $this->packagelist[$current_serverlist][$key]['options']['install'] = true;
+                    }
+                } elseif (Helper::checkVersion($this->packagelist[$current_serverlist][$key]['version_installed'], $this->packagelist[$current_serverlist][$key]['version'])) {
+                    $this->packagelist[$current_serverlist][$key]['options']['update'] = true;
+                    $this->packagelist[$current_serverlist][$key]['options']['remove'] = true;
+                } else {
+                    $this->packagelist[$current_serverlist][$key]['options']['remove'] = true;
+                }
+            }
 
-				if (Frame\Filesystem::existsFile($file)) {
-					$info=json_decode(file_get_contents($file), true);
-					$this->packagelist[$current_serverlist][$key]['version_installed']=$info['info']['version'];
-					$installed[$info['info']['package']]=true;
-				} else {
-					$this->packagelist[$current_serverlist][$key]['version_installed']='0.0';
-				}
+            uasort($this->packagelist[$current_serverlist], [$this, 'comparePackageList']);
+        }
 
-				if ($this->getKeys()!==[]) {
-					if (!isset($package['info']['group'])||(!in_array($package['info']['group'], $this->getKeys()))||($package['package']=='tools.main')) {
-						unset($this->packagelist[$current_serverlist][$key]);
-					}
-				}
-			}
-			foreach ($this->packagelist[$current_serverlist] as $key=>$package) {
-				$this->packagelist[$current_serverlist][$key]['options']=[];
-				$this->packagelist[$current_serverlist][$key]['options']['install']=false;
-				$this->packagelist[$current_serverlist][$key]['options']['update']=false;
-				$this->packagelist[$current_serverlist][$key]['options']['remove']=false;
-				$this->packagelist[$current_serverlist][$key]['options']['blocked']=false;
-				if ($this->packagelist[$current_serverlist][$key]['version_installed']=='0.0') {
-					if (!isset($installed[$this->packagelist[$current_serverlist][$key]['package']])) {
-						$this->packagelist[$current_serverlist][$key]['options']['install']=true;
-					}
-				} elseif (Helper::checkVersion($this->packagelist[$current_serverlist][$key]['version_installed'], $this->packagelist[$current_serverlist][$key]['version'])) {
-					$this->packagelist[$current_serverlist][$key]['options']['update']=true;
-					$this->packagelist[$current_serverlist][$key]['options']['remove']=true;
-				} else {
-					$this->packagelist[$current_serverlist][$key]['options']['remove']=true;
-				}
-			}
+        return $this;
+    }
 
-			uasort($this->packagelist[$current_serverlist], [$this, 'comparePackageList']);
-		}
+    /**
+     */
+    public function comparePackageList(array $a, array $b): int
+    {
+        return strcmp(strtolower($a['key']), strtolower($b['key']));
+    }
 
-		return $this;
-	}
+    /**
+     * @return ?array
+     */
+    public function getPackageDetails(string $serverlist, string $package, string $release): ?array
+    {
+        if ((isset($this->packagelist[$serverlist])) && (isset($this->packagelist[$serverlist][$package . '-' . $release]))) {
+            return $this->packagelist[$serverlist][$package . '-' . $release];
+        }
 
-	/**
-	 * @param array $a
-	 * @param array $b
-	 * @return int
-	 */
-	public function comparePackageList(array $a, array $b):int {
-		return strcmp(strtolower($a['key']), strtolower($b['key']));
-	}
+        return null;
+    }
 
-	/**
-	 * @param string $serverlist
-	 * @param string $package
-	 * @param string $release
-	 * @return ?array
-	 */
-	public function getPackageDetails(string $serverlist, string $package, string $release):?array {
-		if ((isset($this->packagelist[$serverlist]))&&(isset($this->packagelist[$serverlist][$package.'-'.$release]))) {
-			return $this->packagelist[$serverlist][$package.'-'.$release];
-		}
+    /**
+     */
+    public function installPackage(string $serverlist, string $package, string $release): bool
+    {
+        if ($this->packagelist === []) {
+            $this->getServerPackageList();
+            $this->checkPackageList();
+        }
+        $package_data = $this->getPackageDetails($serverlist, $package, $release);
+        if ($package_data !== null) {
+            if ((($package_data['options']['install'] === true) || ($package_data['options']['update'] === true)) && ($package_data['options']['blocked'] !== true) && (!isset($this->installed_packages[$serverlist . '.' . $package . '-' . $release]))) {
+                if ($this->installPackageForce($serverlist, $package, $release) !== true) {
+                    $return = false;
+                }
+                $this->installed_packages[$serverlist . '.' . $package . '-' . $release] = ['package' => $package, 'release' => $release, 'serverlist' => $serverlist];
+                $this->createConfigureFile();
+                $this->createHtAccessFile();
+            } else {
+                $return = false;
+            }
+        } else {
+            $return = false;
+        }
 
-		return null;
-	}
+        return true;
+    }
 
-	/**
-	 * @param string $serverlist
-	 * @param string $package
-	 * @param string $release
-	 * @return bool
-	 */
-	public function installPackage(string $serverlist, string $package, string $release):bool {
-		if ($this->packagelist==[]) {
-			$this->getServerPackageList();
-			$this->checkPackageList();
-		}
-		$package_data=$this->getPackageDetails($serverlist, $package, $release);
-		if ($package_data!==null) {
-			if ((($package_data['options']['install']===true)||($package_data['options']['update']===true))&&($package_data['options']['blocked']!==true)&&(!isset($this->installed_packages[$serverlist.'.'.$package.'-'.$release]))) {
-				if ($this->installPackageForce($serverlist, $package, $release)!==true) {
-					$return=false;
-				}
-				$this->installed_packages[$serverlist.'.'.$package.'-'.$release]=['package'=>$package, 'release'=>$release, 'serverlist'=>$serverlist];
-				$this->createConfigureFile();
-				$this->createHtAccessFile();
-			} else {
-				$return=false;
-			}
-		} else {
-			$return=false;
-		}
+    /**
+     */
+    public function removePackage(string $serverlist, string $package, string $release, bool $skip_create_files = false): bool
+    {
+        $file = Frame\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'filelist' . \DIRECTORY_SEPARATOR . $package . '-' . $release . '.json';
+        if (Frame\Filesystem::existsFile($file)) {
+            $filelist = json_decode(file_get_contents($file), true);
+            krsort($filelist);
+            if (\count($filelist) > 0) {
+                foreach ($filelist as $entry => $foo) {
+                    $entry = substr($entry, 1);
+                    if (Frame\Filesystem::isFile(Frame\Settings::getStringVar('settings_framepath') . $entry)) {
+                        Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath') . $entry);
+                    }
+                    if ((Frame\Filesystem::isDir(Frame\Settings::getStringVar('settings_framepath') . $entry . \DIRECTORY_SEPARATOR)) && (Frame\Filesystem::isEmptyDir(Frame\Settings::getStringVar('settings_framepath') . $entry . \DIRECTORY_SEPARATOR))) {
+                        Frame\Filesystem::delDir(Frame\Settings::getStringVar('settings_framepath') . $entry . \DIRECTORY_SEPARATOR);
+                    }
+                }
+            }
 
-		return true;
-	}
+            if ($skip_create_files !== true) {
+                $this->createConfigureFile();
+                $this->createHtAccessFile();
+            }
 
-	/**
-	 * @param string $serverlist
-	 * @param string $package
-	 * @param string $release
-	 * @return bool
-	 */
-	protected function installPackageForce(string $serverlist, string $package, string $release):bool {
-		$return=true;
-		$server_data=Server::getConnectedServer($serverlist);
-		if ((isset($server_data['connected']))&&($server_data['connected']===true)) {
-			$package_checksum=Server::getUrlData($server_data['server_url'].'?action=get_checksum&package='.$package.'&release='.$release.'&version=0');
-			$package_data=Server::getUrlData($server_data['server_url'].'?action=get_content&package='.$package.'&release='.$release.'&version=0');
-			if ($package_checksum==sha1($package_data)) {
-				$cache_name=md5($serverlist.'#'.$package.'#'.$release).'.zip';
-				$file=Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path').$cache_name;
-				Frame\Filesystem::makeDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path'));
-				Frame\Filesystem::protectDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path'));
-				file_put_contents($file, $package_data);
+            if (\count($filelist) > 0) {
+                foreach ($filelist as $entry => $foo) {
+                    $entry = substr($entry, 1);
+                    if (Frame\Filesystem::isFile(Frame\Settings::getStringVar('settings_framepath') . $entry)) {
+                        Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath') . $entry);
+                    }
+                    if ((Frame\Filesystem::isDir(Frame\Settings::getStringVar('settings_framepath') . $entry . \DIRECTORY_SEPARATOR)) && (Frame\Filesystem::isEmptyDir(Frame\Settings::getStringVar('settings_framepath') . $entry . \DIRECTORY_SEPARATOR))) {
+                        Frame\Filesystem::delDir(Frame\Settings::getStringVar('settings_framepath') . $entry . \DIRECTORY_SEPARATOR);
+                    }
+                }
+            }
+        }
 
-				Frame\Filesystem::makeDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path'));
-				Frame\Filesystem::protectDir(Frame\Settings::getStringVar('settings_abspath').Frame\Settings::getStringVar('cache_path'));
-				$Zip=new Frame\Zip($file);
-				$Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'), Tools\Configure::getFrameConfigInt('settings_chmod_dir'), Tools\Configure::getFrameConfigInt('settings_chmod_file'));
-				Frame\Filesystem::delFile($file);
+        return true;
+    }
 
-				$json_file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'package'.DIRECTORY_SEPARATOR.$package.'-'.$release.'.json';
-				if (Frame\Filesystem::existsFile($json_file)) {
-					$json_data=json_decode(file_get_contents($json_file), true);
-					if (isset($json_data['required'])) {
-						foreach ($json_data['required'] as $package=>$package_data) {
-							$status=$this->installPackage($package_data['serverlist'], $package_data['package'], $package_data['release']);
-							if ($status===false) {
-								$return=false;
-							}
-						}
-					}
-				}
-			} else {
-				$return=false;
-			}
-		} else {
-			$return=false;
-		}
+    /**
+     */
+    public function getInstalledPackages(): array
+    {
+        return $this->installed_packages;
+    }
 
-		return $return;
-	}
+    /**
+     * @return $this
+     */
+    public function createConfigureFile(): self
+    {
+        $dir = Frame\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'configure' . \DIRECTORY_SEPARATOR;
+        $configure = [];
+        if (Frame\Filesystem::isDir($dir)) {
+            foreach (glob($dir . '*.json') as $file) {
+                $configure[str_replace($dir, '', $file)]['configure'] = json_decode(file_get_contents($file), true);
+            }
+        }
 
-	/**
-	 * @param string $serverlist
-	 * @param string $package
-	 * @param string $release
-	 * @param bool $skip_create_files
-	 * @return bool
-	 */
-	public function removePackage(string $serverlist, string $package, string $release, bool $skip_create_files=false):bool {
-		$file=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'filelist'.DIRECTORY_SEPARATOR.$package.'-'.$release.'.json';
-		if (Frame\Filesystem::existsFile($file)) {
-			$filelist=json_decode(file_get_contents($file), true);
-			krsort($filelist);
-			if (count($filelist)>0) {
-				foreach ($filelist as $entry=>$foo) {
-					$entry=substr($entry, 1);
-					if (Frame\Filesystem::isFile(Frame\Settings::getStringVar('settings_framepath').$entry)) {
-						Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry);
-					}
-					if ((Frame\Filesystem::isDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR))&&(Frame\Filesystem::isEmptyDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR))) {
-						Frame\Filesystem::delDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR);
-					}
-				}
-			}
+        $configure_file_php = Frame\Settings::getStringVar('settings_framepath') . 'oswcore' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'configure.php';
+        if ($configure !== []) {
+            $configure_output = [];
+            $configure_output[] = '';
+            $configure_output[] = '';
+            $configure_output[] = '/**';
+            $configure_output[] = ' * This file is part of the osWFrame package';
+            $configure_output[] = ' *';
+            $configure_output[] = ' * @author Juergen Schwind';
+            $configure_output[] = ' * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)';
+            $configure_output[] = ' * @package osWFrame';
+            $configure_output[] = ' * @version ' . date('YmdHis') . ' (created by osWTools)';
+            $configure_output[] = ' * @link https://oswframe.com';
+            $configure_output[] = ' * @license MIT License';
+            $configure_output[] = ' *';
+            $configure_output[] = ' */';
+            $configure_output[] = '';
 
-			if ($skip_create_files!==true) {
-				$this->createConfigureFile();
-				$this->createHtAccessFile();
-			}
+            $count_header = \count($configure_output);
 
-			if (count($filelist)>0) {
-				foreach ($filelist as $entry=>$foo) {
-					$entry=substr($entry, 1);
-					if (Frame\Filesystem::isFile(Frame\Settings::getStringVar('settings_framepath').$entry)) {
-						Frame\Filesystem::delFile(Frame\Settings::getStringVar('settings_framepath').$entry);
-					}
-					if ((Frame\Filesystem::isDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR))&&(Frame\Filesystem::isEmptyDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR))) {
-						Frame\Filesystem::delDir(Frame\Settings::getStringVar('settings_framepath').$entry.DIRECTORY_SEPARATOR);
-					}
-				}
-			}
-		}
+            $vars = [];
+            $vars['error_reporting_E_ALL'] = \E_ALL;
+            $vars['error_reporting_E_ERROR'] = \E_ERROR;
+            $vars['error_reporting_E_WARNING'] = \E_WARNING;
+            $vars['error_reporting_E_PARSE'] = \E_PARSE;
+            $vars['error_reporting_E_NOTICE'] = \E_NOTICE;
+            foreach (['top', 'topmiddle', 'middle', 'middlebottom', 'bottom'] as $part) {
+                foreach ($configure as $configure_file => $configure_data) {
+                    if (isset($configure_data['configure']['configure'][$part])) {
+                        $configure_output[] = '/* config-' . $part . ' ' . substr($configure_file, 0, -5) . ' */';
+                        foreach ($configure_data['configure']['configure'][$part] as $key => $value) {
+                            $vars[$key] = $value;
+                            $premod = 0;
+                            if (\is_array($value)) {
+                                $configure_output[] = 'osW_setVar(\'' . $key . '\', ' . json_encode($value) . ');';
+                            } else {
+                                if (substr($value, 0, 3) === '###') {
+                                    $value = eval('return ' . substr($value, 3) . '?>');
+                                }
+                                if ($key === 'settings_chmod_file' || $key === 'settings_chmod_dir') {
+                                    $value = $premod . (int) $value;
+                                }
+                                if (\is_bool($value)) {
+                                    if ($value === true) {
+                                        $configure_output[] = 'osW_setVar(\'' . $key . '\', true);';
+                                    } else {
+                                        $configure_output[] = 'osW_setVar(\'' . $key . '\', false);';
+                                    }
+                                } elseif (is_numeric($value)) {
+                                    $configure_output[] = 'osW_setVar(\'' . $key . '\', ' . str_replace(',', '.', $value) . ');';
+                                } else {
+                                    $configure_output[] = 'osW_setVar(\'' . $key . '\', \'' . $value . '\');';
+                                }
+                            }
+                        }
+                        $configure_output[] = '';
+                    }
+                }
+            }
 
-		return true;
-	}
+            if ($count_header < \count($configure_output)) {
+                $output = '<?php';
+                $output .= "\n";
+                $output .= "\n";
+                $output .= 'declare(strict_types=0);';
+                foreach ($configure_output as $line) {
+                    $output .= $line . "\n";
+                }
+                $output .= '?>';
 
-	/**
-	 * @return array
-	 */
-	public function getInstalledPackages():array {
-		return $this->installed_packages;
-	}
+                if (Frame\Filesystem::existsFile($configure_file_php)) {
+                    $configure_content = file_get_contents($configure_file_php);
+                    if (sha1(preg_replace('/\* \@version ([0-9]{14}) \(created by osWTools\)/', '* blocked', $output)) !== sha1(preg_replace('/\* \@version ([0-9]{14}) \(created by osWTools\)/', '* blocked', $configure_content))) {
+                        file_put_contents($configure_file_php, $output);
+                        Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file "oswcore/frame/configure.php" updated successfully.']);
+                    } else {
+                        Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file "oswcore/frame/configure.php" is up to date.']);
+                    }
+                } else {
+                    file_put_contents($configure_file_php, $output);
+                    Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file "frame/configure.php" created successfully.']);
+                }
+            } elseif (Frame\Filesystem::existsFile($configure_file_php)) {
+                Frame\Filesystem::delFile($configure_file_php);
+                Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file "frame/configure.php" removed successfully.']);
+            }
+        } elseif (Frame\Filesystem::existsFile($configure_file_php)) {
+            Frame\Filesystem::delFile($configure_file_php);
+            Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file "frame/configure.php" removed successfully.']);
+        }
 
-	/**
-	 * @return $this
-	 */
-	public function createConfigureFile():self {
-		$dir=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR;
-		$configure=[];
-		if (Frame\Filesystem::isDir($dir)) {
-			foreach (glob($dir.'*.json') as $file) {
-				$configure[str_replace($dir, '', $file)]['configure']=json_decode(file_get_contents($file), true);
-			}
-		}
+        Frame\Filesystem::changeFilemode($configure_file_php, Configure::getFrameConfigInt('settings_chmod_file'));
 
-		$configure_file_php=Frame\Settings::getStringVar('settings_framepath').'frame'.DIRECTORY_SEPARATOR.'configure.php';
-		if ($configure!=[]) {
-			$configure_output=[];
-			$configure_output[]='';
-			$configure_output[]='';
-			$configure_output[]='/**';
-			$configure_output[]=' * This file is part of the osWFrame package';
-			$configure_output[]=' *';
-			$configure_output[]=' * @author Juergen Schwind';
-			$configure_output[]=' * @copyright Copyright (c) JBS New Media GmbH - Juergen Schwind (https://jbs-newmedia.com)';
-			$configure_output[]=' * @package osWFrame';
-			$configure_output[]=' * @version '.date('YmdHis').' (created by osWTools)';
-			$configure_output[]=' * @link https://oswframe.com';
-			$configure_output[]=' * @license MIT License';
-			$configure_output[]=' *';
-			$configure_output[]=' */';
-			$configure_output[]='';
+        return $this;
+    }
 
-			$count_header=count($configure_output);
+    /**
+     * @return $this
+     */
+    public function createHtAccessFile(): self
+    {
+        $dir = Frame\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'configure' . \DIRECTORY_SEPARATOR;
+        $configure = [];
+        if (Frame\Filesystem::isDir($dir)) {
+            foreach (glob($dir . '*.json') as $file) {
+                $configure[str_replace($dir, '', $file)]['configure'] = json_decode(file_get_contents($file), true);
+            }
+        }
 
-			$vars=[];
-			$vars['error_reporting_E_ALL']=E_ALL;
-			$vars['error_reporting_E_ERROR']=E_ERROR;
-			$vars['error_reporting_E_WARNING']=E_WARNING;
-			$vars['error_reporting_E_PARSE']=E_PARSE;
-			$vars['error_reporting_E_NOTICE']=E_NOTICE;
-			foreach (['top', 'topmiddle', 'middle', 'middlebottom', 'bottom'] as $part) {
-				foreach ($configure as $configure_file=>$configure_data) {
-					if (isset($configure_data['configure']['configure'][$part])) {
-						$configure_output[]='/* config-'.$part.' '.substr($configure_file, 0, -5).' */';
-						foreach ($configure_data['configure']['configure'][$part] as $key=>$value) {
-							$vars[$key]=$value;
-							$premod=0;
-							if (is_array($value)) {
-								$configure_output[]='osW_setVar(\''.$key.'\', '.json_encode($value).');';
-							} else {
-								if (substr($value, 0, 3)=='###') {
-									$value=eval('return '.substr($value, 3).'?>');
-								}
-								if ($key=='settings_chmod_file'||$key=='settings_chmod_dir') {
-									$value=$premod.intval($value);
-								}
-								if (is_bool($value)) {
-									if ($value===true) {
-										$configure_output[]='osW_setVar(\''.$key.'\', true);';
-									} else {
-										$configure_output[]='osW_setVar(\''.$key.'\', false);';
-									}
-								} elseif (is_numeric($value)) {
-									$configure_output[]='osW_setVar(\''.$key.'\', '.str_replace(',', '.', $value).');';
-								} else {
-									$configure_output[]='osW_setVar(\''.$key.'\', \''.$value.'\');';
-								}
-							}
-						}
-						$configure_output[]='';
-					}
-				}
-			}
+        $htaccess_file = Frame\Settings::getStringVar('settings_framepath') . '.htaccess';
+        if ($configure !== []) {
+            $configure_output = [];
+            $configure_output[] = '';
+            $configure_output[] = '# version ' . date('YmdHis') . ' (created by osWTools) #';
+            $configure_output[] = '';
+            $configure_output[] = 'RewriteEngine on';
+            $configure_output[] = '';
 
-			if ($count_header<count($configure_output)) {
-				$output='<?php';
-				foreach ($configure_output as $line) {
-					$output.=$line."\n";
-				}
-				$output.='?>';
+            $count_header = \count($configure_output);
 
-				if (Frame\Filesystem::existsFile($configure_file_php)) {
-					$configure_content=file_get_contents($configure_file_php);
-					if (sha1(preg_replace('/\* \@version ([0-9]{14}) \(created by osWTools\)/', '* blocked', $output))!=sha1(preg_replace('/\* \@version ([0-9]{14}) \(created by osWTools\)/', '* blocked', $configure_content))) {
-						file_put_contents($configure_file_php, $output);
-						Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file "frame/configure.php" updated successfully.']);
-					} else {
-						Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file "frame/configure.php" is up to date.']);
-					}
-				} else {
-					file_put_contents($configure_file_php, $output);
-					Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file "frame/configure.php" created successfully.']);
-				}
-			} elseif (Frame\Filesystem::existsFile($configure_file_php)) {
-				Frame\Filesystem::delFile($configure_file_php);
-				Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file "frame/configure.php" removed successfully.']);
-			}
-		} elseif (Frame\Filesystem::existsFile($configure_file_php)) {
-			Frame\Filesystem::delFile($configure_file_php);
-			Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file "frame/configure.php" removed successfully.']);
-		}
+            $vars = Configure::getFrameConfig();
+            foreach (['top', 'topmiddle', 'middle', 'middlebottom', 'bottom'] as $part) {
+                foreach ($configure as $configure_file => $configure_data) {
+                    if (isset($configure_data['configure']['htaccess'][$part])) {
+                        $configure_output[] = '# htaccess-' . $part . ' ' . substr($configure_file, 0, -5) . '-block begin #';
+                        foreach ($configure_data['configure']['htaccess'][$part] as $line) {
+                            foreach ($vars as $key => $value) {
+                                if (!\is_array($value)) {
+                                    $line = str_replace('###$vars[\'' . $key . '\']', $value, $line);
+                                }
+                            }
+                            foreach ($vars as $key => $value) {
+                                if (!\is_array($value)) {
+                                    $line = str_replace('###$vars[\'' . $key . '\']', $value, $line);
+                                }
+                            }
+                            $configure_output[] = $line;
+                        }
+                        $configure_output[] = '# htaccess-' . $part . ' ' . substr($configure_file, 0, -5) . '-block end #';
+                        $configure_output[] = '';
+                    }
+                }
+            }
 
-		Frame\Filesystem::changeFilemode($configure_file_php, Configure::getFrameConfigInt('settings_chmod_file'));
+            if ($count_header < \count($configure_output)) {
+                $output = '# osWFrame .htaccess block begin #';
+                foreach ($configure_output as $line) {
+                    $output .= $line . "\n";
+                }
+                $output .= '# osWFrame .htaccess block end #';
 
-		return $this;
-	}
+                if (Frame\Filesystem::existsFile($htaccess_file)) {
+                    $htaccess_content = file_get_contents($htaccess_file);
+                    if (sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim($output))) === sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim($htaccess_content)))) {
+                        Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file ".htaccess" is up to date.']);
+                    } else {
+                        if (preg_match('/# osWFrame .htaccess block begin #(.*)# osWFrame .htaccess block end #/Uis', $htaccess_content, $result) === 1) {
+                            if (sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim(implode("\n", $configure_output)))) === sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim($result[1])))) {
+                                Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file ".htaccess" is up to date.']);
+                            } else {
+                                file_put_contents($htaccess_file, str_replace($result[1], implode("\n", $configure_output) . "\n", $htaccess_content));
+                                Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file ".htaccess" updated successfully.']);
+                            }
+                        } else {
+                            file_put_contents($htaccess_file, $output . "\n\n" . $htaccess_content);
+                            Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file ".htaccess" updated with osWFrame successfully.']);
+                        }
+                    }
+                } else {
+                    file_put_contents($htaccess_file, $output);
+                    Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file ".htaccess" created successfully.']);
+                }
+            } elseif (Frame\Filesystem::existsFile($htaccess_file)) {
+                Frame\Filesystem::delFile($htaccess_file);
+                Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file ".htaccess" removed successfully.']);
+            }
+        } elseif (Frame\Filesystem::existsFile($htaccess_file)) {
+            Frame\Filesystem::delFile($htaccess_file);
+            Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'file ".htaccess" removed successfully.']);
+        }
 
-	/**
-	 * @return $this
-	 */
-	public function createHtAccessFile():self {
-		$dir=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR;
-		$configure=[];
-		if (Frame\Filesystem::isDir($dir)) {
-			foreach (glob($dir.'*.json') as $file) {
-				$configure[str_replace($dir, '', $file)]['configure']=json_decode(file_get_contents($file), true);
-			}
-		}
+        return $this;
+    }
 
-		$htaccess_file=Frame\Settings::getStringVar('settings_framepath').'.htaccess';
-		if ($configure!=[]) {
-			$configure_output=[];
-			$configure_output[]='';
-			$configure_output[]='# version '.date('YmdHis').' (created by osWTools) #';
-			$configure_output[]='';
-			$configure_output[]='RewriteEngine on';
-			$configure_output[]='';
+    /**
+     * @return $this
+     */
+    public function protectDirs(): self
+    {
+        $dir = Frame\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'configure' . \DIRECTORY_SEPARATOR;
+        $configure = [];
+        if (Frame\Filesystem::isDir($dir)) {
+            foreach (glob($dir . '*.json') as $file) {
+                $configure[str_replace($dir, '', $file)]['configure'] = json_decode(file_get_contents($file), true);
+            }
+        }
 
-			$count_header=count($configure_output);
+        $protect_dirs = [];
+        $protect_dirs['var'] = [];
+        $protect_dirs['path'] = [];
 
-			$vars=Configure::getFrameConfig();
-			foreach (['top', 'topmiddle', 'middle', 'middlebottom', 'bottom'] as $part) {
-				foreach ($configure as $configure_file=>$configure_data) {
-					if (isset($configure_data['configure']['htaccess'][$part])) {
-						$configure_output[]='# htaccess-'.$part.' '.substr($configure_file, 0, -5).'-block begin #';
-						foreach ($configure_data['configure']['htaccess'][$part] as $line) {
-							foreach ($vars as $key=>$value) {
-								if (!is_array($value)) {
-									$line=str_replace('###$vars[\''.$key.'\']', $value, $line);
-								}
-							}
-							foreach ($vars as $key=>$value) {
-								if (!is_array($value)) {
-									$line=str_replace('###$vars[\''.$key.'\']', $value, $line);
-								}
-							}
-							$configure_output[]=$line;
-						}
-						$configure_output[]='# htaccess-'.$part.' '.substr($configure_file, 0, -5).'-block end #';
-						$configure_output[]='';
-					}
-				}
-			}
+        if (!empty($configure)) {
+            foreach (['var', 'path'] as $part) {
+                foreach ($configure as $configure_file => $configure_data) {
+                    if (isset($configure_data['configure']['protectdir'][$part])) {
+                        foreach ($configure_data['configure']['protectdir'][$part] as $line) {
+                            $protect_dirs[$part][] = $line;
+                        }
+                    }
+                }
+            }
 
-			if ($count_header<count($configure_output)) {
-				$output='# osWFrame .htaccess block begin #';
-				foreach ($configure_output as $line) {
-					$output.=$line."\n";
-				}
-				$output.='# osWFrame .htaccess block end #';
+            if ($protect_dirs['var'] !== []) {
+                foreach ($protect_dirs['var'] as $value) {
+                    $protect_dirs['path'][] = Configure::getFrameConfigString($value);
+                }
+            }
 
-				if (Frame\Filesystem::existsFile($htaccess_file)) {
-					$htaccess_content=file_get_contents($htaccess_file);
-					if (sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim($output)))==sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim($htaccess_content)))) {
-						Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file ".htaccess" is up to date.']);
-					} else {
-						if (preg_match('/# osWFrame .htaccess block begin #(.*)# osWFrame .htaccess block end #/Uis', $htaccess_content, $result)==1) {
-							if (sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim(implode("\n", $configure_output))))==sha1(preg_replace('/\# version ([0-9]{14}) \(created by osWTools\) \#/', '# blocked #', trim($result[1])))) {
-								Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file ".htaccess" is up to date.']);
-							} else {
-								file_put_contents($htaccess_file, str_replace($result[1], implode("\n", $configure_output)."\n", $htaccess_content));
-								Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file ".htaccess" updated successfully.']);
-							}
-						} else {
-							file_put_contents($htaccess_file, $output."\n\n".$htaccess_content);
-							Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file ".htaccess" updated with osWFrame successfully.']);
-						}
-					}
-				} else {
-					file_put_contents($htaccess_file, $output);
-					Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file ".htaccess" created successfully.']);
-				}
-			} elseif (Frame\Filesystem::existsFile($htaccess_file)) {
-				Frame\Filesystem::delFile($htaccess_file);
-				Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file ".htaccess" removed successfully.']);
-			}
-		} elseif (Frame\Filesystem::existsFile($htaccess_file)) {
-			Frame\Filesystem::delFile($htaccess_file);
-			Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'file ".htaccess" removed successfully.']);
-		}
+            if ($protect_dirs['path'] !== []) {
+                foreach ($protect_dirs['path'] as $_dir) {
+                    if (substr($_dir, -1) === \DIRECTORY_SEPARATOR) {
+                        $_dir = substr($_dir, 0, -1);
+                    }
+                    if (strpos($_dir, \DIRECTORY_SEPARATOR) > 0) {
+                        $_dirs = explode(\DIRECTORY_SEPARATOR, $_dir);
+                        $cdir = Frame\Settings::getStringVar('settings_framepath');
+                        foreach ($_dirs as $udir) {
+                            $cdir .= $udir . \DIRECTORY_SEPARATOR;
+                            if (Frame\Filesystem::isDir($cdir) !== true) {
+                                Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'directory "' . $_dir . '" created successfully.']);
+                                Frame\Filesystem::makeDir($cdir, Configure::getFrameConfigInt('settings_chmod_dir'));
+                            }
+                        }
+                    } else {
+                        $cdir = Frame\Settings::getStringVar('settings_framepath') . $_dir . '/';
+                        if (Frame\Filesystem::isDir($cdir) !== true) {
+                            Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'directory "' . $_dir . '" created successfully.']);
+                            Frame\Filesystem::makeDir($cdir, Configure::getFrameConfigInt('settings_chmod_dir'));
+                        }
+                    }
+                    $file = $cdir . '.htaccess';
+                    if (Frame\Filesystem::existsFile($file) !== true) {
+                        file_put_contents($file, "order deny,allow\ndeny from all");
+                        Frame\Filesystem::changeFilemode($file, Configure::getFrameConfigInt('settings_chmod_file'));
+                        Frame\MessageStack::addMessage('configure', 'success', ['msg' => 'directory "' . $_dir . '" protected successfully.']);
+                    }
+                }
+            }
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return $this
-	 */
-	public function protectDirs():self {
-		$dir=Frame\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'json'.DIRECTORY_SEPARATOR.'configure'.DIRECTORY_SEPARATOR;
-		$configure=[];
-		if (Frame\Filesystem::isDir($dir)) {
-			foreach (glob($dir.'*.json') as $file) {
-				$configure[str_replace($dir, '', $file)]['configure']=json_decode(file_get_contents($file), true);
-			}
-		}
+    /**
+     */
+    protected function installPackageForce(string $serverlist, string $package, string $release): bool
+    {
+        $return = true;
+        $server_data = Server::getConnectedServer($serverlist);
+        if ((isset($server_data['connected'])) && ($server_data['connected'] === true)) {
+            $package_checksum = Server::getUrlData($server_data['server_url'] . '?action=get_checksum&package=' . $package . '&release=' . $release . '&version=0');
+            $package_data = Server::getUrlData($server_data['server_url'] . '?action=get_content&package=' . $package . '&release=' . $release . '&version=0');
+            if ($package_checksum === sha1($package_data)) {
+                $cache_name = md5($serverlist . '#' . $package . '#' . $release) . '.zip';
+                $file = Frame\Settings::getStringVar('settings_abspath') . Frame\Settings::getStringVar('cache_path') . $cache_name;
+                Frame\Filesystem::makeDir(Frame\Settings::getStringVar('settings_abspath') . Frame\Settings::getStringVar('cache_path'));
+                Frame\Filesystem::protectDir(Frame\Settings::getStringVar('settings_abspath') . Frame\Settings::getStringVar('cache_path'));
+                file_put_contents($file, $package_data);
 
-		$protect_dirs=[];
-		$protect_dirs['var']=[];
-		$protect_dirs['path']=[];
+                Frame\Filesystem::makeDir(Frame\Settings::getStringVar('settings_abspath') . Frame\Settings::getStringVar('cache_path'));
+                Frame\Filesystem::protectDir(Frame\Settings::getStringVar('settings_abspath') . Frame\Settings::getStringVar('cache_path'));
+                $Zip = new Frame\Zip($file);
+                $Zip->unpackDir(Frame\Settings::getStringVar('settings_framepath'), Tools\Configure::getFrameConfigInt('settings_chmod_dir'), Tools\Configure::getFrameConfigInt('settings_chmod_file'));
+                Frame\Filesystem::delFile($file);
 
-		if (!empty($configure)) {
-			foreach (['var', 'path'] as $part) {
-				foreach ($configure as $configure_file=>$configure_data) {
-					if (isset($configure_data['configure']['protectdir'][$part])) {
-						foreach ($configure_data['configure']['protectdir'][$part] as $line) {
-							$protect_dirs[$part][]=$line;
-						}
-					}
-				}
-			}
+                $json_file = Frame\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'package' . \DIRECTORY_SEPARATOR . $package . '-' . $release . '.json';
+                if (Frame\Filesystem::existsFile($json_file)) {
+                    $json_data = json_decode(file_get_contents($json_file), true);
+                    if (isset($json_data['required'])) {
+                        foreach ($json_data['required'] as $package => $package_data) {
+                            $status = $this->installPackage($package_data['serverlist'], $package_data['package'], $package_data['release']);
+                            if ($status === false) {
+                                $return = false;
+                            }
+                        }
+                    }
+                }
+            } else {
+                $return = false;
+            }
+        } else {
+            $return = false;
+        }
 
-			if ($protect_dirs['var']!=[]) {
-				foreach ($protect_dirs['var'] as $value) {
-					$protect_dirs['path'][]=Configure::getFrameConfigString($value);
-				}
-			}
-
-			if ($protect_dirs['path']!=[]) {
-				foreach ($protect_dirs['path'] as $_dir) {
-					if (substr($_dir, -1)==DIRECTORY_SEPARATOR) {
-						$_dir=substr($_dir, 0, -1);
-					}
-					if (strpos($_dir, DIRECTORY_SEPARATOR)>0) {
-						$_dirs=explode(DIRECTORY_SEPARATOR, $_dir);
-						$cdir=Frame\Settings::getStringVar('settings_framepath');
-						foreach ($_dirs as $udir) {
-							$cdir.=$udir.DIRECTORY_SEPARATOR;
-							if (Frame\Filesystem::isDir($cdir)!==true) {
-								Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'directory "'.$_dir.'" created successfully.']);
-								Frame\Filesystem::makeDir($cdir, Configure::getFrameConfigInt('settings_chmod_dir'));
-							}
-						}
-					} else {
-						$cdir=Frame\Settings::getStringVar('settings_framepath').$_dir.'/';
-						if (Frame\Filesystem::isDir($cdir)!==true) {
-							Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'directory "'.$_dir.'" created successfully.']);
-							Frame\Filesystem::makeDir($cdir, Configure::getFrameConfigInt('settings_chmod_dir'));
-						}
-					}
-					$file=$cdir.'.htaccess';
-					if (Frame\Filesystem::existsFile($file)!==true) {
-						file_put_contents($file, "order deny,allow\ndeny from all");
-						Frame\Filesystem::changeFilemode($file, Configure::getFrameConfigInt('settings_chmod_file'));
-						Frame\MessageStack::addMessage('configure', 'success', ['msg'=>'directory "'.$_dir.'" protected successfully.']);
-					}
-				}
-			}
-		}
-
-		return $this;
-	}
-
+        return $return;
+    }
 }
-
-?>

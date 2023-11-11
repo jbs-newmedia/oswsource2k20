@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -11,5 +11,3 @@
  */
 
 \osWFrame\Core\ErrorLogger::getOutput(\osWFrame\Core\Settings::catchStringValue('error_status'));
-
-?>

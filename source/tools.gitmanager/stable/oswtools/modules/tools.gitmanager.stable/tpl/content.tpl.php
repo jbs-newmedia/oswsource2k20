@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,17 +8,21 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Tools\Tool\GITManager $Tool
+ * @var \osWFrame\Core\Template $this
+ *
  */
 
 ?>
 
-<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])): ?>
+<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'about.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'about.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'changelog.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'changelog.tpl.php'; ?>
 
 <?php else: ?>
 
@@ -35,9 +39,9 @@
 		</thead>
 		<tbody>
 
-		<?php if ($Tool->getPackages()!=[]): ?>
+		<?php if ($Tool->getPackages() !== []): ?>
 
-			<?php foreach ($Tool->getPackages() as $package_name=>$package_data): ?>
+			<?php foreach ($Tool->getPackages() as $package_name => $package_data): ?>
 
 				<tr id="package_<?php echo $package_name ?>">
 					<td><?php echo \osWFrame\Core\HTML::outputString($package_data['name']); ?></td>
@@ -55,7 +59,7 @@
 		</tbody>
 	</table>
 
-	<?php if ($Tool->getPackages()!=[]): ?>
+	<?php if ($Tool->getPackages() !== []): ?>
 		<a href="javascript:updateAll()" class="mt-3 btn btn-primary d-block">Update all packages</a>
 	<?php endif ?>
 

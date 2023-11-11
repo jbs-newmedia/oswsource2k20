@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,17 +8,20 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Core\Form $osW_Form
+ * @var \osWFrame\Tools\Tool\CacheClear $Tool
  */
 
 ?>
 
-<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])): ?>
+<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'about.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'about.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'changelog.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'changelog.tpl.php'; ?>
 
 <?php else: ?>
 
@@ -33,7 +36,7 @@
 	<hr/>
 
 
-	<?php echo $osW_Form->startForm('oswtools_cacheclear_form', 'current', '', ['input_addid'=>true]); ?>
+	<?php echo $osW_Form->startForm('oswtools_cacheclear_form', 'current', '', ['input_addid' => true]); ?>
 
 	<table id="oswtools_cacheclear" class="table table-striped table-bordered">
 		<thead>
@@ -43,10 +46,10 @@
 		</tr>
 		</thead>
 		<tbody>
-		<?php if (count($Tool->getCacheList())>0): ?><?php $i=0;
-			foreach ($Tool->getCacheList() as $dir):$i++; ?>
+		<?php if (count($Tool->getCacheList()) > 0): ?><?php $i = 0;
+		    foreach ($Tool->getCacheList() as $dir):$i++; ?>
 				<tr>
-					<td class="text-center"><?php echo $osW_Form->drawCheckboxField('dir['.$dir.']', 1, 0); ?></td>
+					<td class="text-center"><?php echo $osW_Form->drawCheckboxField('dir[' . $dir . ']', 1, 0); ?></td>
 					<td><?php echo $dir ?></td>
 				</tr>
 			<?php endforeach ?><?php endif ?>
@@ -54,7 +57,7 @@
 	</table>
 
 
-	<?php if (count($Tool->getCacheList())>0): ?>
+	<?php if (count($Tool->getCacheList()) > 0): ?>
 
 		<hr/>
 

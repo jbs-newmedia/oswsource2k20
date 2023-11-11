@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,50 +8,53 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Tools\Tool\Configure $this
+ *
  */
 
 /*
  * init
  */
-$__datatable_table='api_database_column';
-$__datatable_create=false;
-$__datatable_do=false;
+$__datatable_table = 'api_database_column';
+$__datatable_create = false;
+$__datatable_do = false;
 
 /*
  * check version of table
  */
-$QreadData=new \osWFrame\Core\Database();
+$QreadData = new \osWFrame\Core\Database();
 $QreadData->prepare('SHOW TABLE STATUS LIKE :table:');
-$QreadData->bindString(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
+$QreadData->bindString(':table:', $this->getJSONStringValue('database_prefix') . $__datatable_table);
 $QreadData->execute();
-if ($QreadData->rowCount()==1) {
-	$QreadData_result=$QreadData->fetch();
-	$avb_tbl=$QreadData_result['Comment'];
+if ($QreadData->rowCount() === 1) {
+    $QreadData_result = $QreadData->fetch();
+    $avb_tbl = $QreadData_result['Comment'];
 } else {
-	$avb_tbl='0.0';
+    $avb_tbl = '0.0';
 }
-$avb_tbl=explode('.', $avb_tbl);
-if (count($avb_tbl)==1) {
-	$av_tbl=intval($avb_tbl[0]);
-	$ab_tbl=0;
-} elseif (count($avb_tbl)==2) {
-	$av_tbl=intval($avb_tbl[0]);
-	$ab_tbl=intval($avb_tbl[1]);
+$avb_tbl = explode('.', $avb_tbl);
+if (count($avb_tbl) === 1) {
+    $av_tbl = (int) ($avb_tbl[0]);
+    $ab_tbl = 0;
+} elseif (count($avb_tbl) === 2) {
+    $av_tbl = (int) ($avb_tbl[0]);
+    $ab_tbl = (int) ($avb_tbl[1]);
 } else {
-	$av_tbl=0;
-	$ab_tbl=0;
+    $av_tbl = 0;
+    $ab_tbl = 0;
 }
 
 /*
  * create table
  */
-if (($av_tbl==0)&&($ab_tbl==0)) {
-	$__datatable_create=true;
-	$av_tbl=1;
-	$ab_tbl=0;
+if (($av_tbl === 0) && ($ab_tbl === 0)) {
+    $__datatable_create = true;
+    $av_tbl = 1;
+    $ab_tbl = 0;
 
-	$QwriteData=new \osWFrame\Core\Database();
-	$QwriteData->prepare('
+    $QwriteData = new \osWFrame\Core\Database();
+    $QwriteData->prepare('
 CREATE TABLE :table: (
 	table_name varchar(64) NOT NULL DEFAULT \'\',
 	column_name varchar(64) NOT NULL DEFAULT \'\',
@@ -75,17 +78,17 @@ CREATE TABLE :table: (
 	KEY column_update_user_id (column_update_user_id)
 ) ENGINE=:engine: DEFAULT CHARSET=:charset: COMMENT=:version:;
 ');
-	$QwriteData->bindRaw(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
-	$QwriteData->bindString(':engine:', $this->getJSONStringValue('database_engine'));
-	$QwriteData->bindString(':charset:', $this->getJSONStringValue('database_character'));
-	$QwriteData->bindString(':version:', $av_tbl.'.'.$ab_tbl);
-	$QwriteData->execute();
-	if ($QwriteData->hasError()===true) {
-		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
-		$db_error[]=$QwriteData->getErrorMessage();
-		$av_tbl=0;
-		$ab_tbl=0;
-	}
+    $QwriteData->bindRaw(':table:', $this->getJSONStringValue('database_prefix') . $__datatable_table);
+    $QwriteData->bindString(':engine:', $this->getJSONStringValue('database_engine'));
+    $QwriteData->bindString(':charset:', $this->getJSONStringValue('database_character'));
+    $QwriteData->bindString(':version:', $av_tbl . '.' . $ab_tbl);
+    $QwriteData->execute();
+    if ($QwriteData->hasError() === true) {
+        $tables_error[] = 'table:' . $__datatable_table . ', patch:' . $av_tbl . '.' . $ab_tbl;
+        $db_error[] = $QwriteData->getErrorMessage();
+        $av_tbl = 0;
+        $ab_tbl = 0;
+    }
 }
 
 /*
@@ -93,33 +96,31 @@ CREATE TABLE :table: (
  */
 /*
 if (($av_tbl==1)&&($ab_tbl==1)) {
-	$__datatable_do=true;
-	$av_tbl=1;
-	$ab_tbl=1;
+    $__datatable_do=true;
+    $av_tbl=1;
+    $ab_tbl=1;
 
-	... query ...
-	if ($QupdateData->hasError()===true) {
-		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
-		$db_error[]=$QupdateData->getErrorMessage();
-		$av_tbl=1;
-		$ab_tbl=0;
-	}
+    ... query ...
+    if ($QupdateData->hasError()===true) {
+        $tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
+        $db_error[]=$QupdateData->getErrorMessage();
+        $av_tbl=1;
+        $ab_tbl=0;
+    }
 }
 */
 
 /*
  * update version
  */
-if ($__datatable_do===true) {
-	$QwriteData=new \osWFrame\Core\Database();
-	$QwriteData->prepare('ALTER TABLE :table: COMMENT = :version:;');
-	$QwriteData->bindString(':table:', $this->getJSONStringValue('database_prefix').$__datatable_table);
-	$QwriteData->bindString(':version:', $av_tbl.'.'.$ab_tbl);
-	$QwriteData->execute();
-	if ($QwriteData->hasError()===true) {
-		$tables_error[]='table:'.$__datatable_table.', patch:'.$av_tbl.'.'.$ab_tbl;
-		$db_error[]=$QwriteData->getErrorMessage();
-	}
+if ($__datatable_do === true) {
+    $QwriteData = new \osWFrame\Core\Database();
+    $QwriteData->prepare('ALTER TABLE :table: COMMENT = :version:;');
+    $QwriteData->bindString(':table:', $this->getJSONStringValue('database_prefix') . $__datatable_table);
+    $QwriteData->bindString(':version:', $av_tbl . '.' . $ab_tbl);
+    $QwriteData->execute();
+    if ($QwriteData->hasError() === true) {
+        $tables_error[] = 'table:' . $__datatable_table . ', patch:' . $av_tbl . '.' . $ab_tbl;
+        $db_error[] = $QwriteData->getErrorMessage();
+    }
 }
-
-?>

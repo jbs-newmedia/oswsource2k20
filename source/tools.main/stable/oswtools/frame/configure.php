@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * @author Juergen Schwind
@@ -49,7 +49,7 @@ osW_setVar('debug_gc_divisor', 100);
 osW_setVar('errorlogger_module', '_errorlogger');
 
 /* config-middle oswframe.language-stable */
-osW_setVar('language_availablelanguages', ["en_US"]);
+osW_setVar('language_availablelanguages', ['en_US']);
 
 /* config-middle oswframe.session-stable */
 osW_setVar('session_enabled', true);
@@ -83,5 +83,3 @@ osW_setVar('template_stripoutput', true);
 osW_setVar('template_gzipcompression', true);
 osW_setVar('template_gzipcompression_level', 9);
 osW_setVar('template_versionnumber', 'cachetime');
-
-?>

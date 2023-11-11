@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,29 +8,34 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Core\Form $osW_Form
+ * @var \osWFrame\Core\Template $this
+ * @var \osWFrame\Tools\Tool\Configure $Tool
+ *
  */
 
 ?>
 
-<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])): ?>
+<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'about.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'about.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'changelog.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'changelog.tpl.php'; ?>
 
 <?php else: ?>
 
-	<?php echo $osW_Form->startForm('oswtools_configure_form', 'current', '', ['input_addid'=>true]); ?>
+	<?php echo $osW_Form->startForm('oswtools_configure_form', 'current', '', ['input_addid' => true]); ?>
 
-	<h3>Step <?php echo $Tool->getPage() ?>/<?php echo $Tool->getPages() ?>: <?php if ($Tool->isLastPage()===true): ?>Finished<?php else: ?><?php echo \osWFrame\Core\HTML::outputString($Tool->getSettingAsString('page_title')) ?><?php endif ?></h3>
+	<h3>Step <?php echo $Tool->getPage() ?>/<?php echo $Tool->getPages() ?>: <?php if ($Tool->isLastPage() === true): ?>Finished<?php else: ?><?php echo \osWFrame\Core\HTML::outputString($Tool->getSettingAsString('page_title')) ?><?php endif ?></h3>
 
 	<hr/>
 
-	<?php if (\osWFrame\Core\MessageStack::getMessages('configure')!=[]): ?>
+	<?php if (\osWFrame\Core\MessageStack::getMessages('configure') !== []): ?>
 
-		<?php foreach (\osWFrame\Core\MessageStack::getMessages('configure') as $type=>$messages): ?>
+		<?php foreach (\osWFrame\Core\MessageStack::getMessages('configure') as $type => $messages): ?>
 
 			<div class="alert alert-<?php echo $type ?>" role="alert">
 				<?php foreach ($messages as $message): ?>
@@ -46,13 +51,13 @@
 
 	<?php endif ?>
 
-	<?php if ($Tool->getFields()!=[]): ?>
+	<?php if ($Tool->getFields() !== []): ?>
 
-		<?php foreach ($Tool->getFields() as $config_element=>$config_data): ?>
+		<?php foreach ($Tool->getFields() as $config_element => $config_data): ?>
 
 			<?php $this->setVar('config_element', $config_element); ?><?php $this->setVar('config_data', $config_data); ?>
 
-			<?php echo $this->fetchFileIfExists('configure'.DIRECTORY_SEPARATOR.$config_data['default_type'], '', 'resources'); ?>
+			<?php echo $this->fetchFileIfExists('configure' . \DIRECTORY_SEPARATOR . $config_data['default_type'], '', 'resources'); ?>
 
 		<?php endforeach ?>
 
@@ -62,10 +67,10 @@
 	<div class="row">
 
 		<div class="col order-2 w-100">
-			<?php if ($Tool->isLastPage()!==true): ?><?php echo $osW_Form->drawSubmit('next', 'Next step', ['input_class'=>'btn btn-primary w-100']); ?><?php endif ?>
+			<?php if ($Tool->isLastPage() !== true): ?><?php echo $osW_Form->drawSubmit('next', 'Next step', ['input_class' => 'btn btn-primary w-100']); ?><?php endif ?>
 		</div>
 		<div class="col order-1 w-100">
-			<?php if ($Tool->isFirstPage()!==true): ?><?php echo $osW_Form->drawSubmit('prev', 'Previous step', ['input_class'=>'btn btn-primary w-100']); ?><?php endif ?>
+			<?php if ($Tool->isFirstPage() !== true): ?><?php echo $osW_Form->drawSubmit('prev', 'Previous step', ['input_class' => 'btn btn-primary w-100']); ?><?php endif ?>
 		</div>
 
 	</div>

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,17 +8,20 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Core\Form $osW_Form
+ *
  */
 
 ?>
 
-<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])): ?>
+<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'about.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'about.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'changelog.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'changelog.tpl.php'; ?>
 
 <?php else: ?>
 
@@ -27,12 +30,12 @@
 
 	<hr/>
 
-	<?php echo $osW_Form->startForm('oswtools_installserverlist_form', 'current', '', ['input_addid'=>true]); ?>
+	<?php echo $osW_Form->startForm('oswtools_installserverlist_form', 'current', '', ['input_addid' => true]); ?>
 
 	<label class="font-weight-bold" for="conf_url">Serverlist*:</label>
 	<div class="input-group mb-3 has-validation">
 		<span class="input-group-text"><i class="fas fa-link fa-fw"></i></span>
-		<?php echo $osW_Form->drawTextField('conf_url', '', ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid']) ?>
+		<?php echo $osW_Form->drawTextField('conf_url', '', ['input_class' => 'form-control', 'input_errorclass' => 'is-invalid']) ?>
 		<div class="invalid-feedback"><?php echo $osW_Form->getErrorMessage('conf_url') ?></div>
 	</div>
 

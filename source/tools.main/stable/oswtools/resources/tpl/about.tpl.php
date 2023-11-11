@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,6 +8,9 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var osWFrame\Tools\Tool $Tool
+ * @var osWFrame\Core\Template $this
  */
 
 ?>
@@ -16,23 +19,23 @@
 
 	<div class="row">
 		<div class="col-md-3 col-lg-2"><strong>Tool:</strong></div>
-		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('name')==''): ?>-<?php else: ?><?php echo $Tool->getStringValue('name') ?><?php endif ?></div>
+		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('name') === ''): ?>-<?php else: ?><?php echo $Tool->getStringValue('name') ?><?php endif ?></div>
 		<div class="col-md-3 col-lg-2"><strong>Author:</strong></div>
-		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('author')==''): ?>-<?php else: ?><?php echo $Tool->getStringValue('author') ?><?php endif ?></div>
+		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('author') === ''): ?>-<?php else: ?><?php echo $Tool->getStringValue('author') ?><?php endif ?></div>
 	</div>
 
 	<div class="row">
 		<div class="col-md-3 col-lg-2"><strong>Version:</strong></div>
-		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('version')==''): ?>-<?php else: ?><?php echo $Tool->getStringValue('version') ?><?php endif ?></div>
+		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('version') === ''): ?>-<?php else: ?><?php echo $Tool->getStringValue('version') ?><?php endif ?></div>
 		<div class="col-md-3 col-lg-2"><strong>Copyright:</strong></div>
-		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('copyright')==''): ?>-<?php else: ?><?php echo $Tool->getStringValue('copyright') ?><?php endif ?></div>
+		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('copyright') === ''): ?>-<?php else: ?><?php echo $Tool->getStringValue('copyright') ?><?php endif ?></div>
 	</div>
 
 	<div class="row">
 		<div class="col-md-3 col-lg-2"><strong>Release:</strong></div>
-		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('release')==''): ?>-<?php else: ?><?php echo $Tool->getStringValue('release') ?><?php endif ?></div>
+		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('release') === ''): ?>-<?php else: ?><?php echo $Tool->getStringValue('release') ?><?php endif ?></div>
 		<div class="col-md-3 col-lg-2"><strong>Link:</strong></div>
-		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('link')==''): ?>-<?php else: ?>
+		<div class="col-md-3 col-lg-4"><?php if ($Tool->getStringValue('link') === ''): ?>-<?php else: ?>
 				<a href="<?php echo $Tool->getStringValue('link') ?>" target="_blank"><?php echo $Tool->getStringValue('link') ?></a><?php endif ?>
 		</div>
 	</div>

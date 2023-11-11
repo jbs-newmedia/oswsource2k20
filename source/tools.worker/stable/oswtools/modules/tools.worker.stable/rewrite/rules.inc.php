@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -10,6 +10,4 @@
  * @license MIT License
  */
 
-include \osWFrame\Core\Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('project_default_module').DIRECTORY_SEPARATOR.'rewrite'.DIRECTORY_SEPARATOR.'rules.inc.php';
-
-?>
+include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'modules' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('project_default_module') . \DIRECTORY_SEPARATOR . 'rewrite' . \DIRECTORY_SEPARATOR . 'rules.inc.php';

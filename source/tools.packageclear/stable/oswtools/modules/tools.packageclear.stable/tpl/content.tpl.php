@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,17 +8,21 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Core\Form $osW_Form
+ * @var \osWFrame\Tools\Tool\PackageClear $Tool
+ *
  */
 
 ?>
 
-<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])): ?>
+<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'about.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'about.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'changelog.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'changelog.tpl.php'; ?>
 
 <?php else: ?>
 
@@ -28,7 +32,7 @@
 
 	<hr/>
 
-	<?php echo $osW_Form->startForm('oswtools_packageclear_form', 'current', '', ['input_addid'=>true]); ?>
+	<?php echo $osW_Form->startForm('oswtools_packageclear_form', 'current', '', ['input_addid' => true]); ?>
 
 	<table id="oswtools_packageclear" class="table table-striped table-bordered">
 		<thead>
@@ -43,19 +47,19 @@
 		</thead>
 		<tbody>
 
-		<?php if ($Tool->getList()!=[]): ?>
+		<?php if ($Tool->getList() !== []): ?>
 
-			<?php foreach ($Tool->getList() as $element=>$status): ?>
+			<?php foreach ($Tool->getList() as $element => $status): ?>
 				<tr>
 					<td class="text-center">
-						<?php echo $osW_Form->drawCheckboxField('package['.$element.']', 1, 0); ?>
+						<?php echo $osW_Form->drawCheckboxField('package[' . $element . ']', 1, 0); ?>
 					</td>
 					</td>
 					<td><?php echo $element ?></td>
-					<td class="text-center"><?php if ($status['changelog']===true): ?>X<?php else: ?>-<?php endif ?></td>
-					<td class="text-center"><?php if ($status['configure']===true): ?>X<?php else: ?>-<?php endif ?></td>
-					<td class="text-center"><?php if ($status['filelist']===true): ?>X<?php else: ?>-<?php endif ?></td>
-					<td class="text-center"><?php if ($status['package']===true): ?>X<?php else: ?>-<?php endif ?></td>
+					<td class="text-center"><?php if ($status['changelog'] === true): ?>X<?php else: ?>-<?php endif ?></td>
+					<td class="text-center"><?php if ($status['configure'] === true): ?>X<?php else: ?>-<?php endif ?></td>
+					<td class="text-center"><?php if ($status['filelist'] === true): ?>X<?php else: ?>-<?php endif ?></td>
+					<td class="text-center"><?php if ($status['package'] === true): ?>X<?php else: ?>-<?php endif ?></td>
 				</tr>
 			<?php endforeach ?>
 
@@ -70,7 +74,7 @@
 		</tbody>
 	</table>
 
-	<?php if ($Tool->getList()!=[]): ?>
+	<?php if ($Tool->getList() !== []): ?>
 
 		<hr/>
 

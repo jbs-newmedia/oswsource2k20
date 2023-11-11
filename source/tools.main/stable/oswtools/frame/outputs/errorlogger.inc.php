@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -9,5 +9,3 @@
  * @link https://oswframe.com
  * @license MIT License
  */
-
-?>

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -12,5 +12,3 @@
 
 osWFrame\Core\Settings::setStringVar('frame_default_engine', 'oswtools');
 osWFrame\Core\Settings::setStringVar('frame_default_output', 'oswtools');
-
-?>

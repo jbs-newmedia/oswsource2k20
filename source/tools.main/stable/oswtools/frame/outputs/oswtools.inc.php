@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,9 +8,9 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Core\Template $osW_Template
  */
 
-$osW_Template->addVoidTag('link', ['rel'=>'canonical', 'href'=>\osWFrame\Core\Navigation::getCanonicalUrl()]);
+$osW_Template->addVoidTag('link', ['rel' => 'canonical', 'href' => \osWFrame\Core\Navigation::getCanonicalUrl()]);
 echo $osW_Template->getOutput('index', 'project');
-
-?>

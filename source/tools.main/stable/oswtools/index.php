@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -13,34 +13,34 @@
 /**
  * PHP Version prüfen.
  */
-if ((!defined('PHP_VERSION_ID'))||(PHP_VERSION_ID<80000)) {
-	die('This version of osWFrame requires PHP 8.0 or higher.<br/>You are currently running PHP '.phpversion().'.');
+if ((!defined('PHP_VERSION_ID')) || (\PHP_VERSION_ID < 80000)) {
+    die('This version of osWFrame requires PHP 8.0 or higher.<br/>You are currently running PHP ' . \PHP_VERSION . '.');
 }
 
 /**
  * Definieren des absoluten Pfads.
  */
-define('OSWFRAME_CORE_ABSPATH', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
+define('OSWFRAME_CORE_ABSPATH', realpath(dirname(__FILE__)) . \DIRECTORY_SEPARATOR);
 
 /**
  * Autoloader für Namespaces einbinden.
  */
-require_once OSWFRAME_CORE_ABSPATH.'frame'.DIRECTORY_SEPARATOR.'namespaces'.DIRECTORY_SEPARATOR.'osWFrame'.DIRECTORY_SEPARATOR.'Autoload.php';
+require_once OSWFRAME_CORE_ABSPATH . 'frame' . \DIRECTORY_SEPARATOR . 'namespaces' . \DIRECTORY_SEPARATOR . 'osWFrame' . \DIRECTORY_SEPARATOR . 'Autoload.php';
 
 /**
  * Funktionen einbinden.
  */
-require_once OSWFRAME_CORE_ABSPATH.'frame'.DIRECTORY_SEPARATOR.'namespaces'.DIRECTORY_SEPARATOR.'osWFrame'.DIRECTORY_SEPARATOR.'Functions.php';
+require_once OSWFRAME_CORE_ABSPATH . 'frame' . \DIRECTORY_SEPARATOR . 'namespaces' . \DIRECTORY_SEPARATOR . 'osWFrame' . \DIRECTORY_SEPARATOR . 'Functions.php';
 
 /**
  * Errorhandler wird überschrieben.
  */
-\osWFrame\Core\Errorhandler::setHandler();
+\osWFrame\Core\ErrorHandler::setHandler();
 
 /**
  * Shutdownhanlder wird erstellt.
  */
-\osWFrame\Core\Shutdownhandler::setHandler();
+\osWFrame\Core\ShutdownHandler::setHandler();
 
 /**
  * scriptload Start setzen, wird mit $_SERVER['REQUEST_TIME_FLOAT'] intern überschrieben und ein neuer Breakpoint gesetzt.
@@ -50,7 +50,7 @@ require_once OSWFRAME_CORE_ABSPATH.'frame'.DIRECTORY_SEPARATOR.'namespaces'.DIRE
 /**
  * Alle PHP-Fehler anzeigen lassen.
  */
-\osWFrame\Core\Errorlogger::setPHPErrorReporting(E_ALL);
+\osWFrame\Core\ErrorLogger::setPHPErrorReporting(\E_ALL);
 
 /**
  * Absoluten Pfad auch als Variable definieren.
@@ -65,8 +65,8 @@ require_once OSWFRAME_CORE_ABSPATH.'frame'.DIRECTORY_SEPARATOR.'namespaces'.DIRE
 /**
  * Projekt-Konfiguration des Frames laden, entspricht den Einstellungen über osWTools:Configure. Fehler wenn es nicht konfiguriert wurde.
  */
-if (\osWFrame\Core\Settings::loadConfigure('modules', 'project')!==true) {
-	die('osWFrame is currently not configured.');
+if (\osWFrame\Core\Settings::loadConfigure('modules', 'project') !== true) {
+    die('osWFrame is currently not configured.');
 }
 
 /**
@@ -83,7 +83,7 @@ if (\osWFrame\Core\Settings::loadConfigure('modules', 'project')!==true) {
 /**
  * PHP-Fehler-Reporting wird über Einstellungen definiert.
  */
-\osWFrame\Core\Errorlogger::setPHPErrorReporting(\osWFrame\Core\Settings::getIntVar('debug_apachelevel'));
+\osWFrame\Core\ErrorLogger::setPHPErrorReporting(\osWFrame\Core\Settings::getIntVar('debug_apachelevel'));
 
 /**
  * Locales setzen.
@@ -113,86 +113,86 @@ if (\osWFrame\Core\Settings::loadConfigure('modules', 'project')!==true) {
 /**
  * Hook für Header bei Projekt.
  */
-$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('project_default_module').DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'header.inc.php';
+$file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'modules' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('project_default_module') . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'header.inc.php';
 if (file_exists($file)) {
-	require_once $file;
+    require_once $file;
 }
 
 /**
  * Hook für Header bei Module.
  */
-$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('frame_default_module').DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'header.inc.php';
+$file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'modules' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('frame_default_module') . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'header.inc.php';
 if (file_exists($file)) {
-	require_once $file;
+    require_once $file;
 }
 
-if (\osWFrame\Core\Settings::getBoolVar('session_enabled')===true) {
-	/**
-	 * Sessionumgebung einstellen.
-	 */
-	\osWFrame\Core\Session::setEnvironment();
+if (\osWFrame\Core\Settings::getBoolVar('session_enabled') === true) {
+    /**
+     * Sessionumgebung einstellen.
+     */
+    \osWFrame\Core\Session::setEnvironment();
 
-	/**
-	 * Session überprüfen
-	 */
-	\osWFrame\Core\Session::checkSession();
+    /**
+     * Session überprüfen
+     */
+    \osWFrame\Core\Session::checkSession();
 }
 
 /**
  * Seitenschutz über htaccess.
  */
-if ((\osWFrame\Core\Settings::getStringVar('project_protection_user')!='')&&(\osWFrame\Core\Settings::getStringVar('project_protection_password')!='')) {
-	if (((!isset($_SERVER['PHP_AUTH_USER']))||($_SERVER['PHP_AUTH_USER']!=\osWFrame\Core\Settings::getStringVar('project_protection_user')))||((!isset($_SERVER['PHP_AUTH_PW']))||($_SERVER['PHP_AUTH_PW']!=\osWFrame\Core\Settings::getStringVar('project_protection_password')))) {
-		if ((isset($_SERVER['PHP_AUTH_USER']))&&(isset($_SERVER['PHP_AUTH_PW']))) {
-			if (($_SERVER['PHP_AUTH_USER']!=\osWFrame\Core\Settings::getStringVar('project_protection_user'))||($_SERVER['PHP_AUTH_PW']!=\osWFrame\Core\Settings::getStringVar('project_protection_password'))) {
-				header('WWW-Authenticate: Basic realm="'.\osWFrame\Core\HTML::outputString(\osWFrame\Core\Settings::getStringVar('project_name')).'"');
-				header('HTTP/1.0 401 Unauthorized');
-				osWFrame\Core\Settings::dieScript('<br/><br/><div style="text-align: center;"><h1>Zugriff verweigert!</h1></div>');
-			}
-		} else {
-			header('WWW-Authenticate: Basic realm="'.\osWFrame\Core\HTML::outputString(\osWFrame\Core\Settings::getStringVar('project_name')).'"');
-			header('HTTP/1.0 401 Unauthorized');
-			osWFrame\Core\Settings::dieScript('<br/><br/><div style="text-align: center;"><h1>Zugriff verweigert!</h1></div>');
-		}
-	}
+if ((\osWFrame\Core\Settings::getStringVar('project_protection_user') !== '') && (\osWFrame\Core\Settings::getStringVar('project_protection_password') !== '')) {
+    if (((!isset($_SERVER['PHP_AUTH_USER'])) || ($_SERVER['PHP_AUTH_USER'] !== \osWFrame\Core\Settings::getStringVar('project_protection_user'))) || ((!isset($_SERVER['PHP_AUTH_PW'])) || ($_SERVER['PHP_AUTH_PW'] !== \osWFrame\Core\Settings::getStringVar('project_protection_password')))) {
+        if ((isset($_SERVER['PHP_AUTH_USER'])) && (isset($_SERVER['PHP_AUTH_PW']))) {
+            if (($_SERVER['PHP_AUTH_USER'] !== \osWFrame\Core\Settings::getStringVar('project_protection_user')) || ($_SERVER['PHP_AUTH_PW'] !== \osWFrame\Core\Settings::getStringVar('project_protection_password'))) {
+                header('WWW-Authenticate: Basic realm="' . \osWFrame\Core\HTML::outputString(\osWFrame\Core\Settings::getStringVar('project_name')) . '"');
+                header('HTTP/1.0 401 Unauthorized');
+                osWFrame\Core\Settings::dieScript('<br/><br/><div style="text-align: center;"><h1>Zugriff verweigert!</h1></div>');
+            }
+        } else {
+            header('WWW-Authenticate: Basic realm="' . \osWFrame\Core\HTML::outputString(\osWFrame\Core\Settings::getStringVar('project_name')) . '"');
+            header('HTTP/1.0 401 Unauthorized');
+            osWFrame\Core\Settings::dieScript('<br/><br/><div style="text-align: center;"><h1>Zugriff verweigert!</h1></div>');
+        }
+    }
 }
 
 /**
  * Engine ausführen bei Projekt sofern noch keine Engine ausgeführt wurde.
  */
-if ((\osWFrame\Core\Settings::getBoolVar('frame_engine_loaded')!==true)&&(\osWFrame\Core\Settings::getStringVar('project_default_engine')!==null)) {
-	$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'engines'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('project_default_engine').'.inc.php';
-	if (file_exists($file)) {
-		\osWFrame\Core\Settings::setBoolVar('frame_engine_loaded', true);
-		require_once $file;
-	}
+if ((\osWFrame\Core\Settings::getBoolVar('frame_engine_loaded') !== true) && (\osWFrame\Core\Settings::getStringVar('project_default_engine') !== null)) {
+    $file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'frame' . \DIRECTORY_SEPARATOR . 'engines' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('project_default_engine') . '.inc.php';
+    if (file_exists($file)) {
+        \osWFrame\Core\Settings::setBoolVar('frame_engine_loaded', true);
+        require_once $file;
+    }
 }
 
 /**
  * Engine ausführen bei Frame sofern noch keine Engine ausgeführt wurde.
  */
-if ((\osWFrame\Core\Settings::getBoolVar('frame_engine_loaded')!==true)&&(\osWFrame\Core\Settings::getStringVar('frame_default_engine')!==null)) {
-	$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'engines'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('frame_default_engine').'.inc.php';
-	if (file_exists($file)) {
-		\osWFrame\Core\Settings::setBoolVar('frame_engine_loaded', true);
-		require_once $file;
-	}
+if ((\osWFrame\Core\Settings::getBoolVar('frame_engine_loaded') !== true) && (\osWFrame\Core\Settings::getStringVar('frame_default_engine') !== null)) {
+    $file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'frame' . \DIRECTORY_SEPARATOR . 'engines' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('frame_default_engine') . '.inc.php';
+    if (file_exists($file)) {
+        \osWFrame\Core\Settings::setBoolVar('frame_engine_loaded', true);
+        require_once $file;
+    }
 }
 
 /**
  * Hook für Footer bei Projekt.
  */
-$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('project_default_module').DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'footer.inc.php';
+$file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'modules' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('project_default_module') . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'footer.inc.php';
 if (file_exists($file)) {
-	require_once $file;
+    require_once $file;
 }
 
 /**
  * Hook für Footer bei Module.
  */
-$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'modules'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('frame_current_module').DIRECTORY_SEPARATOR.'php'.DIRECTORY_SEPARATOR.'footer.inc.php';
+$file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'modules' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('frame_current_module') . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'footer.inc.php';
 if (file_exists($file)) {
-	require_once $file;
+    require_once $file;
 }
 
 /**
@@ -213,23 +213,23 @@ if (file_exists($file)) {
 /**
  * Output ausführen bei Projekt sofern noch keine Output ausgeführt wurde.
  */
-if ((\osWFrame\Core\Settings::getBoolVar('frame_output_loaded')!==true)&&(\osWFrame\Core\Settings::getStringVar('project_default_output')!==null)) {
-	$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'outputs'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('project_default_output').'.inc.php';
-	if (file_exists($file)) {
-		\osWFrame\Core\Settings::setBoolVar('frame_output_loaded', true);
-		require_once $file;
-	}
+if ((\osWFrame\Core\Settings::getBoolVar('frame_output_loaded') !== true) && (\osWFrame\Core\Settings::getStringVar('project_default_output') !== null)) {
+    $file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'frame' . \DIRECTORY_SEPARATOR . 'outputs' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('project_default_output') . '.inc.php';
+    if (file_exists($file)) {
+        \osWFrame\Core\Settings::setBoolVar('frame_output_loaded', true);
+        require_once $file;
+    }
 }
 
 /**
  * Output ausführen bei Frame sofern noch keine Output ausgeführt wurde.
  */
-if ((\osWFrame\Core\Settings::getBoolVar('frame_output_loaded')!==true)&&(\osWFrame\Core\Settings::getStringVar('frame_default_output')!==null)) {
-	$file=\osWFrame\Core\Settings::getStringVar('settings_abspath').'frame'.DIRECTORY_SEPARATOR.'outputs'.DIRECTORY_SEPARATOR.\osWFrame\Core\Settings::getStringVar('frame_default_output').'.inc.php';
-	if (file_exists($file)) {
-		\osWFrame\Core\Settings::setBoolVar('frame_output_loaded', true);
-		require_once $file;
-	}
+if ((\osWFrame\Core\Settings::getBoolVar('frame_output_loaded') !== true) && (\osWFrame\Core\Settings::getStringVar('frame_default_output') !== null)) {
+    $file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'frame' . \DIRECTORY_SEPARATOR . 'outputs' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('frame_default_output') . '.inc.php';
+    if (file_exists($file)) {
+        \osWFrame\Core\Settings::setBoolVar('frame_output_loaded', true);
+        require_once $file;
+    }
 }
 
 /**
@@ -240,5 +240,3 @@ if ((\osWFrame\Core\Settings::getBoolVar('frame_output_loaded')!==true)&&(\osWFr
 /**
  * Dieser Bereich wird nicht erreicht.
  */
-
-?>

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=0);
 
 /**
  * This file is part of the osWFrame package
@@ -8,32 +8,36 @@
  * @package osWFrame
  * @link https://oswframe.com
  * @license MIT License
+ *
+ * @var \osWFrame\Core\Form $osW_Form
+ * @var \osWFrame\Tools\Tool\ProjectVerify $Tool
+ * @var \osWFrame\Core\Template $this
  */
 
 ?>
 
-<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'])): ?>
+<?php if (in_array(\osWFrame\Core\Settings::getAction(), ['about'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'about.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'about.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['changelog'], true)): ?>
 
-	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath').'resources'.DIRECTORY_SEPARATOR.'tpl'.DIRECTORY_SEPARATOR.'changelog.tpl.php'; ?>
+	<?php include \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'resources' . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'changelog.tpl.php'; ?>
 
-<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['settings'])): ?>
+<?php elseif (in_array(\osWFrame\Core\Settings::getAction(), ['settings'], true)): ?>
 
-	<?php echo $osW_Form->startForm('oswtools_projectverify_form', 'current', '', ['input_addid'=>true]); ?>
+	<?php echo $osW_Form->startForm('oswtools_projectverify_form', 'current', '', ['input_addid' => true]); ?>
 
 	<label class="font-weight-bold" for="projectverify_dirs">Ignored directories:</label>
 	<div class="input-group mb-3">
 		<span class="input-group-text"><i class="fas fa-folder fa-fw"></i></span>
-		<?php echo $osW_Form->drawTextareaField('projectverify_dirs', implode("\n", ($Tool->getArraySetting('projectverify_dirs')==null)?[]:$Tool->getArraySetting('projectverify_dirs')), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>'rows="8"']) ?>
+		<?php echo $osW_Form->drawTextareaField('projectverify_dirs', implode("\n", ($Tool->getArraySetting('projectverify_dirs') === null) ? [] : $Tool->getArraySetting('projectverify_dirs')), ['input_class' => 'form-control', 'input_errorclass' => 'is-invalid', 'input_parameter' => 'rows="8"']) ?>
 	</div>
 
 	<label class="font-weight-bold" for="projectverify_files">Ignored files:</label>
 	<div class="input-group mb-3">
 		<span class="input-group-text"><i class="fas fa-file fa-fw"></i></span>
-		<?php echo $osW_Form->drawTextareaField('projectverify_files', implode("\n", ($Tool->getArraySetting('projectverify_files')==null)?[]:$Tool->getArraySetting('projectverify_files')), ['input_class'=>'form-control', 'input_errorclass'=>'is-invalid', 'input_parameter'=>'rows="8"']) ?>
+		<?php echo $osW_Form->drawTextareaField('projectverify_files', implode("\n", ($Tool->getArraySetting('projectverify_files') === null) ? [] : $Tool->getArraySetting('projectverify_files')), ['input_class' => 'form-control', 'input_errorclass' => 'is-invalid', 'input_parameter' => 'rows="8"']) ?>
 	</div>
 
 	<hr/>
@@ -57,17 +61,17 @@
 		</thead>
 		<tbody>
 
-		<?php if ($Tool->getList()!=[]): ?>
+		<?php if ($Tool->getList() !== []): ?>
 
-			<?php foreach ($Tool->getList() as $element=>$status): ?>
+			<?php foreach ($Tool->getList() as $element => $status): ?>
 				<tr>
-					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['s']==1): ?>
-								<i class="fas fa-not-equal fa-fw"></i><?php elseif ($status['s']==2): ?>
-								<i class="fas fa-plus fa-fw"></i><?php elseif ($status['s']==3): ?>
+					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['s'] === 1): ?>
+								<i class="fas fa-not-equal fa-fw"></i><?php elseif ($status['s'] === 2): ?>
+								<i class="fas fa-plus fa-fw"></i><?php elseif ($status['s'] === 3): ?>
 								<i class="fas fa-minus fa-fw"></i><?php else: ?><i class="fas fa-bug"></i><?php endif ?></span>
 					</td>
-					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['t']=='f'): ?>
-								<i class="fas fa-file fa-fw"></i><?php elseif ($status['t']='d'): ?>
+					<td class="text-center"><span class="btn btn-xs" disabled><?php if ($status['t'] === 'f'): ?>
+								<i class="fas fa-file fa-fw"></i><?php elseif ($status['t'] = 'd'): ?>
 								<i class="fas fa-folder fa-fw"></i><?php else: ?>
 								<i class="fas fa-bug"></i><?php endif ?></span></td>
 					<td><?php echo $element ?></td>
@@ -88,7 +92,7 @@
 		</tbody>
 	</table>
 
-	<?php if ($Tool->getList()!=[]): ?>
+	<?php if ($Tool->getList() !== []): ?>
 
 		<hr/>
 
