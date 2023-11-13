@@ -65,4 +65,13 @@ class SCSSCompiler
 
         return $this->Compiler->compileString($content)->getCss();
     }
+
+    /**
+     * @param string|array<string|callable> $path
+     *
+     * @return void
+     */
+    public function setImportPaths(string|array $path):void {
+        $this->Compiler->setImportPaths($path);
+    }
 }
