@@ -222,7 +222,7 @@ class Template
     public function isfetchFile($file = 'content', $module = 'project', $dir = 'modules'): bool
     {
         $module = $this->getModuleByShort($module);
-        $filename = Settings::getStringVar('settings_abspath');
+        $filename = Settings::getStringVar('settings_abspath').'oswproject' . \DIRECTORY_SEPARATOR;
         $filename_core = Settings::getStringVar('settings_abspath') . 'oswcore' . \DIRECTORY_SEPARATOR;
         if ($dir !== '') {
             $filename .= $dir . \DIRECTORY_SEPARATOR;
@@ -266,7 +266,7 @@ class Template
     public function fetchFile($file = 'content', $module = 'project', $dir = 'modules'): string
     {
         $module = $this->getModuleByShort($module);
-        $filename = Settings::getStringVar('settings_abspath');
+        $filename = Settings::getStringVar('settings_abspath') . 'oswproject' . \DIRECTORY_SEPARATOR;
         $filename_core = Settings::getStringVar('settings_abspath') . 'oswcore' . \DIRECTORY_SEPARATOR;
         if ($dir !== '') {
             $filename .= $dir . \DIRECTORY_SEPARATOR;

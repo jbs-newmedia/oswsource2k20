@@ -97,7 +97,7 @@ class Navigation
         $go_default = true;
         $file = Settings::getStringVar(
             'settings_abspath'
-        ) . 'modules' . \DIRECTORY_SEPARATOR . $module . \DIRECTORY_SEPARATOR . 'rewrite' . \DIRECTORY_SEPARATOR . 'rules.inc.php';
+        ) . 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . $module . \DIRECTORY_SEPARATOR . 'rewrite' . \DIRECTORY_SEPARATOR . 'rules.inc.php';
         $file_core = Settings::getStringVar(
             'settings_abspath'
         ) . 'oswcore' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . $module . \DIRECTORY_SEPARATOR . 'rewrite' . \DIRECTORY_SEPARATOR . 'rules.inc.php';

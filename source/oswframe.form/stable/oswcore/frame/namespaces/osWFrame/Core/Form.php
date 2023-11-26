@@ -801,7 +801,7 @@ class Form
                     if ($value === '') {
                         $label = ' label="' . HTML::outputString($options['input_label']) . '"';
                     }
-                    if ($selected === $key) {
+                    if ((string)$selected === (string)$key) {
                         $field .= '<option ' . $options['input_option_value'] . '="' . HTML::outputString($key) . '"' . $label . ' selected="selected">' . HTML::outputString($value) . Settings::getStringVar('form_spacer') . '</option>';
                     } else {
                         $field .= '<option ' . $options['input_option_value'] . '="' . HTML::outputString($key) . '"' . $label . '>' . HTML::outputString($value) . Settings::getStringVar('form_spacer') . '</option>';
@@ -819,7 +819,7 @@ class Form
                 if ($value === '') {
                     $label = ' label="' . HTML::outputString($options['input_label']) . '"';
                 }
-                if (($selected === $key) && ($_selected !== true)) {
+                if (((string)$selected === (string)$key)) {
                     $_selected = true;
                     $field .= '<option ' . $options['input_option_value'] . '="' . HTML::outputString($key) . '"' . $label . ' selected="selected">' . HTML::outputString($value) . Settings::getStringVar('form_spacer') . '</option>';
                 } else {

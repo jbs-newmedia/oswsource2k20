@@ -118,7 +118,7 @@ class Settings
      */
     public static function loadConfigure(string $path, string $sub = ''): bool
     {
-        $file = self::getStringVar('settings_abspath') . $path . \DIRECTORY_SEPARATOR . 'configure';
+        $file = self::getStringVar('settings_abspath') . \DIRECTORY_SEPARATOR . 'oswproject' . \DIRECTORY_SEPARATOR . $path . \DIRECTORY_SEPARATOR . 'configure';
         if ($sub !== '') {
             $file .= '.' . $sub;
         }

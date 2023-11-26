@@ -113,7 +113,7 @@ if (\osWFrame\Core\Settings::loadConfigure('modules', 'project') !== true) {
 /*
  * Hook für Header bei Projekt.
  */
-$file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'modules' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('project_default_module') . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'header.inc.php';
+$file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('project_default_module') . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'header.inc.php';
 if (file_exists($file)) {
     require_once $file;
 }
@@ -129,7 +129,7 @@ if (file_exists($file)) {
 /*
  * Hook für Header bei Modulen.
  */
-$file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'modules' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('frame_default_module') . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'header.inc.php';
+$file = \osWFrame\Core\Settings::getStringVar('settings_abspath') . 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . \osWFrame\Core\Settings::getStringVar('frame_default_module') . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'header.inc.php';
 if (file_exists($file)) {
     require_once $file;
 }

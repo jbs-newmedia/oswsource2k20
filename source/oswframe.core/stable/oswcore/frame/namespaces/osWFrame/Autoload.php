@@ -33,14 +33,14 @@ spl_autoload_register(function ($className): void {
     } else {
         if ($oswframe_core_vendor_namespace_path === null) {
             $oswframe_core_vendor_namespace_path = realpath(
-                dirname(__FILE__) . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..'
-            ) . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'namespaces' . \DIRECTORY_SEPARATOR;
+                dirname(__FILE__) . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..'
+            ) . \DIRECTORY_SEPARATOR . 'oswcore' . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'namespaces' . \DIRECTORY_SEPARATOR;
         }
 
         if ($oswframe_core_vendor_class_path === null) {
             $oswframe_core_vendor_class_path = realpath(
-                dirname(__FILE__) . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..'
-            ) . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'classes' . \DIRECTORY_SEPARATOR;
+                dirname(__FILE__) . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..' . \DIRECTORY_SEPARATOR . '..'
+            ) . \DIRECTORY_SEPARATOR . 'oswcore' . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'classes' . \DIRECTORY_SEPARATOR;
         }
 
         $fa = explode(\DIRECTORY_SEPARATOR, $filename);
@@ -53,8 +53,8 @@ spl_autoload_register(function ($className): void {
                 break;
             case 2:
                 $filename_namespace = $ca[0] . \DIRECTORY_SEPARATOR . (string)Settings::getStringVar(
-                        'vendor_namespace_' . strtolower($ca[0]) . '_version'
-                    ) . \DIRECTORY_SEPARATOR . $fa[1];
+                    'vendor_namespace_' . strtolower($ca[0]) . '_version'
+                ) . \DIRECTORY_SEPARATOR . $fa[1];
 
                 break;
             default:
@@ -62,14 +62,14 @@ spl_autoload_register(function ($className): void {
                 unset($fa2[0]);
                 unset($fa2[1]);
                 $filename_namespace = $ca[0] . \DIRECTORY_SEPARATOR . $ca[1] . \DIRECTORY_SEPARATOR . (string)Settings::getStringVar(
-                        'vendor_namespace_' . strtolower($ca[0]) . '_' . strtolower($ca[1]) . '_version'
-                    ) . \DIRECTORY_SEPARATOR . implode(\DIRECTORY_SEPARATOR, $fa2);
+                    'vendor_namespace_' . strtolower($ca[0]) . '_' . strtolower($ca[1]) . '_version'
+                ) . \DIRECTORY_SEPARATOR . implode(\DIRECTORY_SEPARATOR, $fa2);
 
                 break;
         }
         $filename_class = $ca[0] . \DIRECTORY_SEPARATOR . (string)Settings::getStringVar(
-                'vendor_class_' . strtolower($ca[0]) . '_version'
-            ) . \DIRECTORY_SEPARATOR . $fa[0];
+            'vendor_class_' . strtolower($ca[0]) . '_version'
+        ) . \DIRECTORY_SEPARATOR . $fa[0];
 
         $full_path_vendor_namespace = $oswframe_core_vendor_namespace_path . $filename_namespace;
         $full_path_vendor_class = $oswframe_core_vendor_class_path . $filename_class;

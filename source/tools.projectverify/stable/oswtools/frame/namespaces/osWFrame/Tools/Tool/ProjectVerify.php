@@ -178,9 +178,7 @@ class ProjectVerify extends CoreTool
             foreach ($this->getList() as $element => $status) {
                 $element_zip = $element;
                 if ($default !== true) {
-                    if ((substr($element_zip, 0, 6)) === 'frame' . \DIRECTORY_SEPARATOR) {
-                        $element_zip = 'oswcore' . \DIRECTORY_SEPARATOR . $element_zip;
-                    }if ((substr($element_zip, 0, 8)) === 'modules' . \DIRECTORY_SEPARATOR) {
+                    if ((substr($element_zip, 0, 11)) === 'oswproject' . \DIRECTORY_SEPARATOR) {
                         $element_zip = 'oswcore' . \DIRECTORY_SEPARATOR . $element_zip;
                     }
                 }
@@ -240,8 +238,8 @@ class ProjectVerify extends CoreTool
         $this->settings['projectverify_dirs'][] = 'oswtools' . \DIRECTORY_SEPARATOR . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'settings' . \DIRECTORY_SEPARATOR;
         $this->settings['projectverify_dirs'][] = 'oswtools' . \DIRECTORY_SEPARATOR . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'sources' . \DIRECTORY_SEPARATOR;
         $this->settings['projectverify_dirs'][] = 'oswvendor' . \DIRECTORY_SEPARATOR;
-        $this->settings['projectverify_files'][] = 'frame' . \DIRECTORY_SEPARATOR . 'configure.php';
-        $this->settings['projectverify_files'][] = 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php';
+        $this->settings['projectverify_files'][] = 'oswproject' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'configure.php';
+        $this->settings['projectverify_files'][] = 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php';
         $this->settings['projectverify_files'][] = 'oswcore' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'configure.php';
         $this->settings['projectverify_files'][] = 'oswcore' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php';
         $this->settings['projectverify_files'][] = 'oswtools' . \DIRECTORY_SEPARATOR . 'frame.key';

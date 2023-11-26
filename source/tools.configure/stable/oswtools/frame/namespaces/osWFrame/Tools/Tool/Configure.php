@@ -536,7 +536,7 @@ class Configure extends CoreTool
         $output .= '# osWFrame configure block end #';
 
         $ready_status = 0;
-        $configure_file = Frame\Settings::getStringVar('settings_framepath') . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php';
+        $configure_file = Frame\Settings::getStringVar('settings_framepath') . 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php';
         if (Frame\Filesystem::existsFile($configure_file)) {
             $configure_content = file_get_contents($configure_file);
             preg_match('/# osWFrame configure block begin #(.*)# osWFrame configure block end #/Uis', $configure_content, $result);

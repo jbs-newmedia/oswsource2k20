@@ -124,7 +124,7 @@ class Debug
     public static function loadDebugLib(): bool
     {
         $file = Settings::getStringVar('settings_abspath') . 'frame' . \DIRECTORY_SEPARATOR . 'includes' . \DIRECTORY_SEPARATOR . 'debuglib.inc.php';
-        $file_core = Settings::getStringVar('settings_abspath') . 'oswvendor' . \DIRECTORY_SEPARATOR . 'oswframe' . \DIRECTORY_SEPARATOR . 'debuglib.inc.php';
+        $file_core = Settings::getStringVar('settings_abspath') . 'oswcore' . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'oswframe' . \DIRECTORY_SEPARATOR . 'debuglib.inc.php';
         if ((Settings::getBoolVar('debug_lib') === true) && ((Filesystem::existsFile($file) === true) || (Filesystem::existsFile($file_core) === true))) {
             $GLOBALS['DEBUGLIB_LVL'] = Settings::getIntVar('debug_lib_lvl');
             $GLOBALS['DEBUGLIB_MAX_Y'] = Settings::getIntVar('debug_lib_max_y');
@@ -134,7 +134,7 @@ class Debug
                 require_once $file_core;
             }
         } else {
-            $file = Settings::getStringVar('settings_abspath') . 'frame' . \DIRECTORY_SEPARATOR . 'includes' . \DIRECTORY_SEPARATOR . 'printa.inc.php';
+            $file = Settings::getStringVar('settings_abspath') . 'oswproject' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'includes' . \DIRECTORY_SEPARATOR . 'printa.inc.php';
             $file_core = Settings::getStringVar('settings_abspath') . 'oswcore' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'includes' . \DIRECTORY_SEPARATOR . 'printa.inc.php';
             if (Filesystem::existsFile($file) === true) {
                 require_once $file;

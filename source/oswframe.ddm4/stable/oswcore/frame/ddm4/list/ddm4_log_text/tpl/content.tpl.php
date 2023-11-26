@@ -20,7 +20,7 @@ use osWFrame\Core\Settings;
 
 $file = Settings::getStringVar(
     'settings_abspath'
-) . 'frame' . \DIRECTORY_SEPARATOR . 'ddm4' . \DIRECTORY_SEPARATOR . 'list' . \DIRECTORY_SEPARATOR . $view_data['log_module'] . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'log.tpl.php';
+) . 'oswproject' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'ddm4' . \DIRECTORY_SEPARATOR . 'list' . \DIRECTORY_SEPARATOR . $view_data['log_module'] . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'log.tpl.php';
 $file_core = Settings::getStringVar(
     'settings_abspath'
 ) . 'oswcore' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'ddm4' . \DIRECTORY_SEPARATOR . 'list' . \DIRECTORY_SEPARATOR . $view_data['log_module'] . \DIRECTORY_SEPARATOR . 'tpl' . \DIRECTORY_SEPARATOR . 'log.tpl.php';

@@ -1716,7 +1716,7 @@ class DDM4
     /**
      * @return $this
      */
-    public function setParameter(string $name, string|int $value): self
+    public function setParameter(string $name, string|int|array $value): self
     {
         return $this->addParameter($name, $value);
     }

@@ -199,8 +199,8 @@ class ProjectClear extends CoreTool
         $this->settings['projectclear_dirs'][] = 'oswtools' . \DIRECTORY_SEPARATOR . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'settings' . \DIRECTORY_SEPARATOR;
         $this->settings['projectclear_dirs'][] = 'oswtools' . \DIRECTORY_SEPARATOR . 'resources' . \DIRECTORY_SEPARATOR . 'json' . \DIRECTORY_SEPARATOR . 'sources' . \DIRECTORY_SEPARATOR;
         $this->settings['projectclear_dirs'][] = 'oswvendor' . \DIRECTORY_SEPARATOR;
-        $this->settings['projectclear_files'][] = 'frame' . \DIRECTORY_SEPARATOR . 'configure.php';
-        $this->settings['projectclear_files'][] = 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php';
+        $this->settings['projectclear_files'][] = 'oswproject' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'configure.php';
+        $this->settings['projectclear_files'][] = 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php';
         $this->settings['projectclear_files'][] = 'oswcore' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'configure.php';
         $this->settings['projectclear_files'][] = 'oswcore' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php';
         $this->settings['projectclear_files'][] = 'oswtools' . \DIRECTORY_SEPARATOR . 'frame.key';

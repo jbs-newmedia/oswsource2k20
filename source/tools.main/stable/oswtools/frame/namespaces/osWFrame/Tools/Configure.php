@@ -55,7 +55,11 @@ class Configure
     {
         if (self::$configuration === null) {
             self::$configuration = [];
-            $configure_files = [\osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswcore' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'configure.php', \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'frame' . \DIRECTORY_SEPARATOR . 'configure.php', \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php', \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project-dev.php'];
+            $configure_files = [
+                \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswcore' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'configure.php',
+                \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswproject' . \DIRECTORY_SEPARATOR . 'frame' . \DIRECTORY_SEPARATOR . 'configure.php',
+                \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project.php',
+                \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . 'configure.project-dev.php'];
 
             foreach ($configure_files as $configure_file) {
                 if (Frame\Filesystem::existsFile($configure_file)) {

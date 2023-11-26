@@ -116,7 +116,7 @@ class FontAwesome5
         $name = $version . '.resource';
         if (Resource::existsResource('fontawesome', $name) !== true) {
             Resource::copyResourcePath(
-                'oswvendor' . \DIRECTORY_SEPARATOR . 'libs' . \DIRECTORY_SEPARATOR . 'fontawesome' . \DIRECTORY_SEPARATOR . $version . \DIRECTORY_SEPARATOR,
+                'oswcore' . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'libs' . \DIRECTORY_SEPARATOR . 'fontawesome' . \DIRECTORY_SEPARATOR . $version . \DIRECTORY_SEPARATOR,
                 'fontawesome' . \DIRECTORY_SEPARATOR . $version . \DIRECTORY_SEPARATOR
             );
             $path = '/';

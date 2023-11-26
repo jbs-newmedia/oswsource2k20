@@ -16,8 +16,8 @@
 if (\osWFrame\Core\Settings::getAction() === 'adminer') {
     function adminer_object()
     {
-        include_once \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswvendor' . \DIRECTORY_SEPARATOR . 'oswtools' . \DIRECTORY_SEPARATOR . 'adminer' . \DIRECTORY_SEPARATOR . 'plugins' . \DIRECTORY_SEPARATOR . 'plugin.php';
-        foreach (glob(\osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswvendor' . \DIRECTORY_SEPARATOR . 'oswtools' . \DIRECTORY_SEPARATOR . 'adminer' . \DIRECTORY_SEPARATOR . 'plugins' . \DIRECTORY_SEPARATOR . '*.php') as $filename) {
+        include_once \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswcore' . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'oswtools' . \DIRECTORY_SEPARATOR . 'adminer' . \DIRECTORY_SEPARATOR . 'plugins' . \DIRECTORY_SEPARATOR . 'plugin.php';
+        foreach (glob(\osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswcore' . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'oswtools' . \DIRECTORY_SEPARATOR . 'adminer' . \DIRECTORY_SEPARATOR . 'plugins' . \DIRECTORY_SEPARATOR . '*.php') as $filename) {
             include_once $filename;
         }
 
@@ -30,7 +30,7 @@ if (\osWFrame\Core\Settings::getAction() === 'adminer') {
         return new AdminerPlugin($plugins);
     }
 
-    include_once \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswvendor' . \DIRECTORY_SEPARATOR . 'oswtools' . \DIRECTORY_SEPARATOR . 'adminer' . \DIRECTORY_SEPARATOR . 'adminer-4.8.1.php';
+    include_once \osWFrame\Core\Settings::getStringVar('settings_framepath') . 'oswcore' . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'oswtools' . \DIRECTORY_SEPARATOR . 'adminer' . \DIRECTORY_SEPARATOR . 'adminer-4.8.1.php';
     \osWFrame\Core\Settings::dieScript();
 }
 

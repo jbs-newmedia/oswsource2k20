@@ -54,7 +54,7 @@ class PHPMailer extends \PHPMailer\PHPMailer\PHPMailer
         if ($lang_path === '') {
             $lang_path = Settings::getStringVar(
                 'settings_abspath'
-            ) . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'namespaces' . \DIRECTORY_SEPARATOR . 'PHPMailer' . \DIRECTORY_SEPARATOR . 'PHPMailer' . \DIRECTORY_SEPARATOR . Settings::getStringVar(
+            ) . \DIRECTORY_SEPARATOR . 'oswcore' . \DIRECTORY_SEPARATOR . 'oswvendor' . \DIRECTORY_SEPARATOR . 'namespaces' . \DIRECTORY_SEPARATOR . 'PHPMailer' . \DIRECTORY_SEPARATOR . 'PHPMailer' . \DIRECTORY_SEPARATOR . Settings::getStringVar(
                 'vendor_namespace_phpmailer_phpmailer'
             ) . \DIRECTORY_SEPARATOR . 'language' . \DIRECTORY_SEPARATOR;
         }

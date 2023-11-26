@@ -61,7 +61,9 @@ $osW_Template->addVoidTag('meta', [
 
 Settings::setStringVar('frame_current_module', Settings::getStringVar('frame_default_module'));
 
-$file = Settings::getStringVar('settings_abspath') . 'modules' . \DIRECTORY_SEPARATOR . Settings::getStringVar(
+$file = Settings::getStringVar(
+    'settings_abspath'
+) . 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . Settings::getStringVar(
     'frame_current_module'
 ) . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'content.inc.php';
 $file_core = Settings::getStringVar(
@@ -81,7 +83,9 @@ if (file_exists($file)) {
     Settings::setStringVar('frame_current_module', Settings::getStringVar('errorlogger_module'));
     $_GET['error_status'] = 404;
 
-    $file = Settings::getStringVar('settings_abspath') . 'modules' . \DIRECTORY_SEPARATOR . Settings::getStringVar(
+    $file = Settings::getStringVar(
+        'settings_abspath'
+    ) . 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . Settings::getStringVar(
         'frame_current_module'
     ) . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'content.inc.php';
     $file_core = Settings::getStringVar(

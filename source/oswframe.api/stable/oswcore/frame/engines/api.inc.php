@@ -30,7 +30,7 @@ if (Settings::getStringVar('database_server') !== null) {
 
 $file = Settings::getStringVar(
     'settings_abspath'
-) . 'modules' . \DIRECTORY_SEPARATOR . 'api' . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'content.inc.php';
+) . 'oswproject' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . 'api' . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'content.inc.php';
 $file_core = Settings::getStringVar(
     'settings_abspath'
 ) . 'oswcore' . \DIRECTORY_SEPARATOR . 'modules' . \DIRECTORY_SEPARATOR . 'api' . \DIRECTORY_SEPARATOR . 'php' . \DIRECTORY_SEPARATOR . 'content.inc.php';
